@@ -127,6 +127,35 @@ public class SpearOfLight extends Ability {
                                     sphereLoc.add(x, y, z);
                                     Particle.DustOptions dustSphere = new Particle.DustOptions(Color.fromBGR(0, 215, 255), 1f);
                                     sphereLoc.getWorld().spawnParticle(Particle.REDSTONE, sphereLoc, 1, 0.25, 0.25, 0.25, 0, dustSphere);
+
+                                    //damage entities
+                                    if(!sphereLoc.getWorld().getNearbyEntities(sphereLoc, 2, 2, 2).isEmpty()) {
+                                        for(Entity entity : sphereLoc.getWorld().getNearbyEntities(sphereLoc, 5, 5, 5)) {
+                                            if (entity instanceof LivingEntity) {
+                                                // Ignore player that initiated the shot
+                                                if (entity == p) {
+                                                    continue;
+                                                }
+                                                Vector particleMinVector = new Vector(
+                                                        sphereLoc.getX() - 0.25,
+                                                        sphereLoc.getY() - 0.25,
+                                                        sphereLoc.getZ() - 0.25);
+                                                Vector particleMaxVector = new Vector(
+                                                        sphereLoc.getX() + 0.25,
+                                                        sphereLoc.getY() + 0.25,
+                                                        sphereLoc.getZ() + 0.25);
+
+                                                //entity hit
+                                                if (entity.getBoundingBox().overlaps(particleMinVector, particleMaxVector)) {
+                                                    if(((LivingEntity) entity).getCategory() == EntityCategory.UNDEAD)
+                                                        ((Damageable) entity).damage(40, p);
+                                                    else
+                                                        ((Damageable) entity).damage(20, p);
+                                                }
+                                            }
+                                        }
+                                    }
+
                                     if(sphereLoc.getBlock().getType().getHardness() > -1 )
                                         sphereLoc.getBlock().setType(Material.AIR);
                                     sphereLoc.subtract(x, y, z);
