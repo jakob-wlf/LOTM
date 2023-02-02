@@ -34,7 +34,7 @@ public class SunItems extends Items {
     }
 
     @Override
-    public ArrayList<ItemStack> returnSequence(int sequence) {
+    public ArrayList<ItemStack> returnItemsFromSequence(int sequence) {
         ArrayList<ItemStack> itemsForSequence = new ArrayList<>();
         for(Map.Entry<Integer, Integer> entry : sequenceItems.entrySet()) {
             if(entry.getValue() >= sequence) {
