@@ -1,29 +1,20 @@
-package de.firecreeper82.pathways.pathways.sun;
+package de.firecreeper82.pathways.impl.sun;
 
-import com.google.common.util.concurrent.AtomicDouble;
 import de.firecreeper82.lotm.Plugin;
-import de.firecreeper82.lotm.VectorUtils;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.Sequence;
-import org.bukkit.*;
-import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.*;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.BlockIterator;
-import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class SunSequence extends Sequence {
 
@@ -135,15 +126,5 @@ public class SunSequence extends Sequence {
     public void removeSpirituality(int remove) {
         pathway.getBeyonder().setSpirituality(pathway.getBeyonder().getSpirituality() - remove);
     }
-
-
-    public double xPos(double time, double radius, double yaw){
-        return Math.sin(time) * radius * Math.cos(Math.PI/180 * yaw);
-    }
-
-    public double yPos(double time, double radius){
-        return Math.cos(time)*radius;
-    }
-
 
 }

@@ -2,7 +2,7 @@ package de.firecreeper82.cmds;
 
 import de.firecreeper82.lotm.Beyonder;
 import de.firecreeper82.lotm.Plugin;
-import de.firecreeper82.pathways.pathways.sun.SunPathway;
+import de.firecreeper82.pathways.impl.sun.SunPathway;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -37,7 +37,14 @@ public class BeyonderCmd implements CommandExecutor {
         Player p = (Player) s;
 
         if(Plugin.beyonders.containsKey(p.getUniqueId())) {
-            p.sendMessage("§cYou already are a Beyonder");
+            Plugin.beyonders.remove(p.getUniqueId());
+            switch (args[0].toLowerCase()) {
+                case "sun" -> {
+                    Beyonder beyonder = new Beyonder(p.getUniqueId(), new SunPathway(p.getUniqueId(), sequence));
+                    Plugin.beyonders.put(p.getUniqueId(), beyonder);
+                    p.sendMessage("§6Made you a Beyonder of the Sun pathway at Sequence " + sequence);
+                }
+            }
             return true;
         }
 

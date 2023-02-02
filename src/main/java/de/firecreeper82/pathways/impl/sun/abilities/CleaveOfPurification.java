@@ -1,4 +1,4 @@
-package de.firecreeper82.pathways.pathways.sun.abilities;
+package de.firecreeper82.pathways.impl.sun.abilities;
 
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Pathway;

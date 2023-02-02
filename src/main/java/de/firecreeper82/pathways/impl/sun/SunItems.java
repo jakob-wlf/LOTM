@@ -1,8 +1,8 @@
-package de.firecreeper82.pathways.pathways.sun;
+package de.firecreeper82.pathways.impl.sun;
 
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
-import de.firecreeper82.pathways.pathways.sun.abilities.*;
+import de.firecreeper82.pathways.impl.sun.abilities.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;

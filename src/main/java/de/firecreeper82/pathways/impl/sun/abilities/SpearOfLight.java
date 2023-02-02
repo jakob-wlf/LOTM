@@ -1,4 +1,4 @@
-package de.firecreeper82.pathways.pathways.sun.abilities;
+package de.firecreeper82.pathways.impl.sun.abilities;
 
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.VectorUtils;
@@ -9,10 +9,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Damageable;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
@@ -24,6 +21,8 @@ public class SpearOfLight extends Ability {
 
     @Override
     public void useAbility() {
+        pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
+
         //get block player is looking at
         BlockIterator iter = new BlockIterator(p, 40);
         Block lastBlock = iter.next();
@@ -47,6 +46,7 @@ public class SpearOfLight extends Ability {
         buildSpear(spearLocation.clone(), dir);
 
         new BukkitRunnable() {
+            int counter = 0;
             @Override
             public void run() {
                 spearLocation.add(direction);
@@ -68,12 +68,16 @@ public class SpearOfLight extends Ability {
                                     spearLocation.getY() + 0.25,
                                     spearLocation.getZ() + 0.25);
 
+                            //entity hit
                             if(entity.getBoundingBox().overlaps(particleMinVector,particleMaxVector)){
 
                                 spearLocation.getWorld().spawnParticle(Particle.END_ROD, spearLocation, 200, 0, 0, 0, 0.5);
 
                                 entity.setVelocity(entity.getVelocity().add(spearLocation.getDirection().normalize().multiply(1.5)));
-                                ((Damageable) entity).damage(75, p);
+                                if(((LivingEntity) entity).getCategory() == EntityCategory.UNDEAD)
+                                    ((Damageable) entity).damage(100, p);
+                                else
+                                    ((Damageable) entity).damage(50, p);
 
                                 Location sphereLoc = ((LivingEntity) entity).getEyeLocation().clone();
 
@@ -81,15 +85,15 @@ public class SpearOfLight extends Ability {
                                     double sphereRadius = 1;
                                     @Override
                                     public void run() {
-                                        for (double i = 0; i <= Math.PI; i += Math.PI / 25) { // 10 being the amount of circles.
-                                            double radius = Math.sin(i) * sphereRadius; // we get the current radius
-                                            double y = Math.cos(i) * sphereRadius; // we get the current y value.
+                                        for (double i = 0; i <= Math.PI; i += Math.PI / 25) {
+                                            double radius = Math.sin(i) * sphereRadius;
+                                            double y = Math.cos(i) * sphereRadius;
                                             for (double a = 0; a < Math.PI * 2; a += Math.PI / 25) {
-                                                double x = Math.cos(a) * radius; // x-coordinate
-                                                double z = Math.sin(a) * radius; // z-coordinate
-                                                sphereLoc.add(x, y /* from the previous code */, z); // 'location' is our center.
+                                                double x = Math.cos(a) * radius;
+                                                double z = Math.sin(a) * radius;
+                                                sphereLoc.add(x, y, z);
                                                 Particle.DustOptions dustSphere = new Particle.DustOptions(Color.fromBGR(0, 215, 255), 1f);
-                                                sphereLoc.getWorld().spawnParticle(Particle.REDSTONE, sphereLoc, 4, 0, 0, 0, 0, dustSphere);
+                                                sphereLoc.getWorld().spawnParticle(Particle.REDSTONE, sphereLoc, 4, 0.15, 0.15, 0.15, 0, dustSphere);
                                                 sphereLoc.subtract(x, y, z);
                                             }
                                         }
@@ -99,8 +103,7 @@ public class SpearOfLight extends Ability {
                                         }
                                     }
                                 }.runTaskTimer(Plugin.instance, 0, 0);
-
-
+                                pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                                 cancel();
                                 return;
                             }
@@ -108,22 +111,24 @@ public class SpearOfLight extends Ability {
                     }
                 }
 
+                //hits solid block
                 if(spearLocation.getBlock().getType().isSolid()) {
                     Location sphereLoc = spearLocation.clone();
                     new BukkitRunnable() {
                         double sphereRadius = 1;
                         @Override
                         public void run() {
-                            for (double i = 0; i <= Math.PI; i += Math.PI / 50) { // 10 being the amount of circles.
-                                double radius = Math.sin(i) * sphereRadius; // we get the current radius
-                                double y = Math.cos(i) * sphereRadius; // we get the current y value.
-                                for (double a = 0; a < Math.PI * 2; a += Math.PI / 50) {
-                                    double x = Math.cos(a) * radius; // x-coordinate
-                                    double z = Math.sin(a) * radius; // z-coordinate
-                                    sphereLoc.add(x, y /* from the previous code */, z); // 'location' is our center.
+                            for (double i = 0; i <= Math.PI; i += Math.PI / 27) {
+                                double radius = Math.sin(i) * sphereRadius;
+                                double y = Math.cos(i) * sphereRadius;
+                                for (double a = 0; a < Math.PI * 2; a += Math.PI / 27) {
+                                    double x = Math.cos(a) * radius;
+                                    double z = Math.sin(a) * radius;
+                                    sphereLoc.add(x, y, z);
                                     Particle.DustOptions dustSphere = new Particle.DustOptions(Color.fromBGR(0, 215, 255), 1f);
-                                    sphereLoc.getWorld().spawnParticle(Particle.REDSTONE, sphereLoc, 1, 0, 0, 0, 0, dustSphere);
-                                    sphereLoc.getBlock().setType(Material.AIR);
+                                    sphereLoc.getWorld().spawnParticle(Particle.REDSTONE, sphereLoc, 1, 0.25, 0.25, 0.25, 0, dustSphere);
+                                    if(sphereLoc.getBlock().getType().getHardness() > -1 )
+                                        sphereLoc.getBlock().setType(Material.AIR);
                                     sphereLoc.subtract(x, y, z);
                                 }
                             }
@@ -134,8 +139,15 @@ public class SpearOfLight extends Ability {
                         }
                     }.runTaskTimer(Plugin.instance, 0, 0);
                     spearLocation.getWorld().spawnParticle(Particle.END_ROD, spearLocation, 1000, 0.4, 0.4, 0.4, 0.5);
+                    pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                     cancel();
                 }
+                if(counter >= 100) {
+                    pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
+                    cancel();
+                    return;
+                }
+                counter++;
             }
         }.runTaskTimer(Plugin.instance, 5, 0);
     }

@@ -1,8 +1,7 @@
-package de.firecreeper82.pathways.pathways.sun;
+package de.firecreeper82.pathways.impl.sun;
 
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.pathways.Pathway;
-import org.bukkit.boss.BarColor;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.awt.*;

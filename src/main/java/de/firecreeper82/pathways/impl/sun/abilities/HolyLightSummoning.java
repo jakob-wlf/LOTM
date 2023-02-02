@@ -1,4 +1,4 @@
-package de.firecreeper82.pathways.pathways.sun.abilities;
+package de.firecreeper82.pathways.impl.sun.abilities;
 
 import com.google.common.util.concurrent.AtomicDouble;
 import de.firecreeper82.lotm.Plugin;
