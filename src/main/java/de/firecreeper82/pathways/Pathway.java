@@ -27,6 +27,10 @@ public abstract class Pathway {
         this.optionalSequence = optionalSequence;
     }
 
+    public void init() {
+
+    }
+
     public UUID getUuid() {
         return uuid;
     }
@@ -81,6 +85,10 @@ public abstract class Pathway {
 
     public void setStringColor(String stringColor) {
         this.stringColor = stringColor;
+    }
+
+    public Pathway getPathway() {
+        return this;
     }
 }
 

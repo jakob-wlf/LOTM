@@ -14,6 +14,7 @@ public abstract class Sequence {
     public Pathway pathway;
 
     public boolean[] usesAbilities;
+    public ArrayList<Ability> abilities;
 
     public HashMap<Integer, PotionEffect[]> sequenceEffects;
 
@@ -71,5 +72,21 @@ public abstract class Sequence {
 
     public void setSequenceEffects(HashMap<Integer, PotionEffect[]> sequenceEffects) {
         this.sequenceEffects = sequenceEffects;
+    }
+
+    public ArrayList<Ability> getAbilities() {
+        return abilities;
+    }
+
+    public void setAbilities(ArrayList<Ability> abilities) {
+        this.abilities = abilities;
+    }
+
+    public boolean[] getUsesAbilities() {
+        return usesAbilities;
+    }
+
+    public void setUsesAbilities(boolean[] usesAbilities) {
+        this.usesAbilities = usesAbilities;
     }
 }
