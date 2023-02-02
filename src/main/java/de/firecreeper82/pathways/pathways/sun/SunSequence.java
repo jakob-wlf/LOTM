@@ -884,16 +884,16 @@ public class SunSequence extends Sequence {
                     break;
                 }
 
-                Location loc = lastBlock.getLocation();
+                double distance = lastBlock.getLocation().distance(p.getEyeLocation());
+
+                Location loc = p.getEyeLocation().add(p.getEyeLocation().getDirection().normalize().multiply(distance)).clone();
 
                 float angle = p.getEyeLocation().getYaw()/60;
-                Location spearLoc = p.getEyeLocation().subtract(Math.cos(angle), 0, Math.sin(angle));
 
-
-                Vector dir = p.getLocation().getDirection().normalize();
+                Location spearLocation = p.getEyeLocation().subtract(Math.cos(angle), 0, Math.sin(angle));
+                Vector dir = loc.toVector().subtract(spearLocation.toVector()).normalize();
                 Vector direction = dir.clone();
-                Location spearLocation = spearLoc.clone();
-                buildSpear(spearLoc, dir);
+                buildSpear(spearLocation.clone(), dir);
 
                 new BukkitRunnable() {
                     @Override
@@ -922,8 +922,34 @@ public class SunSequence extends Sequence {
                                         spearLocation.getWorld().spawnParticle(Particle.END_ROD, spearLocation, 200, 0, 0, 0, 0.5);
 
                                         entity.setVelocity(entity.getVelocity().add(spearLocation.getDirection().normalize().multiply(1.5)));
+                                        ((Damageable) entity).damage(75, p);
 
-                                        ((Damageable) entity).damage(5, p);
+                                        Location sphereLoc = ((LivingEntity) entity).getEyeLocation().clone();
+
+                                         new BukkitRunnable() {
+                                            double sphereRadius = 1;
+                                            @Override
+                                            public void run() {
+                                                for (double i = 0; i <= Math.PI; i += Math.PI / 25) { // 10 being the amount of circles.
+                                                    double radius = Math.sin(i) * sphereRadius; // we get the current radius
+                                                    double y = Math.cos(i) * sphereRadius; // we get the current y value.
+                                                    for (double a = 0; a < Math.PI * 2; a += Math.PI / 25) {
+                                                        double x = Math.cos(a) * radius; // x-coordinate
+                                                        double z = Math.sin(a) * radius; // z-coordinate
+                                                        sphereLoc.add(x, y /* from the previous code */, z); // 'location' is our center.
+                                                        Particle.DustOptions dustSphere = new Particle.DustOptions(Color.fromBGR(0, 215, 255), 1f);
+                                                        sphereLoc.getWorld().spawnParticle(Particle.REDSTONE, sphereLoc, 4, 0, 0, 0, 0, dustSphere);
+                                                        sphereLoc.subtract(x, y, z);
+                                                    }
+                                                }
+                                                sphereRadius += 0.2;
+                                                if(sphereRadius >= 7) {
+                                                    this.cancel();
+                                                }
+                                            }
+                                        }.runTaskTimer(Plugin.instance, 0, 0);
+
+
                                         cancel();
                                         return;
                                     }
@@ -932,7 +958,31 @@ public class SunSequence extends Sequence {
                         }
 
                         if(spearLocation.getBlock().getType().isSolid()) {
-                            spearLocation.getWorld().createExplosion(spearLocation, 4);
+                            Location sphereLoc = spearLocation.clone();
+                            new BukkitRunnable() {
+                                double sphereRadius = 1;
+                                @Override
+                                public void run() {
+                                    for (double i = 0; i <= Math.PI; i += Math.PI / 50) { // 10 being the amount of circles.
+                                        double radius = Math.sin(i) * sphereRadius; // we get the current radius
+                                        double y = Math.cos(i) * sphereRadius; // we get the current y value.
+                                        for (double a = 0; a < Math.PI * 2; a += Math.PI / 50) {
+                                            double x = Math.cos(a) * radius; // x-coordinate
+                                            double z = Math.sin(a) * radius; // z-coordinate
+                                            sphereLoc.add(x, y /* from the previous code */, z); // 'location' is our center.
+                                            Particle.DustOptions dustSphere = new Particle.DustOptions(Color.fromBGR(0, 215, 255), 1f);
+                                            sphereLoc.getWorld().spawnParticle(Particle.REDSTONE, sphereLoc, 1, 0, 0, 0, 0, dustSphere);
+                                            sphereLoc.getBlock().setType(Material.AIR);
+                                            sphereLoc.subtract(x, y, z);
+                                        }
+                                    }
+                                    sphereRadius += 0.2;
+                                    if(sphereRadius >= 10) {
+                                        this.cancel();
+                                    }
+                                }
+                            }.runTaskTimer(Plugin.instance, 0, 0);
+                            spearLocation.getWorld().spawnParticle(Particle.END_ROD, spearLocation, 1000, 0.4, 0.4, 0.4, 0.5);
                             cancel();
                         }
                     }
