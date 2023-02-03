@@ -65,7 +65,7 @@ public class LightOfPurification extends Ability {
 
     @Override
     public ItemStack getItem() {
-        ItemStack currentItem = new ItemStack(Material.GOLD_NUGGET);
+        ItemStack currentItem = new ItemStack(Material.GLOWSTONE);
         ItemMeta itemMeta = currentItem.getItemMeta();
         itemMeta.setDisplayName("§6Light of Purification");
         itemMeta.addEnchant(Enchantment.CHANNELING, 11, true);

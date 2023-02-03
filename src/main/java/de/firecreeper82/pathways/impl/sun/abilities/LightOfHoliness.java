@@ -209,7 +209,7 @@ public class LightOfHoliness extends Ability {
 
     @Override
     public ItemStack getItem() {
-        ItemStack currentItem = new ItemStack(Material.GOLD_NUGGET);
+        ItemStack currentItem = new ItemStack(Material.RAW_GOLD);
         ItemMeta itemMeta = currentItem.getItemMeta();
         itemMeta.setDisplayName("§6Light of Holiness");
         itemMeta.addEnchant(Enchantment.CHANNELING, 10, true);

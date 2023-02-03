@@ -248,7 +248,7 @@ public class UnshadowedSpear extends Ability {
 
     @Override
     public ItemStack getItem() {
-        ItemStack currentItem = new ItemStack(Material.GOLD_NUGGET);
+        ItemStack currentItem = new ItemStack(Material.SPECTRAL_ARROW);
         ItemMeta itemMeta = currentItem.getItemMeta();
         itemMeta.setDisplayName("§6Unshadowed Spear");
         itemMeta.addEnchant(Enchantment.CHANNELING, 12, true);

@@ -4,12 +4,7 @@ import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.sun.abilities.*;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,6 +26,7 @@ public class SunItems extends Items {
         sequenceItems.put(7, 5);
         sequenceItems.put(8, 5);
         sequenceItems.put(9, 4);
+        sequenceItems.put(10, 4);
         createItems();
     }
 
@@ -94,6 +90,11 @@ public class SunItems extends Items {
 
         //Unshadowed - Unshadowed Spear
         ability = new UnshadowedSpear(12, pathway);
+        pathway.getSequence().getAbilities().add(ability);
+        items.add(ability.getItem());
+
+        //Unshadowed - Flaring Sun
+        ability = new FlaringSun(13, pathway);
         pathway.getSequence().getAbilities().add(ability);
         items.add(ability.getItem());
     }

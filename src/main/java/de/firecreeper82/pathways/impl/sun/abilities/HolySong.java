@@ -51,7 +51,7 @@ public class HolySong extends Ability {
 
     @Override
     public ItemStack getItem() {
-        ItemStack currentItem = new ItemStack(Material.MUSIC_DISC_MELLOHI);
+        ItemStack currentItem = new ItemStack(Material.MUSIC_DISC_PIGSTEP);
         ItemMeta itemMeta = currentItem.getItemMeta();
         itemMeta.setDisplayName("§6Holy Song");
         itemMeta.addEnchant(Enchantment.CHANNELING, 1, true);
