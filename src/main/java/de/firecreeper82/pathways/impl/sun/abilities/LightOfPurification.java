@@ -4,17 +4,17 @@ import com.google.common.util.concurrent.AtomicDouble;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Pathway;
-import org.bukkit.Color;
-import org.bukkit.Location;
-import org.bukkit.Particle;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityCategory;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.*;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.*;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class LightOfPurification extends Ability {
@@ -50,7 +50,7 @@ public class LightOfPurification extends Ability {
                     for(Entity entity : loc.getWorld().getNearbyEntities(new Location(loc.getWorld(), loc.getX() + x, loc.getY(), loc.getZ() + z), 1, 3, 1)) {
                         if(entity instanceof LivingEntity) {
                             if(((LivingEntity) entity).getCategory() == EntityCategory.UNDEAD)
-                                ((LivingEntity) entity).addPotionEffect(new PotionEffect(PotionEffectType.HEAL, 1, 4, false, false));
+                                ((Damageable) entity).damage(25, p);
                         }
                     }
                 }
@@ -61,5 +61,25 @@ public class LightOfPurification extends Ability {
                 }
             }
         }.runTaskTimer(Plugin.instance, 0, 1);
+    }
+
+    @Override
+    public ItemStack getItem() {
+        ItemStack currentItem = new ItemStack(Material.GOLD_NUGGET);
+        ItemMeta itemMeta = currentItem.getItemMeta();
+        itemMeta.setDisplayName("§6Light of Purification");
+        itemMeta.addEnchant(Enchantment.CHANNELING, 11, true);
+        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        itemMeta.addItemFlags(ItemFlag.values());
+        ArrayList<String> lore = new ArrayList<>();
+        lore.clear();
+        lore.add("§5Click to use");
+        lore.add("§5Spirituality: §750");
+        lore.add("§8§l-----------------");
+        lore.add("§6Sun - Pathway (5)");
+        lore.add("§8" + Bukkit.getPlayer(pathway.getUuid()).getName());
+        itemMeta.setLore(lore);
+        currentItem.setItemMeta(itemMeta);
+        return currentItem;
     }
 }

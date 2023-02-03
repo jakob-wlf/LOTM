@@ -5,10 +5,11 @@ import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Pathway;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityCategory;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.*;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -22,8 +23,6 @@ public class HolyLight extends Ability {
     public HolyLight(int identifier, Pathway pathway) {
         super(identifier, pathway);
     }
-
-    //TODO make it be able to hit enemies in the air too
     @Override
     public void useAbility() {
         p = pathway.getBeyonder().getPlayer();
@@ -76,15 +75,35 @@ public class HolyLight extends Ability {
                         if(entity instanceof LivingEntity) {
                             LivingEntity livingEntity = (LivingEntity) entity;
                             if (livingEntity.getCategory() == EntityCategory.UNDEAD) {
-                                ((LivingEntity) entity).addPotionEffect(new PotionEffect(PotionEffectType.HEAL, 1, 1));
+                                ((Damageable) entity).damage(15, p);
                             } else {
-                                if(livingEntity.getUniqueId() != pathway.getUuid())
-                                    ((LivingEntity) entity).addPotionEffect(new PotionEffect(PotionEffectType.HARM, 1, 0));
+                                if(entity != p)
+                                    ((Damageable) entity).damage(8, p);
                             }
                         }
                     }
                 }
             }
         }.runTaskTimer(Plugin.instance, 0, 1);
+    }
+
+    @Override
+    public ItemStack getItem() {
+        ItemStack currentItem = new ItemStack(Material.GLOWSTONE_DUST);
+        ItemMeta itemMeta = currentItem.getItemMeta();
+        itemMeta.setDisplayName("§6Holy Light");
+        itemMeta.addEnchant(Enchantment.CHANNELING, 2, true);
+        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        itemMeta.addItemFlags(ItemFlag.values());
+        ArrayList<String> lore = new ArrayList<>();
+        lore.clear();
+        lore.add("§5Click to use");
+        lore.add("§5Spirituality: §715");
+        lore.add("§8§l-----------------");
+        lore.add("§6Sun - Pathway (8)");
+        lore.add("§8" + Bukkit.getPlayer(pathway.getUuid()).getName());
+        itemMeta.setLore(lore);
+        currentItem.setItemMeta(itemMeta);
+        return currentItem;
     }
 }

@@ -2,16 +2,17 @@ package de.firecreeper82.pathways.impl.sun.abilities;
 
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Pathway;
-import org.bukkit.Color;
-import org.bukkit.Location;
-import org.bukkit.Particle;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityCategory;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.*;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.*;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
+
+import java.util.ArrayList;
 
 public class CleaveOfPurification extends Ability {
     public CleaveOfPurification(int identifier, Pathway pathway) {
@@ -50,14 +51,34 @@ public class CleaveOfPurification extends Ability {
                 if(entity instanceof LivingEntity) {
                     LivingEntity livingEntity = (LivingEntity) entity;
                     if (livingEntity.getCategory() == EntityCategory.UNDEAD) {
-                        ((LivingEntity) entity).addPotionEffect(new PotionEffect(PotionEffectType.HEAL, 1, 2));
+                        ((Damageable) entity).damage(30, p);
                     } else {
                         if (livingEntity.getUniqueId() != pathway.getUuid())
-                            ((LivingEntity) entity).addPotionEffect(new PotionEffect(PotionEffectType.HARM, 1, 1));
+                            ((Damageable) entity).damage(15, p);
                     }
                     entLoc.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, entLoc, 200, 0.2, 0.2, 0.2, 0.15);
                 }
             }
         }
+    }
+
+    @Override
+    public ItemStack getItem() {
+        ItemStack currentItem = new ItemStack(Material.HONEYCOMB);
+        ItemMeta itemMeta = currentItem.getItemMeta();
+        itemMeta.setDisplayName("§6Cleave of Purification");
+        itemMeta.addEnchant(Enchantment.CHANNELING, 7, true);
+        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        itemMeta.addItemFlags(ItemFlag.values());
+        ArrayList<String> lore = new ArrayList<>();
+        lore.clear();
+        lore.add("§5Click to use");
+        lore.add("§5Spirituality: §720");
+        lore.add("§8§l-----------------");
+        lore.add("§6Sun - Pathway (7)");
+        lore.add("§8" + Bukkit.getPlayer(pathway.getUuid()).getName());
+        itemMeta.setLore(lore);
+        currentItem.setItemMeta(itemMeta);
+        return currentItem;
     }
 }

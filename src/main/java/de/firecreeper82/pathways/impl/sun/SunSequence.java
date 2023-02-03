@@ -100,11 +100,6 @@ public class SunSequence extends Sequence {
                 a.useAbility();
             }
         }
-
-        //TODO rework hitting enemies with the .damage function
-        //  use BoundingBox.overlap to detect hit enemies
-        //  check if entity is player by doing == p instead of checking uuid
-        //  use players eye location instead of adding 1 to the location
     }
 
     @Override

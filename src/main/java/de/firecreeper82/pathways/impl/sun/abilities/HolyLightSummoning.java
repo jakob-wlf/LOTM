@@ -4,15 +4,13 @@ import com.google.common.util.concurrent.AtomicDouble;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Pathway;
-import org.bukkit.Color;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
+import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityCategory;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.*;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -25,8 +23,6 @@ public class HolyLightSummoning extends Ability {
     public HolyLightSummoning(int identifier, Pathway pathway) {
         super(identifier, pathway);
     }
-
-    //TODO make it be able to hit enemies in the air too
     @Override
     public void useAbility() {
         p = pathway.getBeyonder().getPlayer();
@@ -134,10 +130,10 @@ public class HolyLightSummoning extends Ability {
                         if(entity instanceof LivingEntity) {
                             LivingEntity livingEntity = (LivingEntity) entity;
                             if (livingEntity.getCategory() == EntityCategory.UNDEAD) {
-                                ((LivingEntity) entity).addPotionEffect(new PotionEffect(PotionEffectType.HEAL, 1, 3));
+                                ((Damageable) entity).damage(22, p);
                             } else {
-                                if(livingEntity.getUniqueId() != pathway.getUuid())
-                                    ((LivingEntity) entity).addPotionEffect(new PotionEffect(PotionEffectType.HARM, 1, 1));
+                                if(entity != p)
+                                    ((Damageable) entity).damage(12, p);
                             }
                         }
                     }
@@ -170,5 +166,25 @@ public class HolyLightSummoning extends Ability {
                 }
             }
         }.runTaskTimer(Plugin.instance, 0, 1);
+    }
+
+    @Override
+    public ItemStack getItem() {
+        ItemStack currentItem = new ItemStack(Material.BLAZE_ROD);
+        ItemMeta itemMeta = currentItem.getItemMeta();
+        itemMeta.setDisplayName("§6Illuminate");
+        itemMeta.addEnchant(Enchantment.CHANNELING, 5, true);
+        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        itemMeta.addItemFlags(ItemFlag.values());
+        ArrayList<String> lore = new ArrayList<>();
+        lore.clear();
+        lore.add("§5Click to use");
+        lore.add("§5Spirituality: §30");
+        lore.add("§8§l-----------------");
+        lore.add("§6Sun - Pathway (7)");
+        lore.add("§8" + Bukkit.getPlayer(pathway.getUuid()).getName());
+        itemMeta.setLore(lore);
+        currentItem.setItemMeta(itemMeta);
+        return currentItem;
     }
 }

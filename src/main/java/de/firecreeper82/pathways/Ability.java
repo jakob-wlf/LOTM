@@ -1,6 +1,7 @@
 package de.firecreeper82.pathways;
 
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public abstract class Ability {
     public int identifier;
@@ -15,6 +16,10 @@ public abstract class Ability {
 
     public void useAbility() {
 
+    }
+
+    public ItemStack getItem() {
+        return null;
     }
 
     public Pathway getPathway() {

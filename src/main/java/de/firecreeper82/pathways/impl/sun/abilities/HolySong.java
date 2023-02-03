@@ -3,13 +3,20 @@ package de.firecreeper82.pathways.impl.sun.abilities;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Pathway;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class HolySong extends Ability {
@@ -40,5 +47,24 @@ public class HolySong extends Ability {
                 }
             }
         }.runTaskTimer(Plugin.instance, 1, 20);
+    }
+
+    @Override
+    public ItemStack getItem() {
+        ItemStack currentItem = new ItemStack(Material.MUSIC_DISC_MELLOHI);
+        ItemMeta itemMeta = currentItem.getItemMeta();
+        itemMeta.setDisplayName("§6Holy Song");
+        itemMeta.addEnchant(Enchantment.CHANNELING, 1, true);
+        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        itemMeta.addItemFlags(ItemFlag.values());
+        ArrayList<String> lore = new ArrayList<>();
+        lore.add("§5Click to use");
+        lore.add("§5Spirituality: §75");
+        lore.add("§8§l-----------------");
+        lore.add("§6Sun - Pathway (9)");
+        lore.add("§8" + Bukkit.getPlayer(pathway.getUuid()).getName());
+        itemMeta.setLore(lore);
+        currentItem.setItemMeta(itemMeta);
+        return currentItem;
     }
 }
