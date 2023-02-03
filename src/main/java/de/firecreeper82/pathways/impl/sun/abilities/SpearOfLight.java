@@ -15,12 +15,13 @@ import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
 
 public class SpearOfLight extends Ability {
-    public SpearOfLight(int identifier, Pathway pathway, Player p) {
-        super(identifier, pathway, p);
+    public SpearOfLight(int identifier, Pathway pathway) {
+        super(identifier, pathway);
     }
 
     @Override
     public void useAbility() {
+        p = pathway.getBeyonder().getPlayer();
         pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
         //get block player is looking at

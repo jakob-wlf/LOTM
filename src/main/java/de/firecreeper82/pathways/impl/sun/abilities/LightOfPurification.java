@@ -18,12 +18,13 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.Random;
 
 public class LightOfPurification extends Ability {
-    public LightOfPurification(int identifier, Pathway pathway, Player p) {
-        super(identifier, pathway, p);
+    public LightOfPurification(int identifier, Pathway pathway) {
+        super(identifier, pathway);
     }
 
     @Override
     public void useAbility() {
+        p = pathway.getBeyonder().getPlayer();
         pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
         Location loc = p.getLocation();

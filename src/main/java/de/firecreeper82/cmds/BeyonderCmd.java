@@ -42,6 +42,7 @@ public class BeyonderCmd implements CommandExecutor {
                 case "sun" -> {
                     Beyonder beyonder = new Beyonder(p.getUniqueId(), new SunPathway(p.getUniqueId(), sequence));
                     Plugin.beyonders.put(p.getUniqueId(), beyonder);
+                    Plugin.instance.getServer().getPluginManager().registerEvents(beyonder, Plugin.instance);
                     p.sendMessage("§6Made you a Beyonder of the Sun pathway at Sequence " + sequence);
                 }
             }
@@ -50,11 +51,12 @@ public class BeyonderCmd implements CommandExecutor {
 
 
         switch (args[0].toLowerCase()) {
-                case "sun" -> {
-                    Beyonder beyonder = new Beyonder(p.getUniqueId(), new SunPathway(p.getUniqueId(), sequence));
-                    Plugin.beyonders.put(p.getUniqueId(), beyonder);
-                    p.sendMessage("§6Made you a Beyonder of the Sun pathway at Sequence " + sequence);
-                }
+            case "sun" -> {
+                Beyonder beyonder = new Beyonder(p.getUniqueId(), new SunPathway(p.getUniqueId(), sequence));
+                Plugin.beyonders.put(p.getUniqueId(), beyonder);
+                Plugin.instance.getServer().getPluginManager().registerEvents(beyonder, Plugin.instance);
+                p.sendMessage("§6Made you a Beyonder of the Sun pathway at Sequence " + sequence);
+            }
         }
         return true;
     }

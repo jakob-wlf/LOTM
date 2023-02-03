@@ -14,12 +14,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class HolySong extends Ability {
 
-    public HolySong(int identifier, Pathway pathway, Player p) {
-        super(identifier, pathway, p);
+    public HolySong(int identifier, Pathway pathway) {
+        super(identifier, pathway);
     }
 
     @Override
     public void useAbility() {
+        p = pathway.getBeyonder().getPlayer();
         pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
         p.getWorld().playSound(p, Sound.MUSIC_DISC_MELLOHI, 10f, 1f);

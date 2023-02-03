@@ -7,10 +7,9 @@ public abstract class Ability {
     public Pathway pathway;
     public Player p;
 
-    public Ability(int identifier, Pathway pathway, Player p) {
+    public Ability(int identifier, Pathway pathway) {
         this.identifier = identifier;
         this.pathway = pathway;
-        this.p = p;
     }
 
 

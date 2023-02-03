@@ -22,13 +22,14 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class HolyLightSummoning extends Ability {
-    public HolyLightSummoning(int identifier, Pathway pathway, Player p) {
-        super(identifier, pathway, p);
+    public HolyLightSummoning(int identifier, Pathway pathway) {
+        super(identifier, pathway);
     }
 
     //TODO make it be able to hit enemies in the air too
     @Override
     public void useAbility() {
+        p = pathway.getBeyonder().getPlayer();
         pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
         //get block player is looking at

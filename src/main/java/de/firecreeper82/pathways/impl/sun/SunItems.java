@@ -62,7 +62,7 @@ public class SunItems extends Items {
         itemMeta.setLore(lore);
         currentItem.setItemMeta(itemMeta);
         items.add(currentItem);
-        pathway.getSequence().getAbilities().add(new HolySong(1, pathway, pathway.getBeyonder().getPlayer()));
+        pathway.getSequence().getAbilities().add(new HolySong(1, pathway));
 
         //Light Supplicant - Holy Light
         currentItem = new ItemStack(Material.GLOWSTONE_DUST);
@@ -80,7 +80,7 @@ public class SunItems extends Items {
         itemMeta.setLore(lore);
         currentItem.setItemMeta(itemMeta);
         items.add(currentItem);
-        pathway.getSequence().getAbilities().add(new HolyLight(2, pathway, pathway.getBeyonder().getPlayer()));
+        pathway.getSequence().getAbilities().add(new HolyLight(2, pathway));
 
         //Light Supplicant - Illuminate
         currentItem = new ItemStack(Material.GOLD_NUGGET);
@@ -98,7 +98,7 @@ public class SunItems extends Items {
         itemMeta.setLore(lore);
         currentItem.setItemMeta(itemMeta);
         items.add(currentItem);
-        pathway.getSequence().getAbilities().add(new Illuminate(3, pathway, pathway.getBeyonder().getPlayer()));
+        pathway.getSequence().getAbilities().add(new Illuminate(3, pathway));
 
         //Solar High Priest - Fire of Light
         currentItem = new ItemStack(Material.BLAZE_POWDER);
@@ -116,7 +116,7 @@ public class SunItems extends Items {
         itemMeta.setLore(lore);
         currentItem.setItemMeta(itemMeta);
         items.add(currentItem);
-        pathway.getSequence().getAbilities().add(new FireOfLight(4, pathway, pathway.getBeyonder().getPlayer()));
+        pathway.getSequence().getAbilities().add(new FireOfLight(4, pathway));
 
         //Solar High Priest - Holy Light Summoning
         currentItem = new ItemStack(Material.BLAZE_ROD);
@@ -134,7 +134,7 @@ public class SunItems extends Items {
         itemMeta.setLore(lore);
         currentItem.setItemMeta(itemMeta);
         items.add(currentItem);
-        pathway.getSequence().getAbilities().add(new HolyLightSummoning(5, pathway, pathway.getBeyonder().getPlayer()));
+        pathway.getSequence().getAbilities().add(new HolyLightSummoning(5, pathway));
 
         //Solar High Priest - Holy Oath
         currentItem = new ItemStack(Material.PAPER);
@@ -152,7 +152,7 @@ public class SunItems extends Items {
         itemMeta.setLore(lore);
         currentItem.setItemMeta(itemMeta);
         items.add(currentItem);
-        pathway.getSequence().getAbilities().add(new HolyOath(6, pathway, pathway.getBeyonder().getPlayer()));
+        pathway.getSequence().getAbilities().add(new HolyOath(6, pathway));
 
         //Solar High Priest - Cleave of Purification
         currentItem = new ItemStack(Material.HONEYCOMB);
@@ -170,7 +170,7 @@ public class SunItems extends Items {
         itemMeta.setLore(lore);
         currentItem.setItemMeta(itemMeta);
         items.add(currentItem);
-        pathway.getSequence().getAbilities().add(new CleaveOfPurification(7, pathway, pathway.getBeyonder().getPlayer()));
+        pathway.getSequence().getAbilities().add(new CleaveOfPurification(7, pathway));
 
         //Priest of Light - Light of Holiness
         currentItem = new ItemStack(Material.RAW_GOLD);
@@ -188,7 +188,7 @@ public class SunItems extends Items {
         itemMeta.setLore(lore);
         currentItem.setItemMeta(itemMeta);
         items.add(currentItem);
-        pathway.getSequence().getAbilities().add(new LightOfHoliness(10, pathway, pathway.getBeyonder().getPlayer()));
+        pathway.getSequence().getAbilities().add(new LightOfHoliness(10, pathway));
 
         //Priest of Light - Light of Purification
         currentItem = new ItemStack(Material.GLOWSTONE);
@@ -206,7 +206,7 @@ public class SunItems extends Items {
         itemMeta.setLore(lore);
         currentItem.setItemMeta(itemMeta);
         items.add(currentItem);
-        pathway.getSequence().getAbilities().add(new LightOfPurification(11, pathway, pathway.getBeyonder().getPlayer()));
+        pathway.getSequence().getAbilities().add(new LightOfPurification(11, pathway));
 
         //Unshadowed - Spear of Light
         currentItem = new ItemStack(Material.SPECTRAL_ARROW);
@@ -224,6 +224,6 @@ public class SunItems extends Items {
         itemMeta.setLore(lore);
         currentItem.setItemMeta(itemMeta);
         items.add(currentItem);
-        pathway.getSequence().getAbilities().add(new SpearOfLight(12, pathway, pathway.getBeyonder().getPlayer()));
+        pathway.getSequence().getAbilities().add(new SpearOfLight(12, pathway));
     }
 }

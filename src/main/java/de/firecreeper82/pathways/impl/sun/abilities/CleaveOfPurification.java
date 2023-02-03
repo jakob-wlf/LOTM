@@ -14,12 +14,13 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 public class CleaveOfPurification extends Ability {
-    public CleaveOfPurification(int identifier, Pathway pathway, Player p) {
-        super(identifier, pathway, p);
+    public CleaveOfPurification(int identifier, Pathway pathway) {
+        super(identifier, pathway);
     }
 
     @Override
     public void useAbility() {
+        p = pathway.getBeyonder().getPlayer();
         Location loc = p.getLocation().add(0, 1, 0);
         Vector vector = loc.getDirection();
 

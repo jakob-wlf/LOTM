@@ -14,12 +14,13 @@ import org.bukkit.util.BlockIterator;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Illuminate extends Ability {
-    public Illuminate(int identifier, Pathway pathway, Player p) {
-        super(identifier, pathway, p);
+    public Illuminate(int identifier, Pathway pathway) {
+        super(identifier, pathway);
     }
 
     @Override
     public void useAbility() {
+        p = pathway.getBeyonder().getPlayer();
         pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
         //get block player is looking at

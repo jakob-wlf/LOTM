@@ -4,15 +4,15 @@ import de.firecreeper82.pathways.Pathway;
 import fr.mrmicky.fastboard.FastBoard;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicInteger;
 
-public class Beyonder {
+public class Beyonder implements Listener {
 
     public Pathway pathway;
     public UUID uuid;
@@ -27,7 +27,24 @@ public class Beyonder {
         this.uuid = uuid;
 
         pathway.setBeyonder(this);
+        start();
+    }
 
+    @EventHandler
+    public void onJoin(PlayerJoinEvent e) {
+        Bukkit.broadcastMessage(uuid + " -- " + e.getPlayer().getUniqueId());
+        if(!e.getPlayer().getUniqueId().equals(uuid))
+            return;
+        Bukkit.broadcastMessage("test");
+        start();
+    }
+
+    private void updateBoard() {
+        board.updateTitle(pathway.getStringColor() + getPlayer().getName());
+        board.updateLines("", "§5Pathway", "- " + pathway.getStringColor() + pathway.getName(), "", "§5Sequence", "- " + pathway.getStringColor() + pathway.getSequence().getCurrentSequence(), "", "§5Spirituality", "- " + pathway.getStringColor() + spirituality + "/" + maxSpirituality);
+    }
+
+    public void start() {
         //set up spirituality and scoreboard after 4 ticks delay (So the other things have time to initialize)
         new BukkitRunnable() {
             @Override
@@ -41,20 +58,21 @@ public class Beyonder {
 
 
         //constant loop
-        AtomicInteger counter = new AtomicInteger();
         new BukkitRunnable() {
+            int counter = 0;
             @Override
             public void run() {
                 if(getPlayer() == null) {
+                    cancel();
                     return;
                 }
                 //scoreboard
-                counter.incrementAndGet();
+                counter++;
                 updateBoard();
 
                 //spirituality handling
-                if (spirituality < maxSpirituality && counter.get() >= 8) {
-                    counter.set(0);
+                if (spirituality < maxSpirituality && counter >= 8) {
+                    counter = 0;
                     spirituality++;
                 }
 
@@ -78,11 +96,6 @@ public class Beyonder {
                 }
             }
         }.runTaskTimer(Plugin.instance, 5, 5);
-    }
-
-    private void updateBoard() {
-        board.updateTitle(pathway.getStringColor() + getPlayer().getName());
-        board.updateLines("", "§5Pathway", "- " + pathway.getStringColor() + pathway.getName(), "", "§5Sequence", "- " + pathway.getStringColor() + pathway.getSequence().getCurrentSequence(), "", "§5Spirituality", "- " + pathway.getStringColor() + spirituality + "/" + maxSpirituality);
     }
 
     public void updateSpirituality() {
