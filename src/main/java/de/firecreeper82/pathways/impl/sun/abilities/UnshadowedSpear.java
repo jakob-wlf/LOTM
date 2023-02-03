@@ -14,8 +14,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
 
-public class SpearOfLight extends Ability {
-    public SpearOfLight(int identifier, Pathway pathway) {
+public class UnshadowedSpear extends Ability {
+    public UnshadowedSpear(int identifier, Pathway pathway) {
         super(identifier, pathway);
     }
 

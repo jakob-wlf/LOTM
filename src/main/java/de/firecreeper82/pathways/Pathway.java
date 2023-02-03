@@ -1,6 +1,7 @@
 package de.firecreeper82.pathways;
 
 import de.firecreeper82.lotm.Beyonder;
+import de.firecreeper82.pathways.impl.sun.SunPathway;
 import org.bukkit.boss.BarColor;
 
 import java.awt.*;
@@ -98,6 +99,17 @@ public abstract class Pathway {
 
     public void setNameNormalized(String nameNormalized) {
         this.nameNormalized = nameNormalized;
+    }
+
+    public static Pathway initializeNew(String pathway, UUID uuid, int sequence) {
+        switch (pathway) {
+            case "sun" -> {
+                return new SunPathway(uuid, sequence);
+            }
+            default -> {
+                return null;
+            }
+        }
     }
 }
 

@@ -3,16 +3,20 @@ package de.firecreeper82.lotm;
 import de.firecreeper82.cmds.ItemsCmd;
 import de.firecreeper82.cmds.BeyonderCmd;
 import de.firecreeper82.listeners.InteractListener;
+import de.firecreeper82.pathways.Pathway;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 public final class Plugin extends JavaPlugin {
@@ -35,7 +39,6 @@ public final class Plugin extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage(prefix + "§aEnabled Plugin");
 
         createSaveConfig();
-        load();
 
         register();
     }
@@ -68,7 +71,13 @@ public final class Plugin extends JavaPlugin {
         }
 
         configSave = new YamlConfiguration();
-        YamlConfiguration.loadConfiguration(configSaveFile);
+        try {
+            configSave.load(configSaveFile);
+        }
+        catch (Exception exc) {
+            Bukkit.getConsoleSender().sendMessage(exc.getLocalizedMessage());
+        }
+        load();
     }
 
     public FileConfiguration getSaveConfig() {
@@ -85,6 +94,16 @@ public final class Plugin extends JavaPlugin {
     }
 
     public void load() {
-
+        for(String s : configSave.getConfigurationSection("beyonders").getKeys(false)) {
+            try {
+                Pathway pathway = Pathway.initializeNew((String) configSave.get("beyonders." + s + ".pathway"), UUID.fromString(s), (int) configSave.get("beyonders." + s + ".sequence"));
+                Player p = Bukkit.getPlayer(UUID.fromString(s));
+                Beyonder beyonder = new Beyonder(p.getUniqueId(), pathway);
+                Plugin.beyonders.put(p.getUniqueId(), beyonder);
+                Plugin.instance.getServer().getPluginManager().registerEvents(beyonder, Plugin.instance);
+            } catch (Exception exception) {
+                Bukkit.getConsoleSender().sendMessage("Failed to initialize " + s);
+            }
+        }
     }
 }

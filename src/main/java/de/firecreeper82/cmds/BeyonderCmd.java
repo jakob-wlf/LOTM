@@ -2,6 +2,7 @@ package de.firecreeper82.cmds;
 
 import de.firecreeper82.lotm.Beyonder;
 import de.firecreeper82.lotm.Plugin;
+import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.sun.SunPathway;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -38,26 +39,28 @@ public class BeyonderCmd implements CommandExecutor {
 
         if(Plugin.beyonders.containsKey(p.getUniqueId())) {
             Plugin.beyonders.remove(p.getUniqueId());
-            switch (args[0].toLowerCase()) {
-                case "sun" -> {
-                    Beyonder beyonder = new Beyonder(p.getUniqueId(), new SunPathway(p.getUniqueId(), sequence));
-                    Plugin.beyonders.put(p.getUniqueId(), beyonder);
-                    Plugin.instance.getServer().getPluginManager().registerEvents(beyonder, Plugin.instance);
-                    p.sendMessage("§6Made you a Beyonder of the Sun pathway at Sequence " + sequence);
-                }
+            Pathway pathway = Pathway.initializeNew(args[0].toLowerCase(), p.getUniqueId(), sequence);
+            if(pathway == null) {
+                p.sendMessage("§c" + args[0].toLowerCase() + " is not a valid Pathway");
+                 return true;
             }
+            Beyonder beyonder = new Beyonder(p.getUniqueId(), pathway);
+            Plugin.beyonders.put(p.getUniqueId(), beyonder);
+            Plugin.instance.getServer().getPluginManager().registerEvents(beyonder, Plugin.instance);
+            p.sendMessage(pathway.getStringColor() + "Made you a Beyonder of the" + pathway.getName() + "pathway at Sequence " + sequence);
             return true;
         }
 
 
-        switch (args[0].toLowerCase()) {
-            case "sun" -> {
-                Beyonder beyonder = new Beyonder(p.getUniqueId(), new SunPathway(p.getUniqueId(), sequence));
-                Plugin.beyonders.put(p.getUniqueId(), beyonder);
-                Plugin.instance.getServer().getPluginManager().registerEvents(beyonder, Plugin.instance);
-                p.sendMessage("§6Made you a Beyonder of the Sun pathway at Sequence " + sequence);
-            }
+        Pathway pathway = Pathway.initializeNew(args[0].toLowerCase(), p.getUniqueId(), sequence);
+        if(pathway == null) {
+            p.sendMessage("§c" + args[0].toLowerCase() + " is not a valid Pathway");
+            return true;
         }
+        Beyonder beyonder = new Beyonder(p.getUniqueId(), pathway);
+        Plugin.beyonders.put(p.getUniqueId(), beyonder);
+        Plugin.instance.getServer().getPluginManager().registerEvents(beyonder, Plugin.instance);
+        p.sendMessage(pathway.getStringColor() + "Made you a Beyonder of the" + pathway.getName() + "pathway at Sequence " + sequence);
         return true;
     }
 }

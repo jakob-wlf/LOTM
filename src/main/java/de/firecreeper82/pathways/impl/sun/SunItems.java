@@ -208,10 +208,10 @@ public class SunItems extends Items {
         items.add(currentItem);
         pathway.getSequence().getAbilities().add(new LightOfPurification(11, pathway));
 
-        //Unshadowed - Spear of Light
+        //Unshadowed - Unshadowed Spear
         currentItem = new ItemStack(Material.SPECTRAL_ARROW);
         itemMeta = currentItem.getItemMeta();
-        itemMeta.setDisplayName("§6Spear of Light");
+        itemMeta.setDisplayName("§6Unshadowed Spear");
         itemMeta.addEnchant(Enchantment.CHANNELING, 12, true);
         itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         itemMeta.addItemFlags(ItemFlag.values());
@@ -224,6 +224,6 @@ public class SunItems extends Items {
         itemMeta.setLore(lore);
         currentItem.setItemMeta(itemMeta);
         items.add(currentItem);
-        pathway.getSequence().getAbilities().add(new SpearOfLight(12, pathway));
+        pathway.getSequence().getAbilities().add(new UnshadowedSpear(12, pathway));
     }
 }
