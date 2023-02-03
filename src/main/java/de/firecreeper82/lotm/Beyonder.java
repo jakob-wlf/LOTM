@@ -17,8 +17,8 @@ public class Beyonder implements Listener {
     public Pathway pathway;
     public UUID uuid;
 
-    public int spirituality;
-    public int maxSpirituality;
+    public double spirituality;
+    public double maxSpirituality;
 
     public FastBoard board;
 
@@ -41,7 +41,7 @@ public class Beyonder implements Listener {
 
     private void updateBoard() {
         board.updateTitle(pathway.getStringColor() + getPlayer().getName());
-        board.updateLines("", "§5Pathway", "- " + pathway.getStringColor() + pathway.getName(), "", "§5Sequence", "- " + pathway.getStringColor() + pathway.getSequence().getCurrentSequence(), "", "§5Spirituality", "- " + pathway.getStringColor() + spirituality + "/" + maxSpirituality);
+        board.updateLines("", "§5Pathway", "- " + pathway.getStringColor() + pathway.getName(), "", "§5Sequence", "- " + pathway.getStringColor() + pathway.getSequence().getCurrentSequence(), "", "§5Spirituality", "- " + pathway.getStringColor() + Math.round(spirituality) + "/" + Math.round(maxSpirituality));
     }
 
     public void start() {
@@ -52,7 +52,7 @@ public class Beyonder implements Listener {
                 updateSpirituality();
                 board = new FastBoard(getPlayer());
                 board.updateTitle(pathway.getStringColor() + getPlayer().getName());
-                board.updateLines("", "§5Pathway", "- " + pathway.getStringColor() + pathway.getName(), "", "§5Sequence", "- " + pathway.getStringColor() + pathway.getSequence().getCurrentSequence(), "", "§5Spirituality", "- " + pathway.getStringColor() + spirituality + "/" + maxSpirituality);
+                board.updateLines("", "§5Pathway", "- " + pathway.getStringColor() + pathway.getName(), "", "§5Sequence", "- " + pathway.getStringColor() + pathway.getSequence().getCurrentSequence(), "", "§5Spirituality", "- " + pathway.getStringColor() + Math.round(spirituality) + "/" + Math.round(maxSpirituality));
             }
         }.runTaskLater(Plugin.instance, 4);
 
@@ -73,7 +73,9 @@ public class Beyonder implements Listener {
                 //spirituality handling
                 if (spirituality < maxSpirituality && counter >= 8) {
                     counter = 0;
-                    spirituality++;
+                    spirituality += (maxSpirituality / 200);
+                    if(spirituality > maxSpirituality)
+                        spirituality = maxSpirituality;
                 }
 
                 Player p = getPlayer();
@@ -128,11 +130,11 @@ public class Beyonder implements Listener {
         this.uuid = uuid;
     }
 
-    public int getSpirituality() {
+    public double getSpirituality() {
         return spirituality;
     }
 
-    public void setSpirituality(int spirituality) {
+    public void setSpirituality(double spirituality) {
         this.spirituality = spirituality;
     }
 }

@@ -109,7 +109,7 @@ public class SunSequence extends Sequence {
 
     @Override
     public boolean checkValid(ItemStack item) {
-        if(pathway.getItems().getItems().contains(item))
+        if(pathway.getItems().returnItemsFromSequence(currentSequence).contains(item))
             return true;
         else
             return false;
@@ -123,7 +123,7 @@ public class SunSequence extends Sequence {
     }
 
     @Override
-    public void removeSpirituality(int remove) {
+    public void removeSpirituality(double remove) {
         pathway.getBeyonder().setSpirituality(pathway.getBeyonder().getSpirituality() - remove);
     }
 

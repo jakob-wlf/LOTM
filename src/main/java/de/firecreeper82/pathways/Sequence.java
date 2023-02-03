@@ -46,7 +46,7 @@ public abstract class Sequence {
         return true;
     }
 
-    public void removeSpirituality(int remove) {
+    public void removeSpirituality(double remove) {
 
     }
 

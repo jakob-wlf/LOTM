@@ -15,6 +15,7 @@ public abstract class Pathway {
     public int optionalSequence;
     public Color pathwayColor;
     public String stringColor;
+    public String nameNormalized;
 
     public Items items;
 
@@ -89,6 +90,14 @@ public abstract class Pathway {
 
     public Pathway getPathway() {
         return this;
+    }
+
+    public String getNameNormalized() {
+        return nameNormalized;
+    }
+
+    public void setNameNormalized(String nameNormalized) {
+        this.nameNormalized = nameNormalized;
     }
 }
 

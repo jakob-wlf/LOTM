@@ -25,6 +25,7 @@ public class SunPathway extends Pathway {
     public void init() {
         beyonder = Plugin.beyonders.get(uuid);
         name = "§6Sun";
+        nameNormalized = "sun";
         pathwayColor = Color.orange;
         stringColor = "§6";
         new BukkitRunnable() {
