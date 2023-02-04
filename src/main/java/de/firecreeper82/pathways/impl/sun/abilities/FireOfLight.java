@@ -25,6 +25,8 @@ public class FireOfLight extends Ability {
 
     @Override
     public void useAbility() {
+        double multiplier = getMultiplier();
+
         p = pathway.getBeyonder().getPlayer();
         pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
@@ -77,7 +79,7 @@ public class FireOfLight extends Ability {
                     if(entity instanceof LivingEntity) {
                         LivingEntity livingEntity = (LivingEntity) entity;
                         if (livingEntity.getCategory() == EntityCategory.UNDEAD) {
-                            ((Damageable) entity).damage(10, p);
+                            ((Damageable) entity).damage(10 * multiplier, p);
                             livingEntity.setFireTicks(10 * 20);
                         }
                         if(entity != p)

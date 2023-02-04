@@ -20,6 +20,8 @@ public abstract class Sequence {
     public HashMap<Integer, PotionEffect[]> sequenceEffects;
     public HashMap<Integer, PotionEffectType[]> sequenceResistances;
 
+    public HashMap<Integer, Double> sequenceMultiplier;
+
     public Sequence(Pathway pathway) {
         this.pathway = pathway;
     }
@@ -98,5 +100,13 @@ public abstract class Sequence {
 
     public void setSequenceResistances(HashMap<Integer, PotionEffectType[]> sequenceResistances) {
         this.sequenceResistances = sequenceResistances;
+    }
+
+    public HashMap<Integer, Double> getSequenceMultiplier() {
+        return sequenceMultiplier;
+    }
+
+    public void setSequenceMultiplier(HashMap<Integer, Double> sequenceMultiplier) {
+        this.sequenceMultiplier = sequenceMultiplier;
     }
 }

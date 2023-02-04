@@ -45,4 +45,20 @@ public abstract class Ability {
     public void setIdentifier(int identifier) {
         this.identifier = identifier;
     }
+
+
+    public double getMultiplier() {
+        double multiplier = 1;
+        if(pathway.getSequence().getSequenceMultiplier().containsKey(pathway.getSequence().getCurrentSequence())) {
+            multiplier = pathway.getSequence().getSequenceMultiplier().get(pathway.getSequence().getCurrentSequence());
+        }
+        else {
+            for(int i = pathway.getSequence().currentSequence; i < 9; i++) {
+                if(pathway.getSequence().getSequenceMultiplier().containsKey(i)) {
+                    multiplier = pathway.getSequence().getSequenceMultiplier().get(i);
+                }
+            }
+        }
+        return multiplier;
+    }
 }

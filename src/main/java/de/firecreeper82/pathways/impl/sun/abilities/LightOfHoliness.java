@@ -27,6 +27,8 @@ public class LightOfHoliness extends Ability {
 
     @Override
     public void useAbility() {
+        double multiplier = getMultiplier();
+
         p = pathway.getBeyonder().getPlayer();
         pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
@@ -150,11 +152,11 @@ public class LightOfHoliness extends Ability {
                         if(entity instanceof LivingEntity) {
                             LivingEntity livingEntity = (LivingEntity) entity;
                             if (livingEntity.getCategory() == EntityCategory.UNDEAD) {
-                                ((Damageable) entity).damage(45, p);
+                                ((Damageable) entity).damage(32 * multiplier, p);
                                 entity.setFireTicks(100);
                             } else {
                                 if(livingEntity.getUniqueId() != pathway.getUuid()) {
-                                    ((Damageable) entity).damage(27, p);
+                                    ((Damageable) entity).damage(18 * multiplier, p);
                                     entity.setFireTicks(100);
                                 }
                             }

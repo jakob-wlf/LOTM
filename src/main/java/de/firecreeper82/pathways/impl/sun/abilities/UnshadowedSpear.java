@@ -11,6 +11,8 @@ import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
@@ -27,6 +29,8 @@ public class UnshadowedSpear extends Ability {
 
     @Override
     public void useAbility() {
+        double multiplier = getMultiplier();
+
         p = pathway.getBeyonder().getPlayer();
         pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
@@ -86,9 +90,9 @@ public class UnshadowedSpear extends Ability {
 
                                 entity.setVelocity(entity.getVelocity().add(spearLocation.getDirection().normalize().multiply(1.5)));
                                 if(((LivingEntity) entity).getCategory() == EntityCategory.UNDEAD)
-                                    ((Damageable) entity).damage(60, p);
+                                    ((Damageable) entity).damage(33 * multiplier, p);
                                 else
-                                    ((Damageable) entity).damage(30, p);
+                                    ((Damageable) entity).damage(17 * multiplier, p);
 
                                 Location sphereLoc = ((LivingEntity) entity).getEyeLocation().clone();
 
@@ -159,9 +163,9 @@ public class UnshadowedSpear extends Ability {
                                                 //entity hit
                                                 if (entity.getBoundingBox().overlaps(particleMinVector, particleMaxVector)) {
                                                     if(((LivingEntity) entity).getCategory() == EntityCategory.UNDEAD)
-                                                        ((Damageable) entity).damage(40, p);
+                                                        ((Damageable) entity).damage(25 * multiplier, p);
                                                     else
-                                                        ((Damageable) entity).damage(20, p);
+                                                        ((Damageable) entity).damage(18 * multiplier, p);
                                                 }
                                             }
                                         }

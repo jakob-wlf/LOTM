@@ -28,6 +28,8 @@ public class FlaringSun extends Ability {
 
     @Override
     public void useAbility() {
+        double multiplier = getMultiplier();
+
         airBlocks = new ArrayList<>();
         p = pathway.getBeyonder().getPlayer();
         pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
@@ -105,7 +107,7 @@ public class FlaringSun extends Ability {
                     if(entity instanceof LivingEntity) {
                         LivingEntity livingEntity = (LivingEntity) entity;
                         if (livingEntity.getCategory() == EntityCategory.UNDEAD) {
-                            ((Damageable) entity).damage(35, p);
+                            ((Damageable) entity).damage(35 * multiplier, p);
                             livingEntity.setFireTicks(50 * 20);
                         } else if(entity != p) {
                             livingEntity.setFireTicks(50 * 20);

@@ -25,6 +25,8 @@ public class HolyLight extends Ability {
     }
     @Override
     public void useAbility() {
+        double multiplier = getMultiplier();
+
         p = pathway.getBeyonder().getPlayer();
         pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
@@ -75,10 +77,10 @@ public class HolyLight extends Ability {
                         if(entity instanceof LivingEntity) {
                             LivingEntity livingEntity = (LivingEntity) entity;
                             if (livingEntity.getCategory() == EntityCategory.UNDEAD) {
-                                ((Damageable) entity).damage(15, p);
+                                ((Damageable) entity).damage(15 * multiplier, p);
                             } else {
                                 if(entity != p)
-                                    ((Damageable) entity).damage(8, p);
+                                    ((Damageable) entity).damage(8 * multiplier, p);
                             }
                         }
                     }

@@ -24,6 +24,8 @@ public class LightOfPurification extends Ability {
 
     @Override
     public void useAbility() {
+        double multiplier = getMultiplier();
+
         p = pathway.getBeyonder().getPlayer();
         pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
@@ -50,7 +52,7 @@ public class LightOfPurification extends Ability {
                     for(Entity entity : loc.getWorld().getNearbyEntities(new Location(loc.getWorld(), loc.getX() + x, loc.getY(), loc.getZ() + z), 1, 3, 1)) {
                         if(entity instanceof LivingEntity) {
                             if(((LivingEntity) entity).getCategory() == EntityCategory.UNDEAD)
-                                ((Damageable) entity).damage(25, p);
+                                ((Damageable) entity).damage(25 * multiplier, p);
                         }
                     }
                 }

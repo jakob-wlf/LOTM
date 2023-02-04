@@ -21,6 +21,8 @@ public class CleaveOfPurification extends Ability {
 
     @Override
     public void useAbility() {
+        double multiplier = getMultiplier();
+
         p = pathway.getBeyonder().getPlayer();
         Location loc = p.getLocation().add(0, 1, 0);
         Vector vector = loc.getDirection();
@@ -51,10 +53,10 @@ public class CleaveOfPurification extends Ability {
                 if(entity instanceof LivingEntity) {
                     LivingEntity livingEntity = (LivingEntity) entity;
                     if (livingEntity.getCategory() == EntityCategory.UNDEAD) {
-                        ((Damageable) entity).damage(28, p);
+                        ((Damageable) entity).damage(28 * multiplier, p);
                     } else {
                         if (entity != p)
-                            ((Damageable) entity).damage(12, p);
+                            ((Damageable) entity).damage(12 * multiplier, p);
                     }
                     entLoc.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, entLoc, 200, 0.2, 0.2, 0.2, 0.15);
                 }

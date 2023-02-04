@@ -36,6 +36,18 @@ public class SunSequence extends Sequence {
         sequenceEffects = new HashMap<>();
         sequenceResistances = new HashMap<>();
 
+        initEffects();
+
+        sequenceMultiplier = new HashMap<>();
+        sequenceMultiplier.put(5, 1.5);
+        sequenceMultiplier.put(4, 2.0);
+        sequenceMultiplier.put(3, 2.25);
+        sequenceMultiplier.put(2, 3.5);
+        sequenceMultiplier.put(1, 5.0);
+    }
+
+    //Passive effects
+    public void initEffects() {
         PotionEffectType[] resistances = {
                 PotionEffectType.POISON,
                 PotionEffectType.BLINDNESS,
@@ -43,11 +55,6 @@ public class SunSequence extends Sequence {
         };
         sequenceResistances.put(7, resistances);
 
-        initEffects();
-    }
-
-    //Passive effects
-    public void initEffects() {
         PotionEffect[] effects7 = {
                 new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60, 0, false, false, false),
                 new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60, 0, false, false, false),
