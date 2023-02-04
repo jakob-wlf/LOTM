@@ -111,5 +111,9 @@ public abstract class Pathway {
             }
         }
     }
+
+    public void initItems() {
+
+    }
 }
 

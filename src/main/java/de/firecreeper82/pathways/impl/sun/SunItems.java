@@ -27,6 +27,7 @@ public class SunItems extends Items {
         sequenceItems.put(8, 5);
         sequenceItems.put(9, 4);
         sequenceItems.put(10, 4);
+        sequenceItems.put(11, 4);
         createItems();
     }
 
@@ -97,5 +98,11 @@ public class SunItems extends Items {
         ability = new FlaringSun(13, pathway);
         pathway.getSequence().getAbilities().add(ability);
         items.add(ability.getItem());
+
+        //Unshadowed - Unshadowed Domain
+        ability = new UnshadowedDomain(14, pathway);
+        pathway.getSequence().getAbilities().add(ability);
+        items.add(ability.getItem());
+
     }
 }

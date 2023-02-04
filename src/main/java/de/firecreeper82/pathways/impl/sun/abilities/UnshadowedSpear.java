@@ -18,6 +18,9 @@ import org.bukkit.util.Vector;
 import java.util.ArrayList;
 
 public class UnshadowedSpear extends Ability {
+    public Block lastLightBlock;
+    public Material lastMaterial;
+
     public UnshadowedSpear(int identifier, Pathway pathway) {
         super(identifier, pathway);
     }
@@ -47,6 +50,10 @@ public class UnshadowedSpear extends Ability {
         Location spearLocation = p.getEyeLocation().subtract(Math.cos(angle), 0, Math.sin(angle));
         Vector dir = loc.toVector().subtract(spearLocation.toVector()).normalize();
         Vector direction = dir.clone();
+
+        lastLightBlock = spearLocation.getBlock();
+        lastMaterial = lastLightBlock.getType();
+
         buildSpear(spearLocation.clone(), dir);
 
         new BukkitRunnable() {
@@ -192,6 +199,10 @@ public class UnshadowedSpear extends Ability {
         for(int i = 0; i < 6; i++) {
             loc.subtract(direc);
         }
+
+        lastLightBlock.setType(lastMaterial);
+        lastLightBlock = loc.getBlock();
+        loc.getBlock().setType(Material.LIGHT);
 
         int circlePoints = 10;
         double radius = 0.2;

@@ -45,16 +45,12 @@ public class Beyonder implements Listener {
     }
 
     public void start() {
-        //set up spirituality and scoreboard after 4 ticks delay (So the other things have time to initialize)
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                updateSpirituality();
-                board = new FastBoard(getPlayer());
-                board.updateTitle(pathway.getStringColor() + getPlayer().getName());
-                board.updateLines("", "§5Pathway", "- " + pathway.getStringColor() + pathway.getName(), "", "§5Sequence", "- " + pathway.getStringColor() + pathway.getSequence().getCurrentSequence(), "", "§5Spirituality", "- " + pathway.getStringColor() + Math.round(spirituality) + "/" + Math.round(maxSpirituality));
-            }
-        }.runTaskLater(Plugin.instance, 4);
+        updateSpirituality();
+        board = new FastBoard(getPlayer());
+        board.updateTitle(pathway.getStringColor() + getPlayer().getName());
+        board.updateLines("", "§5Pathway", "- " + pathway.getStringColor() + pathway.getName(), "", "§5Sequence", "- " + pathway.getStringColor() + pathway.getSequence().getCurrentSequence(), "", "§5Spirituality", "- " + pathway.getStringColor() + Math.round(spirituality) + "/" + Math.round(maxSpirituality));
+
+        pathway.initItems();
 
 
         //constant loop

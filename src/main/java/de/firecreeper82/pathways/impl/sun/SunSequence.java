@@ -30,20 +30,13 @@ public class SunSequence extends Sequence {
     }
 
     public void init() {
-        usesAbilities = new boolean[13];
+        usesAbilities = new boolean[14];
         Arrays.fill(usesAbilities, false);
 
         abilities = new ArrayList<>();
 
         sequenceEffects = new HashMap<>();
         initEffects();
-
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                Plugin.beyonders.get(pathway.uuid).updateSpirituality();
-            }
-        }.runTaskLater(Plugin.instance, 2);
     }
 
     //Passive effects

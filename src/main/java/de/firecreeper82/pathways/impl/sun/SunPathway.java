@@ -28,11 +28,10 @@ public class SunPathway extends Pathway {
         nameNormalized = "sun";
         pathwayColor = Color.orange;
         stringColor = "§6";
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                items = new SunItems(getPathway());
-            }
-        }.runTaskLater(Plugin.instance, 2);
+    }
+
+    @Override
+    public void initItems() {
+        items = new SunItems(getPathway());
     }
 }

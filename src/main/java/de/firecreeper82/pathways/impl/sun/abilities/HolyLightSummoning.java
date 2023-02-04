@@ -172,14 +172,14 @@ public class HolyLightSummoning extends Ability {
     public ItemStack getItem() {
         ItemStack currentItem = new ItemStack(Material.BLAZE_ROD);
         ItemMeta itemMeta = currentItem.getItemMeta();
-        itemMeta.setDisplayName("§6Illuminate");
+        itemMeta.setDisplayName("§6Holy Light Summoning");
         itemMeta.addEnchant(Enchantment.CHANNELING, 5, true);
         itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         itemMeta.addItemFlags(ItemFlag.values());
         ArrayList<String> lore = new ArrayList<>();
         lore.clear();
         lore.add("§5Click to use");
-        lore.add("§5Spirituality: §30");
+        lore.add("§5Spirituality: §730");
         lore.add("§8§l-----------------");
         lore.add("§6Sun - Pathway (7)");
         lore.add("§8" + Bukkit.getPlayer(pathway.getUuid()).getName());

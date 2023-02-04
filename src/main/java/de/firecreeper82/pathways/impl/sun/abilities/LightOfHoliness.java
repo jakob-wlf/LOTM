@@ -119,7 +119,7 @@ public class LightOfHoliness extends Ability {
 
                     //Replace the ground with burned stuff
                     int burnRadius = 8;
-                    for(int i = 2; i > -4; i--)
+                    for(int i = 2; i > -4; i--) {
                         for (int x = -burnRadius; x <= burnRadius; x++) {
                             for (int z = -burnRadius; z <= burnRadius; z++) {
                                 if( (x*x) + (z*z) <= Math.pow(burnRadius, 2)) {
@@ -138,6 +138,7 @@ public class LightOfHoliness extends Ability {
                                     }
                                     if(block.getType() == Material.SAND || block.getType() == Material.RED_SAND)
                                         block.setType(Material.GLASS);
+                                    }
                                 }
                             }
                         }
