@@ -13,13 +13,10 @@ import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BlockIterator;
 
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class FireOfLight extends Ability {
     public FireOfLight(int identifier, Pathway pathway) {
@@ -65,11 +62,11 @@ public class FireOfLight extends Ability {
         final Material[] lightBlock = {loc.getBlock().getType()};
         loc.getBlock().setType(Material.LIGHT);
 
-        AtomicInteger counter = new AtomicInteger();
         new BukkitRunnable() {
+            int counter = 0;
             @Override
             public void run() {
-                counter.getAndIncrement();
+                counter++;
 
                 loc.getWorld().spawnParticle(Particle.FLAME, loc, 50, 0.75, 0.75, 0.75, 0);
                 loc.getWorld().spawnParticle(Particle.END_ROD, loc, 8, 0.75, 0.75, 0.75, 0);
@@ -83,13 +80,13 @@ public class FireOfLight extends Ability {
                             ((Damageable) entity).damage(10, p);
                             livingEntity.setFireTicks(10 * 20);
                         }
-                        if(livingEntity.getUniqueId() != pathway.getUuid())
+                        if(entity != p)
                             livingEntity.setFireTicks(10 * 20);
 
                     }
                 }
 
-                if(counter.get() >= 5 * 20) {
+                if(counter >= 5 * 20) {
                     loc.getBlock().setType(Material.AIR);
                     cancel();
                     pathway.getSequence().getUsesAbilities()[identifier - 1] = false;

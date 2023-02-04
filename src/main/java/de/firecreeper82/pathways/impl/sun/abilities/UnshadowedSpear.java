@@ -86,9 +86,9 @@ public class UnshadowedSpear extends Ability {
 
                                 entity.setVelocity(entity.getVelocity().add(spearLocation.getDirection().normalize().multiply(1.5)));
                                 if(((LivingEntity) entity).getCategory() == EntityCategory.UNDEAD)
-                                    ((Damageable) entity).damage(100, p);
+                                    ((Damageable) entity).damage(60, p);
                                 else
-                                    ((Damageable) entity).damage(50, p);
+                                    ((Damageable) entity).damage(30, p);
 
                                 Location sphereLoc = ((LivingEntity) entity).getEyeLocation().clone();
 

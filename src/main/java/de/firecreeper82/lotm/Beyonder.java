@@ -8,6 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
@@ -92,8 +93,30 @@ public class Beyonder implements Listener {
                         }
                     }
                 }
+
+                if(pathway.getSequence().getSequenceResistances().containsKey(pathway.getSequence().getCurrentSequence())) {
+                    for(PotionEffectType effect : pathway.getSequence().getSequenceResistances().get(pathway.getSequence().getCurrentSequence())) {
+                        for(PotionEffect potion : p.getActivePotionEffects()) {
+                            if(potion.getType() == effect) {
+                                p.removePotionEffect(effect);
+                            }
+                        }
+                    }
+                }
+                else {
+                    for(int i = pathway.getSequence().currentSequence; i < 9; i++) {
+                        if(pathway.getSequence().getSequenceResistances().containsKey(i)) {
+                            for(PotionEffectType effect : pathway.getSequence().getSequenceResistances().get(i)) {
+                                if(p.getPotionEffect(effect) != null) {
+                                    p.removePotionEffect(effect);
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
             }
-        }.runTaskTimer(Plugin.instance, 5, 5);
+        }.runTaskTimer(Plugin.instance, 0, 5);
     }
 
     public void updateSpirituality() {

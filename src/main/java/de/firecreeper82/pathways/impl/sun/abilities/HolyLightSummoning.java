@@ -11,8 +11,6 @@ import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BlockIterator;
 
@@ -42,12 +40,12 @@ public class HolyLightSummoning extends Ability {
         loc.add(0, 14, 0);
 
         //Runnable
-        AtomicInteger counter = new AtomicInteger();
         final Material[] lastMaterial = {loc.getBlock().getType()};
         new BukkitRunnable() {
+            int counter = 0;
             @Override
             public void run() {
-                counter.getAndIncrement();
+                counter++;
 
                 //Particles
                 loc.getWorld().spawnParticle(Particle.END_ROD, loc.getX() + 3.2, loc.getY(), loc.getZ(), 6, 0.1, 0, 0.1, 0);
@@ -86,9 +84,9 @@ public class HolyLightSummoning extends Ability {
                 lastMaterial[0] = loc.getBlock().getType();
                 loc.getBlock().setType(Material.LIGHT);
 
-                if((lastMaterial[0].isSolid() && counter.get() >= 12) || counter.get() >= 200) {
+                if((lastMaterial[0].isSolid() && counter >= 12) || counter >= 200) {
                     loc.getBlock().setType(lastMaterial[0]);
-                    counter.set(0);
+                    counter = 0;
                     cancel();
 
                     //Light that stays at the ground for a bit

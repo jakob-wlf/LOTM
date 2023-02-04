@@ -51,10 +51,10 @@ public class CleaveOfPurification extends Ability {
                 if(entity instanceof LivingEntity) {
                     LivingEntity livingEntity = (LivingEntity) entity;
                     if (livingEntity.getCategory() == EntityCategory.UNDEAD) {
-                        ((Damageable) entity).damage(30, p);
+                        ((Damageable) entity).damage(28, p);
                     } else {
                         if (entity != p)
-                            ((Damageable) entity).damage(15, p);
+                            ((Damageable) entity).damage(12, p);
                     }
                     entLoc.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, entLoc, 200, 0.2, 0.2, 0.2, 0.15);
                 }

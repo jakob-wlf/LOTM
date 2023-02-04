@@ -1,6 +1,5 @@
 package de.firecreeper82.pathways.impl.sun;
 
-import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.Sequence;
@@ -10,7 +9,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,6 +34,15 @@ public class SunSequence extends Sequence {
         abilities = new ArrayList<>();
 
         sequenceEffects = new HashMap<>();
+        sequenceResistances = new HashMap<>();
+
+        PotionEffectType[] resistances = {
+                PotionEffectType.POISON,
+                PotionEffectType.BLINDNESS,
+                PotionEffectType.DARKNESS
+        };
+        sequenceResistances.put(7, resistances);
+
         initEffects();
     }
 
@@ -44,16 +51,17 @@ public class SunSequence extends Sequence {
         PotionEffect[] effects7 = {
                 new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60, 0, false, false, false),
                 new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60, 0, false, false, false),
-                new PotionEffect(PotionEffectType.SPEED, 60, 0, false, false, true),
+                new PotionEffect(PotionEffectType.SPEED, 60, 1, false, false, true),
         };
         sequenceEffects.put(7, effects7);
 
         PotionEffect[] effects6 = {
                 new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60, 1, false, false, false),
-                new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60, 2, false, false, false),
+                new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60, 1, false, false, false),
                 new PotionEffect(PotionEffectType.SPEED, 60, 1, false, false, true),
         };
         sequenceEffects.put(6, effects6);
+
     }
 
     @Override

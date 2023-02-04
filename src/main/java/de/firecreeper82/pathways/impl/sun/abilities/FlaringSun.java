@@ -105,11 +105,11 @@ public class FlaringSun extends Ability {
                     if(entity instanceof LivingEntity) {
                         LivingEntity livingEntity = (LivingEntity) entity;
                         if (livingEntity.getCategory() == EntityCategory.UNDEAD) {
-                            ((Damageable) entity).damage(60, p);
+                            ((Damageable) entity).damage(35, p);
                             livingEntity.setFireTicks(50 * 20);
                         } else if(entity != p) {
                             livingEntity.setFireTicks(50 * 20);
-                            ((Damageable) entity).damage(20, p);
+                            ((Damageable) entity).damage(18, p);
                         }
                     }
                 }

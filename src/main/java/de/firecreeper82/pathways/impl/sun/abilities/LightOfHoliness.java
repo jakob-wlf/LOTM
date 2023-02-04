@@ -150,11 +150,11 @@ public class LightOfHoliness extends Ability {
                         if(entity instanceof LivingEntity) {
                             LivingEntity livingEntity = (LivingEntity) entity;
                             if (livingEntity.getCategory() == EntityCategory.UNDEAD) {
-                                ((Damageable) entity).damage(50, p);
+                                ((Damageable) entity).damage(45, p);
                                 entity.setFireTicks(100);
                             } else {
                                 if(livingEntity.getUniqueId() != pathway.getUuid()) {
-                                    ((Damageable) entity).damage(30, p);
+                                    ((Damageable) entity).damage(27, p);
                                     entity.setFireTicks(100);
                                 }
                             }

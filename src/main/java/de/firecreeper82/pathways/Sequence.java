@@ -4,6 +4,7 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,6 +18,7 @@ public abstract class Sequence {
     public ArrayList<Ability> abilities;
 
     public HashMap<Integer, PotionEffect[]> sequenceEffects;
+    public HashMap<Integer, PotionEffectType[]> sequenceResistances;
 
     public Sequence(Pathway pathway) {
         this.pathway = pathway;
@@ -88,5 +90,13 @@ public abstract class Sequence {
 
     public void setUsesAbilities(boolean[] usesAbilities) {
         this.usesAbilities = usesAbilities;
+    }
+
+    public HashMap<Integer, PotionEffectType[]> getSequenceResistances() {
+        return sequenceResistances;
+    }
+
+    public void setSequenceResistances(HashMap<Integer, PotionEffectType[]> sequenceResistances) {
+        this.sequenceResistances = sequenceResistances;
     }
 }
