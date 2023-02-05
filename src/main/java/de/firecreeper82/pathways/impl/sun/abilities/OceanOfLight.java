@@ -16,26 +16,25 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.BlockIterator;
 
 import java.util.ArrayList;
-import java.util.Random;
 
-public class UnshadowedDomain extends Ability {
-    public UnshadowedDomain(int identifier, Pathway pathway) {
+public class OceanOfLight extends Ability {
+    public OceanOfLight(int identifier, Pathway pathway) {
         super(identifier, pathway);
     }
 
     @Override
     public void useAbility() {
+        double multiplier = getMultiplier();
         p = pathway.getBeyonder().getPlayer();
         pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
         Location loc = p.getLocation();
         ArrayList<Block> blocks = new ArrayList<>();
 
-        int radius = 32;
-        for(int i = 10; i > -10; i--) {
+        int radius = 65;
+        for(int i = 12; i > -12; i--) {
             for (int x = -radius; x <= radius; x++) {
                 for (int z = -radius; z <= radius; z++) {
                     if( (x*x) + (z*z) <= Math.pow(radius, 2)) {
@@ -55,13 +54,16 @@ public class UnshadowedDomain extends Ability {
             public void run() {
                 counter++;
 
-                Particle.DustOptions dustSphere = new Particle.DustOptions(Color.fromBGR(0, 215, 255), 1f);
-                loc.getWorld().spawnParticle(Particle.REDSTONE, loc, 100, 40, 40, 40, 0, dustSphere);
-                loc.getWorld().spawnParticle(Particle.END_ROD, loc, 100, 40, 40, 40, 0);
+                Particle.DustOptions dustSphere = new Particle.DustOptions(Color.fromBGR(0, 215, 255), 3.5f);
+                loc.getWorld().spawnParticle(Particle.REDSTONE, loc, 3000, 50, 50, 50, 0, dustSphere);
+                loc.getWorld().spawnParticle(Particle.END_ROD, loc, 1500, 50, 50, 50, 0.01);
 
-                for(Entity entity : loc.getWorld().getNearbyEntities(loc, 30, 30, 30)) {
+                for(Entity entity : loc.getWorld().getNearbyEntities(loc, 55, 55, 55)) {
                     if(entity instanceof LivingEntity) {
                         ((LivingEntity) entity).addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 5, 1));
+                        if(((LivingEntity) entity).getCategory() == EntityCategory.UNDEAD) {
+                            ((Damageable) entity).damage(30 * multiplier, p);
+                        }
                     }
                 }
 
@@ -79,16 +81,16 @@ public class UnshadowedDomain extends Ability {
 
     @Override
     public ItemStack getItem() {
-        ItemStack currentItem = new ItemStack(Material.SHROOMLIGHT);
+        ItemStack currentItem = new ItemStack(Material.GOLD_BLOCK);
         ItemMeta itemMeta = currentItem.getItemMeta();
-        itemMeta.setDisplayName("§6Unshadowed Domain");
-        itemMeta.addEnchant(Enchantment.CHANNELING, 14, true);
+        itemMeta.setDisplayName("§6Ocean of Light");
+        itemMeta.addEnchant(Enchantment.CHANNELING, 17, true);
         itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         itemMeta.addItemFlags(ItemFlag.values());
         ArrayList<String> lore = new ArrayList<>();
         lore.clear();
         lore.add("§5Click to use");
-        lore.add("§5Spirituality: §7250");
+        lore.add("§5Spirituality: §7800");
         lore.add("§8§l-----------------");
         lore.add("§6Sun - Pathway (4)");
         lore.add("§8" + Bukkit.getPlayer(pathway.getUuid()).getName());

@@ -23,6 +23,7 @@ import java.util.ArrayList;
 public class ArmorOfLight extends Ability implements Listener {
     public ArmorOfLight(int identifier, Pathway pathway) {
         super(identifier, pathway);
+        Plugin.instance.getServer().getPluginManager().registerEvents(this, Plugin.instance);
     }
 
     @Override

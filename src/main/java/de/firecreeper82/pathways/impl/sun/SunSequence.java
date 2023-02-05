@@ -28,7 +28,7 @@ public class SunSequence extends Sequence {
     }
 
     public void init() {
-        usesAbilities = new boolean[16];
+        usesAbilities = new boolean[17];
         Arrays.fill(usesAbilities, false);
 
         abilities = new ArrayList<>();

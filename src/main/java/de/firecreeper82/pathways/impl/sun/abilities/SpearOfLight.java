@@ -14,6 +14,8 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
@@ -94,6 +96,7 @@ public class SpearOfLight extends Ability {
                                     ((Damageable) entity).damage(85 * multiplier, p);
                                 else
                                     ((Damageable) entity).damage(45 * multiplier, p);
+                                ((LivingEntity) entity).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * 5, 15));
 
                                 Location sphereLoc = ((LivingEntity) entity).getEyeLocation().clone();
 
@@ -210,7 +213,7 @@ public class SpearOfLight extends Ability {
                             }
                         }
                     }.runTaskTimer(Plugin.instance, 0, 0);
-                    spearLocation.getWorld().spawnParticle(Particle.FLAME, spearLocation, 1000, 0.4, 0.4, 0.4, 5);
+                    spearLocation.getWorld().spawnParticle(Particle.FLAME, spearLocation, 1000, 0.4, 0.4, 0.4, .15);
                     pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                     cancel();
                 }
@@ -233,6 +236,7 @@ public class SpearOfLight extends Ability {
 
         lastLightBlock.setType(lastMaterial);
         lastLightBlock = loc.getBlock();
+        lastMaterial = lastLightBlock.getType();
         loc.getBlock().setType(Material.LIGHT);
 
         int circlePoints = 10;
