@@ -29,6 +29,7 @@ public class SunItems extends Items {
         sequenceItems.put(10, 4);
         sequenceItems.put(11, 4);
         sequenceItems.put(12, 4);
+        sequenceItems.put(13, 2);
         createItems();
     }
 
@@ -107,6 +108,11 @@ public class SunItems extends Items {
 
         //Unshadowed - Armor of Light
         ability = new ArmorOfLight(15, pathway);
+        pathway.getSequence().getAbilities().add(ability);
+        items.add(ability.getItem());
+
+        //Light Seeker
+        ability = new SpearOfLight(16, pathway);
         pathway.getSequence().getAbilities().add(ability);
         items.add(ability.getItem());
 
