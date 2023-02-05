@@ -92,7 +92,7 @@ public class OceanOfLight extends Ability {
         lore.add("§5Click to use");
         lore.add("§5Spirituality: §7800");
         lore.add("§8§l-----------------");
-        lore.add("§6Sun - Pathway (4)");
+        lore.add("§6Sun - Pathway (2)");
         lore.add("§8" + Bukkit.getPlayer(pathway.getUuid()).getName());
         itemMeta.setLore(lore);
         currentItem.setItemMeta(itemMeta);

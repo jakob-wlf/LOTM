@@ -31,6 +31,7 @@ public class SunItems extends Items {
         sequenceItems.put(12, 4);
         sequenceItems.put(13, 2);
         sequenceItems.put(14, 2);
+        sequenceItems.put(15, 1);
         createItems();
     }
 
@@ -119,6 +120,11 @@ public class SunItems extends Items {
 
         //Light Seeker - Ocean of Light
         ability = new OceanOfLight(17, pathway);
+        pathway.getSequence().getAbilities().add(ability);
+        items.add(ability.getItem());
+
+        //White Angel - Day and Night
+        ability = new DayAndNight(18, pathway);
         pathway.getSequence().getAbilities().add(ability);
         items.add(ability.getItem());
 

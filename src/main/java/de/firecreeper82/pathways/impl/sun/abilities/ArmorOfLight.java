@@ -193,6 +193,6 @@ public class ArmorOfLight extends Ability implements Listener {
     @EventHandler
     public void onDrop(PlayerDropItemEvent e) {
         if(e.getItemDrop().getItemStack() == createHelmet() || e.getItemDrop().getItemStack() == createChestPlate() || e.getItemDrop().getItemStack() == createLeggings() || e.getItemDrop().getItemStack() == createBoots() || e.getItemDrop().getItemStack() == createSword())
-            e.getItemDrop().remove();
+            e.setCancelled(true);
     }
 }

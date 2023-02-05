@@ -155,7 +155,7 @@ public class LightOfHoliness extends Ability {
                                 ((Damageable) entity).damage(32 * multiplier, p);
                                 entity.setFireTicks(100);
                             } else {
-                                if(livingEntity.getUniqueId() != pathway.getUuid()) {
+                                if(entity != p)  {
                                     ((Damageable) entity).damage(18 * multiplier, p);
                                     entity.setFireTicks(100);
                                 }

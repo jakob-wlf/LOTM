@@ -28,7 +28,7 @@ public class SunSequence extends Sequence {
     }
 
     public void init() {
-        usesAbilities = new boolean[17];
+        usesAbilities = new boolean[18];
         Arrays.fill(usesAbilities, false);
 
         abilities = new ArrayList<>();
@@ -69,6 +69,14 @@ public class SunSequence extends Sequence {
         };
         sequenceEffects.put(6, effects6);
 
+        PotionEffect[] effects2 = {
+                new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60, 2, false, false, false),
+                new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60, 3, false, false, false),
+                new PotionEffect(PotionEffectType.SPEED, 60, 2, false, false, true),
+                new PotionEffect(PotionEffectType.SATURATION, 60, 10, false, false, true),
+        };
+        sequenceEffects.put(2, effects2);
+
     }
 
     @Override
@@ -95,7 +103,7 @@ public class SunSequence extends Sequence {
             return;
 
         if(usesAbilities[ability - 1]) {
-            if(ability == 6 || ability == 15)
+            if(ability == 6 || ability == 15 || ability == 18)
                 usesAbilities[ability - 1] = false;
             return;
         }
