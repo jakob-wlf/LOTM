@@ -8,7 +8,6 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -17,7 +16,6 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class HolySong extends Ability {
 
@@ -31,17 +29,17 @@ public class HolySong extends Ability {
         pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
         p.getWorld().playSound(p, Sound.MUSIC_DISC_MELLOHI, 10f, 1f);
-        AtomicInteger counter = new AtomicInteger();
         new BukkitRunnable() {
+            int counter = 0;
             @Override
             public void run() {
                 p.getWorld().spawnParticle(Particle.NOTE, p.getLocation(), 50, 5, 5, 5);
-                counter.getAndIncrement();
+                counter++;
                 p.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 40, 0, false, false, false));
                 p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 40, 1, false, false, false));
                 p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 40, 0, false, false, false));
-                if(counter.get() >= 95) {
-                    counter.set(0);
+                if(counter >= 95) {
+                    counter = 0;
                     cancel();
                     pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                 }

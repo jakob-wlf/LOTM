@@ -1,6 +1,5 @@
 package de.firecreeper82.pathways.impl.sun.abilities;
 
-import com.google.common.util.concurrent.AtomicDouble;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Pathway;
@@ -11,14 +10,11 @@ import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BlockIterator;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class LightOfHoliness extends Ability {
     public LightOfHoliness(int identifier, Pathway pathway) {
@@ -46,12 +42,12 @@ public class LightOfHoliness extends Ability {
         loc.add(0, 19, 0);
 
         //Runnable
-        AtomicInteger counter = new AtomicInteger();
         final Material[] lastMaterial = {loc.getBlock().getType()};
         new BukkitRunnable() {
+            int counter = 0;
             @Override
             public void run() {
-                counter.getAndIncrement();
+                counter++;
 
                 //Particles
                 Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(0, 215, 255), 1f);
@@ -82,9 +78,9 @@ public class LightOfHoliness extends Ability {
                 loc.getBlock().setType(Material.LIGHT);
 
                 //Reached ground
-                if((lastMaterial[0].isSolid() && counter.get() >= 17) || counter.get() >= 200) {
+                if((lastMaterial[0].isSolid() && counter >= 17) || counter >= 200) {
                     loc.getBlock().setType(lastMaterial[0]);
-                    counter.set(0);
+                    counter = 0;
                     cancel();
 
                     //Light that stays at the ground for a bit
@@ -164,42 +160,40 @@ public class LightOfHoliness extends Ability {
                     }
 
                     //Particles on ground
-                    AtomicDouble radius = new AtomicDouble();
-                    AtomicDouble radiusFlame = new AtomicDouble();
-                    radius.set(1.8);
-                    radiusFlame.set(1.8);
                     loc.add(0, 1, 0);
                     Particle.DustOptions dustRipple = new Particle.DustOptions(Color.fromBGR(0, 215, 255), 1.5f);
 
                     new BukkitRunnable() {
+                        double radiusFlame = 1.8;
                         @Override
                         public void run() {
-                            radiusFlame.set(radiusFlame.get() + 0.75);
+                            radiusFlame = radiusFlame + 0.75;
                             for(int j = 0; j < 150; j++) {
-                                double x = radiusFlame.get() * Math.cos(j);
-                                double z = radiusFlame.get() * Math.sin(j);
+                                double x = radiusFlame * Math.cos(j);
+                                double z = radiusFlame * Math.sin(j);
                                 loc.getWorld().spawnParticle(Particle.FLAME, loc.getX() + x, loc.getY(), loc.getZ() + z, 5, 0, 0, 0, 0);
                             }
 
-                            if(radiusFlame.get() >= 11) {
+                            if(radiusFlame >= 11) {
                                 cancel();
                             }
                         }
                     }.runTaskTimer(Plugin.instance, 0, 1);
 
                     new BukkitRunnable() {
+                        double radius = 1.8;
                         @Override
                         public void run() {
-                            radius.set(radius.get() + 0.75);
+                            radius = radius + 0.75;
                             for(int i = 0; i < 150; i++) {
-                                double x = radius.get() * Math.cos(i);
-                                double z = radius.get() * Math.sin(i);
+                                double x = radius * Math.cos(i);
+                                double z = radius * Math.sin(i);
                                 loc.getWorld().spawnParticle(Particle.END_ROD, loc.getX() + x, loc.getY(), loc.getZ() + z, 1, 0, 0, 0, 0);
                                 loc.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, loc.getX() + x, loc.getY(), loc.getZ() + z, 2, 0.1, 0, 0.1, 0.15);
                                 loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX() + x + 0.2, loc.getY(), loc.getZ() + z + 0.2, 3, dustRipple);
                             }
 
-                            if(radius.get() >= 14) {
+                            if(radius >= 14) {
                                 cancel();
                                 pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                             }

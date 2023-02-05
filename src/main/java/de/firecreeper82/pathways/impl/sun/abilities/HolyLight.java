@@ -10,13 +10,10 @@ import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BlockIterator;
 
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class HolyLight extends Ability {
 
@@ -43,12 +40,12 @@ public class HolyLight extends Ability {
         Location loc = lastBlock.getLocation();
         loc.add(0, 14, 0);
 
-        AtomicInteger counter = new AtomicInteger();
         final Material[] lastMaterial = {loc.getBlock().getType()};
         new BukkitRunnable() {
+            int counter = 0;
             @Override
             public void run() {
-                counter.getAndIncrement();
+                counter++;
 
                 Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(0, 215, 255), 1f);
                 for(double i = 0; i < 3.2; i+=0.8) {
@@ -65,9 +62,9 @@ public class HolyLight extends Ability {
                 lastMaterial[0] = loc.getBlock().getType();
                 loc.getBlock().setType(Material.LIGHT);
 
-                if((lastMaterial[0].isSolid() && counter.get() >= 18.6) || counter.get() >= 200) {
+                if((lastMaterial[0].isSolid() && counter >= 18.6) || counter >= 200) {
                     loc.getBlock().setType(lastMaterial[0]);
-                    counter.set(0);
+                    counter = 0;
                     cancel();
                     pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
 
@@ -98,7 +95,6 @@ public class HolyLight extends Ability {
         itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         itemMeta.addItemFlags(ItemFlag.values());
         ArrayList<String> lore = new ArrayList<>();
-        lore.clear();
         lore.add("§5Click to use");
         lore.add("§5Spirituality: §715");
         lore.add("§8§l-----------------");

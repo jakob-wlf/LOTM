@@ -1,13 +1,11 @@
 package de.firecreeper82.pathways.impl.sun.abilities;
 
-import com.google.common.util.concurrent.AtomicDouble;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Pathway;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -68,11 +66,9 @@ public class HolyOath extends Ability {
         }.runTaskTimer(Plugin.instance, 0, 20);
 
         //Particle effects while active
-        AtomicDouble counter = new AtomicDouble();
-        counter.set(0);
-        AtomicDouble counterY = new AtomicDouble();
-        counterY.set(0);
         new BukkitRunnable() {
+            double counter = 0;
+            double counterY = 0;
             @Override
             public void run() {
                 if(!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
@@ -80,19 +76,19 @@ public class HolyOath extends Ability {
                     return;
                 }
 
-                counter.set(counter.get() + 0.25);
-                counterY.set(counterY.get() + 0.25);
+                counter = counter + 0.25;
+                counterY = counterY + 0.25;
 
                 double radiusActive = 0.75;
-                double x = radiusActive * Math.cos(counter.get());
-                double z = radiusActive * Math.sin(counter.get());
+                double x = radiusActive * Math.cos(counter);
+                double z = radiusActive * Math.sin(counter);
 
                 Location pLoc = p.getLocation();
 
-                pLoc.getWorld().spawnParticle(Particle.END_ROD, pLoc.getX() + x, pLoc.getY() + counterY.get(), pLoc.getZ() + z, 20, 0, 0, 0, 0);
+                pLoc.getWorld().spawnParticle(Particle.END_ROD, pLoc.getX() + x, pLoc.getY() + counterY, pLoc.getZ() + z, 20, 0, 0, 0, 0);
 
-                if(counterY.get() >= 2)
-                    counterY.set(0);
+                if(counterY >= 2)
+                    counterY = 0;
 
             }
         }.runTaskTimer(Plugin.instance, 0, 1);

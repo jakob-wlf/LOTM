@@ -1,6 +1,5 @@
 package de.firecreeper82.pathways.impl.sun.abilities;
 
-import com.google.common.util.concurrent.AtomicDouble;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Pathway;
@@ -15,7 +14,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BlockIterator;
 
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class HolyLightSummoning extends Ability {
     public HolyLightSummoning(int identifier, Pathway pathway) {
@@ -139,25 +137,24 @@ public class HolyLightSummoning extends Ability {
                     }
 
                     //Particles on ground
-                    AtomicDouble radius = new AtomicDouble();
-                    AtomicInteger factor = new AtomicInteger();
-                    radius.set(1.8);
                     loc.add(0, 1, 0);
                     Particle.DustOptions dustRipple = new Particle.DustOptions(Color.fromBGR(0, 215, 255), 1.5f);
                     new BukkitRunnable() {
+                        double radius = 1.8;
+                        int factor = 0;
                         @Override
                         public void run() {
-                            radius.set(radius.get() + 0.75);
+                            radius = radius + 0.75;
                             for(int i = 0; i < 100; i++) {
-                                factor.incrementAndGet();
-                                double x = radius.get() * Math.cos(factor.get());
-                                double z = radius.get() * Math.sin(factor.get());
+                                factor++;
+                                double x = radius * Math.cos(factor);
+                                double z = radius * Math.sin(factor);
                                 loc.getWorld().spawnParticle(Particle.END_ROD, loc.getX() + x, loc.getY(), loc.getZ() + z, 1, 0, 0, 0, 0);
                                 loc.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, loc.getX() + x, loc.getY(), loc.getZ() + z, 2, 0.1, 0, 0.1, 0.15);
                                 loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX() + x + 0.2, loc.getY(), loc.getZ() + z + 0.2, 3, dustRipple);
                             }
 
-                            if(radius.get() >= 9) {
+                            if(radius >= 9) {
                                 cancel();
                                 pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                             }
