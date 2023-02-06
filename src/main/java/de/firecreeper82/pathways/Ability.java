@@ -14,9 +14,7 @@ public abstract class Ability {
     }
 
 
-    public void useAbility() {
-
-    }
+    public abstract void useAbility();
 
     public ItemStack getItem() {
         return null;

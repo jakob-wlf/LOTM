@@ -26,12 +26,18 @@ public class BeyonderCmd implements CommandExecutor {
             return true;
         }
 
-        int sequence = 9;
+
+        int sequence;
         try {
             sequence = Integer.parseInt(args[1]);
         }
         catch(Exception exc) {
             s.sendMessage("§cWrong usage: Use /beyonder <Pathway> <Sequence>!");
+            return true;
+        }
+
+        if(sequence > 9 || sequence < 1) {
+            s.sendMessage("§cYou can only choose a sequence between 9 and 1!");
             return true;
         }
 

@@ -19,9 +19,7 @@ public abstract class Items {
         this.pathway = pathway;
     }
 
-    public ArrayList<ItemStack> returnItemsFromSequence(int sequence) {
-        return null;
-    }
+    public abstract ArrayList<ItemStack> returnItemsFromSequence(int sequence);
 
     public ArrayList<ItemStack> getItems() {
         return items;

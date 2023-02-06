@@ -3,7 +3,10 @@ package de.firecreeper82.lotm;
 import de.firecreeper82.cmds.ItemsCmd;
 import de.firecreeper82.cmds.BeyonderCmd;
 import de.firecreeper82.listeners.InteractListener;
+import de.firecreeper82.listeners.PotionHandler;
 import de.firecreeper82.pathways.Pathway;
+import de.firecreeper82.pathways.Potion;
+import de.firecreeper82.pathways.impl.sun.SunPotions;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -14,10 +17,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 public final class Plugin extends JavaPlugin {
 
@@ -28,6 +28,8 @@ public final class Plugin extends JavaPlugin {
 
     private File configSaveFile;
     private FileConfiguration configSave;
+
+    public ArrayList<Potion> potions;
 
     @Override
     public void onEnable() {
@@ -41,6 +43,7 @@ public final class Plugin extends JavaPlugin {
         createSaveConfig();
 
         register();
+        initPotions();
     }
 
     public void register() {
@@ -49,9 +52,15 @@ public final class Plugin extends JavaPlugin {
         PluginManager pl = this.getServer().getPluginManager();
         pl.registerEvents(new InteractListener(), this);
         pl.registerEvents(itemsCmd, this);
+        pl.registerEvents(new PotionHandler(), this);
 
         this.getCommand("beyonder").setExecutor(new BeyonderCmd());
         this.getCommand("items").setExecutor(itemsCmd);
+    }
+
+    public void initPotions() {
+        potions = new ArrayList<>();
+        potions.add(new SunPotions());
     }
 
     @Override
@@ -105,5 +114,9 @@ public final class Plugin extends JavaPlugin {
                 Bukkit.getConsoleSender().sendMessage("Failed to initialize " + s);
             }
         }
+    }
+
+    public ArrayList<Potion> getPotions() {
+        return potions;
     }
 }

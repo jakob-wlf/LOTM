@@ -30,29 +30,15 @@ public abstract class Sequence {
         this.currentSequence = optionalSequence;
     }
 
-    public ArrayList<ItemStack> returnItems() {
-        return null;
-    }
+    public abstract void useAbility(ItemStack item, PlayerInteractEvent e);
 
-    public void useAbility(ItemStack item, PlayerInteractEvent e) {
+    public abstract void destroyItem(ItemStack item, PlayerDropItemEvent e);
 
-    }
+    public abstract void useAbility(int ability, ItemStack item);
 
-    public void destroyItem(ItemStack item, PlayerDropItemEvent e) {
+    public abstract boolean checkValid(ItemStack item);
 
-    }
-
-    public void useAbility(int ability, ItemStack item) {
-
-    }
-
-    public boolean checkValid(ItemStack item) {
-        return true;
-    }
-
-    public void removeSpirituality(double remove) {
-
-    }
+    public abstract void removeSpirituality(double remove);
 
     public int getCurrentSequence() {
         return currentSequence;
