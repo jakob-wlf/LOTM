@@ -3,6 +3,7 @@ package de.firecreeper82.pathways.impl.sun.abilities;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Pathway;
+import de.firecreeper82.pathways.impl.sun.SunItems;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
@@ -63,21 +64,6 @@ public class LightOfPurification extends Ability {
 
     @Override
     public ItemStack getItem() {
-        ItemStack currentItem = new ItemStack(Material.GLOWSTONE);
-        ItemMeta itemMeta = currentItem.getItemMeta();
-        itemMeta.setDisplayName("§6Light of Purification");
-        itemMeta.addEnchant(Enchantment.CHANNELING, 11, true);
-        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        itemMeta.addItemFlags(ItemFlag.values());
-        ArrayList<String> lore = new ArrayList<>();
-        lore.clear();
-        lore.add("§5Click to use");
-        lore.add("§5Spirituality: §750");
-        lore.add("§8§l-----------------");
-        lore.add("§6Sun - Pathway (5)");
-        lore.add("§8" + Bukkit.getPlayer(pathway.getUuid()).getName());
-        itemMeta.setLore(lore);
-        currentItem.setItemMeta(itemMeta);
-        return currentItem;
+        return SunItems.createItem(Material.GLOWSTONE, "Light of Purification", "50", 11, 5, Bukkit.getPlayer(pathway.getUuid()).getName());
     }
 }

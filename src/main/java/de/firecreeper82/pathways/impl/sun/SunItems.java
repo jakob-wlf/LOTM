@@ -4,7 +4,12 @@ import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.sun.abilities.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -127,6 +132,24 @@ public class SunItems extends Items {
         ability = new DayAndNight(18, pathway);
         pathway.getSequence().getAbilities().add(ability);
         items.add(ability.getItem());
+    }
 
+    public static ItemStack createItem(Material item, String name, String spirituality, int id, int sequence, String player) {
+        ItemStack currentItem = new ItemStack(item);
+        ItemMeta itemMeta = currentItem.getItemMeta();
+        itemMeta.setDisplayName("§6" + name);
+        itemMeta.addEnchant(Enchantment.CHANNELING, id, true);
+        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        itemMeta.addItemFlags(ItemFlag.values());
+        ArrayList<String> lore = new ArrayList<>();
+        lore.clear();
+        lore.add("§5Click to use");
+        lore.add("§5Spirituality: §7" + spirituality);
+        lore.add("§8§l-----------------");
+        lore.add("§6Sun - Pathway (" + sequence + ")");
+        lore.add("§8" + player);
+        itemMeta.setLore(lore);
+        currentItem.setItemMeta(itemMeta);
+        return currentItem;
     }
 }
