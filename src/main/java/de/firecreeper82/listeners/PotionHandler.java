@@ -23,7 +23,7 @@ public class PotionHandler implements Listener {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
-        if(e.getClickedBlock() == null || e.getItem() == null)
+        if(e.getClickedBlock() == null || e.getItem() == null || e.getClickedBlock().getLocation().getWorld() == null)
             return;
         if(e.getClickedBlock().getType() != Material.WATER_CAULDRON || e.getClickedBlock().getLocation().clone().subtract(0, 1, 0).getBlock().getType() != Material.SOUL_FIRE || e.getMaterial().isAir()) {
             return;

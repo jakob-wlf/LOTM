@@ -17,7 +17,7 @@ import java.util.HashMap;
 
 public class ItemsCmd implements CommandExecutor, Listener {
 
-    private HashMap<Player, Inventory> openInventories;
+    private final HashMap<Player, Inventory> openInventories;
 
     public ItemsCmd() {
         openInventories = new HashMap<>();

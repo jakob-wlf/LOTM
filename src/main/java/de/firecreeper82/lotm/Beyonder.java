@@ -121,11 +121,11 @@ public class Beyonder implements Listener {
 
     public void updateSpirituality() {
         if(pathway.getSequence().currentSequence > 8)
-            spirituality = (int) Math.pow((double) (90 / pathway.getSequence().currentSequence), 2);
+            spirituality = (int) Math.pow((float) (90 / pathway.getSequence().currentSequence), 2);
         else if(pathway.getSequence().currentSequence > 4)
             spirituality = (int) Math.pow((double) (90 / pathway.getSequence().currentSequence) * 2, 2);
         else if(pathway.getSequence().currentSequence < 5)
-            spirituality = (int) Math.pow((double) (90 / pathway.getSequence().currentSequence), 3) ;
+            spirituality = (int) Math.pow((float) (90 / pathway.getSequence().currentSequence), 3) ;
         maxSpirituality = spirituality;
     }
 
@@ -143,10 +143,6 @@ public class Beyonder implements Listener {
 
     public UUID getUuid() {
         return uuid;
-    }
-
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
     }
 
     public double getSpirituality() {

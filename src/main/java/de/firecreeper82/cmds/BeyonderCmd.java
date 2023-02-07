@@ -3,7 +3,6 @@ package de.firecreeper82.cmds;
 import de.firecreeper82.lotm.Beyonder;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.pathways.Pathway;
-import de.firecreeper82.pathways.impl.sun.SunPathway;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -11,6 +10,7 @@ import org.bukkit.entity.Player;
 
 
 public class BeyonderCmd implements CommandExecutor {
+
     @Override
     public boolean onCommand(CommandSender s, Command cmd, String label, String[] args) {
         if(!s.isOp()) {

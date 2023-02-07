@@ -8,13 +8,11 @@ import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.Potion;
 import de.firecreeper82.pathways.impl.sun.SunPotions;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.*;
 import java.util.*;
@@ -54,8 +52,8 @@ public final class Plugin extends JavaPlugin {
         pl.registerEvents(itemsCmd, this);
         pl.registerEvents(new PotionHandler(), this);
 
-        this.getCommand("beyonder").setExecutor(new BeyonderCmd());
-        this.getCommand("items").setExecutor(itemsCmd);
+        Objects.requireNonNull(this.getCommand("beyonder")).setExecutor(new BeyonderCmd());
+        Objects.requireNonNull(this.getCommand("items")).setExecutor(itemsCmd);
     }
 
     public void initPotions() {
@@ -75,8 +73,10 @@ public final class Plugin extends JavaPlugin {
     public void createSaveConfig() {
         configSaveFile = new File(getDataFolder(), "save.yml");
         if(!configSaveFile.exists()) {
-            configSaveFile.getParentFile().mkdirs();
-            saveResource("save.yml", false);
+            if(configSaveFile.getParentFile().mkdirs())
+                saveResource("save.yml", false);
+            else
+                Bukkit.getConsoleSender().sendMessage("§cSomething went wrong while saving the save.yml file");
         }
 
         configSave = new YamlConfiguration();
@@ -89,6 +89,7 @@ public final class Plugin extends JavaPlugin {
         load();
     }
 
+    @SuppressWarnings("unused") //Maybe used later on
     public FileConfiguration getSaveConfig() {
         return configSave;
     }
@@ -103,10 +104,12 @@ public final class Plugin extends JavaPlugin {
     }
 
     public void load() {
-        for(String s : configSave.getConfigurationSection("beyonders").getKeys(false)) {
+        for(String s : Objects.requireNonNull(configSave.getConfigurationSection("beyonders")).getKeys(false)) {
             try {
-                Pathway pathway = Pathway.initializeNew((String) configSave.get("beyonders." + s + ".pathway"), UUID.fromString(s), (int) configSave.get("beyonders." + s + ".sequence"));
                 Player p = Bukkit.getPlayer(UUID.fromString(s));
+                Pathway pathway = Pathway.initializeNew((String) Objects.requireNonNull(configSave.get("beyonders." + s + ".pathway")), UUID.fromString(s), (int) configSave.get("beyonders." + s + ".sequence"));
+                assert p != null;
+                assert pathway != null;
                 Beyonder beyonder = new Beyonder(p.getUniqueId(), pathway);
                 Plugin.beyonders.put(p.getUniqueId(), beyonder);
                 Plugin.instance.getServer().getPluginManager().registerEvents(beyonder, Plugin.instance);
