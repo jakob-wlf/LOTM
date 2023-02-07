@@ -23,6 +23,8 @@ public class PotionHandler implements Listener {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
+        if(e.getClickedBlock() == null || e.getItem() == null)
+            return;
         if(e.getClickedBlock().getType() != Material.WATER_CAULDRON || e.getClickedBlock().getLocation().clone().subtract(0, 1, 0).getBlock().getType() != Material.SOUL_FIRE || e.getMaterial().isAir()) {
             return;
         }
@@ -41,12 +43,13 @@ public class PotionHandler implements Listener {
             currentRecipe.replace(p.getUniqueId(), items);
             if(items.length >= 2) {
                 for(Potion potion : Plugin.instance.getPotions()) {
-                    for(int i = 1; i < 9; i++) {
+                    for(int i = 1; i < 10; i++) {
                         if(potion.getSequencePotion(i) == null)
                             continue;
 
                         if(Arrays.equals(currentRecipe.get(p.getUniqueId()), potion.getSequencePotion(i))) {
-                            e.getClickedBlock().getLocation().getWorld().dropItem(e.getClickedBlock().getLocation().clone().add(0, 1, 0), new ItemStack(Material.POTION));
+                            e.getClickedBlock().getLocation().getWorld().dropItem(e.getClickedBlock().getLocation().clone().add(0, 1, 0), potion.returnPotionForSequence(i));
+                            e.getPlayer().getInventory().remove(e.getItem());
                             currentRecipe.remove(p.getUniqueId());
                             return;
                         }

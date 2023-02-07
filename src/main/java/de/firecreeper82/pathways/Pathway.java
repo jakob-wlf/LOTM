@@ -2,9 +2,11 @@ package de.firecreeper82.pathways;
 
 import de.firecreeper82.lotm.Beyonder;
 import de.firecreeper82.pathways.impl.sun.SunPathway;
+import de.firecreeper82.pathways.impl.sun.SunPotions;
 import org.bukkit.boss.BarColor;
 
 import java.awt.*;
+import java.util.HashMap;
 import java.util.UUID;
 
 public abstract class Pathway {
@@ -27,6 +29,10 @@ public abstract class Pathway {
     public Pathway(UUID uuid, int optionalSequence) {
         this.uuid = uuid;
         this.optionalSequence = optionalSequence;
+    }
+
+    public static HashMap<Integer, String> getNames() {
+        return null;
     }
 
     public void init() {
@@ -112,8 +118,15 @@ public abstract class Pathway {
         }
     }
 
-    public void initItems() {
+    public abstract void initItems();
 
+    public static HashMap<Integer, String> getNamesForPathway(String pathway) {
+        switch (pathway.toLowerCase()) {
+            case "sun" -> {
+                return SunPathway.getNames();
+            }
+            default -> {return null;}
+        }
     }
 }
 

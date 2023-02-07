@@ -137,5 +137,4 @@ public class SunSequence extends Sequence {
     public void removeSpirituality(double remove) {
         pathway.getBeyonder().setSpirituality(pathway.getBeyonder().getSpirituality() - remove);
     }
-
 }
