@@ -1,6 +1,5 @@
 package de.firecreeper82.cmds;
 
-import de.firecreeper82.lotm.Beyonder;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.pathways.Pathway;
 import org.bukkit.command.Command;
@@ -44,15 +43,12 @@ public class BeyonderCmd implements CommandExecutor {
         Player p = (Player) s;
 
         if(Plugin.beyonders.containsKey(p.getUniqueId())) {
-            Plugin.beyonders.remove(p.getUniqueId());
+            Plugin.beyonders.get(p.getUniqueId()).removeBeyonder();
             Pathway pathway = Pathway.initializeNew(args[0].toLowerCase(), p.getUniqueId(), sequence);
             if(pathway == null) {
-                p.sendMessage("§c" + args[0].toLowerCase() + " is not a valid Pathway");
-                 return true;
+                p.sendMessage("§c" + args[0].toLowerCase() + " is not a valid Pathway! Removing your status as a beyonder");
+                return true;
             }
-            Beyonder beyonder = new Beyonder(p.getUniqueId(), pathway);
-            Plugin.beyonders.put(p.getUniqueId(), beyonder);
-            Plugin.instance.getServer().getPluginManager().registerEvents(beyonder, Plugin.instance);
             p.sendMessage(pathway.getStringColor() + "Made you a Beyonder of the" + pathway.getName() + "pathway at Sequence " + sequence);
             return true;
         }
@@ -63,9 +59,6 @@ public class BeyonderCmd implements CommandExecutor {
             p.sendMessage("§c" + args[0].toLowerCase() + " is not a valid Pathway");
             return true;
         }
-        Beyonder beyonder = new Beyonder(p.getUniqueId(), pathway);
-        Plugin.beyonders.put(p.getUniqueId(), beyonder);
-        Plugin.instance.getServer().getPluginManager().registerEvents(beyonder, Plugin.instance);
         p.sendMessage(pathway.getStringColor() + "Made you a Beyonder of the" + pathway.getName() + "pathway at Sequence " + sequence);
         return true;
     }

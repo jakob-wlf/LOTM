@@ -21,6 +21,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ArmorOfLight extends Ability implements Listener {
     public ArmorOfLight(int identifier, Pathway pathway) {
@@ -52,7 +53,7 @@ public class ArmorOfLight extends Ability implements Listener {
             public void run() {
                 Location loc = p.getLocation().add(0, 0.5, 0);
                 Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(0, 215, 255), 2f);
-                loc.getWorld().spawnParticle(Particle.REDSTONE, loc, 2, 0.3, 0.7, 0.3, 0, dust);
+                Objects.requireNonNull(loc.getWorld()).spawnParticle(Particle.REDSTONE, loc, 2, 0.3, 0.7, 0.3, 0, dust);
                 loc.getWorld().spawnParticle(Particle.END_ROD, loc, 1, 0.3, 0.7, 0.3, 0);
 
                 if(counter >= 20) {
@@ -92,6 +93,7 @@ public class ArmorOfLight extends Ability implements Listener {
     public ItemStack createSword() {
         ItemStack item = new ItemStack(Material.GOLDEN_SWORD);
         ItemMeta itemMeta = item.getItemMeta();
+        assert itemMeta != null;
         itemMeta.setDisplayName("§6Sword of Light");
         itemMeta.addEnchant(Enchantment.DAMAGE_ALL, 20, true);
         itemMeta.addEnchant(Enchantment.FIRE_ASPECT, 5, true);
@@ -100,7 +102,6 @@ public class ArmorOfLight extends Ability implements Listener {
         itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         itemMeta.addItemFlags(ItemFlag.values());
         ArrayList<String> lore = new ArrayList<>();
-        lore.clear();
         lore.add("§5A flaming sword made out of");
         lore.add("§5blazing light");
         lore.add("§8" + Bukkit.getPlayer(pathway.getUuid()).getName());

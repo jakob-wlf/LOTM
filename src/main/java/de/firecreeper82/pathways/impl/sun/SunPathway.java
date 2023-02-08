@@ -50,4 +50,5 @@ public class SunPathway extends Pathway {
         names.put(1, "White Angel");
         return names;
     }
+
 }

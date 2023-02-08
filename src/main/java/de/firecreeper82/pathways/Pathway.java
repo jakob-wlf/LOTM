@@ -1,6 +1,7 @@
 package de.firecreeper82.pathways;
 
 import de.firecreeper82.lotm.Beyonder;
+import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.pathways.impl.sun.SunPathway;
 import de.firecreeper82.pathways.impl.sun.SunPotions;
 import org.bukkit.boss.BarColor;
@@ -108,9 +109,14 @@ public abstract class Pathway {
     }
 
     public static Pathway initializeNew(String pathway, UUID uuid, int sequence) {
+        Pathway pathwayObject;
         switch (pathway) {
             case "sun" -> {
-                return new SunPathway(uuid, sequence);
+                pathwayObject = new SunPathway(uuid, sequence);
+                Beyonder beyonder = new Beyonder(uuid, pathwayObject);
+                Plugin.beyonders.put(uuid, beyonder);
+                Plugin.instance.getServer().getPluginManager().registerEvents(beyonder, Plugin.instance);
+                return pathwayObject;
             }
             default -> {
                 return null;
@@ -128,5 +134,6 @@ public abstract class Pathway {
             default -> {return null;}
         }
     }
+
 }
 

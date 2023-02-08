@@ -23,12 +23,16 @@ public class Beyonder implements Listener {
 
     public FastBoard board;
 
+    public boolean beyonder;
+
     public Beyonder(UUID uuid, Pathway pathway) {
         this.pathway = pathway;
         this.uuid = uuid;
 
         pathway.setBeyonder(this);
         start();
+
+        beyonder = true;
     }
 
     @EventHandler
@@ -59,6 +63,11 @@ public class Beyonder implements Listener {
             int counter = 0;
             @Override
             public void run() {
+                if(!beyonder) {
+                    cancel();
+                    return;
+                }
+
                 if(getPlayer() == null) {
                     cancel();
                     return;
@@ -94,6 +103,7 @@ public class Beyonder implements Listener {
                     }
                 }
 
+                //passive resistances
                 if(pathway.getSequence().getSequenceResistances().containsKey(pathway.getSequence().getCurrentSequence())) {
                     for(PotionEffectType effect : pathway.getSequence().getSequenceResistances().get(pathway.getSequence().getCurrentSequence())) {
                         for(PotionEffect potion : p.getActivePotionEffects()) {
@@ -129,6 +139,31 @@ public class Beyonder implements Listener {
         maxSpirituality = spirituality;
     }
 
+    /**
+     * lostControl = 10: Death
+     * lostControl = 9: 99% Chance of Death
+     * lostControl = 8: 80% Chance of Death
+     * lostControl = 7: 65% Chance of Death
+     * lostControl = 6: 45% Chance of Death
+     * lostControl = 5: 20% Chance of Death
+     * lostControl = 4: 10% Chance of Death
+     * lostControl = 3: 1% Chance of Death
+     * lostControl = 2: Strong madness
+     * lostControl = 1: Not so strong madness
+     * lostControl = 0: Almost no signs of loosing control
+     */
+    public void looseControl(int lostControl) {
+        //temporary so intellij shuts up abt not used variable
+        getPlayer().setHealth(lostControl);
+        getPlayer().setHealth(0);
+    }
+
+    public void consumePotion(int sequence) {
+        if(sequence >= pathway.getSequence().getCurrentSequence())
+            return;
+        pathway.getSequence().setCurrentSequence(sequence);
+    }
+
     public Player getPlayer() {
         return Bukkit.getPlayer(uuid);
     }
@@ -151,5 +186,12 @@ public class Beyonder implements Listener {
 
     public void setSpirituality(double spirituality) {
         this.spirituality = spirituality;
+    }
+
+    public void removeBeyonder() {
+        Plugin.beyonders.remove(getUuid());
+        board.delete();
+        beyonder = false;
+        pathway = null;
     }
 }
