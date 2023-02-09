@@ -48,6 +48,6 @@ public class DayAndNight extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.CLOCK, "Day and Night", "1000/s", 18, 1, Bukkit.getPlayer(pathway.getUuid()).getName());
+        return SunItems.createItem(Material.CLOCK, "Day and Night", "1000/s", identifier, 1, Bukkit.getPlayer(pathway.getUuid()).getName());
     }
 }

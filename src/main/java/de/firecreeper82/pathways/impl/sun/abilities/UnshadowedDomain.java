@@ -80,6 +80,6 @@ public class UnshadowedDomain extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.SHROOMLIGHT, "Unshadowed Domain", "250", 14, 4, Bukkit.getPlayer(pathway.getUuid()).getName());
+        return SunItems.createItem(Material.SHROOMLIGHT, "Unshadowed Domain", "250", identifier, 4, Bukkit.getPlayer(pathway.getUuid()).getName());
     }
 }

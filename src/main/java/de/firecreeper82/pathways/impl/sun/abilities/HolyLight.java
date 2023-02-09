@@ -89,6 +89,6 @@ public class HolyLight extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.GLOWSTONE_DUST, "Holy Light", "15", 2, 8, Bukkit.getPlayer(pathway.getUuid()).getName());
+        return SunItems.createItem(Material.GLOWSTONE_DUST, "Holy Light", "15", identifier, 8, Bukkit.getPlayer(pathway.getUuid()).getName());
     }
 }

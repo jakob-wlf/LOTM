@@ -28,7 +28,7 @@ public class SunSequence extends Sequence {
     }
 
     public void init() {
-        usesAbilities = new boolean[18];
+        usesAbilities = new boolean[19];
         Arrays.fill(usesAbilities, false);
 
         abilities = new ArrayList<>();
@@ -103,7 +103,7 @@ public class SunSequence extends Sequence {
             return;
 
         if(usesAbilities[ability - 1]) {
-            if(ability == 6 || ability == 15 || ability == 18)
+            if(ability == 6 || ability == 15 || ability == 19)
                 usesAbilities[ability - 1] = false;
             return;
         }

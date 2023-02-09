@@ -67,6 +67,6 @@ public class CleaveOfPurification extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.HONEYCOMB, "Cleave of Purification", "20", 7, 7, Bukkit.getPlayer(pathway.getUuid()).getName());
+        return SunItems.createItem(Material.HONEYCOMB, "Cleave of Purification", "20", identifier, 7, Bukkit.getPlayer(pathway.getUuid()).getName());
     }
 }

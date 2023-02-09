@@ -295,6 +295,6 @@ public class SpearOfLight extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.SPECTRAL_ARROW, "Spear of Light", "1000", 16, 2, Bukkit.getPlayer(pathway.getUuid()).getName());
+        return SunItems.createItem(Material.SPECTRAL_ARROW, "Spear of Light", "1000", identifier, 2, Bukkit.getPlayer(pathway.getUuid()).getName());
     }
 }

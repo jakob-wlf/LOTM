@@ -4,7 +4,6 @@ import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.sun.abilities.*;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
@@ -36,7 +35,8 @@ public class SunItems extends Items {
         sequenceItems.put(12, 4);
         sequenceItems.put(13, 2);
         sequenceItems.put(14, 2);
-        sequenceItems.put(15, 1);
+        sequenceItems.put(15, 2);
+        sequenceItems.put(16, 1);
         createItems();
     }
 
@@ -118,18 +118,23 @@ public class SunItems extends Items {
         pathway.getSequence().getAbilities().add(ability);
         items.add(ability.getItem());
 
+        //Justice Mentor - Wings of Light
+        ability = new WingsOfLight(16, pathway);
+        pathway.getSequence().getAbilities().add(ability);
+        items.add(ability.getItem());
+
         //Light Seeker - Spear of Light
-        ability = new SpearOfLight(16, pathway);
+        ability = new SpearOfLight(17, pathway);
         pathway.getSequence().getAbilities().add(ability);
         items.add(ability.getItem());
 
         //Light Seeker - Ocean of Light
-        ability = new OceanOfLight(17, pathway);
+        ability = new OceanOfLight(18, pathway);
         pathway.getSequence().getAbilities().add(ability);
         items.add(ability.getItem());
 
         //White Angel - Day and Night
-        ability = new DayAndNight(18, pathway);
+        ability = new DayAndNight(19, pathway);
         pathway.getSequence().getAbilities().add(ability);
         items.add(ability.getItem());
     }

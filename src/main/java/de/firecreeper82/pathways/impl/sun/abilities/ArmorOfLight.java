@@ -87,7 +87,7 @@ public class ArmorOfLight extends Ability implements Listener {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.TOTEM_OF_UNDYING, "Armor of Light", "100/s", 15, 4, Bukkit.getPlayer(pathway.getUuid()).getName());
+        return SunItems.createItem(Material.TOTEM_OF_UNDYING, "Armor of Light", "100/s", identifier, 4, Bukkit.getPlayer(pathway.getUuid()).getName());
     }
 
     public ItemStack createSword() {

@@ -207,6 +207,6 @@ public class LightOfHoliness extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.RAW_GOLD, "Light of Holiness", "100", 10, 5, Bukkit.getPlayer(pathway.getUuid()).getName());
+        return SunItems.createItem(Material.RAW_GOLD, "Light of Holiness", "100", identifier, 5, Bukkit.getPlayer(pathway.getUuid()).getName());
     }
 }

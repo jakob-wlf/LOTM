@@ -64,6 +64,6 @@ public class LightOfPurification extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.GLOWSTONE, "Light of Purification", "50", 11, 5, Bukkit.getPlayer(pathway.getUuid()).getName());
+        return SunItems.createItem(Material.GLOWSTONE, "Light of Purification", "50", identifier, 5, Bukkit.getPlayer(pathway.getUuid()).getName());
     }
 }

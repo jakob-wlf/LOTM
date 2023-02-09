@@ -101,6 +101,6 @@ public class FireOfLight extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.BLAZE_POWDER, "Fire of Light", "20", 4, 7, Bukkit.getPlayer(pathway.getUuid()).getName());
+        return SunItems.createItem(Material.BLAZE_POWDER, "Fire of Light", "20", identifier, 7, Bukkit.getPlayer(pathway.getUuid()).getName());
     }
 }

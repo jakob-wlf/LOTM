@@ -127,6 +127,6 @@ public class FlaringSun extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.SUNFLOWER, "FLaring Sun", "200", 13, 4, Bukkit.getPlayer(pathway.getUuid()).getName());
+        return SunItems.createItem(Material.SUNFLOWER, "Flaring Sun", "200", identifier, 4, Bukkit.getPlayer(pathway.getUuid()).getName());
     }
 }

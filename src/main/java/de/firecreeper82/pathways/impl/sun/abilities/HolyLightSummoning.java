@@ -183,6 +183,6 @@ public class HolyLightSummoning extends Ability {
         lore.add("§8" + Bukkit.getPlayer(pathway.getUuid()).getName());
         itemMeta.setLore(lore);
         currentItem.setItemMeta(itemMeta);
-        return SunItems.createItem(Material.BLAZE_ROD, "Holy Light Summoning", "30", 5, 7, Bukkit.getPlayer(pathway.getUuid()).getName());
+        return SunItems.createItem(Material.BLAZE_ROD, "Holy Light Summoning", "30", identifier, 7, Bukkit.getPlayer(pathway.getUuid()).getName());
     }
 }
