@@ -154,14 +154,17 @@ public class Beyonder implements Listener {
      */
     public void looseControl(int lostControl) {
         //temporary so intellij shuts up abt not used variable
+        getPlayer().sendMessage("Loosing control");
         getPlayer().setHealth(lostControl);
         getPlayer().setHealth(0);
+        removeBeyonder();
     }
 
     public void consumePotion(int sequence) {
         if(sequence >= pathway.getSequence().getCurrentSequence())
             return;
         pathway.getSequence().setCurrentSequence(sequence);
+        updateSpirituality();
     }
 
     public Player getPlayer() {

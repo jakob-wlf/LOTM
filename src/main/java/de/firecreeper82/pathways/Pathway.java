@@ -3,9 +3,6 @@ package de.firecreeper82.pathways;
 import de.firecreeper82.lotm.Beyonder;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.pathways.impl.sun.SunPathway;
-import de.firecreeper82.pathways.impl.sun.SunPotions;
-import org.bukkit.boss.BarColor;
-
 import java.awt.*;
 import java.util.HashMap;
 import java.util.UUID;
@@ -32,9 +29,6 @@ public abstract class Pathway {
         this.optionalSequence = optionalSequence;
     }
 
-    public static HashMap<Integer, String> getNames() {
-        return null;
-    }
 
     public void init() {
 
@@ -42,10 +36,6 @@ public abstract class Pathway {
 
     public UUID getUuid() {
         return uuid;
-    }
-
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
     }
 
     public Sequence getSequence() {
@@ -80,20 +70,8 @@ public abstract class Pathway {
         this.items = items;
     }
 
-    public Color getPathwayColor() {
-        return pathwayColor;
-    }
-
-    public void setPathwayColor(Color pathwayColor) {
-        this.pathwayColor = pathwayColor;
-    }
-
     public String getStringColor() {
         return stringColor;
-    }
-
-    public void setStringColor(String stringColor) {
-        this.stringColor = stringColor;
     }
 
     public Pathway getPathway() {
@@ -104,10 +82,8 @@ public abstract class Pathway {
         return nameNormalized;
     }
 
-    public void setNameNormalized(String nameNormalized) {
-        this.nameNormalized = nameNormalized;
-    }
 
+    @SuppressWarnings("all") //Surpressing switch statement replace with if statement until there are more pathways
     public static Pathway initializeNew(String pathway, UUID uuid, int sequence) {
         Pathway pathwayObject;
         switch (pathway) {
@@ -126,6 +102,7 @@ public abstract class Pathway {
 
     public abstract void initItems();
 
+    @SuppressWarnings("all") //Surpressing switch statement replace with if statement until there are more pathways
     public static HashMap<Integer, String> getNamesForPathway(String pathway) {
         switch (pathway.toLowerCase()) {
             case "sun" -> {

@@ -30,6 +30,7 @@ public class PotionHandler implements Listener {
         }
         Player p = e.getPlayer();
         e.setCancelled(true);
+        //Player isn't creating a recipe right now
         if(!currentRecipe.containsKey(p.getUniqueId())) {
             ItemStack[] item = {e.getItem()};
             currentRecipe.put(p.getUniqueId(), item);
