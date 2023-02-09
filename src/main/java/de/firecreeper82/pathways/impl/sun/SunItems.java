@@ -33,7 +33,7 @@ public class SunItems extends Items {
         sequenceItems.put(10, 4);
         sequenceItems.put(11, 4);
         sequenceItems.put(12, 4);
-        sequenceItems.put(13, 2);
+        sequenceItems.put(13, 3);
         sequenceItems.put(14, 2);
         sequenceItems.put(15, 2);
         sequenceItems.put(16, 1);

@@ -103,7 +103,7 @@ public class SunSequence extends Sequence {
             return;
 
         if(usesAbilities[ability - 1]) {
-            if(ability == 6 || ability == 15 || ability == 19)
+            if(ability == 6 || ability == 15 || ability == 16 || ability == 19)
                 usesAbilities[ability - 1] = false;
             return;
         }
