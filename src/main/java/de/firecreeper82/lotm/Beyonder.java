@@ -11,6 +11,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.Random;
 import java.util.UUID;
 
 public class Beyonder implements Listener {
@@ -25,6 +26,8 @@ public class Beyonder implements Listener {
 
     public boolean beyonder;
 
+    public boolean loosingControl;
+
     public Beyonder(UUID uuid, Pathway pathway) {
         this.pathway = pathway;
         this.uuid = uuid;
@@ -33,6 +36,7 @@ public class Beyonder implements Listener {
         start();
 
         beyonder = true;
+        loosingControl = false;
     }
 
     @EventHandler
@@ -67,6 +71,9 @@ public class Beyonder implements Listener {
                     cancel();
                     return;
                 }
+
+                if(loosingControl)
+                    return;
 
                 if(getPlayer() == null) {
                     cancel();
@@ -139,25 +146,39 @@ public class Beyonder implements Listener {
         maxSpirituality = spirituality;
     }
 
-    /**
-     * lostControl = 10: Death
-     * lostControl = 9: 99% Chance of Death
-     * lostControl = 8: 80% Chance of Death
-     * lostControl = 7: 65% Chance of Death
-     * lostControl = 6: 45% Chance of Death
-     * lostControl = 5: 20% Chance of Death
-     * lostControl = 4: 10% Chance of Death
-     * lostControl = 3: 1% Chance of Death
-     * lostControl = 2: Strong madness
-     * lostControl = 1: Not so strong madness
-     * lostControl = 0: Almost no signs of loosing control
-     */
-    public void looseControl(int lostControl) {
-        //temporary so intellij shuts up abt not used variable
-        getPlayer().sendMessage("Loosing control");
-        getPlayer().setHealth(lostControl);
-        getPlayer().setHealth(0);
-        removeBeyonder();
+
+    //lostControl: chance of surviving
+    public void looseControl(int lostControl, int timeOfLoosingControl) {
+        Random random = new Random();
+        boolean survives = ((random.nextInt(100) + 1) <= lostControl);
+
+        loosingControl = true;
+
+        new BukkitRunnable() {
+            int counter = 0;
+            @Override
+            public void run() {
+                getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 60, 5, false, false));
+                getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 60, 5, false, false));
+                getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 60, 5, false, false));
+
+                if(random.nextInt(25) + 1 == 5 && getPlayer().getHealth() > 2)
+                    getPlayer().damage(2);
+
+                counter++;
+                if(counter == timeOfLoosingControl * 20) {
+                    if(!survives) {
+                        getPlayer().setHealth(0);
+                        loosingControl = false;
+                        removeBeyonder();
+                        cancel();
+                        return;
+                    }
+                    loosingControl = false;
+                    cancel();
+                }
+            }
+        }.runTaskTimer(Plugin.instance, 0, 1);
     }
 
     public void consumePotion(int sequence) {
@@ -192,7 +213,7 @@ public class Beyonder implements Listener {
     }
 
     public void removeBeyonder() {
-        Plugin.beyonders.remove(getUuid());
+        Plugin.instance.removeBeyonder(getUuid());
         board.delete();
         beyonder = false;
         pathway = null;

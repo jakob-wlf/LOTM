@@ -9,6 +9,7 @@ import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.Potion;
 import de.firecreeper82.pathways.impl.sun.SunPotions;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -85,10 +86,21 @@ public final class Plugin extends JavaPlugin {
         try {
             configSave.load(configSaveFile);
         }
-        catch (Exception exc) {
+        catch (InvalidConfigurationException | IOException exc) {
             Bukkit.getConsoleSender().sendMessage(exc.getLocalizedMessage());
         }
         load();
+    }
+
+    public void removeBeyonder(UUID uuid) {
+        beyonders.remove(uuid);
+        configSave.set("beyonders." + uuid, null);
+        try {
+            configSave.save(configSaveFile);
+        }
+        catch(IOException exc) {
+            Bukkit.getConsoleSender().sendMessage(exc.getLocalizedMessage());
+        }
     }
 
     @SuppressWarnings("unused") //Maybe used later on
@@ -108,8 +120,10 @@ public final class Plugin extends JavaPlugin {
     public void load() {
         for(String s : Objects.requireNonNull(configSave.getConfigurationSection("beyonders")).getKeys(false)) {
             try {
+                if(!configSave.contains("beyonders." + s + ".sequence") || !(configSave.get("beyonders." + s + ".sequence") instanceof Integer))
+                    return;
                 Player p = Bukkit.getPlayer(UUID.fromString(s));
-                Pathway pathway = Pathway.initializeNew((String) Objects.requireNonNull(configSave.get("beyonders." + s + ".pathway")), UUID.fromString(s), (int) configSave.get("beyonders." + s + ".sequence"));
+                Pathway pathway = Pathway.initializeNew((String) Objects.requireNonNull(configSave.get("beyonders." + s + ".pathway")), UUID.fromString(s), (Integer) configSave.get("beyonders." + s + ".sequence"));
                 assert p != null;
                 assert pathway != null;
                 Beyonder beyonder = new Beyonder(p.getUniqueId(), pathway);

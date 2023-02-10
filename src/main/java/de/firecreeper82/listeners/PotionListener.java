@@ -34,25 +34,24 @@ public class PotionListener implements Listener {
         //Not a beyonder already
         if(!Plugin.beyonders.containsKey(e.getPlayer().getUniqueId())) {
             Pathway pathway = Pathway.initializeNew(potion.name, e.getPlayer().getUniqueId(), sequence);
-            if(sequence < 9) {
-                if(pathway == null) {
-                    e.getPlayer().sendMessage("§cYour advancement has failed! You can call yourself lucky to still be alive...");
-                    return;
-                }
-                switch(9 - sequence) {
-                    case 1 -> pathway.getBeyonder().looseControl(6);
-                    case 2 -> pathway.getBeyonder().looseControl(7);
-                    case 3, 4 -> pathway.getBeyonder().looseControl(8);
-                    case 5 -> pathway.getBeyonder().looseControl(9);
-                    default -> pathway.getBeyonder().looseControl(10);
-                }
+            if(pathway == null) {
+                e.getPlayer().sendMessage("§cYour advancement has failed! You can call yourself lucky to still be alive...");
+                return;
+            }
+            switch(9 - sequence) {
+                case 0 -> pathway.getBeyonder().looseControl(93, 20);
+                case 1 -> pathway.getBeyonder().looseControl(65, 20);
+                case 2 -> pathway.getBeyonder().looseControl(45, 16);
+                case 3, 4 -> pathway.getBeyonder().looseControl(20, 16);
+                case 5 -> pathway.getBeyonder().looseControl(1, 20);
+                default -> pathway.getBeyonder().looseControl(0, 10);
             }
         }
         //Is a beyonder
         else {
             Beyonder beyonder = Plugin.beyonders.get(e.getPlayer().getUniqueId());
             if(!beyonder.getPathway().getNameNormalized().equals(potion.name)) {
-                beyonder.looseControl(10);
+                beyonder.looseControl(0, 10);
                 return;
             }
             Pathway pathway = beyonder.getPathway();
@@ -60,19 +59,15 @@ public class PotionListener implements Listener {
                 e.getPlayer().sendMessage("§cYour advancement has failed! You can call yourself lucky to still be alive...");
                 return;
             }
-            if(sequence < beyonder.getPathway().getSequence().getCurrentSequence() - 1) {
-                switch(beyonder.getPathway().getSequence().getCurrentSequence() - 1 - sequence) {
-                    case 1 -> pathway.getBeyonder().looseControl(6);
-                    case 2 -> pathway.getBeyonder().looseControl(7);
-                    case 3, 4 -> pathway.getBeyonder().looseControl(8);
-                    case 5 -> pathway.getBeyonder().looseControl(9);
-                    default -> pathway.getBeyonder().looseControl(10);
-                }
+            switch(beyonder.getPathway().getSequence().getCurrentSequence() - 1 - sequence) {
+                case 0 -> pathway.getBeyonder().looseControl(93, 20);
+                case 1 -> pathway.getBeyonder().looseControl(65, 20);
+                case 2 -> pathway.getBeyonder().looseControl(45, 20);
+                case 3, 4 -> pathway.getBeyonder().looseControl(20, 16);
+                case 5 -> pathway.getBeyonder().looseControl(1, 16);
+                default -> pathway.getBeyonder().looseControl(0, 10);
             }
-            //Else is temporary until I implement the not 100% chance ofg dying when loosing control
-            else {
-                beyonder.consumePotion(sequence);
-            }
+            beyonder.consumePotion(sequence);
         }
     }
 }
