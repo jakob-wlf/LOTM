@@ -31,6 +31,7 @@ public class PotionListener implements Listener {
 
         e.getPlayer().getInventory().remove(e.getItem());
 
+        //Later put the loose control stuff in consume potion func
         //Not a beyonder already
         if(!Plugin.beyonders.containsKey(e.getPlayer().getUniqueId())) {
             Pathway pathway = Pathway.initializeNew(potion.name, e.getPlayer().getUniqueId(), sequence);
@@ -40,8 +41,8 @@ public class PotionListener implements Listener {
             }
             switch(9 - sequence) {
                 case 0 -> pathway.getBeyonder().looseControl(93, 20);
-                case 1 -> pathway.getBeyonder().looseControl(65, 20);
-                case 2 -> pathway.getBeyonder().looseControl(45, 16);
+                case 1 -> pathway.getBeyonder().looseControl(50, 20);
+                case 2 -> pathway.getBeyonder().looseControl(30, 16);
                 case 3, 4 -> pathway.getBeyonder().looseControl(20, 16);
                 case 5 -> pathway.getBeyonder().looseControl(1, 20);
                 default -> pathway.getBeyonder().looseControl(0, 10);
@@ -61,8 +62,8 @@ public class PotionListener implements Listener {
             }
             switch(beyonder.getPathway().getSequence().getCurrentSequence() - 1 - sequence) {
                 case 0 -> pathway.getBeyonder().looseControl(93, 20);
-                case 1 -> pathway.getBeyonder().looseControl(65, 20);
-                case 2 -> pathway.getBeyonder().looseControl(45, 20);
+                case 1 -> pathway.getBeyonder().looseControl(50, 20);
+                case 2 -> pathway.getBeyonder().looseControl(30, 20);
                 case 3, 4 -> pathway.getBeyonder().looseControl(20, 16);
                 case 5 -> pathway.getBeyonder().looseControl(1, 16);
                 default -> pathway.getBeyonder().looseControl(0, 10);

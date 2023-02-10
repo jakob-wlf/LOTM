@@ -3,6 +3,8 @@ package de.firecreeper82.lotm;
 import de.firecreeper82.pathways.Pathway;
 import fr.mrmicky.fastboard.FastBoard;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,6 +13,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
 
@@ -153,21 +156,24 @@ public class Beyonder implements Listener {
         boolean survives = ((random.nextInt(100) + 1) <= lostControl);
 
         loosingControl = true;
+        getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * timeOfLoosingControl, 3, false, false));
+        getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20 * timeOfLoosingControl, 3, false, false));
+        getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 20 * timeOfLoosingControl, 3, false, false));
 
         new BukkitRunnable() {
             int counter = 0;
             @Override
             public void run() {
-                getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 60, 5, false, false));
-                getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 60, 5, false, false));
-                getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 60, 5, false, false));
-
                 if(random.nextInt(25) + 1 == 5 && getPlayer().getHealth() > 2)
                     getPlayer().damage(2);
 
                 counter++;
                 if(counter == timeOfLoosingControl * 20) {
                     if(!survives) {
+                        Entity rampager = Objects.requireNonNull(getPlayer().getLocation().getWorld()).spawnEntity(getPlayer().getLocation(), EntityType.WARDEN);
+                        rampager.setGlowing(true);
+                        rampager.setCustomNameVisible(true);
+                        rampager.setCustomName(pathway.getStringColor() + getPlayer().getName());
                         getPlayer().setHealth(0);
                         loosingControl = false;
                         removeBeyonder();
