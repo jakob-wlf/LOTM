@@ -4,16 +4,11 @@ import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.sun.SunItems;
 import org.bukkit.*;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
+import java.util.Objects;
 
 public class CleaveOfPurification extends Ability {
     public CleaveOfPurification(int identifier, Pathway pathway) {
@@ -40,7 +35,7 @@ public class CleaveOfPurification extends Ability {
 
             if(i < 2) {
                 Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(0, 215, 255), 2f);
-                loc.getWorld().spawnParticle(Particle.END_ROD, loc, 10, 0.25, 0.25, 0.25, 0);
+                Objects.requireNonNull(loc.getWorld()).spawnParticle(Particle.END_ROD, loc, 10, 0.25, 0.25, 0.25, 0);
                 loc.getWorld().spawnParticle(Particle.REDSTONE, loc, 80, 0.3, 0.3, 0.3, dust);
             }
 
@@ -59,7 +54,7 @@ public class CleaveOfPurification extends Ability {
                         if (entity != p)
                             ((Damageable) entity).damage(12 * multiplier, p);
                     }
-                    entLoc.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, entLoc, 200, 0.2, 0.2, 0.2, 0.15);
+                    Objects.requireNonNull(entLoc.getWorld()).spawnParticle(Particle.FIREWORKS_SPARK, entLoc, 200, 0.2, 0.2, 0.2, 0.15);
                 }
             }
         }
@@ -67,6 +62,6 @@ public class CleaveOfPurification extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.HONEYCOMB, "Cleave of Purification", "20", identifier, 7, Bukkit.getPlayer(pathway.getUuid()).getName());
+        return SunItems.createItem(Material.HONEYCOMB, "Cleave of Purification", "20", identifier, 7, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
     }
 }

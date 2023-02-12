@@ -2,31 +2,44 @@ package de.firecreeper82.pathways.impl.sun.abilities;
 
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.pathways.Ability;
-import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.sun.SunItems;
 import org.bukkit.*;
-import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class ArmorOfLight extends Ability implements Listener {
+    public String playerName;
+    public boolean removeOnRejoin;
+
+    ItemStack[] lastItems;
+
+    ItemStack helmet, chest, leggings, boots, sword;
+
     public ArmorOfLight(int identifier, Pathway pathway) {
         super(identifier, pathway);
+
         Plugin.instance.getServer().getPluginManager().registerEvents(this, Plugin.instance);
+
+        playerName = pathway.getBeyonder().getPlayer().getName();
+        removeOnRejoin = false;
+        lastItems = new ItemStack[4];
+
+        helmet = createHelmet();
+        chest = createChestPlate();
+        leggings = createLeggings();
+        boots = createBoots();
+        sword = createSword();
     }
 
     @Override
@@ -34,7 +47,6 @@ public class ArmorOfLight extends Ability implements Listener {
         p = pathway.getBeyonder().getPlayer();
         pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
-        ItemStack[] lastItems = new ItemStack[4];
         lastItems[0] = p.getInventory().getHelmet();
         lastItems[1] = p.getInventory().getChestplate();
         lastItems[2] = p.getInventory().getLeggings();
@@ -73,11 +85,19 @@ public class ArmorOfLight extends Ability implements Listener {
                     p.getInventory().setLeggings(lastItems[2]);
                     p.getInventory().setBoots(lastItems[3]);
 
-                    p.getInventory().remove(createHelmet());
-                    p.getInventory().remove(createChestPlate());
-                    p.getInventory().remove(createLeggings());
-                    p.getInventory().remove(createBoots());
-                    p.getInventory().remove(createSword());
+                    p.getInventory().remove(helmet);
+                    p.getInventory().remove(chest);
+                    p.getInventory().remove(leggings);
+                    p.getInventory().remove(boots);
+                    p.getInventory().remove(sword);
+                    pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
+                    cancel();
+                }
+
+                if(!pathway.getBeyonder().online) {
+                    removeOnRejoin = true;
+                    Bukkit.broadcastMessage("e");
+                    pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                     cancel();
                 }
             }
@@ -87,7 +107,7 @@ public class ArmorOfLight extends Ability implements Listener {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.TOTEM_OF_UNDYING, "Armor of Light", "100/s", identifier, 4, Bukkit.getPlayer(pathway.getUuid()).getName());
+        return SunItems.createItem(Material.TOTEM_OF_UNDYING, "Armor of Light", "100/s", identifier, 4, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
     }
 
     public ItemStack createSword() {
@@ -104,7 +124,7 @@ public class ArmorOfLight extends Ability implements Listener {
         ArrayList<String> lore = new ArrayList<>();
         lore.add("§5A flaming sword made out of");
         lore.add("§5blazing light");
-        lore.add("§8" + Bukkit.getPlayer(pathway.getUuid()).getName());
+        lore.add("§8" + playerName);
         itemMeta.setLore(lore);
         item.setItemMeta(itemMeta);
         return item;
@@ -113,15 +133,15 @@ public class ArmorOfLight extends Ability implements Listener {
     public ItemStack createHelmet() {
         ItemStack item = new ItemStack(Material.GOLDEN_HELMET);
         ItemMeta itemMeta = item.getItemMeta();
+        assert itemMeta != null;
         itemMeta.setDisplayName("§6Helmet of Light");
         itemMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 15, true);
         itemMeta.setUnbreakable(true);
         itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         itemMeta.addItemFlags(ItemFlag.values());
         ArrayList<String> lore = new ArrayList<>();
-        lore.clear();
         lore.add("§3A godly helmet made from shining light");
-        lore.add("§8" + Bukkit.getPlayer(pathway.getUuid()).getName());
+        lore.add("§8" + playerName);
         itemMeta.setLore(lore);
         item.setItemMeta(itemMeta);
         return item;
@@ -130,15 +150,15 @@ public class ArmorOfLight extends Ability implements Listener {
     public ItemStack createChestPlate() {
         ItemStack item = new ItemStack(Material.GOLDEN_CHESTPLATE);
         ItemMeta itemMeta = item.getItemMeta();
+        assert itemMeta != null;
         itemMeta.setDisplayName("§6Chestplate of Light");
         itemMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 15, true);
         itemMeta.setUnbreakable(true);
         itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         itemMeta.addItemFlags(ItemFlag.values());
         ArrayList<String> lore = new ArrayList<>();
-        lore.clear();
         lore.add("§3A godly chestplate made from shining light");
-        lore.add("§8" + Bukkit.getPlayer(pathway.getUuid()).getName());
+        lore.add("§8" + playerName);
         itemMeta.setLore(lore);
         item.setItemMeta(itemMeta);
         return item;
@@ -147,15 +167,15 @@ public class ArmorOfLight extends Ability implements Listener {
     public ItemStack createLeggings() {
         ItemStack item = new ItemStack(Material.GOLDEN_LEGGINGS);
         ItemMeta itemMeta = item.getItemMeta();
+        assert itemMeta != null;
         itemMeta.setDisplayName("§6Leggings of Light");
         itemMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 15, true);
         itemMeta.setUnbreakable(true);
         itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         itemMeta.addItemFlags(ItemFlag.values());
         ArrayList<String> lore = new ArrayList<>();
-        lore.clear();
         lore.add("§3Godly leggings made from shining light");
-        lore.add("§8" + Bukkit.getPlayer(pathway.getUuid()).getName());
+        lore.add("§8" + playerName);
         itemMeta.setLore(lore);
         item.setItemMeta(itemMeta);
         return item;
@@ -164,15 +184,15 @@ public class ArmorOfLight extends Ability implements Listener {
     public ItemStack createBoots() {
         ItemStack item = new ItemStack(Material.GOLDEN_BOOTS);
         ItemMeta itemMeta = item.getItemMeta();
+        assert itemMeta != null;
         itemMeta.setDisplayName("§6Boots of Light");
         itemMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 15, true);
         itemMeta.setUnbreakable(true);
         itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         itemMeta.addItemFlags(ItemFlag.values());
         ArrayList<String> lore = new ArrayList<>();
-        lore.clear();
         lore.add("§3A godly pair of boots made from shining light");
-        lore.add("§8" + Bukkit.getPlayer(pathway.getUuid()).getName());
+        lore.add("§8" + playerName);
         itemMeta.setLore(lore);
         item.setItemMeta(itemMeta);
         return item;
@@ -180,7 +200,29 @@ public class ArmorOfLight extends Ability implements Listener {
 
     @EventHandler
     public void onDrop(PlayerDropItemEvent e) {
-        if(e.getItemDrop().getItemStack() == createHelmet() || e.getItemDrop().getItemStack() == createChestPlate() || e.getItemDrop().getItemStack() == createLeggings() || e.getItemDrop().getItemStack() == createBoots() || e.getItemDrop().getItemStack() == createSword())
+        if(Objects.requireNonNull(e.getItemDrop().getItemStack().getItemMeta()).getDisplayName().equals(Objects.requireNonNull(helmet.getItemMeta()).getDisplayName()) || e.getItemDrop().getItemStack().getItemMeta().getDisplayName().equals(Objects.requireNonNull(helmet.getItemMeta()).getDisplayName()) || e.getItemDrop().getItemStack().getItemMeta().getDisplayName().equals(Objects.requireNonNull(helmet.getItemMeta()).getDisplayName()) || e.getItemDrop().getItemStack().getItemMeta().getDisplayName().equals(Objects.requireNonNull(helmet.getItemMeta()).getDisplayName()) || e.getItemDrop().getItemStack().getItemMeta().getDisplayName().equals(Objects.requireNonNull(helmet.getItemMeta()).getDisplayName()))
             e.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent e) {
+        Bukkit.broadcastMessage("e1");
+        if(e.getPlayer() != p)
+            return;
+        Bukkit.broadcastMessage("e2");
+        if(!removeOnRejoin)
+            return;Bukkit.broadcastMessage("e3");
+
+        removeOnRejoin = false;
+        p.getInventory().setHelmet(lastItems[0]);
+        p.getInventory().setChestplate(lastItems[1]);
+        p.getInventory().setLeggings(lastItems[2]);
+        p.getInventory().setBoots(lastItems[3]);
+
+        p.getInventory().remove(helmet);
+        p.getInventory().remove(chest);
+        p.getInventory().remove(leggings);
+        p.getInventory().remove(boots);
+        p.getInventory().remove(sword);
     }
 }

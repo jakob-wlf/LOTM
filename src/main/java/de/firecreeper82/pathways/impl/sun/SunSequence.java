@@ -13,6 +13,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class SunSequence extends Sequence {
 
@@ -85,7 +86,7 @@ public class SunSequence extends Sequence {
             return;
 
         e.setCancelled(true);
-        useAbility(item.getItemMeta().getEnchantLevel(Enchantment.CHANNELING), item);
+        useAbility(Objects.requireNonNull(item.getItemMeta()).getEnchantLevel(Enchantment.CHANNELING), item);
     }
 
 
@@ -94,7 +95,7 @@ public class SunSequence extends Sequence {
 
         int spiritualityDrainage = 0;
         try {
-            String line = item.getItemMeta().getLore().get(1);
+            String line = Objects.requireNonNull(Objects.requireNonNull(item.getItemMeta()).getLore()).get(1);
             spiritualityDrainage = Integer.parseInt(line.substring(18));
         }
         catch (Exception ignored) {}
@@ -114,16 +115,14 @@ public class SunSequence extends Sequence {
         for(Ability a : abilities) {
             if(a.getIdentifier() == ability) {
                 a.useAbility();
+                break;
             }
         }
     }
 
     @Override
     public boolean checkValid(ItemStack item) {
-        if(pathway.getItems().returnItemsFromSequence(currentSequence).contains(item))
-            return true;
-        else
-            return false;
+        return pathway.getItems().returnItemsFromSequence(currentSequence).contains(item);
     }
 
     @Override

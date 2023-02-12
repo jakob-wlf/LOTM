@@ -42,6 +42,8 @@ public class WingsOfLight extends Ability {
         p = pathway.getBeyonder().getPlayer();
         pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
+        p.setFlying(true);
+
         new BukkitRunnable() {
             int counter = 0;
             @Override
@@ -49,12 +51,6 @@ public class WingsOfLight extends Ability {
                 boolean needsFlying = true;
                 counter++;
 
-                if(!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
-                    if(p.getGameMode() != GameMode.CREATIVE && p.getGameMode() != GameMode.SPECTATOR)
-                        p.setAllowFlight(false);
-                    cancel();
-                    return;
-                }
                 if(counter >= 20) {
                     pathway.getBeyonder().setSpirituality(pathway.getBeyonder().getSpirituality() - 500);
                     counter = 0;
@@ -68,10 +64,16 @@ public class WingsOfLight extends Ability {
                 if(needsFlying)
                     p.setAllowFlight(true);
 
-                if(pathway.getBeyonder().getSpirituality() <= 500) {
+                if(pathway.getBeyonder().getSpirituality() <= 500 || !pathway.getBeyonder().online) {
                     if(needsFlying && p.getGameMode() != GameMode.CREATIVE && p.getGameMode() != GameMode.SPECTATOR)
                         p.setAllowFlight(false);
                     pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
+                    cancel();
+                }
+
+                if(!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
+                    if(p.getGameMode() != GameMode.CREATIVE && p.getGameMode() != GameMode.SPECTATOR)
+                        p.setAllowFlight(false);
                     cancel();
                 }
             }

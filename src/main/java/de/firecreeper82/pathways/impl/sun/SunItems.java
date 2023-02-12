@@ -142,12 +142,12 @@ public class SunItems extends Items {
     public static ItemStack createItem(Material item, String name, String spirituality, int id, int sequence, String player) {
         ItemStack currentItem = new ItemStack(item);
         ItemMeta itemMeta = currentItem.getItemMeta();
+        assert itemMeta != null;
         itemMeta.setDisplayName("§6" + name);
         itemMeta.addEnchant(Enchantment.CHANNELING, id, true);
         itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         itemMeta.addItemFlags(ItemFlag.values());
         ArrayList<String> lore = new ArrayList<>();
-        lore.clear();
         lore.add("§5Click to use");
         lore.add("§5Spirituality: §7" + spirituality);
         lore.add("§8§l-----------------");

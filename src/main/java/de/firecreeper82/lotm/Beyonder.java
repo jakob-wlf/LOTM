@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -29,8 +30,8 @@ public class Beyonder implements Listener {
     public FastBoard board;
 
     public boolean beyonder;
-
     public boolean loosingControl;
+    public boolean online;
 
     public Beyonder(UUID uuid, Pathway pathway) {
         this.pathway = pathway;
@@ -50,6 +51,13 @@ public class Beyonder implements Listener {
         start();
     }
 
+    @EventHandler
+    public void onLeave(PlayerQuitEvent e) {
+        if(!e.getPlayer().getUniqueId().equals(uuid))
+            return;
+        online = false;
+    }
+
     private void updateBoard() {
         board.updateTitle(pathway.getStringColor() + getPlayer().getName());
         board.updateLines("", "§5Pathway", "- " + pathway.getStringColor() + pathway.getName(), "", "§5Sequence", "- " + pathway.getStringColor() + pathway.getSequence().getCurrentSequence(), "", "§5Spirituality", "- " + pathway.getStringColor() + Math.round(spirituality) + "/" + Math.round(maxSpirituality));
@@ -62,6 +70,7 @@ public class Beyonder implements Listener {
         board.updateLines("", "§5Pathway", "- " + pathway.getStringColor() + pathway.getName(), "", "§5Sequence", "- " + pathway.getStringColor() + pathway.getSequence().getCurrentSequence(), "", "§5Spirituality", "- " + pathway.getStringColor() + Math.round(spirituality) + "/" + Math.round(maxSpirituality));
 
         pathway.initItems();
+        online = true;
 
 
         //constant loop
@@ -69,7 +78,7 @@ public class Beyonder implements Listener {
             int counter = 0;
             @Override
             public void run() {
-                if(!beyonder) {
+                if(!beyonder || !online || getPlayer() == null) {
                     cancel();
                     return;
                 }
@@ -77,10 +86,6 @@ public class Beyonder implements Listener {
                 if(loosingControl)
                     return;
 
-                if(getPlayer() == null) {
-                    cancel();
-                    return;
-                }
                 //scoreboard
                 counter++;
                 updateBoard();
