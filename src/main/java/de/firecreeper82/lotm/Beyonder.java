@@ -1,6 +1,7 @@
 package de.firecreeper82.lotm;
 
 import de.firecreeper82.pathways.Pathway;
+import de.firecreeper82.pathways.Potion;
 import fr.mrmicky.fastboard.FastBoard;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
@@ -44,10 +45,8 @@ public class Beyonder implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
-        Bukkit.broadcastMessage(uuid + " -- " + e.getPlayer().getUniqueId());
         if(!e.getPlayer().getUniqueId().equals(uuid))
             return;
-        Bukkit.broadcastMessage("test");
         start();
     }
 
@@ -187,9 +186,27 @@ public class Beyonder implements Listener {
         }.runTaskTimer(Plugin.instance, 0, 1);
     }
 
-    public void consumePotion(int sequence) {
+    public void consumePotion(int sequence, Potion potion) {
         if(sequence >= pathway.getSequence().getCurrentSequence())
             return;
+
+        if(!getPathway().getNameNormalized().equals(potion.name)) {
+            looseControl(0, 10);
+            return;
+        }
+        if(pathway == null) {
+            getPlayer().sendMessage("§cYour advancement has failed! You can call yourself lucky to still be alive...");
+            return;
+        }
+        switch(getPathway().getSequence().getCurrentSequence() - 1 - sequence) {
+            case 0 -> pathway.getBeyonder().looseControl(93, 20);
+            case 1 -> pathway.getBeyonder().looseControl(50, 20);
+            case 2 -> pathway.getBeyonder().looseControl(30, 20);
+            case 3, 4 -> pathway.getBeyonder().looseControl(20, 16);
+            case 5 -> pathway.getBeyonder().looseControl(1, 16);
+            default -> pathway.getBeyonder().looseControl(0, 10);
+        }
+
         pathway.getSequence().setCurrentSequence(sequence);
         updateSpirituality();
     }
