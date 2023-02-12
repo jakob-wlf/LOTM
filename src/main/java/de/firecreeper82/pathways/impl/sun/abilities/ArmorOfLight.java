@@ -40,6 +40,8 @@ public class ArmorOfLight extends Ability implements Listener {
         leggings = createLeggings();
         boots = createBoots();
         sword = createSword();
+
+        p = pathway.getBeyonder().getPlayer();
     }
 
     @Override
@@ -96,7 +98,6 @@ public class ArmorOfLight extends Ability implements Listener {
 
                 if(!pathway.getBeyonder().online) {
                     removeOnRejoin = true;
-                    Bukkit.broadcastMessage("e");
                     pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                     cancel();
                 }
@@ -206,23 +207,22 @@ public class ArmorOfLight extends Ability implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
-        Bukkit.broadcastMessage("e1");
-        if(e.getPlayer() != p)
+        p = pathway.getBeyonder().getPlayer();
+        if(!e.getPlayer().getUniqueId().equals(p.getUniqueId()))
             return;
-        Bukkit.broadcastMessage("e2");
         if(!removeOnRejoin)
-            return;Bukkit.broadcastMessage("e3");
+            return;
 
         removeOnRejoin = false;
-        p.getInventory().setHelmet(lastItems[0]);
-        p.getInventory().setChestplate(lastItems[1]);
-        p.getInventory().setLeggings(lastItems[2]);
-        p.getInventory().setBoots(lastItems[3]);
+        e.getPlayer().getInventory().setHelmet(lastItems[0]);
+        e.getPlayer().getInventory().setChestplate(lastItems[1]);
+        e.getPlayer().getInventory().setLeggings(lastItems[2]);
+        e.getPlayer().getInventory().setBoots(lastItems[3]);
 
-        p.getInventory().remove(helmet);
-        p.getInventory().remove(chest);
-        p.getInventory().remove(leggings);
-        p.getInventory().remove(boots);
-        p.getInventory().remove(sword);
+        e.getPlayer().getInventory().remove(helmet);
+        e.getPlayer().getInventory().remove(chest);
+        e.getPlayer().getInventory().remove(leggings);
+        e.getPlayer().getInventory().remove(boots);
+        e.getPlayer().getInventory().remove(sword);
     }
 }
