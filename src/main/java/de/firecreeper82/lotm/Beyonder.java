@@ -6,11 +6,14 @@ import fr.mrmicky.fastboard.FastBoard;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -56,6 +59,21 @@ public class Beyonder implements Listener {
         if(!e.getPlayer().getUniqueId().equals(uuid))
             return;
         online = false;
+    }
+
+    @EventHandler
+    public void onDeath(PlayerDeathEvent e) {
+        if(e.getEntity() != getPlayer())
+            return;
+        for(ItemStack item : e.getDrops()) {
+            if(pathway.getItems().returnItemsFromSequence(pathway.getSequence().getCurrentSequence()).contains(item)) {
+                for(Entity entity : e.getEntity().getWorld().getNearbyEntities(e.getEntity().getLocation(), 50, 50, 50)) {
+                    if(entity instanceof Item) {
+                        entity.remove();
+                    }
+                }
+            }
+        }
     }
 
     private void updateBoard() {
