@@ -8,6 +8,7 @@ import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemFlag;
@@ -26,6 +27,8 @@ public class ArmorOfLight extends Ability implements Listener {
 
     ItemStack helmet, chest, leggings, boots, sword;
 
+    boolean dead;
+
     public ArmorOfLight(int identifier, Pathway pathway) {
         super(identifier, pathway);
 
@@ -33,6 +36,7 @@ public class ArmorOfLight extends Ability implements Listener {
 
         playerName = pathway.getBeyonder().getPlayer().getName();
         removeOnRejoin = false;
+        dead = false;
         lastItems = new ItemStack[4];
 
         helmet = createHelmet();
@@ -81,7 +85,7 @@ public class ArmorOfLight extends Ability implements Listener {
                 }
                 counter++;
 
-                if(!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
+                if(!pathway.getSequence().getUsesAbilities()[identifier - 1] || dead) {
                     p.getInventory().setHelmet(lastItems[0]);
                     p.getInventory().setChestplate(lastItems[1]);
                     p.getInventory().setLeggings(lastItems[2]);
@@ -93,6 +97,7 @@ public class ArmorOfLight extends Ability implements Listener {
                     p.getInventory().remove(boots);
                     p.getInventory().remove(sword);
                     pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
+                    dead = false;
                     cancel();
                 }
 
@@ -224,5 +229,19 @@ public class ArmorOfLight extends Ability implements Listener {
         e.getPlayer().getInventory().remove(leggings);
         e.getPlayer().getInventory().remove(boots);
         e.getPlayer().getInventory().remove(sword);
+    }
+
+    @EventHandler
+    public void onDeath(PlayerDeathEvent e) {
+        p = pathway.getBeyonder().getPlayer();
+        if(!e.getEntity().getUniqueId().equals(p.getUniqueId()))
+            return;
+        dead = true;
+        new BukkitRunnable() {
+            @Override
+            public void run () {
+                dead = false;
+            }
+        }.runTaskLater(Plugin.instance, 10);
     }
 }
