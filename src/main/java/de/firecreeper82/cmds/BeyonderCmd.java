@@ -49,7 +49,7 @@ public class BeyonderCmd implements CommandExecutor {
                 p.sendMessage("§c" + args[0].toLowerCase() + " is not a valid Pathway! Removing your status as a beyonder");
                 return true;
             }
-            p.sendMessage(pathway.getStringColor() + "Made you a Beyonder of the" + pathway.getName() + "pathway at Sequence " + sequence);
+            p.sendMessage(pathway.getStringColor() + "Made you a Beyonder of the " + pathway.getName() + "-pathway at Sequence " + sequence);
             return true;
         }
 
@@ -59,7 +59,7 @@ public class BeyonderCmd implements CommandExecutor {
             p.sendMessage("§c" + args[0].toLowerCase() + " is not a valid Pathway");
             return true;
         }
-        p.sendMessage(pathway.getStringColor() + "Made you a Beyonder of the" + pathway.getName() + "pathway at Sequence " + sequence);
+        p.sendMessage(pathway.getStringColor() + "Made you a Beyonder of the " + pathway.getName() + "-pathway at Sequence " + sequence);
         return true;
     }
 }

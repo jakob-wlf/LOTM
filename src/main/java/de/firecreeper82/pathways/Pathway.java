@@ -2,6 +2,7 @@ package de.firecreeper82.pathways;
 
 import de.firecreeper82.lotm.Beyonder;
 import de.firecreeper82.lotm.Plugin;
+import de.firecreeper82.pathways.impl.fool.FoolPathway;
 import de.firecreeper82.pathways.impl.sun.SunPathway;
 import java.awt.*;
 import java.util.HashMap;
@@ -83,12 +84,18 @@ public abstract class Pathway {
     }
 
 
-    @SuppressWarnings("all") //Surpressing switch statement replace with if statement until there are more pathways
     public static Pathway initializeNew(String pathway, UUID uuid, int sequence) {
         Pathway pathwayObject;
         switch (pathway) {
             case "sun" -> {
                 pathwayObject = new SunPathway(uuid, sequence);
+                Beyonder beyonder = new Beyonder(uuid, pathwayObject);
+                Plugin.beyonders.put(uuid, beyonder);
+                Plugin.instance.getServer().getPluginManager().registerEvents(beyonder, Plugin.instance);
+                return pathwayObject;
+            }
+            case "fool" -> {
+                pathwayObject = new FoolPathway(uuid, sequence);
                 Beyonder beyonder = new Beyonder(uuid, pathwayObject);
                 Plugin.beyonders.put(uuid, beyonder);
                 Plugin.instance.getServer().getPluginManager().registerEvents(beyonder, Plugin.instance);
@@ -102,11 +109,14 @@ public abstract class Pathway {
 
     public abstract void initItems();
 
-    @SuppressWarnings("all") //Surpressing switch statement replace with if statement until there are more pathways
+
     public static HashMap<Integer, String> getNamesForPathway(String pathway) {
         switch (pathway.toLowerCase()) {
             case "sun" -> {
                 return SunPathway.getNames();
+            }
+            case "fool" -> {
+                return FoolPathway.getNames();
             }
             default -> {return null;}
         }

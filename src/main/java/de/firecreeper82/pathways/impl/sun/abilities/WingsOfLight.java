@@ -42,8 +42,6 @@ public class WingsOfLight extends Ability {
         p = pathway.getBeyonder().getPlayer();
         pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
-        p.setFlying(true);
-
         new BukkitRunnable() {
             int counter = 0;
             @Override
@@ -63,6 +61,8 @@ public class WingsOfLight extends Ability {
 
                 if(needsFlying)
                     p.setAllowFlight(true);
+
+                p.setFlying(true);
 
                 if(pathway.getBeyonder().getSpirituality() <= 500 || !pathway.getBeyonder().online) {
                     if(needsFlying && p.getGameMode() != GameMode.CREATIVE && p.getGameMode() != GameMode.SPECTATOR)

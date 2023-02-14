@@ -7,6 +7,7 @@ import de.firecreeper82.listeners.PotionHandler;
 import de.firecreeper82.listeners.PotionListener;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.Potion;
+import de.firecreeper82.pathways.impl.fool.FoolPotions;
 import de.firecreeper82.pathways.impl.sun.SunPotions;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -62,6 +63,7 @@ public final class Plugin extends JavaPlugin {
     public void initPotions() {
         potions = new ArrayList<>();
         potions.add(new SunPotions());
+        potions.add(new FoolPotions());
     }
 
     @Override

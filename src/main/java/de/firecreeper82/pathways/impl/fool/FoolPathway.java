@@ -24,10 +24,10 @@ public class FoolPathway extends Pathway {
     @Override
     public void init() {
         beyonder = Plugin.beyonders.get(uuid);
-        name = "§6Sun";
-        nameNormalized = "sun";
+        name = "§5Fool";
+        nameNormalized = "fool";
         pathwayColor = Color.orange;
-        stringColor = "§6";
+        stringColor = "§5";
     }
 
     @Override
@@ -38,15 +38,15 @@ public class FoolPathway extends Pathway {
     public static HashMap<Integer, String> getNames() {
         HashMap<Integer, String> names;
         names = new HashMap<>();
-        names.put(9, "Bard");
-        names.put(8, "Light Supplicant");
-        names.put(7, "Solar High Priest");
-        names.put(6, "Notary");
-        names.put(5, "Priest of Light");
-        names.put(4, "Unshadowed");
-        names.put(3, "Justice Mentor");
-        names.put(2, "Light Seeker");
-        names.put(1, "White Angel");
+        names.put(9, "Seer");
+        names.put(8, "Clown");
+        names.put(7, "Magician");
+        names.put(6, "Faceless");
+        names.put(5, "Marionettist");
+        names.put(4, "Bizarro Sorcerer");
+        names.put(3, "Scholar of Yore");
+        names.put(2, "Miracle Invoker");
+        names.put(1, "Attendant of Mysteries");
         return names;
     }
 

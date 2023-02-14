@@ -12,7 +12,7 @@ import java.util.Objects;
 public class FoolPotions extends Potion {
 
     public FoolPotions() {
-        name = "sun";
+        name = "fool";
         potionRecipes = new HashMap<>();
         ItemStack[] recipe9 = {
                 new ItemStack(Material.AMETHYST_SHARD),
@@ -69,10 +69,10 @@ public class FoolPotions extends Potion {
     @Override
     public ItemStack returnPotionForSequence(int sequence) {
         return Potion.createPotion(
-                "§6",
+                "§5",
                 sequence,
                 Objects.requireNonNull(Pathway.getNamesForPathway(name)).get(sequence),
-                Color.fromBGR(32, 165, 218),
+                Color.fromBGR(128, 0, 128),
                 ""
         );
     }

@@ -104,8 +104,6 @@ public class FoolSequence extends Sequence {
             return;
 
         if(usesAbilities[ability - 1]) {
-            if(ability == 6 || ability == 15 || ability == 16 || ability == 19)
-                usesAbilities[ability - 1] = false;
             return;
         }
 
