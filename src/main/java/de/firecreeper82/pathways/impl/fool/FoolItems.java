@@ -3,7 +3,7 @@ package de.firecreeper82.pathways.impl.fool;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
-import de.firecreeper82.pathways.impl.sun.abilities.*;
+import de.firecreeper82.pathways.impl.fool.abilities.Divine;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
@@ -37,9 +37,8 @@ public class FoolItems extends Items {
 
     @Override
     public void createItems() {
-
         //Seer - Divination
-        Ability ability = new HolySong(1, pathway);
+        Ability ability = new Divine(1, pathway);
         pathway.getSequence().getAbilities().add(ability);
         items.add(ability.getItem());
 

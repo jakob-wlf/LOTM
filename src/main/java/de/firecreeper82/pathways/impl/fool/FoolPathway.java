@@ -9,12 +9,6 @@ import java.util.UUID;
 
 public class FoolPathway extends Pathway {
 
-    public FoolPathway(UUID uuid) {
-        super(uuid);
-        sequence = new FoolSequence(this);
-        init();
-    }
-
     public FoolPathway(UUID uuid, int optionalSequence) {
         super(uuid, optionalSequence);
         sequence = new FoolSequence(this, optionalSequence);

@@ -5,6 +5,7 @@ import de.firecreeper82.cmds.BeyonderCmd;
 import de.firecreeper82.listeners.InteractListener;
 import de.firecreeper82.listeners.PotionHandler;
 import de.firecreeper82.listeners.PotionListener;
+import de.firecreeper82.pathways.Divination;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.Potion;
 import de.firecreeper82.pathways.impl.fool.FoolPotions;
@@ -55,6 +56,7 @@ public final class Plugin extends JavaPlugin {
         pl.registerEvents(itemsCmd, this);
         pl.registerEvents(new PotionHandler(), this);
         pl.registerEvents(new PotionListener(), this);
+        pl.registerEvents(new Divination(), this);
 
         Objects.requireNonNull(this.getCommand("beyonder")).setExecutor(new BeyonderCmd());
         Objects.requireNonNull(this.getCommand("items")).setExecutor(itemsCmd);

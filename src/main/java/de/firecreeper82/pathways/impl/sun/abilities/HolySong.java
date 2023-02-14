@@ -8,15 +8,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
+import java.util.Objects;
+
 
 public class HolySong extends Ability {
 
@@ -50,6 +48,6 @@ public class HolySong extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.MUSIC_DISC_PIGSTEP, "Holy Song", "5", identifier, 9, Bukkit.getPlayer(pathway.getUuid()).getName());
+        return SunItems.createItem(Material.MUSIC_DISC_PIGSTEP, "Holy Song", "5", identifier, 9, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
     }
 }

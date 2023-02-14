@@ -16,9 +16,7 @@ public abstract class Ability {
 
     public abstract void useAbility();
 
-    public ItemStack getItem() {
-        return null;
-    }
+    public abstract ItemStack getItem();
 
     public Pathway getPathway() {
         return pathway;
