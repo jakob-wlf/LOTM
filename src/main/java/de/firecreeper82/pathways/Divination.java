@@ -8,6 +8,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -101,23 +102,22 @@ public class Divination implements Listener {
         if(!Plugin.beyonders.containsKey(e.getWhoClicked().getUniqueId()) || !openInv.containsKey(Plugin.beyonders.get(e.getWhoClicked().getUniqueId())) || e.getClickedInventory() != openInv.get(Plugin.beyonders.get(e.getWhoClicked().getUniqueId())))
             return;
 
+        e.setCancelled(true);
+
         Beyonder beyonder = Plugin.beyonders.get(e.getWhoClicked().getUniqueId());
 
         if(Objects.equals(e.getCurrentItem(), stick)) {
-            Inventory inv = openInv.get(beyonder);
-            inv.clear();
-            inv = dowsingRodInv(createRawInv(inv));
+            Inventory inv = dowsingRodInv(createRawInv(beyonder));
             beyonder.getPlayer().closeInventory();
             beyonder.getPlayer().openInventory(inv);
             openInv.replace(beyonder, inv);
         }
+    }
 
-        if(Objects.equals(e.getCurrentItem(), cowHead)) {
-            Inventory inv = Bukkit.createInventory(beyonder.getPlayer(), 54, "§5Divination");
-            beyonder.getPlayer().closeInventory();
-            beyonder.getPlayer().openInventory(inv);
-            openInv.replace(beyonder, inv);
-        }
-        e.setCancelled(true);
+    @EventHandler
+    public void onInventoryClose(InventoryCloseEvent e) {
+        if(!Plugin.beyonders.containsKey(e.getPlayer().getUniqueId()) || !openInv.containsKey(Plugin.beyonders.get(e.getPlayer().getUniqueId())) || e.getInventory() != openInv.get(Plugin.beyonders.get(e.getPlayer().getUniqueId())))
+            return;
+        openInv.remove(Plugin.beyonders.get(e.getPlayer().getUniqueId()));
     }
 }
