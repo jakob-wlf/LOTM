@@ -1,24 +1,19 @@
 package de.firecreeper82.pathways.impl.sun.abilities;
 
 import de.firecreeper82.lotm.Plugin;
-import de.firecreeper82.lotm.VectorUtils;
+import de.firecreeper82.lotm.util.VectorUtils;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.sun.SunItems;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
+import java.util.Objects;
 
 public class UnshadowedSpear extends Ability {
     public Block lastLightBlock;
@@ -68,7 +63,7 @@ public class UnshadowedSpear extends Ability {
                 spearLocation.add(direction);
                 buildSpear(spearLocation.clone(), direction.clone());
 
-                if(!spearLocation.getWorld().getNearbyEntities(spearLocation, 5, 5, 5).isEmpty()) {
+                if(!Objects.requireNonNull(spearLocation.getWorld()).getNearbyEntities(spearLocation, 5, 5, 5).isEmpty()) {
                     for(Entity entity : spearLocation.getWorld().getNearbyEntities(spearLocation, 5, 5, 5)) {
                         if (entity instanceof LivingEntity) {
                             // Ignore player that initiated the shot
@@ -109,7 +104,7 @@ public class UnshadowedSpear extends Ability {
                                                 double z = Math.sin(a) * radius;
                                                 sphereLoc.add(x, y, z);
                                                 Particle.DustOptions dustSphere = new Particle.DustOptions(Color.fromBGR(0, 215, 255), 1f);
-                                                sphereLoc.getWorld().spawnParticle(Particle.REDSTONE, sphereLoc, 4, 0.15, 0.15, 0.15, 0, dustSphere);
+                                                Objects.requireNonNull(sphereLoc.getWorld()).spawnParticle(Particle.REDSTONE, sphereLoc, 4, 0.15, 0.15, 0.15, 0, dustSphere);
                                                 sphereLoc.subtract(x, y, z);
                                             }
                                         }
@@ -143,7 +138,7 @@ public class UnshadowedSpear extends Ability {
                                     double z = Math.sin(a) * radius;
                                     sphereLoc.add(x, y, z);
                                     Particle.DustOptions dustSphere = new Particle.DustOptions(Color.fromBGR(0, 215, 255), 1f);
-                                    sphereLoc.getWorld().spawnParticle(Particle.REDSTONE, sphereLoc, 1, 0.25, 0.25, 0.25, 0, dustSphere);
+                                    Objects.requireNonNull(sphereLoc.getWorld()).spawnParticle(Particle.REDSTONE, sphereLoc, 1, 0.25, 0.25, 0.25, 0, dustSphere);
 
                                     //damage entities
                                     if(!sphereLoc.getWorld().getNearbyEntities(sphereLoc, 2, 2, 2).isEmpty()) {
@@ -229,7 +224,7 @@ public class UnshadowedSpear extends Ability {
                 VectorUtils.rotateAroundAxisX(vec, pitch);
                 VectorUtils.rotateAroundAxisY(vec, yaw);
                 playerLoc.subtract(vec);
-                playerLoc.getWorld().spawnParticle(Particle.REDSTONE, playerLoc.clone(), 1, 0, 0, 0, 0, dustRipple);
+                Objects.requireNonNull(playerLoc.getWorld()).spawnParticle(Particle.REDSTONE, playerLoc.clone(), 1, 0, 0, 0, 0, dustRipple);
                 playerLoc.add(vec);
             }
             playerLoc.subtract(dir);
@@ -237,7 +232,7 @@ public class UnshadowedSpear extends Ability {
 
         direc.multiply(0.125);
         for(int i = 0; i < 64; i++) {
-            loc.getWorld().spawnParticle(Particle.REDSTONE, loc.clone().subtract(.03, .03, .03), 30, 0.03, 0.03, 0.03, 0, dustRipple);
+            Objects.requireNonNull(loc.getWorld()).spawnParticle(Particle.REDSTONE, loc.clone().subtract(.03, .03, .03), 30, 0.03, 0.03, 0.03, 0, dustRipple);
             loc.add(direc);
         }
 
@@ -258,7 +253,7 @@ public class UnshadowedSpear extends Ability {
                 VectorUtils.rotateAroundAxisX(vec, pitch);
                 VectorUtils.rotateAroundAxisY(vec, yaw);
                 playerLoc.add(vec);
-                playerLoc.getWorld().spawnParticle(Particle.REDSTONE, playerLoc.clone().subtract(0, 0.1, 0), 1, 0, 0, 0, 0, dustRipple);
+                Objects.requireNonNull(playerLoc.getWorld()).spawnParticle(Particle.REDSTONE, playerLoc.clone().subtract(0, 0.1, 0), 1, 0, 0, 0, 0, dustRipple);
                 playerLoc.subtract(vec);
             }
             playerLoc.add(dir);
@@ -267,6 +262,6 @@ public class UnshadowedSpear extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.SPECTRAL_ARROW, "Unshadowed Spear", "200", identifier, 4, Bukkit.getPlayer(pathway.getUuid()).getName());
+        return SunItems.createItem(Material.SPECTRAL_ARROW, "Unshadowed Spear", "200", identifier, 4, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
     }
 }

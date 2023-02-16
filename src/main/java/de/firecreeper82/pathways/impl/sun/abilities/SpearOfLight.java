@@ -1,27 +1,24 @@
 package de.firecreeper82.pathways.impl.sun.abilities;
 
 import de.firecreeper82.lotm.Plugin;
-import de.firecreeper82.lotm.VectorUtils;
+import de.firecreeper82.lotm.util.VectorUtils;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.sun.SunItems;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityCategory;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
+import java.util.Objects;
 
 public class SpearOfLight extends Ability {
     public Block lastLightBlock;
@@ -71,7 +68,7 @@ public class SpearOfLight extends Ability {
                 spearLocation.add(direction);
                 buildSpear(spearLocation.clone(), direction.clone());
 
-                if(!spearLocation.getWorld().getNearbyEntities(spearLocation, 5, 5, 5).isEmpty()) {
+                if(!Objects.requireNonNull(spearLocation.getWorld()).getNearbyEntities(spearLocation, 5, 5, 5).isEmpty()) {
                     for(Entity entity : spearLocation.getWorld().getNearbyEntities(spearLocation, 5, 5, 5)) {
                         if (entity instanceof LivingEntity) {
                             // Ignore player that initiated the shot
@@ -112,7 +109,7 @@ public class SpearOfLight extends Ability {
                                                 double x = Math.cos(a) * radius;
                                                 double z = Math.sin(a) * radius;
                                                 sphereLoc.add(x, y, z);
-                                                sphereLoc.getWorld().spawnParticle(Particle.END_ROD, sphereLoc, 4, 0.15, 0.15, 0.15, 0);
+                                                Objects.requireNonNull(sphereLoc.getWorld()).spawnParticle(Particle.END_ROD, sphereLoc, 4, 0.15, 0.15, 0.15, 0);
 
                                                 //damage entities
                                                 if(!sphereLoc.getWorld().getNearbyEntities(sphereLoc, 2, 2, 2).isEmpty()) {
@@ -162,7 +159,6 @@ public class SpearOfLight extends Ability {
 
                 //hits solid block
                 if(spearLocation.getBlock().getType().isSolid()) {
-                    Particle.DustOptions dustSphere = new Particle.DustOptions(Color.fromBGR(0, 215, 255), 1f);
                     Location sphereLoc = spearLocation.clone();
                     new BukkitRunnable() {
                         double sphereRadius = 1;
@@ -175,7 +171,7 @@ public class SpearOfLight extends Ability {
                                     double x = Math.cos(a) * radius;
                                     double z = Math.sin(a) * radius;
                                     sphereLoc.add(x, y, z);
-                                    sphereLoc.getWorld().spawnParticle(Particle.END_ROD, sphereLoc, 1, 0.1, 0.1, 0.1, 0);
+                                    Objects.requireNonNull(sphereLoc.getWorld()).spawnParticle(Particle.END_ROD, sphereLoc, 1, 0.1, 0.1, 0.1, 0);
 
                                     //damage entities
                                     if(!sphereLoc.getWorld().getNearbyEntities(sphereLoc, 2, 2, 2).isEmpty()) {
@@ -257,7 +253,7 @@ public class SpearOfLight extends Ability {
                 VectorUtils.rotateAroundAxisX(vec, pitch);
                 VectorUtils.rotateAroundAxisY(vec, yaw);
                 playerLoc.subtract(vec);
-                playerLoc.getWorld().spawnParticle(Particle.ELECTRIC_SPARK, playerLoc.clone(), 1, 0, 0, 0, 0);
+                Objects.requireNonNull(playerLoc.getWorld()).spawnParticle(Particle.ELECTRIC_SPARK, playerLoc.clone(), 1, 0, 0, 0, 0);
                 playerLoc.add(vec);
             }
             playerLoc.subtract(dir);
@@ -265,7 +261,7 @@ public class SpearOfLight extends Ability {
 
         direc.multiply(0.125);
         for(int i = 0; i < 96; i++) {
-            loc.getWorld().spawnParticle(Particle.ELECTRIC_SPARK, loc.clone(), 10, .03, .03, .03, 0);
+            Objects.requireNonNull(loc.getWorld()).spawnParticle(Particle.ELECTRIC_SPARK, loc.clone(), 10, .03, .03, .03, 0);
             loc.add(direc);
         }
 
@@ -286,7 +282,7 @@ public class SpearOfLight extends Ability {
                 VectorUtils.rotateAroundAxisX(vec, pitch);
                 VectorUtils.rotateAroundAxisY(vec, yaw);
                 playerLoc.add(vec);
-                playerLoc.getWorld().spawnParticle(Particle.ELECTRIC_SPARK, playerLoc.clone(), 1, 0, 0, 0, 0);
+                Objects.requireNonNull(playerLoc.getWorld()).spawnParticle(Particle.ELECTRIC_SPARK, playerLoc.clone(), 1, 0, 0, 0, 0);
                 playerLoc.subtract(vec);
             }
             playerLoc.add(dir);
@@ -295,6 +291,6 @@ public class SpearOfLight extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.SPECTRAL_ARROW, "Spear of Light", "1000", identifier, 2, Bukkit.getPlayer(pathway.getUuid()).getName());
+        return SunItems.createItem(Material.SPECTRAL_ARROW, "Spear of Light", "1000", identifier, 2, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
     }
 }

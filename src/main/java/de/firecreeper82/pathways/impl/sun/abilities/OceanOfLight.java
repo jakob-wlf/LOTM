@@ -6,19 +6,17 @@ import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.sun.SunItems;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityCategory;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class OceanOfLight extends Ability {
     public OceanOfLight(int identifier, Pathway pathway) {
@@ -56,8 +54,8 @@ public class OceanOfLight extends Ability {
                 counter++;
 
                 Particle.DustOptions dustSphere = new Particle.DustOptions(Color.fromBGR(0, 215, 255), 3.5f);
-                loc.getWorld().spawnParticle(Particle.REDSTONE, loc, 3000, 50, 50, 50, 0, dustSphere);
-                loc.getWorld().spawnParticle(Particle.END_ROD, loc, 1500, 50, 50, 50, 0.01);
+                Objects.requireNonNull(loc.getWorld()).spawnParticle(Particle.REDSTONE, loc, 1000, 50, 50, 50, 0, dustSphere);
+                loc.getWorld().spawnParticle(Particle.END_ROD, loc, 500, 50, 50, 50, 0.01);
 
                 for(Entity entity : loc.getWorld().getNearbyEntities(loc, 55, 55, 55)) {
                     if(entity instanceof LivingEntity) {
@@ -82,6 +80,6 @@ public class OceanOfLight extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.GOLD_BLOCK, "Ocean of Light", "800", identifier, 2, Bukkit.getPlayer(pathway.getUuid()).getName());
+        return SunItems.createItem(Material.GOLD_BLOCK, "Ocean of Light", "800", identifier, 2, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
     }
 }

@@ -1,4 +1,4 @@
-package de.firecreeper82.lotm;
+package de.firecreeper82.lotm.util;
 
 
 import org.bukkit.util.Vector;

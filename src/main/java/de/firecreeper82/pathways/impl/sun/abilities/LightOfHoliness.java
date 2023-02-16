@@ -6,15 +6,13 @@ import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.sun.SunItems;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BlockIterator;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 public class LightOfHoliness extends Ability {
@@ -52,7 +50,7 @@ public class LightOfHoliness extends Ability {
 
                 //Particles
                 Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(0, 215, 255), 1f);
-                loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX() + 3.8, loc.getY(), loc.getZ(), 20, 0.15, 0, 0.15, 0, dust);
+                Objects.requireNonNull(loc.getWorld()).spawnParticle(Particle.REDSTONE, loc.getX() + 3.8, loc.getY(), loc.getZ(), 20, 0.15, 0, 0.15, 0, dust);
                 loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX() - 3.8, loc.getY(), loc.getZ(), 20, 0.15, 0, 0.15, 0, dust);
                 loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX(), loc.getY(), loc.getZ() + 3.8, 20, 0.15, 0, 0.15, 0, dust);
                 loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX(), loc.getY(), loc.getZ() - 3.8, 20, 0.15, 0, 0.15, 0, dust);
@@ -207,6 +205,6 @@ public class LightOfHoliness extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.RAW_GOLD, "Light of Holiness", "100", identifier, 5, Bukkit.getPlayer(pathway.getUuid()).getName());
+        return SunItems.createItem(Material.RAW_GOLD, "Light of Holiness", "100", identifier, 5, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
     }
 }

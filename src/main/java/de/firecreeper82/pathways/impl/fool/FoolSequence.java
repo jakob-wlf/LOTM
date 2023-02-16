@@ -17,12 +17,6 @@ import java.util.Objects;
 
 public class FoolSequence extends Sequence {
 
-    public FoolSequence(Pathway pathway) {
-        super(pathway);
-        currentSequence = 9;
-        init();
-    }
-
     public FoolSequence(Pathway pathway, int optionalSequence) {
         super(pathway, optionalSequence);
         init();

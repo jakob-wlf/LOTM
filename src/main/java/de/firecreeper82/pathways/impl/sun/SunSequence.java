@@ -17,12 +17,6 @@ import java.util.Objects;
 
 public class SunSequence extends Sequence {
 
-    public SunSequence(Pathway pathway) {
-        super(pathway);
-        currentSequence = 9;
-        init();
-    }
-
     public SunSequence(Pathway pathway, int optionalSequence) {
         super(pathway, optionalSequence);
         init();

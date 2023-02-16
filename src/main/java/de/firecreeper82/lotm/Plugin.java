@@ -32,6 +32,7 @@ public final class Plugin extends JavaPlugin {
     private FileConfiguration configSave;
 
     public ArrayList<Potion> potions;
+    public Divination divination;
 
     @Override
     public void onEnable() {
@@ -50,13 +51,14 @@ public final class Plugin extends JavaPlugin {
 
     public void register() {
         ItemsCmd itemsCmd = new ItemsCmd();
+        divination = new Divination();
 
         PluginManager pl = this.getServer().getPluginManager();
         pl.registerEvents(new InteractListener(), this);
         pl.registerEvents(itemsCmd, this);
         pl.registerEvents(new PotionHandler(), this);
         pl.registerEvents(new PotionListener(), this);
-        pl.registerEvents(new Divination(), this);
+        pl.registerEvents(divination, this);
 
         Objects.requireNonNull(this.getCommand("beyonder")).setExecutor(new BeyonderCmd());
         Objects.requireNonNull(this.getCommand("items")).setExecutor(itemsCmd);
@@ -127,7 +129,11 @@ public final class Plugin extends JavaPlugin {
                 if(!configSave.contains("beyonders." + s + ".sequence") || !(configSave.get("beyonders." + s + ".sequence") instanceof Integer))
                     return;
                 Player p = Bukkit.getPlayer(UUID.fromString(s));
-                Pathway pathway = Pathway.initializeNew((String) Objects.requireNonNull(configSave.get("beyonders." + s + ".pathway")), UUID.fromString(s), (Integer) configSave.get("beyonders." + s + ".sequence"));
+                Integer sequence = (Integer) configSave.get("beyonders." + s + ".sequence");
+                int primitiveSequence = 9;
+                if(sequence != null)
+                    primitiveSequence = sequence;
+                Pathway pathway = Pathway.initializeNew((String) Objects.requireNonNull(configSave.get("beyonders." + s + ".pathway")), UUID.fromString(s), primitiveSequence);
                 assert p != null;
                 assert pathway != null;
                 Beyonder beyonder = new Beyonder(p.getUniqueId(), pathway);
