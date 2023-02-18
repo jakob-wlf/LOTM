@@ -5,10 +5,12 @@ import de.firecreeper82.lotm.Plugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -24,6 +26,7 @@ import java.util.*;
 public class Divination implements Listener {
 
     private final HashMap<Beyonder, Inventory> openInv;
+    private final ArrayList<Beyonder> animalDowsing;
 
     private final ItemStack magentaPane;
     private final ItemStack stick;
@@ -32,6 +35,7 @@ public class Divination implements Listener {
 
     public Divination() {
         openInv = new HashMap<>();
+        animalDowsing = new ArrayList<>();
 
         magentaPane = new ItemStack(Material.MAGENTA_STAINED_GLASS_PANE);
         ItemMeta magentaPaneMeta = magentaPane.getItemMeta();
@@ -108,9 +112,17 @@ public class Divination implements Listener {
 
         if(Objects.equals(e.getCurrentItem(), stick)) {
             Inventory inv = dowsingRodInv(createRawInv(beyonder));
-            beyonder.getPlayer().closeInventory();
             beyonder.getPlayer().openInventory(inv);
             openInv.replace(beyonder, inv);
+        }
+
+        if(Objects.equals(e.getCurrentItem(), cowHead)) {
+            openInv.remove(beyonder);
+            Player p = (Player) e.getWhoClicked();
+            p.closeInventory();
+            p.sendMessage("Write the animal you want to locate");
+            animalDowsing.remove(beyonder);
+            animalDowsing.add(beyonder);
         }
     }
 
@@ -119,5 +131,14 @@ public class Divination implements Listener {
         if(!Plugin.beyonders.containsKey(e.getPlayer().getUniqueId()) || !openInv.containsKey(Plugin.beyonders.get(e.getPlayer().getUniqueId())) || e.getInventory() != openInv.get(Plugin.beyonders.get(e.getPlayer().getUniqueId())))
             return;
         openInv.remove(Plugin.beyonders.get(e.getPlayer().getUniqueId()));
+    }
+
+    @EventHandler
+    public void onChat(AsyncPlayerChatEvent e) {
+        if(!Plugin.beyonders.containsKey(e.getPlayer().getUniqueId()) || !animalDowsing.contains(Plugin.beyonders.get(e.getPlayer().getUniqueId())))
+            return;
+
+        Player p = e.getPlayer();
+        p.sendMessage("test");
     }
 }
