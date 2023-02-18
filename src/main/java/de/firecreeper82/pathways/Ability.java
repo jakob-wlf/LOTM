@@ -57,4 +57,19 @@ public abstract class Ability {
         }
         return multiplier;
     }
+
+    public static double getMultiplier(Pathway pathway) {
+        double multiplier = 1;
+        if(pathway.getSequence().getSequenceMultiplier().containsKey(pathway.getSequence().getCurrentSequence())) {
+            multiplier = pathway.getSequence().getSequenceMultiplier().get(pathway.getSequence().getCurrentSequence());
+        }
+        else {
+            for(int i = pathway.getSequence().currentSequence; i < 9; i++) {
+                if(pathway.getSequence().getSequenceMultiplier().containsKey(i)) {
+                    multiplier = pathway.getSequence().getSequenceMultiplier().get(i);
+                }
+            }
+        }
+        return multiplier;
+    }
 }
