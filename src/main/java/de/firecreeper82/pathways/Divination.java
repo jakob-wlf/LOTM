@@ -37,6 +37,8 @@ public class Divination implements Listener {
     private final ItemStack stick;
 
     private final ItemStack cowHead;
+    private final ItemStack grassHead;
+    private final ItemStack playerHead;
 
     public Divination() {
         openInv = new HashMap<>();
@@ -60,19 +62,49 @@ public class Divination implements Listener {
         stick.setItemMeta(stickMeta);
 
         cowHead = new ItemStack(Material.PLAYER_HEAD);
-        SkullMeta meta = (SkullMeta) cowHead.getItemMeta();
-        assert meta != null;
-        meta.setDisplayName("§6Entities");
-        String[] lore = {"§5Divine the location of animals"};
-        meta.setLore(Arrays.asList(lore));
-        PlayerProfile profile = Bukkit.createPlayerProfile(UUID.randomUUID());
-        PlayerTextures textures = profile.getTextures();
+        SkullMeta cowMeta = (SkullMeta) cowHead.getItemMeta();
+        assert cowMeta != null;
+        cowMeta.setDisplayName("§6Entities");
+        String[] cowLore = {"§5Divine the location of entities"};
+        cowMeta.setLore(Arrays.asList(cowLore));
+        PlayerProfile cowProfile = Bukkit.createPlayerProfile(UUID.randomUUID());
+        PlayerTextures cowTextures = cowProfile.getTextures();
         try {
-            textures.setSkin(new URL("https://textures.minecraft.net/texture/c5a9cd58d4c67bccc8fb1f5f756a2d381c9ffac2924b7f4cb71aa9fa13fb5c"));
+            cowTextures.setSkin(new URL("https://textures.minecraft.net/texture/c5a9cd58d4c67bccc8fb1f5f756a2d381c9ffac2924b7f4cb71aa9fa13fb5c"));
         }
         catch (MalformedURLException ignored) {}
-        meta.setOwnerProfile(profile);
-        cowHead.setItemMeta(meta);
+        cowMeta.setOwnerProfile(cowProfile);
+        cowHead.setItemMeta(cowMeta);
+
+        grassHead = new ItemStack(Material.PLAYER_HEAD);
+        SkullMeta grassMeta = (SkullMeta) grassHead.getItemMeta();
+        assert grassMeta != null;
+        grassMeta.setDisplayName("§6Biomes");
+        String[] grassLore = {"§5Divine the location of biomes"};
+        grassMeta.setLore(Arrays.asList(grassLore));
+        PlayerProfile grassProfile = Bukkit.createPlayerProfile(UUID.randomUUID());
+        PlayerTextures grassTextures = grassProfile.getTextures();
+        try {
+            grassTextures.setSkin(new URL("http://textures.minecraft.net/texture/16bb9fb97ba87cb727cd0ff477f769370bea19ccbfafb581629cd5639f2fec2b"));
+        }
+        catch (MalformedURLException ignored) {}
+        grassMeta.setOwnerProfile(grassProfile);
+        grassHead.setItemMeta(grassMeta);
+
+        playerHead = new ItemStack(Material.PLAYER_HEAD);
+        SkullMeta playerMeta = (SkullMeta) playerHead.getItemMeta();
+        assert playerMeta != null;
+        playerMeta.setDisplayName("§6Biomes");
+        String[] playerLore = {"§5Divine the location of biomes"};
+        playerMeta.setLore(Arrays.asList(playerLore));
+        PlayerProfile playerProfile = Bukkit.createPlayerProfile(UUID.randomUUID());
+        PlayerTextures playerTextures = playerProfile.getTextures();
+        try {
+            playerTextures.setSkin(new URL("http://textures.minecraft.net/texture/4d9d043adc884b979b4f42bdb350f2a301327cab49c4ce2de42a8f4601fe9dbf"));
+        }
+        catch (MalformedURLException ignored) {}
+        playerMeta.setOwnerProfile(playerProfile);
+        playerHead.setItemMeta(playerMeta);
     }
 
     public void divine(Beyonder beyonder) {
@@ -103,6 +135,8 @@ public class Divination implements Listener {
 
     private Inventory dowsingRodInv(Inventory inv) {
         inv.setItem(10, cowHead);
+        inv.setItem(11, grassHead);
+        inv.setItem(12, playerHead);
         return inv;
     }
 
@@ -192,7 +226,7 @@ public class Divination implements Listener {
         Location particleLoc = p.getEyeLocation().clone().add(v.normalize().multiply(0.5));
 
         for(int i = 0; i < 50; i++) {
-            p.spawnParticle(Particle.CRIT_MAGIC, particleLoc, 10, 0, 0, 0, 0);
+            p.spawnParticle(Particle.PORTAL, particleLoc, 50, 0.01, 0.0, 0.01, 0);
             particleLoc.add(v.normalize().multiply(0.5));
         }
     }
