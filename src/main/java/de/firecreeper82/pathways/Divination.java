@@ -3,8 +3,12 @@ package de.firecreeper82.pathways;
 import de.firecreeper82.lotm.Beyonder;
 import de.firecreeper82.lotm.Plugin;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,6 +22,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.profile.PlayerProfile;
 import org.bukkit.profile.PlayerTextures;
+import org.bukkit.util.Vector;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -26,7 +31,7 @@ import java.util.*;
 public class Divination implements Listener {
 
     private final HashMap<Beyonder, Inventory> openInv;
-    private final ArrayList<Beyonder> animalDowsing;
+    private final HashMap<Beyonder, Collection<Entity>> animalDowsing;
 
     private final ItemStack magentaPane;
     private final ItemStack stick;
@@ -35,7 +40,7 @@ public class Divination implements Listener {
 
     public Divination() {
         openInv = new HashMap<>();
-        animalDowsing = new ArrayList<>();
+        animalDowsing = new HashMap<>();
 
         magentaPane = new ItemStack(Material.MAGENTA_STAINED_GLASS_PANE);
         ItemMeta magentaPaneMeta = magentaPane.getItemMeta();
@@ -57,7 +62,7 @@ public class Divination implements Listener {
         cowHead = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta meta = (SkullMeta) cowHead.getItemMeta();
         assert meta != null;
-        meta.setDisplayName("§6Animals");
+        meta.setDisplayName("§6Entities");
         String[] lore = {"§5Divine the location of animals"};
         meta.setLore(Arrays.asList(lore));
         PlayerProfile profile = Bukkit.createPlayerProfile(UUID.randomUUID());
@@ -113,16 +118,17 @@ public class Divination implements Listener {
         if(Objects.equals(e.getCurrentItem(), stick)) {
             Inventory inv = dowsingRodInv(createRawInv(beyonder));
             beyonder.getPlayer().openInventory(inv);
-            openInv.replace(beyonder, inv);
+            openInv.remove(beyonder);
+            openInv.put(beyonder, inv);
         }
 
         if(Objects.equals(e.getCurrentItem(), cowHead)) {
             openInv.remove(beyonder);
             Player p = (Player) e.getWhoClicked();
             p.closeInventory();
-            p.sendMessage("Write the animal you want to locate");
+            p.sendMessage("§5Write the entity you want to locate");
             animalDowsing.remove(beyonder);
-            animalDowsing.add(beyonder);
+            animalDowsing.put(beyonder, p.getNearbyEntities(1500, 500, 1500));
         }
     }
 
@@ -135,10 +141,59 @@ public class Divination implements Listener {
 
     @EventHandler
     public void onChat(AsyncPlayerChatEvent e) {
-        if(!Plugin.beyonders.containsKey(e.getPlayer().getUniqueId()) || !animalDowsing.contains(Plugin.beyonders.get(e.getPlayer().getUniqueId())))
+        if(!Plugin.beyonders.containsKey(e.getPlayer().getUniqueId()) || !animalDowsing.containsKey(Plugin.beyonders.get(e.getPlayer().getUniqueId())))
             return;
 
+        e.setCancelled(true);
         Player p = e.getPlayer();
-        p.sendMessage("test");
+        Collection<Entity> nearbyEntities = animalDowsing.get(Plugin.beyonders.get(p.getUniqueId()));
+
+        String chatMsg = e.getMessage();
+        EntityType entityType = null;
+
+        if(chatMsg.equalsIgnoreCase("cancel")) {
+            p.sendMessage("§cStopping Dowsing Rod Divination");
+            animalDowsing.remove(Plugin.beyonders.get(p.getUniqueId()));
+            return;
+        }
+
+        for(EntityType type : EntityType.values()) {
+            if(type.name().equalsIgnoreCase(chatMsg)) {
+                entityType = type;
+                break;
+            }
+        }
+
+        if(entityType == null) {
+            p.sendMessage("§c" + chatMsg + " is not a valid entity! If you want to cancel the divination, type \"cancel\"");
+            return;
+        }
+
+        Entity entity = null;
+        double distance = -1;
+        for(Entity ent : nearbyEntities) {
+            if(ent.getType() == entityType) {
+                if(ent.getLocation().distance(p.getEyeLocation()) < distance || distance == -1) {
+                    distance = ent.getLocation().distance(p.getEyeLocation());
+                    entity = ent;
+                }
+            }
+        }
+
+        if(entity == null) {
+            p.sendMessage("§cThere is no " + entityType.name() + " nearby!");
+            animalDowsing.remove(Plugin.beyonders.get(p.getUniqueId()));
+            return;
+        }
+
+        animalDowsing.remove(Plugin.beyonders.get(p.getUniqueId()));
+        Vector v = entity.getLocation().toVector().subtract(p.getEyeLocation().toVector());
+
+        Location particleLoc = p.getEyeLocation().clone().add(v.normalize().multiply(0.5));
+
+        for(int i = 0; i < 50; i++) {
+            p.spawnParticle(Particle.CRIT_MAGIC, particleLoc, 10, 0, 0, 0, 0);
+            particleLoc.add(v.normalize().multiply(0.5));
+        }
     }
 }
