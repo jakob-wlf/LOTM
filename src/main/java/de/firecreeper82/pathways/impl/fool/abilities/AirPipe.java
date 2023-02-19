@@ -1,0 +1,54 @@
+package de.firecreeper82.pathways.impl.fool.abilities;
+
+import de.firecreeper82.lotm.Plugin;
+import de.firecreeper82.pathways.Ability;
+import de.firecreeper82.pathways.Pathway;
+import de.firecreeper82.pathways.impl.fool.FoolItems;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
+
+public class AirPipe extends Ability {
+
+    public AirPipe(int identifier, Pathway pathway) {
+        super(identifier, pathway);
+    }
+
+    @Override
+    public void useAbility() {
+        p = pathway.getBeyonder().getPlayer();
+        pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+
+                p.addPotionEffect(new PotionEffect(PotionEffectType.WATER_BREATHING, 60, 1, false, false));
+
+                Location particleLoc = p.getEyeLocation().clone().add(p.getLocation().getDirection().normalize().multiply(0.25));
+                while(particleLoc.getBlock().getType() == Material.WATER) {
+                    if(particleLoc.getWorld() != null) {
+                        particleLoc.getWorld().spawnParticle(Particle.SPELL, particleLoc, 1, 0, 0, 0, 0);
+                    }
+                    particleLoc.add(0, .5, 0);
+                }
+
+                pathway.getBeyonder().setSpirituality(pathway.getBeyonder().getSpirituality() - 1.25);
+
+                if(pathway.getBeyonder().getSpirituality() <= 2 || !pathway.getSequence().getUsesAbilities()[identifier - 1] || !pathway.getBeyonder().online) {
+                    pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
+                    cancel();
+                }
+            }
+        }.runTaskTimer(Plugin.instance, 0, 5);
+    }
+
+    @Override
+    public ItemStack getItem() {
+        return FoolItems.createItem(Material.PRISMARINE_CRYSTALS, "Air Pipe", "5/s", identifier, 7, pathway.getBeyonder().getPlayer().getName());
+    }
+}

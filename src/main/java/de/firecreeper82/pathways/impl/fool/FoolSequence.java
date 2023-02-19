@@ -169,6 +169,8 @@ public class FoolSequence extends Sequence implements Listener {
             return;
 
         if(usesAbilities[ability - 1]) {
+            if(ability == 4)
+                usesAbilities[ability - 1] = false;
             return;
         }
 
