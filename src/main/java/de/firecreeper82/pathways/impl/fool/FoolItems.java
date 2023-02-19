@@ -3,6 +3,7 @@ package de.firecreeper82.pathways.impl.fool;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
+import de.firecreeper82.pathways.impl.fool.abilities.AirBullet;
 import de.firecreeper82.pathways.impl.fool.abilities.Divine;
 import de.firecreeper82.pathways.impl.fool.abilities.FlameControlling;
 import org.bukkit.Material;
@@ -23,6 +24,7 @@ public class FoolItems extends Items {
         sequenceItems = new HashMap<>();
         sequenceItems.put(0, 9);
         sequenceItems.put(1, 7);
+        sequenceItems.put(2, 7);
         createItems();
     }
 
@@ -46,6 +48,11 @@ public class FoolItems extends Items {
 
         //Magician - Flame Controlling
         ability = new FlameControlling(2, pathway);
+        pathway.getSequence().getAbilities().add(ability);
+        items.add(ability.getItem());
+
+        //Magician - Air Bullet
+        ability = new AirBullet(3, pathway);
         pathway.getSequence().getAbilities().add(ability);
         items.add(ability.getItem());
 

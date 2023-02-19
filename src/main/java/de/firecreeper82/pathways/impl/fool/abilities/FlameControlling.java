@@ -53,7 +53,7 @@ public class FlameControlling extends Ability {
                                 loc.getY() - 0.25,
                                 loc.getZ() - 0.25
                         );
-                        if(entity.getBoundingBox().overlaps(v1, v2) && entity instanceof Damageable) {
+                        if(entity.getBoundingBox().overlaps(v1, v2) && entity instanceof Damageable && entity != p) {
                             ((Damageable) entity).damage(8 * multiplier, p);
                             entity.setFireTicks(250);
                             cancel();
@@ -63,7 +63,7 @@ public class FlameControlling extends Ability {
                 }
 
                 if(loc.getBlock().getType().isSolid() || counter >= 100) {
-                    if(loc.getBlock().getType().isSolid() || !loc.clone().add(0, 1, 0).getBlock().getType().isSolid())
+                    if(loc.getBlock().getType().isSolid() && !loc.clone().add(0, 1, 0).getBlock().getType().isSolid())
                         loc.clone().add(0, 1, 0).getBlock().setType(Material.FIRE);
                     cancel();
                 }
