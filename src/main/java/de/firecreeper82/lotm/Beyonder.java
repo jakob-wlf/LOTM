@@ -101,12 +101,13 @@ public class Beyonder implements Listener {
                     return;
                 }
 
-                if(loosingControl)
-                    return;
-
                 //scoreboard
                 counter++;
                 updateBoard();
+
+                if(spirituality <= maxSpirituality / 100 && !loosingControl) {
+                    looseControl(95, 10);
+                }
 
                 //spirituality handling
                 if (spirituality < maxSpirituality && counter >= 8) {
@@ -115,6 +116,9 @@ public class Beyonder implements Listener {
                     if(spirituality > maxSpirituality)
                         spirituality = maxSpirituality;
                 }
+
+                if(loosingControl)
+                    return;
 
                 Player p = getPlayer();
 

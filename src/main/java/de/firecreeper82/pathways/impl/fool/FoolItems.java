@@ -4,6 +4,7 @@ import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.fool.abilities.Divine;
+import de.firecreeper82.pathways.impl.fool.abilities.FlameControlling;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
@@ -21,6 +22,7 @@ public class FoolItems extends Items {
         items = new ArrayList<>();
         sequenceItems = new HashMap<>();
         sequenceItems.put(0, 9);
+        sequenceItems.put(1, 7);
         createItems();
     }
 
@@ -39,6 +41,11 @@ public class FoolItems extends Items {
     public void createItems() {
         //Seer - Divination
         Ability ability = new Divine(1, pathway);
+        pathway.getSequence().getAbilities().add(ability);
+        items.add(ability.getItem());
+
+        //Magician - Flame Controlling
+        ability = new FlameControlling(2, pathway);
         pathway.getSequence().getAbilities().add(ability);
         items.add(ability.getItem());
 

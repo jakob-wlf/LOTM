@@ -56,7 +56,7 @@ public class FoolSequence extends Sequence implements Listener {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
-        if(e.getPlayer() != getPathway().getBeyonder().getPlayer() || e.getItem() == null)
+        if(e.getPlayer() != getPathway().getBeyonder().getPlayer() || e.getItem() == null || currentSequence > 8 || pathway.getBeyonder().getSpirituality() < 6)
             return;
         if(e.getItem().getType() == Material.PAPER) {
             Player p = e.getPlayer();
@@ -68,6 +68,8 @@ public class FoolSequence extends Sequence implements Listener {
 
             Vector v = p.getEyeLocation().getDirection().normalize();
             Location startLoc = p.getEyeLocation().clone();
+
+            removeSpirituality(5);
             new BukkitRunnable() {
                 int counter = 0;
                 @Override
