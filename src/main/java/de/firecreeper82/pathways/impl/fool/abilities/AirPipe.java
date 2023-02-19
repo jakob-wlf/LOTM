@@ -24,6 +24,7 @@ public class AirPipe extends Ability {
         pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
         new BukkitRunnable() {
+            int counter = 0;
             @Override
             public void run() {
 
@@ -37,14 +38,19 @@ public class AirPipe extends Ability {
                     particleLoc.add(0, .5, 0);
                 }
 
-                pathway.getBeyonder().setSpirituality(pathway.getBeyonder().getSpirituality() - 1.25);
+                if(counter >= 20) {
+                    counter = 0;
+                    pathway.getBeyonder().setSpirituality(pathway.getBeyonder().getSpirituality() - 5);
+                }
+
+                counter++;
 
                 if(pathway.getBeyonder().getSpirituality() <= 2 || !pathway.getSequence().getUsesAbilities()[identifier - 1] || !pathway.getBeyonder().online) {
                     pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                     cancel();
                 }
             }
-        }.runTaskTimer(Plugin.instance, 0, 5);
+        }.runTaskTimer(Plugin.instance, 0, 1);
     }
 
     @Override

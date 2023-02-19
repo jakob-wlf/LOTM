@@ -128,21 +128,13 @@ public class FoolSequence extends Sequence implements Listener {
         };
         sequenceEffects.put(8, effects8);
 
-        PotionEffect[] effects6 = {
-                new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60, 1, false, false, false),
-                new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60, 1, false, false, false),
-                new PotionEffect(PotionEffectType.SPEED, 60, 1, false, false, true),
-        };
-        sequenceEffects.put(6, effects6);
-
         PotionEffect[] effects2 = {
-                new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60, 2, false, false, false),
-                new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60, 3, false, false, false),
-                new PotionEffect(PotionEffectType.SPEED, 60, 2, false, false, true),
-                new PotionEffect(PotionEffectType.SATURATION, 60, 10, false, false, true),
+                new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60, 1, false, false, false),
+                new PotionEffect(PotionEffectType.SATURATION, 60, 10, false, false, false),
+                new PotionEffect(PotionEffectType.JUMP, 60, 2, false, false, false),
+                new PotionEffect(PotionEffectType.SPEED, 60, 3, false, false, true),
         };
         sequenceEffects.put(2, effects2);
-
     }
 
     @Override
