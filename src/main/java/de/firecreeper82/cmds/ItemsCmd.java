@@ -47,6 +47,9 @@ public class ItemsCmd implements CommandExecutor, Listener {
             openInventories.remove(p);
         }
 
+
+        //Create Inventory and loop through the for the player available items and add them to the inv
+        //Put the Player in the openInventories HashMap
         Inventory inv = Bukkit.createInventory(p, 27, Plugin.beyonders.get(p.getUniqueId()).getPathway().getStringColor() + p.getName() + " - Items");
 
         for(ItemStack tempItem : Plugin.beyonders.get(p.getUniqueId()).getPathway().getItems().returnItemsFromSequence(Plugin.beyonders.get(p.getUniqueId()).getPathway().getSequence().currentSequence))  {
@@ -59,6 +62,8 @@ public class ItemsCmd implements CommandExecutor, Listener {
     }
 
     @EventHandler
+    //Check if Player is in the opeInventories HashMap
+    //If he is, cancel the event and give the player the item if he doesn't already have it
     public void onInventoryInteract(InventoryClickEvent e) {
         if(!(e.getWhoClicked() instanceof Player))
             return;
@@ -84,6 +89,7 @@ public class ItemsCmd implements CommandExecutor, Listener {
     }
 
     @EventHandler
+    //remove player from openInventories HashMap
     public void onInventoryClose(InventoryCloseEvent e) {
         if(!(e.getPlayer() instanceof Player))
             return;

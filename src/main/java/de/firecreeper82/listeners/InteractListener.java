@@ -10,6 +10,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class InteractListener implements Listener {
     @EventHandler
+    //Check if Player is Beyonder and the item isn't air
+    //Call the useAbility function from the Beyonder
     public void onInteract(PlayerInteractEvent e) {
         Player p = e.getPlayer();
         if(!Plugin.beyonders.containsKey(p.getUniqueId()))
@@ -20,7 +22,10 @@ public class InteractListener implements Listener {
         Plugin.beyonders.get(p.getUniqueId()).getPathway().getSequence().useAbility(e.getItem(), e);
     }
 
+
     @EventHandler
+    //Check if Player is Beyonder
+    //Call the destroyItem function from the Beyonder
     public void onDrop(PlayerDropItemEvent e) {
         Player p = e.getPlayer();
         if(!Plugin.beyonders.containsKey(p.getUniqueId()))

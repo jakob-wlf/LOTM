@@ -25,11 +25,8 @@ public class BeyonderCmd implements CommandExecutor {
             return true;
         }
 
-
         int sequence;
-        try {
-            sequence = Integer.parseInt(args[1]);
-        }
+        try { sequence = Integer.parseInt(args[1]); }
         catch(Exception exc) {
             s.sendMessage("§cWrong usage: Use /beyonder <Pathway> <Sequence>!");
             return true;
@@ -40,8 +37,12 @@ public class BeyonderCmd implements CommandExecutor {
             return true;
         }
 
+
         Player p = (Player) s;
 
+        //Check if Player is already a Beyonder.
+        // If he is, then remove him from the pathway and initialize a new one for the player
+        //If he isn't then just initialize a pathway for him
         if(Plugin.beyonders.containsKey(p.getUniqueId())) {
             Plugin.beyonders.get(p.getUniqueId()).removeBeyonder();
             Pathway pathway = Pathway.initializeNew(args[0].toLowerCase(), p.getUniqueId(), sequence);
