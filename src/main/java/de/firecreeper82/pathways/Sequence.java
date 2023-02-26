@@ -40,6 +40,8 @@ public abstract class Sequence {
 
     public abstract void removeSpirituality(double remove);
 
+    public abstract void onHold(ItemStack item);
+
     public int getCurrentSequence() {
         return currentSequence;
     }

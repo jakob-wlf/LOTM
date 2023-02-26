@@ -130,4 +130,18 @@ public class SunSequence extends Sequence {
     public void removeSpirituality(double remove) {
         pathway.getBeyonder().setSpirituality(pathway.getBeyonder().getSpirituality() - remove);
     }
+
+    @Override
+    public void onHold(ItemStack item) {
+        if(!checkValid(item))
+            return;
+
+        int id = Objects.requireNonNull(item.getItemMeta()).getEnchantLevel(Enchantment.CHANNELING);
+        for(Ability a : abilities) {
+            if(a.getIdentifier() == id) {
+                a.onHold();
+                break;
+            }
+        }
+    }
 }

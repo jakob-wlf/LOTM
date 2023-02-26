@@ -122,6 +122,8 @@ public class Beyonder implements Listener {
 
                 Player p = getPlayer();
 
+                pathway.getSequence().onHold(p.getInventory().getItemInMainHand());
+
                 //passive effects
                 if(pathway.getSequence().getSequenceEffects().containsKey(pathway.getSequence().getCurrentSequence())) {
                     for(PotionEffect effect : pathway.getSequence().getSequenceEffects().get(pathway.getSequence().getCurrentSequence())) {

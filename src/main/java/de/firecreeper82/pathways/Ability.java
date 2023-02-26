@@ -18,6 +18,8 @@ public abstract class Ability {
 
     public abstract ItemStack getItem();
 
+    public void onHold() {}
+
     public Pathway getPathway() {
         return pathway;
     }

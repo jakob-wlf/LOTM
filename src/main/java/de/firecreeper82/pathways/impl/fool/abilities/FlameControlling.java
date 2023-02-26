@@ -24,23 +24,25 @@ public class FlameControlling extends Ability {
         double multiplier = getMultiplier();
         p = pathway.getBeyonder().getPlayer();
 
-        if(!p.getInventory().contains(Material.COAL) && !p.getInventory().contains(Material.CHARCOAL)) {
-            Location noFuelLoc = p.getEyeLocation().add(p.getEyeLocation().getDirection().normalize());
-            if(noFuelLoc.getWorld() == null)
+        if(pathway.getSequence().currentSequence == 7) {
+            if(!p.getInventory().contains(Material.COAL) && !p.getInventory().contains(Material.CHARCOAL)) {
+                Location noFuelLoc = p.getEyeLocation().add(p.getEyeLocation().getDirection().normalize());
+                if(noFuelLoc.getWorld() == null)
+                    return;
+                noFuelLoc.getWorld().spawnParticle(Particle.SMOKE_NORMAL, noFuelLoc, 25, 0.05, 0.05, 0.05, 0.15);
                 return;
-            noFuelLoc.getWorld().spawnParticle(Particle.SMOKE_NORMAL, noFuelLoc, 25, 0.05, 0.05, 0.05, 0.5);
-            return;
-        }
+            }
 
-        ItemStack item;
-        for(int i = 0; i < p.getInventory().getContents().length; i++) {
-            item = p.getInventory().getItem(i);
-            if(item == null)
-                continue;
-            if(item.getType() == Material.COAL || item.getType() == Material.CHARCOAL) {
-                item.setAmount(item.getAmount() - 1);
-                p.getInventory().setItem(i, item);
-                break;
+            ItemStack item;
+            for(int i = 0; i < p.getInventory().getContents().length; i++) {
+                item = p.getInventory().getItem(i);
+                if(item == null)
+                    continue;
+                if(item.getType() == Material.COAL || item.getType() == Material.CHARCOAL) {
+                    item.setAmount(item.getAmount() - 1);
+                    p.getInventory().setItem(i, item);
+                    break;
+                }
             }
         }
 
