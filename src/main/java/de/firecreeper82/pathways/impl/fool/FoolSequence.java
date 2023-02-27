@@ -36,7 +36,7 @@ public class FoolSequence extends Sequence implements Listener {
     }
 
     public void init() {
-        usesAbilities = new boolean[19];
+        usesAbilities = new boolean[20];
         Arrays.fill(usesAbilities, false);
 
         abilities = new ArrayList<>();

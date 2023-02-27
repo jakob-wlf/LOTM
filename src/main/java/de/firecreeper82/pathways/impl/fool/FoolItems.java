@@ -26,6 +26,7 @@ public class FoolItems extends Items {
         sequenceItems.put(3, 7);
         sequenceItems.put(4, 7);
         sequenceItems.put(5, 7);
+        sequenceItems.put(6, 3);
         createItems();
     }
 
@@ -69,6 +70,11 @@ public class FoolItems extends Items {
 
         //Magician - Paper Figurine Substitute
         ability = new PaperSubstitute(6, pathway);
+        pathway.getSequence().getAbilities().add(ability);
+        items.add(ability.getItem());
+
+        //Scholar of Yore - Fog of History
+        ability = new FogOfHistory(9, pathway);
         pathway.getSequence().getAbilities().add(ability);
         items.add(ability.getItem());
 
