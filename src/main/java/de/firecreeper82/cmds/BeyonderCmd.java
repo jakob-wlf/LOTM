@@ -6,12 +6,13 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 
 public class BeyonderCmd implements CommandExecutor {
 
     @Override
-    public boolean onCommand(CommandSender s, Command cmd, String label, String[] args) {
+    public boolean onCommand(CommandSender s, @NonNull Command cmd, @NonNull String label, @NonNull String[] args) {
         if(!s.isOp()) {
             s.sendMessage("§cYou don't have the permission to use this command!");
             return true;

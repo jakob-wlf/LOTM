@@ -25,6 +25,7 @@ public class FoolItems extends Items {
         sequenceItems.put(2, 7);
         sequenceItems.put(3, 7);
         sequenceItems.put(4, 7);
+        sequenceItems.put(5, 7);
         createItems();
     }
 
@@ -63,6 +64,11 @@ public class FoolItems extends Items {
 
         //Magician - Flaming Jump
         ability = new FlameJump(5, pathway);
+        pathway.getSequence().getAbilities().add(ability);
+        items.add(ability.getItem());
+
+        //Magician - Paper Figurine Substitute
+        ability = new PaperSubstitute(6, pathway);
         pathway.getSequence().getAbilities().add(ability);
         items.add(ability.getItem());
 

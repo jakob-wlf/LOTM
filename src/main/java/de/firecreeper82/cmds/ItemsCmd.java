@@ -12,6 +12,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.HashMap;
 
@@ -24,7 +25,7 @@ public class ItemsCmd implements CommandExecutor, Listener {
     }
 
     @Override
-    public boolean onCommand(CommandSender s, Command cmd, String label, String[] args) {
+    public boolean onCommand(@NonNull CommandSender s, @NonNull Command cmd, @NonNull String label, @NonNull String[] args) {
         if(!(s instanceof Player)) {
             s.sendMessage("§cYou have to be a player to use this command!");
             return true;

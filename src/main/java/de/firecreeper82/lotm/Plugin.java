@@ -21,12 +21,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.*;
 import java.util.*;
 
-public final class Plugin extends JavaPlugin {
+public final class Plugin extends JavaPlugin{
 
     public static Plugin instance;
     public static String prefix;
 
     public static HashMap<UUID, Beyonder> beyonders;
+
+    public static ArrayList<UUID> fakePlayers = new ArrayList<>();
 
     private File configSaveFile;
     private FileConfiguration configSave;
@@ -40,6 +42,7 @@ public final class Plugin extends JavaPlugin {
         prefix = "§8§l[§5Lord of the Mysteries§8] ";
 
         beyonders = new HashMap<>();
+        fakePlayers = new ArrayList<>();
 
         Bukkit.getConsoleSender().sendMessage(prefix + "§aEnabled Plugin");
 
