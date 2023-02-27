@@ -74,7 +74,7 @@ public class FoolItems extends Items {
         items.add(ability.getItem());
 
         //Scholar of Yore - Fog of History
-        ability = new FogOfHistory(9, pathway);
+        ability = new FogOfHistory(7, pathway);
         pathway.getSequence().getAbilities().add(ability);
         items.add(ability.getItem());
 
