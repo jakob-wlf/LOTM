@@ -2,6 +2,7 @@ package de.firecreeper82.lotm;
 
 import de.firecreeper82.cmds.ItemsCmd;
 import de.firecreeper82.cmds.BeyonderCmd;
+import de.firecreeper82.listeners.DeathListener;
 import de.firecreeper82.listeners.InteractListener;
 import de.firecreeper82.listeners.PotionHandler;
 import de.firecreeper82.listeners.PotionListener;
@@ -10,6 +11,7 @@ import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.Potion;
 import de.firecreeper82.pathways.impl.fool.FoolPotions;
 import de.firecreeper82.pathways.impl.sun.SunPotions;
+import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -28,7 +30,7 @@ public final class Plugin extends JavaPlugin{
 
     public static HashMap<UUID, Beyonder> beyonders;
 
-    public static ArrayList<UUID> fakePlayers = new ArrayList<>();
+    public static HashMap<UUID, ServerPlayer> fakePlayers = new HashMap<>();
 
     private File configSaveFile;
     private FileConfiguration configSave;
@@ -42,7 +44,7 @@ public final class Plugin extends JavaPlugin{
         prefix = "§8§l[§5Lord of the Mysteries§8] ";
 
         beyonders = new HashMap<>();
-        fakePlayers = new ArrayList<>();
+        fakePlayers = new HashMap<>();
 
         Bukkit.getConsoleSender().sendMessage(prefix + "§aEnabled Plugin");
 
@@ -61,6 +63,7 @@ public final class Plugin extends JavaPlugin{
         pl.registerEvents(itemsCmd, this);
         pl.registerEvents(new PotionHandler(), this);
         pl.registerEvents(new PotionListener(), this);
+        pl.registerEvents(new DeathListener(), this);
         pl.registerEvents(divination, this);
 
         Objects.requireNonNull(this.getCommand("beyonder")).setExecutor(new BeyonderCmd());

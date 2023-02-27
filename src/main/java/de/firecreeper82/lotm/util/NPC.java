@@ -17,7 +17,9 @@ import org.bukkit.craftbukkit.v1_19_R1.CraftServer;
 import org.bukkit.craftbukkit.v1_19_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_19_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class NPC extends ServerPlayer {
@@ -26,22 +28,23 @@ public class NPC extends ServerPlayer {
         super(minecraftServer, worldServer, gameProfile, null);
     }
 
-    public static void create(Location location, String name, String[] skin) {
+    //Creating the FakePlayer and calling the showAll function to send the packets
+    public static ServerPlayer create(Location location, String name, String[] skin) {
         UUID uuid = UUID.randomUUID();
         MinecraftServer nmsServer = ((CraftServer) Bukkit.getServer()).getServer();
-        if(location.getWorld() == null)
-            return;
-        ServerLevel nmsWorld = ((CraftWorld) location.getWorld()).getHandle();
+        ServerLevel nmsWorld = ((CraftWorld) Objects.requireNonNull(location.getWorld())).getHandle();
         GameProfile profile = new GameProfile(uuid, name);
         NPC npc = new NPC(nmsServer, nmsWorld, profile);
         npc.connection = new TutNetHandler(nmsServer, new TutNetworkManager(PacketFlow.CLIENTBOUND), npc);
         setSkin(npc, skin);
         setPosRot(npc, location);
         npc.getBukkitEntity().setNoDamageTicks(0);
+        npc.getBukkitEntity().setHealth(1f);
         Bukkit.getOnlinePlayers().forEach(player -> ((CraftPlayer) player).getHandle().connection.send(new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.ADD_PLAYER, npc)));
         nmsWorld.addNewPlayer(npc);
-        Plugin.fakePlayers.add(uuid);
+        Plugin.fakePlayers.put(uuid, npc);
         NPC.showAll(npc, location);
+        return npc;
     }
 
     private static void setSkin(ServerPlayer npc, String[] skin) {
@@ -56,19 +59,28 @@ public class NPC extends ServerPlayer {
         test.setYRot(location.getPitch());
     }
 
+    //Create all the packets and send them to the player
+    //Send the ClientboundPlayerInfoPacket later to remove FakePlayer from tab list but still load the skin
     public static void showAll(ServerPlayer entityPlayer, Location location) {
         ClientboundPlayerInfoPacket playerInfoAdd = new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.ADD_PLAYER);
         ClientboundAddPlayerPacket namedEntitySpawn = new ClientboundAddPlayerPacket(entityPlayer);
         ClientboundRotateHeadPacket headRotation = new ClientboundRotateHeadPacket(entityPlayer, (byte) ((location.getYaw() * 256f) / 360f));
-        ClientboundPlayerInfoPacket playerInfoRemove = new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.REMOVE_PLAYER);
+        ClientboundPlayerInfoPacket playerInfoRemove = new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.REMOVE_PLAYER, entityPlayer);
         for (Player player : Bukkit.getOnlinePlayers()) {
             ServerGamePacketListenerImpl connection = ((CraftPlayer) player).getHandle().connection;
             connection.send(playerInfoAdd);
             connection.send(namedEntitySpawn);
             connection.send(headRotation);
-            connection.send(playerInfoRemove);
         }
-        entityPlayer.getEntityData().
-                set(net.minecraft.world.entity.player.Player.DATA_PLAYER_MODE_CUSTOMISATION, (byte) 0xFF);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    ServerGamePacketListenerImpl connection = ((CraftPlayer) player).getHandle().connection;
+                    connection.send(playerInfoRemove);
+                }
+            }
+        }.runTaskLater(Plugin.instance, 5);
+        entityPlayer.getEntityData().set(net.minecraft.world.entity.player.Player.DATA_PLAYER_MODE_CUSTOMISATION, (byte) 0xFF);
     }
 }
