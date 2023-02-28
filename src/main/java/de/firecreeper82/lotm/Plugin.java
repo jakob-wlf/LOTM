@@ -10,12 +10,14 @@ import de.firecreeper82.pathways.Divination;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.Potion;
 import de.firecreeper82.pathways.impl.fool.FoolPotions;
+import de.firecreeper82.pathways.impl.fool.abilities.FogOfHistory;
 import de.firecreeper82.pathways.impl.sun.SunPotions;
 import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -31,8 +33,13 @@ public final class Plugin extends JavaPlugin{
 
     public static HashMap<UUID, ServerPlayer> fakePlayers = new HashMap<>();
 
+    public static ArrayList<FogOfHistory> fogOfHistories = new ArrayList<>();
+
     private File configSaveFile;
     private FileConfiguration configSave;
+
+    private File configSaveFileFoh;
+    private FileConfiguration configSaveFoh;
 
     public ArrayList<Potion> potions;
     public Divination divination;
@@ -51,6 +58,8 @@ public final class Plugin extends JavaPlugin{
 
         register();
         initPotions();
+
+        createSaveConfigFoH();
     }
 
     public void register() {
@@ -82,6 +91,23 @@ public final class Plugin extends JavaPlugin{
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        for(FogOfHistory foh : fogOfHistories) {
+            try {
+                saveFoH(foh);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void saveFoH(FogOfHistory foh) throws IOException {
+        Bukkit.getConsoleSender().sendMessage(prefix + "§aSaving Fog of History Inventories");
+
+        for(ItemStack item : foh.getItems()) {
+            configSaveFoh.set(foh.getPathway().getBeyonder().getUuid() + ".", item);
+        }
+        configSaveFoh.save(configSaveFileFoh);
     }
 
     public void createSaveConfig() {
@@ -103,6 +129,24 @@ public final class Plugin extends JavaPlugin{
         load();
     }
 
+    private void createSaveConfigFoH() {
+        configSaveFileFoh = new File(getDataFolder(), "fools.yml");
+        if(!configSaveFileFoh.exists()) {
+            if(configSaveFileFoh.getParentFile().mkdirs())
+                saveResource("fools.yml", false);
+            else
+                Bukkit.getConsoleSender().sendMessage("§cSomething went wrong while saving the fools.yml file");
+        }
+
+        configSaveFoh = new YamlConfiguration();
+        try {
+            configSaveFoh.load(configSaveFileFoh);
+        }
+        catch (InvalidConfigurationException | IOException exc) {
+            Bukkit.getConsoleSender().sendMessage(exc.getLocalizedMessage());
+        }
+    }
+
     public void removeBeyonder(UUID uuid) {
         beyonders.remove(uuid);
         configSave.set("beyonders." + uuid, null);
@@ -112,11 +156,6 @@ public final class Plugin extends JavaPlugin{
         catch(IOException exc) {
             Bukkit.getConsoleSender().sendMessage(exc.getLocalizedMessage());
         }
-    }
-
-    @SuppressWarnings("unused") //Maybe used later on
-    public FileConfiguration getSaveConfig() {
-        return configSave;
     }
 
     public void save() throws IOException {

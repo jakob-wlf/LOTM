@@ -20,17 +20,19 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
+
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class FogOfHistory extends Ability implements Listener {
 
-    ArrayList<ItemStack> items;
-    ArrayList<ItemStack> summonedItems;
-    ArrayList<Inventory> pages;
+    private final ArrayList<ItemStack> items;
+    private final ArrayList<ItemStack> summonedItems;
+    private ArrayList<Inventory> pages;
 
-    ItemStack arrow;
-    ItemStack barrier;
+    private final ItemStack arrow;
+    private final ItemStack barrier;
+
 
     int currentPage;
 
@@ -62,6 +64,8 @@ public class FogOfHistory extends Ability implements Listener {
         arrow.setItemMeta(tempMeta);
 
         currentPage = 0;
+
+        Plugin.fogOfHistories.add(this);
     }
 
     @EventHandler
@@ -207,5 +211,9 @@ public class FogOfHistory extends Ability implements Listener {
     @Override
     public ItemStack getItem() {
         return FoolItems.createItem(Material.QUARTZ, "Fog of History", "100", identifier, 3, pathway.getBeyonder().getPlayer().getName());
+    }
+
+    public ArrayList<ItemStack> getItems() {
+        return items;
     }
 }

@@ -2,6 +2,7 @@ package de.firecreeper82.listeners;
 
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.pathways.Potion;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -50,12 +51,14 @@ public class PotionHandler implements Listener {
             items[currentRecipe.get(p.getUniqueId()).length] = e.getItem();
             currentRecipe.replace(p.getUniqueId(), items);
 
-            //Checking if the recipe is a complete recipe for a potion if the Array has 3 ItemStacks
+            //Checking if the recipe is a complete recipe for a potion if the Array has 2 ItemStacks
             if(items.length >= 2) {
                 for(Potion potion : Plugin.instance.getPotions()) {
                     for(int i = 1; i < 10; i++) {
-                        if(potion.getSequencePotion(i) == null)
+                        if(potion.getSequencePotion(i) == null) {
+                            Bukkit.broadcastMessage("Gegs");
                             continue;
+                        }
 
                         //If Potion recipe exists, drop the potion and remove the Player from the HashMap
                         if(Arrays.equals(currentRecipe.get(p.getUniqueId()), potion.getSequencePotion(i))) {
@@ -68,8 +71,8 @@ public class PotionHandler implements Listener {
                     for(ItemStack item : currentRecipe.get(p.getUniqueId())) {
                         e.getClickedBlock().getWorld().dropItem(e.getClickedBlock().getLocation().clone().add(0, 1, 0), item);
                     }
-                    currentRecipe.remove(p.getUniqueId());
                 }
+                currentRecipe.remove(p.getUniqueId());
             }
         }
 

@@ -15,28 +15,28 @@ public class FoolPotions extends Potion {
         name = "fool";
         potionRecipes = new HashMap<>();
         ItemStack[] recipe9 = {
-                new ItemStack(Material.AMETHYST_SHARD),
-                new ItemStack(Material.SUNFLOWER)
+                new ItemStack(Material.INK_SAC),
+                new ItemStack(Material.PRISMARINE_CRYSTALS)
         };
         potionRecipes.put(9, recipe9);
         ItemStack[] recipe8 = {
-                new ItemStack(Material.NETHER_GOLD_ORE),
-                new ItemStack(Material.MAGMA_BLOCK)
+                new ItemStack(Material.GOAT_HORN),
+                new ItemStack(Material.ROSE_BUSH)
         };
         potionRecipes.put(8, recipe8);
         ItemStack[] recipe7 = {
-                new ItemStack(Material.GOLD_INGOT),
-                new ItemStack(Material.RAW_GOLD)
+                new ItemStack(Material.DARK_OAK_SAPLING),
+                new ItemStack(Material.BLACK_DYE)
         };
         potionRecipes.put(7, recipe7);
         ItemStack[] recipe6 = {
-                new ItemStack(Material.COPPER_INGOT),
-                new ItemStack(Material.RAW_COPPER)
+                new ItemStack(Material.PHANTOM_MEMBRANE),
+                new ItemStack(Material.SKELETON_SKULL)
         };
         potionRecipes.put(6, recipe6);
         ItemStack[] recipe5 = {
-                new ItemStack(Material.IRON_INGOT),
-                new ItemStack(Material.RAW_IRON)
+                new ItemStack(Material.GUNPOWDER),
+                new ItemStack(Material.GHAST_TEAR)
         };
         potionRecipes.put(5, recipe5);
         ItemStack[] recipe4 = {

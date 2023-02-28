@@ -31,7 +31,6 @@ public class PotionListener implements Listener {
 
         e.getPlayer().getInventory().remove(e.getItem());
 
-        //Later put the loose control stuff in consume potion func
         //Not a beyonder already
         if(!Plugin.beyonders.containsKey(e.getPlayer().getUniqueId())) {
             Pathway pathway = Pathway.initializeNew(potion.name, e.getPlayer().getUniqueId(), sequence);

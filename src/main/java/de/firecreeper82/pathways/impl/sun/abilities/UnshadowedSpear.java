@@ -115,7 +115,6 @@ public class UnshadowedSpear extends Ability {
                                         }
                                     }
                                 }.runTaskTimer(Plugin.instance, 0, 0);
-                                pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                                 cancel();
                                 return;
                             }
@@ -181,11 +180,9 @@ public class UnshadowedSpear extends Ability {
                         }
                     }.runTaskTimer(Plugin.instance, 0, 0);
                     spearLocation.getWorld().spawnParticle(Particle.END_ROD, spearLocation, 1000, 0.4, 0.4, 0.4, 0.5);
-                    pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                     cancel();
                 }
                 if(counter >= 100) {
-                    pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                     lastLightBlock.setType(lastMaterial);
                     cancel();
                     return;
@@ -193,6 +190,12 @@ public class UnshadowedSpear extends Ability {
                 counter++;
             }
         }.runTaskTimer(Plugin.instance, 5, 0);
+
+        new BukkitRunnable() {
+            public void run () {
+                pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
+            }
+        }.runTaskLater(Plugin.instance, 20 * 3);
     }
 
     public void buildSpear(Location loc, Vector direc) {
