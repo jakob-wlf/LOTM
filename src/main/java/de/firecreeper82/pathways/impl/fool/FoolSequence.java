@@ -179,7 +179,11 @@ public class FoolSequence extends Sequence implements Listener {
 
     @Override
     public boolean checkValid(ItemStack item) {
-        return pathway.getItems().returnItemsFromSequence(currentSequence).contains(item);
+        if(item == null)
+            return false;
+        ItemStack checkItem = item.clone();
+        checkItem.setAmount(1);
+        return pathway.getItems().returnItemsFromSequence(currentSequence).contains(checkItem);
     }
 
     @Override

@@ -10,25 +10,36 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPickupItemEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 public class FogOfHistory extends Ability implements Listener {
 
     ArrayList<ItemStack> items;
+    ArrayList<ItemStack> summonedItems;
+    ArrayList<Inventory> pages;
 
     public FogOfHistory(int identifier, Pathway pathway) {
         super(identifier, pathway);
         Plugin.instance.getServer().getPluginManager().registerEvents(this, Plugin.instance);
         items = new ArrayList<>();
 
-        items.addAll(Arrays.asList(pathway.getBeyonder().getPlayer().getInventory().getContents()));
-
+        for(ItemStack item : pathway.getBeyonder().getPlayer().getInventory().getContents()) {
+            if(item == null)
+                continue;
+            ItemStack addItem = item.clone();
+            addItem.setAmount(addItem.getType().getMaxStackSize());
+            addItem = normalizeItem(addItem);
+            items.add(addItem);
+        }
+        summonedItems = new ArrayList<>();
     }
 
     @EventHandler
@@ -53,7 +64,10 @@ public class FogOfHistory extends Ability implements Listener {
         }
 
         if(!isContained) {
-            items.add(e.getItem().getItemStack().clone());
+            ItemStack addItem = e.getItem().getItemStack().clone();
+            addItem.setAmount(addItem.getType().getMaxStackSize());
+            addItem = normalizeItem(addItem);
+            items.add(addItem);
         }
 
     }
@@ -73,19 +87,21 @@ public class FogOfHistory extends Ability implements Listener {
 
         items.removeIf(item -> pathway.getSequence().checkValid(item));
 
-        double pageCount = Math.ceil((float) items.size() / 54);
+        double pageCount = Math.ceil((float) items.size() / 52);
+
 
         if(pageCount == 0)
             return;
 
-        ArrayList<Inventory> pages = new ArrayList<>();
+        pages = new ArrayList<>();
+
         for(int i = 0; i < pageCount; i++) {
             pages.add(Bukkit.createInventory(p, 54, "§5Fog of History"));
         }
 
         int counter = 0;
         for(int i = 0; i < pageCount; i++) {
-            for(int j = 0; j < 54; j++) {
+            for(int j = 0; j < 52; j++) {
                 if(counter >= items.size())
                     break;
                 pages.get(i).setItem(j, items.get(counter));
@@ -95,6 +111,44 @@ public class FogOfHistory extends Ability implements Listener {
 
         p.openInventory(pages.get(0));
 
+    }
+
+    @EventHandler
+    public void onDrop(PlayerDropItemEvent e) {
+        ItemStack checkItem = e.getItemDrop().getItemStack().clone();
+        checkItem.setAmount(checkItem.getMaxStackSize());
+        if(!summonedItems.contains(checkItem))
+            return;
+
+        summonedItems.remove(checkItem);
+        e.getItemDrop().getItemStack().setAmount(checkItem.getMaxStackSize() - e.getItemDrop().getItemStack().getMaxStackSize());
+        e.getPlayer().getInventory().remove(checkItem);
+        e.getItemDrop().remove();
+    }
+
+    @EventHandler
+    public void onInventoryInteract(InventoryClickEvent e) {
+        if(pages == null)
+            return;
+        if(!pages.contains(e.getInventory()))
+            return;
+
+        e.setCancelled(true);
+        if(summonedItems.size() >= 3)
+            return;
+        if(e.getCurrentItem() == null)
+            return;
+        e.getWhoClicked().getInventory().addItem(e.getCurrentItem());
+        ItemStack summonedItem = e.getCurrentItem();
+        summonedItems.add(summonedItem);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                summonedItems.remove(summonedItem);
+                if(e.getWhoClicked().getInventory().contains(summonedItem))
+                    e.getWhoClicked().getInventory().remove(summonedItem);
+            }
+        }.runTaskLater(Plugin.instance, 20 * 60 * 3);
     }
 
     @Override

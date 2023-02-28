@@ -41,6 +41,8 @@ public class Beyonder implements Listener {
         this.uuid = uuid;
 
         pathway.setBeyonder(this);
+        if(getPlayer() == null)
+            return;
         start();
 
         beyonder = true;

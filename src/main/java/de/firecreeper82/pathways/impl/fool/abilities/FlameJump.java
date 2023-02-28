@@ -51,7 +51,7 @@ public class FlameJump extends Ability {
                 p.setFireTicks(0);
                 justTeleported = false;
             }
-        }.runTaskLater(Plugin.instance, 30);
+        }.runTaskLater(Plugin.instance, 15);
     }
 
     @Override
