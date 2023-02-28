@@ -6,6 +6,7 @@ import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.fool.FoolItems;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,8 +14,10 @@ import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
@@ -26,6 +29,11 @@ public class FogOfHistory extends Ability implements Listener {
     ArrayList<ItemStack> summonedItems;
     ArrayList<Inventory> pages;
 
+    ItemStack arrow;
+    ItemStack barrier;
+
+    int currentPage;
+
     public FogOfHistory(int identifier, Pathway pathway) {
         super(identifier, pathway);
         Plugin.instance.getServer().getPluginManager().registerEvents(this, Plugin.instance);
@@ -35,11 +43,25 @@ public class FogOfHistory extends Ability implements Listener {
             if(item == null)
                 continue;
             ItemStack addItem = item.clone();
-            addItem.setAmount(addItem.getType().getMaxStackSize());
+            addItem.setAmount(1);
             addItem = normalizeItem(addItem);
             items.add(addItem);
         }
         summonedItems = new ArrayList<>();
+
+        barrier = new ItemStack(Material.BARRIER);
+        ItemMeta tempMeta = barrier.getItemMeta();
+        assert tempMeta != null;
+        tempMeta.setDisplayName("§aPrevious Page");
+        tempMeta.addEnchant(Enchantment.LUCK, 1, true);
+        tempMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        barrier.setItemMeta(tempMeta);
+
+        arrow = new ItemStack(Material.ARROW);
+        tempMeta.setDisplayName("§aNext Page");
+        arrow.setItemMeta(tempMeta);
+
+        currentPage = 0;
     }
 
     @EventHandler
@@ -65,7 +87,7 @@ public class FogOfHistory extends Ability implements Listener {
 
         if(!isContained) {
             ItemStack addItem = e.getItem().getItemStack().clone();
-            addItem.setAmount(addItem.getType().getMaxStackSize());
+            addItem.setAmount(1);
             addItem = normalizeItem(addItem);
             items.add(addItem);
         }
@@ -82,6 +104,8 @@ public class FogOfHistory extends Ability implements Listener {
     @Override
     public void useAbility() {
         Player p = pathway.getBeyonder().getPlayer();
+
+        currentPage = 0;
 
         items.removeAll(Collections.singleton(null));
 
@@ -108,6 +132,10 @@ public class FogOfHistory extends Ability implements Listener {
                 counter++;
             }
         }
+        for(Inventory inv : pages) {
+            inv.setItem(52, barrier);
+            inv.setItem(53, arrow);
+        }
 
         p.openInventory(pages.get(0));
 
@@ -116,13 +144,17 @@ public class FogOfHistory extends Ability implements Listener {
     @EventHandler
     public void onDrop(PlayerDropItemEvent e) {
         ItemStack checkItem = e.getItemDrop().getItemStack().clone();
-        checkItem.setAmount(checkItem.getMaxStackSize());
-        if(!summonedItems.contains(checkItem))
+
+        boolean contains = false;
+        for(ItemStack item : summonedItems) {
+            if(item.isSimilar(checkItem))
+                contains = true;
+        }
+
+        if(!contains)
             return;
 
         summonedItems.remove(checkItem);
-        e.getItemDrop().getItemStack().setAmount(checkItem.getMaxStackSize() - e.getItemDrop().getItemStack().getMaxStackSize());
-        e.getPlayer().getInventory().remove(checkItem);
         e.getItemDrop().remove();
     }
 
@@ -138,8 +170,29 @@ public class FogOfHistory extends Ability implements Listener {
             return;
         if(e.getCurrentItem() == null)
             return;
-        e.getWhoClicked().getInventory().addItem(e.getCurrentItem());
-        ItemStack summonedItem = e.getCurrentItem();
+
+        if(e.getCurrentItem().isSimilar(barrier)) {
+            if(currentPage <= 0)
+                return;
+            currentPage -= 1;
+            e.getWhoClicked().openInventory(pages.get(currentPage));
+            return;
+        }
+
+        if(e.getCurrentItem().isSimilar(arrow)) {
+            currentPage += 1;
+            if(currentPage >= pages.size()) {
+                currentPage -= 1;
+                return;
+            }
+            e.getWhoClicked().openInventory(pages.get(currentPage));
+            return;
+        }
+
+
+        ItemStack summonedItem = e.getCurrentItem().clone();
+        summonedItem.setAmount(1);
+        e.getWhoClicked().getInventory().addItem(summonedItem);
         summonedItems.add(summonedItem);
         new BukkitRunnable() {
             @Override
