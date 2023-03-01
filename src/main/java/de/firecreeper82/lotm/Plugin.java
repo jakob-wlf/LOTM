@@ -55,11 +55,10 @@ public final class Plugin extends JavaPlugin{
         Bukkit.getConsoleSender().sendMessage(prefix + "§aEnabled Plugin");
 
         createSaveConfig();
+        createSaveConfigFoH();
 
         register();
         initPotions();
-
-        createSaveConfigFoH();
     }
 
     public void register() {
@@ -132,13 +131,11 @@ public final class Plugin extends JavaPlugin{
     private void createSaveConfigFoH() {
         configSaveFileFoh = new File(getDataFolder(), "fools.yml");
         if(!configSaveFileFoh.exists()) {
-            if(configSaveFileFoh.getParentFile().mkdirs())
-                saveResource("fools.yml", false);
-            else
-                Bukkit.getConsoleSender().sendMessage("§cSomething went wrong while saving the fools.yml file");
+            saveResource("fools.yml", false);
         }
 
         configSaveFoh = new YamlConfiguration();
+
         try {
             configSaveFoh.load(configSaveFileFoh);
         }
