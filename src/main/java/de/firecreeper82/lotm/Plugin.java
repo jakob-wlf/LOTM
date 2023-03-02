@@ -17,7 +17,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -103,8 +102,8 @@ public final class Plugin extends JavaPlugin{
     private void saveFoH(FogOfHistory foh) throws IOException {
         Bukkit.getConsoleSender().sendMessage(prefix + "§aSaving Fog of History Inventories");
 
-        for(ItemStack item : foh.getItems()) {
-            configSaveFoh.set(foh.getPathway().getBeyonder().getUuid() + ".", item);
+        for(int i = 0; i < foh.getItems().size(); i++) {
+            configSaveFoh.set("fools." + foh.getPathway().getBeyonder().getUuid() + ("." + i), foh.getItems().get(i));
         }
         configSaveFoh.save(configSaveFileFoh);
     }
@@ -142,6 +141,8 @@ public final class Plugin extends JavaPlugin{
         catch (InvalidConfigurationException | IOException exc) {
             Bukkit.getConsoleSender().sendMessage(exc.getLocalizedMessage());
         }
+
+        loadFoh();
     }
 
     public void removeBeyonder(UUID uuid) {
@@ -162,6 +163,12 @@ public final class Plugin extends JavaPlugin{
             configSave.set("beyonders." + entry.getKey() + ".sequence", entry.getValue().getPathway().getSequence().currentSequence);
         }
         configSave.save(configSaveFile);
+    }
+
+    public void loadFoh() {
+        for(String s : Objects.requireNonNull(configSaveFoh.getConfigurationSection("fools")).getKeys(false)) {
+            Bukkit.broadcastMessage(s);
+        }
     }
 
     public void load() {
