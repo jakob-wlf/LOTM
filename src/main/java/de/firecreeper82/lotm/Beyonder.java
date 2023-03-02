@@ -53,6 +53,8 @@ public class Beyonder implements Listener {
     public void onJoin(PlayerJoinEvent e) {
         if(!e.getPlayer().getUniqueId().equals(uuid))
             return;
+        if(!beyonder)
+            return;
         start();
     }
 
@@ -270,6 +272,7 @@ public class Beyonder implements Listener {
         Plugin.instance.removeBeyonder(getUuid());
         board.delete();
         beyonder = false;
+        pathway.setSequence(null);
         pathway = null;
     }
 }
