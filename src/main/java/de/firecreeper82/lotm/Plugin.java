@@ -15,8 +15,10 @@ import de.firecreeper82.pathways.impl.sun.SunPotions;
 import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -32,7 +34,7 @@ public final class Plugin extends JavaPlugin{
 
     public static HashMap<UUID, ServerPlayer> fakePlayers = new HashMap<>();
 
-    public static ArrayList<FogOfHistory> fogOfHistories = new ArrayList<>();
+    public static HashMap<UUID, FogOfHistory> fogOfHistories = new HashMap<>();
 
     private File configSaveFile;
     private FileConfiguration configSave;
@@ -54,10 +56,11 @@ public final class Plugin extends JavaPlugin{
         Bukkit.getConsoleSender().sendMessage(prefix + "§aEnabled Plugin");
 
         createSaveConfig();
-        createSaveConfigFoH();
 
         register();
         initPotions();
+
+        createSaveConfigFoH();
     }
 
     public void register() {
@@ -90,7 +93,7 @@ public final class Plugin extends JavaPlugin{
             e.printStackTrace();
         }
 
-        for(FogOfHistory foh : fogOfHistories) {
+        for(FogOfHistory foh : fogOfHistories.values()) {
             try {
                 saveFoH(foh);
             } catch (IOException e) {
@@ -166,8 +169,35 @@ public final class Plugin extends JavaPlugin{
     }
 
     public void loadFoh() {
+        Bukkit.getConsoleSender().sendMessage("Test");
+        if(configSaveFoh.getConfigurationSection("fools") == null)
+            return;
+
         for(String s : Objects.requireNonNull(configSaveFoh.getConfigurationSection("fools")).getKeys(false)) {
-            Bukkit.broadcastMessage(s);
+            if(fogOfHistories.get(UUID.fromString(s)) == null)
+                return;
+
+            if(configSaveFoh.get("fools." + s) == null)
+                return;
+
+            for(String t : Objects.requireNonNull(configSaveFoh.getConfigurationSection("fools." + s)).getKeys(false)) {
+                int i = parseInt(t);
+                if(i == -1)
+                    return;
+
+                ItemStack item = (ItemStack) configSave.get("fools." + s + "." + i);
+                fogOfHistories.get(UUID.fromString(s)).getItems().add(item);
+                Bukkit.getConsoleSender().sendMessage(t);
+            }
+        }
+    }
+
+    public Integer parseInt(String s) {
+        try {
+            return Integer.parseInt(s);
+        }
+        catch (NumberFormatException exception) {
+            return -1;
         }
     }
 

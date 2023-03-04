@@ -65,7 +65,7 @@ public class FogOfHistory extends Ability implements Listener {
 
         currentPage = 0;
 
-        Plugin.fogOfHistories.add(this);
+        Plugin.fogOfHistories.put(pathway.getBeyonder().getUuid(), this);
     }
 
     @EventHandler

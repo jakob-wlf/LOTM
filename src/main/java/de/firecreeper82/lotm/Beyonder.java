@@ -62,6 +62,8 @@ public class Beyonder implements Listener {
     public void onLeave(PlayerQuitEvent e) {
         if(!e.getPlayer().getUniqueId().equals(uuid))
             return;
+        if(!beyonder)
+            return;
         online = false;
     }
 
