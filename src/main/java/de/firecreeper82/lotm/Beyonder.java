@@ -1,5 +1,6 @@
 package de.firecreeper82.lotm;
 
+import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.Potion;
 import fr.mrmicky.fastboard.FastBoard;
@@ -102,7 +103,7 @@ public class Beyonder implements Listener {
             int counter = 0;
             @Override
             public void run() {
-                if(!beyonder || !online || getPlayer() == null) {
+                if(!beyonder || !online || getPlayer() == null || pathway.getSequence() == null) {
                     cancel();
                     return;
                 }
@@ -271,8 +272,12 @@ public class Beyonder implements Listener {
     }
 
     public void removeBeyonder() {
+        for(Ability a : pathway.getSequence().getAbilities()) {
+            a.removeAbility();
+        }
         Plugin.instance.removeBeyonder(getUuid());
-        board.delete();
+        if(board != null)
+            board.delete();
         beyonder = false;
         pathway.setSequence(null);
         pathway = null;

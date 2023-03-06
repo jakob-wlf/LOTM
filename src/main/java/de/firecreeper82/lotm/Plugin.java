@@ -15,7 +15,6 @@ import de.firecreeper82.pathways.impl.sun.SunPotions;
 import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -133,7 +132,7 @@ public final class Plugin extends JavaPlugin{
     private void createSaveConfigFoH() {
         configSaveFileFoh = new File(getDataFolder(), "fools.yml");
         if(!configSaveFileFoh.exists()) {
-            saveResource("fools.yml", false);
+            saveResource("fools.yml", true);
         }
 
         configSaveFoh = new YamlConfiguration();
@@ -169,7 +168,6 @@ public final class Plugin extends JavaPlugin{
     }
 
     public void loadFoh() {
-        Bukkit.getConsoleSender().sendMessage("Test");
         if(configSaveFoh.getConfigurationSection("fools") == null)
             return;
 
@@ -185,9 +183,8 @@ public final class Plugin extends JavaPlugin{
                 if(i == -1)
                     return;
 
-                ItemStack item = (ItemStack) configSave.get("fools." + s + "." + i);
-                fogOfHistories.get(UUID.fromString(s)).getItems().add(item);
-                Bukkit.getConsoleSender().sendMessage(t);
+                ItemStack item = configSaveFoh.getItemStack("fools." + s + "." + i);
+                fogOfHistories.get(UUID.fromString(s)).addItem(item);
             }
         }
     }

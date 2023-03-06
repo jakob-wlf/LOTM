@@ -44,6 +44,8 @@ public abstract class Ability {
         this.identifier = identifier;
     }
 
+    public void removeAbility() {}
+
 
     public double getMultiplier() {
         double multiplier = 1;

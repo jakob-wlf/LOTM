@@ -23,6 +23,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 public class FogOfHistory extends Ability implements Listener {
 
@@ -33,13 +35,17 @@ public class FogOfHistory extends Ability implements Listener {
     private final ItemStack arrow;
     private final ItemStack barrier;
 
+    private boolean active;
 
-    int currentPage;
+
+    private int currentPage;
 
     public FogOfHistory(int identifier, Pathway pathway) {
         super(identifier, pathway);
         Plugin.instance.getServer().getPluginManager().registerEvents(this, Plugin.instance);
         items = new ArrayList<>();
+
+        active = true;
 
         for(ItemStack item : pathway.getBeyonder().getPlayer().getInventory().getContents()) {
             if(item == null)
@@ -70,10 +76,10 @@ public class FogOfHistory extends Ability implements Listener {
 
     @EventHandler
     public void onPlayerPickUpItem(EntityPickupItemEvent e) {
-        if(e.getEntity() != pathway.getBeyonder().getPlayer())
+        if(e.getEntity() != pathway.getBeyonder().getPlayer() || !active)
             return;
-        ItemStack itemNormalized = normalizeItem(e.getItem().getItemStack().clone());
 
+        ItemStack itemNormalized = normalizeItem(e.getItem().getItemStack().clone());
 
         boolean isContained = false;
 
@@ -107,9 +113,15 @@ public class FogOfHistory extends Ability implements Listener {
 
     @Override
     public void useAbility() {
+        if(!active)
+            return;
         Player p = pathway.getBeyonder().getPlayer();
 
         currentPage = 0;
+
+        Set<ItemStack> tempSet = new HashSet<>(items);
+        items.clear();
+        items.addAll(tempSet);
 
         items.removeAll(Collections.singleton(null));
 
@@ -119,7 +131,7 @@ public class FogOfHistory extends Ability implements Listener {
 
 
         if(pageCount == 0)
-            return;
+            pageCount = 1;
 
         pages = new ArrayList<>();
 
@@ -147,6 +159,8 @@ public class FogOfHistory extends Ability implements Listener {
 
     @EventHandler
     public void onDrop(PlayerDropItemEvent e) {
+        if(!active)
+            return;
         ItemStack checkItem = e.getItemDrop().getItemStack().clone();
 
         boolean contains = false;
@@ -164,6 +178,8 @@ public class FogOfHistory extends Ability implements Listener {
 
     @EventHandler
     public void onInventoryInteract(InventoryClickEvent e) {
+        if(!active)
+            return;
         if(pages == null)
             return;
         if(!pages.contains(e.getInventory()))
@@ -213,7 +229,31 @@ public class FogOfHistory extends Ability implements Listener {
         return FoolItems.createItem(Material.QUARTZ, "Fog of History", "100", identifier, 3, pathway.getBeyonder().getPlayer().getName());
     }
 
+    public void addItem(ItemStack item) {
+        items.add(item);
+        useAbility();
+
+        for(FogOfHistory foh : Plugin.fogOfHistories.values()) {
+            if(foh == this)
+                return;
+            Bukkit.getConsoleSender().sendMessage("Hmm");
+        }
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                useAbility();
+            }
+        }.runTaskLater(Plugin.instance, 20 * 60);
+    }
+
     public ArrayList<ItemStack> getItems() {
         return items;
+    }
+
+    @Override
+    public void removeAbility() {
+        Plugin.fogOfHistories.remove(pathway.getBeyonder().getUuid());
+        active = false;
     }
 }

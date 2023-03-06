@@ -86,6 +86,8 @@ public abstract class Pathway {
 
     public static Pathway initializeNew(String pathway, UUID uuid, int sequence) {
         Pathway pathwayObject;
+        if(Plugin.beyonders.containsKey(uuid))
+            return null;
         switch (pathway) {
             case "sun" -> {
                 pathwayObject = new SunPathway(uuid, sequence);
