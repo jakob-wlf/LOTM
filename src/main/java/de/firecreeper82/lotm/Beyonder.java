@@ -113,7 +113,7 @@ public class Beyonder implements Listener {
 
                 pathway.getSequence().onHold(p.getInventory().getItemInMainHand());
             }
-        }.runTaskTimer(Plugin.instance, 0, 6);
+        }.runTaskTimer(Plugin.instance, 0, 3);
 
         //constant loop
         new BukkitRunnable() {
