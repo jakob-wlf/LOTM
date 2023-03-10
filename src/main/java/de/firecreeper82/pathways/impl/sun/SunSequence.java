@@ -3,9 +3,6 @@ package de.firecreeper82.pathways.impl.sun;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.Sequence;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -74,16 +71,8 @@ public class SunSequence extends Sequence {
 
     }
 
-    @Override
-    public void useAbility(ItemStack item, PlayerInteractEvent e) {
-        if(!checkValid(item))
-            return;
-
-        e.setCancelled(true);
-        useAbility(Objects.requireNonNull(item.getItemMeta()).getEnchantLevel(Enchantment.CHANNELING), item);
-    }
-
-
+    //Calls use Ability function for corresponding ability
+    //gets called from useAbility(ItemStack, PlayerInteractEvent) in Sequence
     @Override
     public void useAbility(int ability, ItemStack item) {
 
@@ -109,41 +98,6 @@ public class SunSequence extends Sequence {
         for(Ability a : abilities) {
             if(a.getIdentifier() == ability) {
                 a.useAbility();
-                break;
-            }
-        }
-    }
-
-    @Override
-    public boolean checkValid(ItemStack item) {
-        if(item == null)
-            return false;
-        ItemStack checkItem = item.clone();
-        checkItem.setAmount(1);
-        return pathway.getItems().returnItemsFromSequence(currentSequence).contains(checkItem);
-    }
-
-    @Override
-    public void destroyItem(ItemStack item, PlayerDropItemEvent e) {
-        if(pathway.getItems().getItems().contains(item)) {
-            e.getItemDrop().remove();
-        }
-    }
-
-    @Override
-    public void removeSpirituality(double remove) {
-        pathway.getBeyonder().setSpirituality(pathway.getBeyonder().getSpirituality() - remove);
-    }
-
-    @Override
-    public void onHold(ItemStack item) {
-        if(!checkValid(item))
-            return;
-
-        int id = Objects.requireNonNull(item.getItemMeta()).getEnchantLevel(Enchantment.CHANNELING);
-        for(Ability a : abilities) {
-            if(a.getIdentifier() == id) {
-                a.onHold();
                 break;
             }
         }

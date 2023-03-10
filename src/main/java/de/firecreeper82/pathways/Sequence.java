@@ -1,5 +1,6 @@
 package de.firecreeper82.pathways;
 
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -8,6 +9,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public abstract class Sequence {
 
@@ -30,17 +32,46 @@ public abstract class Sequence {
         this.currentSequence = optionalSequence;
     }
 
-    public abstract void useAbility(ItemStack item, PlayerInteractEvent e);
+    public void useAbility(ItemStack item, PlayerInteractEvent e) {
+        if(!checkValid(item))
+            return;
 
-    public abstract void destroyItem(ItemStack item, PlayerDropItemEvent e);
+        e.setCancelled(true);
+        useAbility(Objects.requireNonNull(item.getItemMeta()).getEnchantLevel(Enchantment.CHANNELING), item);
+    }
+
+    public void destroyItem(ItemStack item, PlayerDropItemEvent e) {
+        if(pathway.getItems().getItems().contains(item)) {
+            e.getItemDrop().remove();
+        }
+    }
 
     public abstract void useAbility(int ability, ItemStack item);
 
-    public abstract boolean checkValid(ItemStack item);
+    public boolean checkValid(ItemStack item) {
+        if(item == null)
+            return false;
+        ItemStack checkItem = item.clone();
+        checkItem.setAmount(1);
+        return pathway.getItems().returnItemsFromSequence(currentSequence).contains(checkItem);
+    }
 
-    public abstract void removeSpirituality(double remove);
+    public void removeSpirituality(double remove) {
+        pathway.getBeyonder().setSpirituality(pathway.getBeyonder().getSpirituality() - remove);
+    }
 
-    public abstract void onHold(ItemStack item);
+    public void onHold(ItemStack item) {
+        if(!checkValid(item))
+            return;
+
+        int id = Objects.requireNonNull(item.getItemMeta()).getEnchantLevel(Enchantment.CHANNELING);
+        for(Ability a : abilities) {
+            if(a.getIdentifier() == id) {
+                a.onHold();
+                break;
+            }
+        }
+    }
 
     public int getCurrentSequence() {
         return currentSequence;

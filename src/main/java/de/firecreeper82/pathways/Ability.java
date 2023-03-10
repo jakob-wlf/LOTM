@@ -20,6 +20,8 @@ public abstract class Ability {
 
     public void onHold() {}
 
+    public void leftClick() {}
+
     public Pathway getPathway() {
         return pathway;
     }

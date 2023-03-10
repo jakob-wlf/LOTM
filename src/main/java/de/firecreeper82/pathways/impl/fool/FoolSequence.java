@@ -7,14 +7,12 @@ import de.firecreeper82.pathways.Sequence;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -139,16 +137,8 @@ public class FoolSequence extends Sequence implements Listener {
         sequenceEffects.put(2, effects2);
     }
 
-    @Override
-    public void useAbility(ItemStack item, PlayerInteractEvent e) {
-        if(!checkValid(item))
-            return;
-
-        e.setCancelled(true);
-        useAbility(Objects.requireNonNull(item.getItemMeta()).getEnchantLevel(Enchantment.CHANNELING), item);
-    }
-
-
+    //Calls use Ability function for corresponding ability
+    //gets called from useAbility(ItemStack, PlayerInteractEvent) in Sequence
     @Override
     public void useAbility(int ability, ItemStack item) {
 
@@ -179,38 +169,5 @@ public class FoolSequence extends Sequence implements Listener {
         }
     }
 
-    @Override
-    public boolean checkValid(ItemStack item) {
-        if(item == null)
-            return false;
-        ItemStack checkItem = item.clone();
-        checkItem.setAmount(1);
-        return pathway.getItems().returnItemsFromSequence(currentSequence).contains(checkItem);
-    }
 
-    @Override
-    public void destroyItem(ItemStack item, PlayerDropItemEvent e) {
-        if(pathway.getItems().getItems().contains(item)) {
-            e.getItemDrop().remove();
-        }
-    }
-
-    @Override
-    public void removeSpirituality(double remove) {
-        pathway.getBeyonder().setSpirituality(pathway.getBeyonder().getSpirituality() - remove);
-    }
-
-    @Override
-    public void onHold(ItemStack item) {
-        if(!checkValid(item))
-            return;
-
-        int id = Objects.requireNonNull(item.getItemMeta()).getEnchantLevel(Enchantment.CHANNELING);
-        for(Ability a : abilities) {
-            if(a.getIdentifier() == id) {
-                a.onHold();
-                break;
-            }
-        }
-    }
 }
