@@ -26,7 +26,8 @@ public class FoolItems extends Items {
         sequenceItems.put(3, 7);
         sequenceItems.put(4, 7);
         sequenceItems.put(5, 7);
-        sequenceItems.put(6, 3);
+        sequenceItems.put(6, 5);
+        sequenceItems.put(7, 3);
         createItems();
     }
 
@@ -73,8 +74,13 @@ public class FoolItems extends Items {
         pathway.getSequence().getAbilities().add(ability);
         items.add(ability.getItem());
 
+        //Marionettist - Spirit Body Threads
+        ability = new SpiritBodyThreads(7, pathway);
+        pathway.getSequence().getAbilities().add(ability);
+        items.add(ability.getItem());
+
         //Scholar of Yore - Fog of History
-        ability = new FogOfHistory(7, pathway);
+        ability = new FogOfHistory(8, pathway);
         pathway.getSequence().getAbilities().add(ability);
         items.add(ability.getItem());
 

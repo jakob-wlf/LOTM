@@ -97,6 +97,23 @@ public class Beyonder implements Listener {
         pathway.initItems();
         online = true;
 
+        //onHold
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if(!beyonder || !online || getPlayer() == null || pathway.getSequence() == null) {
+                    cancel();
+                    return;
+                }
+
+                if(loosingControl)
+                    return;
+
+                Player p = getPlayer();
+
+                pathway.getSequence().onHold(p.getInventory().getItemInMainHand());
+            }
+        }.runTaskTimer(Plugin.instance, 0, 6);
 
         //constant loop
         new BukkitRunnable() {
@@ -128,8 +145,6 @@ public class Beyonder implements Listener {
                     return;
 
                 Player p = getPlayer();
-
-                pathway.getSequence().onHold(p.getInventory().getItemInMainHand());
 
                 //passive effects
                 if(pathway.getSequence().getSequenceEffects().containsKey(pathway.getSequence().getCurrentSequence())) {

@@ -231,20 +231,6 @@ public class FogOfHistory extends Ability implements Listener {
 
     public void addItem(ItemStack item) {
         items.add(item);
-        useAbility();
-
-        for(FogOfHistory foh : Plugin.fogOfHistories.values()) {
-            if(foh == this)
-                return;
-            Bukkit.getConsoleSender().sendMessage("Hmm");
-        }
-
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                useAbility();
-            }
-        }.runTaskLater(Plugin.instance, 20 * 60);
     }
 
     public ArrayList<ItemStack> getItems() {
@@ -253,7 +239,6 @@ public class FogOfHistory extends Ability implements Listener {
 
     @Override
     public void removeAbility() {
-        Plugin.fogOfHistories.remove(pathway.getBeyonder().getUuid());
         active = false;
     }
 }

@@ -54,6 +54,7 @@ public class FoolSequence extends Sequence implements Listener {
         sequenceMultiplier.put(1, 5.0);
     }
 
+    //Paper throw ability
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
         if(e.getPlayer() != getPathway().getBeyonder().getPlayer() || e.getItem() == null || currentSequence > 8 || pathway.getBeyonder().getSpirituality() < 6)
@@ -111,6 +112,7 @@ public class FoolSequence extends Sequence implements Listener {
         }
     }
 
+    //Remove fall damage
     @EventHandler
     public void onDamage(EntityDamageEvent e) {
         if(e.getEntity() != getPathway().getBeyonder().getPlayer() || e.getCause() != EntityDamageEvent.DamageCause.FALL)
