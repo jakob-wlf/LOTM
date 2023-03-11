@@ -9,20 +9,18 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-import java.util.Arrays;
-
-public class DisableThreadsCmd implements CommandExecutor {
+public class ThreadLengthCmd implements CommandExecutor {
 
     @Override
-    //Command for the Player to choose which Spirit Body Threads he can see
+    //Command for the Player to choose how far he can see Spirit Body Threads
     //Only works for Beyonders of the Fool Pathway
     public boolean onCommand(@NonNull CommandSender s, @NonNull Command command, @NonNull String label, @NonNull String[] args) {
         if(!(s instanceof Player)) {
             s.sendMessage("§cYou have to be a player to use this command!");
             return true;
         }
-        if(args.length != 1) {
-            s.sendMessage("§cWrong usage: Use /disable-threads <Normal | Player | Undead | Arthropod | Illager>");
+        if(args.length != 1 || !isInteger(args[0])) {
+            s.sendMessage("§cWrong usage: Use /thread-length <length>");
             return true;
         }
 
@@ -38,21 +36,21 @@ public class DisableThreadsCmd implements CommandExecutor {
             return true;
         }
 
-        String[] validArgs = {"normal", "player", "undead", "arthropod", "illager"};
+        SpiritBodyThreads spiritBodyThreads = (SpiritBodyThreads) Plugin.beyonders.get(p.getUniqueId()).getPathway().getSequence().getAbilities().get(6);
+        spiritBodyThreads.setPreferredDistance(Integer.parseInt(args[0]));
 
-        if(!Arrays.asList(validArgs).contains(args[0].toLowerCase())) {
-            s.sendMessage("§cWrong usage: Use /disable-threads <Normal | Player | Undead | Arthropod | Illager>");
+        p.sendMessage("§aSet the distance for Spirit Body Threads");
+        return true;
+    }
+
+    private boolean isInteger(String s) {
+        try {
+            @SuppressWarnings("unused")
+            int a = Integer.parseInt(s);
             return true;
         }
-
-        SpiritBodyThreads spiritBodyThreads = (SpiritBodyThreads) Plugin.beyonders.get(p.getUniqueId()).getPathway().getSequence().getAbilities().get(6);
-        if(spiritBodyThreads.disableCategory(args[0].toLowerCase())) {
-            p.sendMessage("§aDisabled the category " + args[0].substring(0, 1).toUpperCase() + args[0].substring(1).toLowerCase() + "!");
-            p.sendMessage("§aUse the same command to enable the Spirit Body Thread again");
+        catch (NumberFormatException e) {
+            return false;
         }
-        else {
-            p.sendMessage("§aEnabled the category " + args[0].substring(0, 1).toUpperCase() + args[0].substring(1).toLowerCase() + "!");
-        }
-        return true;
     }
 }

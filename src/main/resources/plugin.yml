@@ -6,12 +6,15 @@ authors: [ FireCreeper82 ]
 description: A Fan made Lord of the Mysteries plugin
 commands:
   beyonder:
-    description: make yourself a Beyonder
+    description: Make yourself a Beyonder
     usage: /<cmd>
   items:
     description: Give yourself the items from your pathway
     usage: /<cmd>
   disable-threads:
-    description: choose the Spirit Body Threads you want to see
+    description: Choose the Spirit Body Threads you want to see
+    usage: /<cmd>
+  thread-length:
+    description: Choose the max distance for the Spirit Body Threads you want to see
     usage: /<cmd>
 

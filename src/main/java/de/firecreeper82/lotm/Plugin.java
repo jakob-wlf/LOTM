@@ -3,6 +3,7 @@ package de.firecreeper82.lotm;
 import de.firecreeper82.cmds.DisableThreadsCmd;
 import de.firecreeper82.cmds.ItemsCmd;
 import de.firecreeper82.cmds.BeyonderCmd;
+import de.firecreeper82.cmds.ThreadLengthCmd;
 import de.firecreeper82.listeners.DeathListener;
 import de.firecreeper82.listeners.InteractListener;
 import de.firecreeper82.listeners.PotionHandler;
@@ -77,6 +78,7 @@ public final class Plugin extends JavaPlugin{
 
         Objects.requireNonNull(this.getCommand("beyonder")).setExecutor(new BeyonderCmd());
         Objects.requireNonNull(this.getCommand("disable-threads")).setExecutor(new DisableThreadsCmd());
+        Objects.requireNonNull(this.getCommand("thread-length")).setExecutor(new ThreadLengthCmd());
         Objects.requireNonNull(this.getCommand("items")).setExecutor(itemsCmd);
     }
 

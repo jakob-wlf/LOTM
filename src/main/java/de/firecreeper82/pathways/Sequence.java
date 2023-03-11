@@ -1,6 +1,7 @@
 package de.firecreeper82.pathways;
 
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -24,9 +25,6 @@ public abstract class Sequence {
 
     public HashMap<Integer, Double> sequenceMultiplier;
 
-    public Sequence(Pathway pathway) {
-        this.pathway = pathway;
-    }
     public Sequence(Pathway pathway, int optionalSequence) {
         this.pathway = pathway;
         this.currentSequence = optionalSequence;
@@ -37,7 +35,18 @@ public abstract class Sequence {
             return;
 
         e.setCancelled(true);
-        useAbility(Objects.requireNonNull(item.getItemMeta()).getEnchantLevel(Enchantment.CHANNELING), item);
+        if(e.getAction() != Action.LEFT_CLICK_AIR && e.getAction() != Action.LEFT_CLICK_BLOCK) {
+            useAbility(Objects.requireNonNull(item.getItemMeta()).getEnchantLevel(Enchantment.CHANNELING), item);
+            return;
+        }
+
+        int id = Objects.requireNonNull(item.getItemMeta()).getEnchantLevel(Enchantment.CHANNELING);
+        for(Ability a : abilities) {
+            if(a.getIdentifier() == id) {
+                a.leftClick();
+                break;
+            }
+        }
     }
 
     public void destroyItem(ItemStack item, PlayerDropItemEvent e) {
@@ -93,10 +102,6 @@ public abstract class Sequence {
         return sequenceEffects;
     }
 
-    public void setSequenceEffects(HashMap<Integer, PotionEffect[]> sequenceEffects) {
-        this.sequenceEffects = sequenceEffects;
-    }
-
     public ArrayList<Ability> getAbilities() {
         return abilities;
     }
@@ -109,23 +114,10 @@ public abstract class Sequence {
         return usesAbilities;
     }
 
-    public void setUsesAbilities(boolean[] usesAbilities) {
-        this.usesAbilities = usesAbilities;
-    }
-
     public HashMap<Integer, PotionEffectType[]> getSequenceResistances() {
         return sequenceResistances;
     }
-
-    public void setSequenceResistances(HashMap<Integer, PotionEffectType[]> sequenceResistances) {
-        this.sequenceResistances = sequenceResistances;
-    }
-
     public HashMap<Integer, Double> getSequenceMultiplier() {
         return sequenceMultiplier;
-    }
-
-    public void setSequenceMultiplier(HashMap<Integer, Double> sequenceMultiplier) {
-        this.sequenceMultiplier = sequenceMultiplier;
     }
 }

@@ -25,16 +25,16 @@ import java.util.UUID;
 
 public class Beyonder implements Listener {
 
-    public Pathway pathway;
-    public UUID uuid;
+    private Pathway pathway;
+    protected UUID uuid;
 
-    public double spirituality;
-    public double maxSpirituality;
+    protected double spirituality;
+    protected double maxSpirituality;
 
-    public FastBoard board;
+    private FastBoard board;
 
-    public boolean beyonder;
-    public boolean loosingControl;
+    private boolean beyonder;
+    private boolean loosingControl;
     public boolean online;
 
     public Beyonder(UUID uuid, Pathway pathway) {
@@ -44,6 +44,8 @@ public class Beyonder implements Listener {
         pathway.setBeyonder(this);
         if(getPlayer() == null)
             return;
+
+        pathway.initItems();
         start();
 
         beyonder = true;
@@ -51,6 +53,7 @@ public class Beyonder implements Listener {
     }
 
     @EventHandler
+    //Restarts everything when Beyonder rejoins
     public void onJoin(PlayerJoinEvent e) {
         if(!e.getPlayer().getUniqueId().equals(uuid))
             return;
@@ -60,6 +63,7 @@ public class Beyonder implements Listener {
     }
 
     @EventHandler
+    //Stops everything when Beyonder leaves
     public void onLeave(PlayerQuitEvent e) {
         if(!e.getPlayer().getUniqueId().equals(uuid))
             return;
@@ -88,13 +92,13 @@ public class Beyonder implements Listener {
         board.updateLines("", "§5Pathway", "- " + pathway.getStringColor() + pathway.getName(), "", "§5Sequence", "- " + pathway.getStringColor() + pathway.getSequence().getCurrentSequence() + ": " + Objects.requireNonNull(Pathway.getNamesForPathway(pathway.getNameNormalized())).get(pathway.getSequence().getCurrentSequence()), "", "§5Spirituality", "- " + pathway.getStringColor() + Math.round(spirituality) + "/" + Math.round(maxSpirituality));
     }
 
+    //Gets called everytime the Player rejoins or the Beyonder is newly initialised
     public void start() {
         updateSpirituality();
         board = new FastBoard(getPlayer());
         board.updateTitle(pathway.getStringColor() + getPlayer().getName());
         board.updateLines("", "§5Pathway", "- " + pathway.getStringColor() + pathway.getName(), "", "§5Sequence", "- " + pathway.getStringColor() + pathway.getSequence().getCurrentSequence() + ": " + Objects.requireNonNull(Pathway.getNamesForPathway(pathway.getNameNormalized())).get(pathway.getSequence().getCurrentSequence()), "", "§5Spirituality", "- " + pathway.getStringColor() + Math.round(spirituality) + "/" + Math.round(maxSpirituality));
 
-        pathway.initItems();
         online = true;
 
         //onHold
@@ -186,7 +190,7 @@ public class Beyonder implements Listener {
                     }
                 }
             }
-        }.runTaskTimer(Plugin.instance, 0, 5);
+        }.runTaskTimer(Plugin.instance, 0, 10);
     }
 
     public void updateSpirituality() {

@@ -10,8 +10,7 @@ import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 public class SpiritBodyThreads extends Ability {
 
@@ -22,6 +21,11 @@ public class SpiritBodyThreads extends Ability {
     private final ArrayList<String> disabledCategories;
 
     private Entity selectedEntity;
+
+    private int maxDistance;
+    private int maxDistanceControl;
+
+    private int preferredDistance;
 
     public SpiritBodyThreads(int identifier, Pathway pathway) {
         super(identifier, pathway);
@@ -48,6 +52,10 @@ public class SpiritBodyThreads extends Ability {
         stringToCategory.put("normal", EntityCategory.NONE);
         stringToCategory.put("illager", EntityCategory.ILLAGER);
         stringToCategory.put("arthropod", EntityCategory.ARTHROPOD);
+
+        maxDistance = 50;
+        maxDistanceControl = 10;
+        preferredDistance = maxDistance;
     }
 
     @Override
@@ -66,13 +74,13 @@ public class SpiritBodyThreads extends Ability {
 
         //Loop through hall entities and check their respective color and "draw" the Thread
         //Indicate selected entity on the actionbar
-        outerloop: for(Entity e : p.getNearbyEntities(60, 35, 60)) {
+        outerloop: for(Entity e : p.getNearbyEntities(preferredDistance, preferredDistance, preferredDistance)) {
             if(e == p || !(e instanceof LivingEntity))
-                return;
+                continue;
 
             //Check if Thread is disabled via disable-thread command
             if(e instanceof Player && disabledCategories.contains("player"))
-                return;
+                continue ;
             EntityCategory entityCategory = normalizeCategory(((LivingEntity) e).getCategory());
             for(String s : disabledCategories) {
                 if(s.equals("player"))
@@ -81,8 +89,13 @@ public class SpiritBodyThreads extends Ability {
                     continue outerloop;
             }
 
-            if(selectedEntity == null) {
+            //Randomly sets the selected entity to an entity in the control range
+            if(selectedEntity == null && e.getLocation().distance(p.getLocation()) <= maxDistanceControl) {
                 selectedEntity = e;
+            }
+
+            if(selectedEntity != null && selectedEntity.getLocation().distance(p.getLocation()) > maxDistanceControl) {
+                selectedEntity = null;
             }
 
             //Getting the colors
@@ -98,18 +111,54 @@ public class SpiritBodyThreads extends Ability {
             //Drawing the threads
             Location entityLoc = e.getLocation();
             Location playerLoc = p.getEyeLocation();
-            Vector dir = entityLoc.toVector().subtract(playerLoc.toVector()).normalize().multiply(0.3);
+            Vector dir = entityLoc.toVector().subtract(playerLoc.toVector()).normalize().multiply(1);
 
             int counter = 0;
-            while(playerLoc.distance(entityLoc) > 1.5 && counter < 150) {
-                Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(colors[0], colors[1], colors[2]), .5f);
-                p.spawnParticle(Particle.REDSTONE, playerLoc, 1, dust);
+            while(playerLoc.distance(entityLoc) > .5 && counter < 150) {
+                Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(colors[0], colors[1], colors[2]), .6f);
+                p.spawnParticle(Particle.REDSTONE, playerLoc, 1, .075, 0, .075, dust);
                 playerLoc.add(dir);
                 counter++;
             }
 
             //Displaying the actionbar
-            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§5Selected: §8" + selectedEntity.getType().name().substring(0, 1).toUpperCase() + selectedEntity.getType().name().substring(1).toLowerCase()));
+            String entityName;
+            if(selectedEntity == null)
+                entityName = "None";
+            else
+                entityName = selectedEntity.getType().name().substring(0, 1).toUpperCase() + selectedEntity.getType().name().substring(1).toLowerCase();
+            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§5Selected: §8" + entityName));
+        }
+    }
+
+    @Override
+    public void leftClick() {
+        Player p = pathway.getBeyonder().getPlayer();
+
+        //Loop through hall entities and check their respective color and "draw" the Thread
+        //Indicate selected entity on the actionbar
+        List<Entity> entities = p.getNearbyEntities(preferredDistance, preferredDistance, preferredDistance);
+        Collections.shuffle(entities);
+        outerloop: for(Entity e : entities) {
+            if (e == p || !(e instanceof LivingEntity) || e == selectedEntity)
+                continue;
+
+            //Check if Thread is disabled via disable-thread command
+            if (e instanceof Player && disabledCategories.contains("player"))
+                return;
+            EntityCategory entityCategory = normalizeCategory(((LivingEntity) e).getCategory());
+            for (String s : disabledCategories) {
+                if (s.equals("player"))
+                    continue;
+                if (entityCategory == stringToCategory.get(s))
+                    continue outerloop;
+            }
+
+            //Randomly sets the selected entity to an entity in the control range
+            if (e.getLocation().distance(p.getLocation()) <= maxDistanceControl) {
+                selectedEntity = e;
+                break;
+            }
         }
     }
 
@@ -124,15 +173,14 @@ public class SpiritBodyThreads extends Ability {
         }
     }
 
+    public void setPreferredDistance(int distance) {
+        preferredDistance = Math.min(distance, maxDistance);
+    }
+
     public EntityCategory normalizeCategory(EntityCategory entityCategory) {
         if(entityCategory == EntityCategory.WATER)
             return EntityCategory.NONE;
 
         return entityCategory;
-    }
-
-    @Override
-    public void leftClick() {
-
     }
 }
