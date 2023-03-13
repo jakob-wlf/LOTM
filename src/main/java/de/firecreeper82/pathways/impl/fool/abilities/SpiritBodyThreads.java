@@ -4,6 +4,7 @@ import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.fool.FoolItems;
+import de.firecreeper82.pathways.impl.fool.marionettes.Marionette;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
@@ -154,10 +155,10 @@ public class SpiritBodyThreads extends Ability {
                         ((Player) e).setHealth(0);
                         return;
                     }
-
-                    selectedEntity.setCustomName("§5" + p.getName() + "'s Marionette");
-                    selectedEntity.setCustomNameVisible(true);
-                    team.addEntry(selectedEntity.getUniqueId().toString());
+                    else {
+                        new Marionette(selectedEntity.getLocation());
+                        selectedEntity.remove();
+                    }
 
                     cancel();
                 }
