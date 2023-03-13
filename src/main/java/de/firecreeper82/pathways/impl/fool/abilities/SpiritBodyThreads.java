@@ -1,5 +1,6 @@
 package de.firecreeper82.pathways.impl.fool.abilities;
 
+import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.fool.FoolItems;
@@ -8,6 +9,12 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.ScoreboardManager;
+import org.bukkit.scoreboard.Team;
 import org.bukkit.util.Vector;
 
 import java.util.*;
@@ -20,17 +27,26 @@ public class SpiritBodyThreads extends Ability {
 
     private final ArrayList<String> disabledCategories;
 
+    private final ArrayList<Entity> marionettes;
+
     private Entity selectedEntity;
 
     private int maxDistance;
     private int maxDistanceControl;
-
     private int preferredDistance;
+
+    private int convertTimeSeconds;
+
+    private boolean turning;
+
+    private Team team;
 
     public SpiritBodyThreads(int identifier, Pathway pathway) {
         super(identifier, pathway);
 
         disabledCategories = new ArrayList<>();
+
+        marionettes = new ArrayList<>();
 
         mobColors = new HashMap<>();
         categoryToInt = new HashMap<>();
@@ -56,12 +72,135 @@ public class SpiritBodyThreads extends Ability {
         maxDistance = 50;
         maxDistanceControl = 10;
         preferredDistance = maxDistance;
+
+        convertTimeSeconds = 45;
+
+        turning = false;
+
+        p = pathway.getBeyonder().getPlayer();
+
+        ScoreboardManager manager = Bukkit.getScoreboardManager();
+        assert manager != null;
+        Scoreboard board = manager.getNewScoreboard();
+        team = board.registerNewTeam(p.getUniqueId().toString());
+        team.setPrefix(ChatColor.DARK_PURPLE + p.getName());
+        team.addEntry(p.getUniqueId().toString());
+
+        team.setCanSeeFriendlyInvisibles(true);
+        team.setAllowFriendlyFire(false);
     }
 
     @Override
+    //Check if Player is already turning something into Marionette
+    // if not -> calls the turningIntoMarionette function
+    // else -> stops the turning process
     public void useAbility() {
+        if(selectedEntity == null)
+            return;
 
+        if(!turning) {
+            turnIntoMarionette(selectedEntity);
+            return;
+        }
+
+        turning = false;
     }
+
+    public void turnIntoMarionette(Entity e) {
+        if(!(e instanceof LivingEntity)) {
+            turning = false;
+            return;
+        }
+        Player p = pathway.getBeyonder().getPlayer();
+        turning = true;
+
+        //Make hostile entities aware of Player
+        ((Damageable) e).damage(0, p);
+
+        //Runs every 1/2 seconds and gives Entity effects
+        //At the end of the time if entity is still being turned, removes entity
+        new BukkitRunnable() {
+            long counter = 2L * convertTimeSeconds;
+            @Override
+            public void run() {
+                if(!turning) {
+                    cancel();
+                    return;
+                }
+
+                //Check if entity is too far away
+                Location entityLoc = e.getLocation().clone();
+                entityLoc.add(0, 0.75, 0);
+                if(entityLoc.distance(p.getEyeLocation()) > maxDistanceControl) {
+                    turning = false;
+                    cancel();
+                    return;
+                }
+
+                counter--;
+
+
+                ((LivingEntity) e).addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 60, 5));
+                ((LivingEntity) e).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 60, 4));
+                ((LivingEntity) e).addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 60, 1));
+
+                if(!turning)
+                    cancel();
+                if(counter <= 0) {
+                    turning = false;
+
+                    //Marionette is a Player
+                    if(e instanceof Player) {
+                        ((Player) e).setHealth(0);
+                        return;
+                    }
+
+                    selectedEntity.setCustomName("§5" + p.getName() + "'s Marionette");
+                    selectedEntity.setCustomNameVisible(true);
+                    team.addEntry(selectedEntity.getUniqueId().toString());
+
+                    cancel();
+                }
+            }
+        }.runTaskTimer(Plugin.instance, 0, 10);
+
+        //Particle effects for Entities
+        new BukkitRunnable() {
+            long counter = 10L * convertTimeSeconds;
+            double spiralRadius = 2;
+
+            double spiral = 0;
+            double height = 0;
+            double spiralX;
+            double spiralZ;
+            @Override
+            public void run() {
+                Location entityLoc = e.getLocation().clone();
+                entityLoc.add(0, 0.75, 0);
+
+                spiralX = spiralRadius * Math.cos(spiral);
+                spiralZ = spiralRadius * Math.sin(spiral);
+                spiral += 0.25;
+                height += .05;
+                if(height >= 2.5)
+                    height = 0;
+                Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(154, 0, 194), 1.25f);
+                if(entityLoc.getWorld() != null)
+                    entityLoc.getWorld().spawnParticle(Particle.REDSTONE, spiralX + entityLoc.getX(), height + entityLoc.getY(), spiralZ + entityLoc.getZ(), 5, dust);
+
+                counter--;
+                spiralRadius -= (1.5 / (10L * convertTimeSeconds));
+
+                if(!turning)
+                    cancel();
+                if(counter <= 0) {
+                    cancel();
+                }
+
+            }
+        }.runTaskTimer(Plugin.instance, 0, 2);
+    }
+
 
     @Override
     public ItemStack getItem() {
@@ -85,38 +224,44 @@ public class SpiritBodyThreads extends Ability {
             for(String s : disabledCategories) {
                 if(s.equals("player"))
                     continue;
-                if(entityCategory == stringToCategory.get(s))
+                if(entityCategory == stringToCategory.get(s) && !(e instanceof Player))
                     continue outerloop;
             }
 
             //Randomly sets the selected entity to an entity in the control range
-            if(selectedEntity == null && e.getLocation().distance(p.getLocation()) <= maxDistanceControl) {
+            if(selectedEntity == null && e.getLocation().clone().add(0, 0.75, 0).distance(p.getEyeLocation()) <= maxDistanceControl) {
                 selectedEntity = e;
             }
-
             if(selectedEntity != null && selectedEntity.getLocation().distance(p.getLocation()) > maxDistanceControl) {
                 selectedEntity = null;
             }
 
             //Getting the colors
             int[] colors;
-            if(e instanceof Player)
-                colors = mobColors.get(0);
-            else if(e == selectedEntity)
+            if(e == selectedEntity)
                 colors = new int[]{255, 255, 255};
+            else if(e instanceof Player)
+                colors = mobColors.get(0);
             else
                 colors = mobColors.get(categoryToInt.get(((LivingEntity) e).getCategory()));
 
+            //Check if currently turning Entity into Marionette
+            if(turning) {
+                if(e != selectedEntity)
+                    continue;
+                colors = new int[]{145, 0, 194};
+            }
+
 
             //Drawing the threads
-            Location entityLoc = e.getLocation();
-            Location playerLoc = p.getEyeLocation();
-            Vector dir = entityLoc.toVector().subtract(playerLoc.toVector()).normalize().multiply(1);
+            Location entityLoc = e.getLocation().clone().add(0, 0.75, 0);
+            Location playerLoc = p.getEyeLocation().clone().subtract(0, 0.5, 0);
+            Vector dir = entityLoc.toVector().subtract(playerLoc.toVector()).normalize().multiply(.65);
 
             int counter = 0;
             while(playerLoc.distance(entityLoc) > .5 && counter < 150) {
-                Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(colors[0], colors[1], colors[2]), .6f);
-                p.spawnParticle(Particle.REDSTONE, playerLoc, 1, .075, 0, .075, dust);
+                Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(colors[0], colors[1], colors[2]), .75f);
+                p.spawnParticle(Particle.REDSTONE, playerLoc, 1, .05, 0, .05, dust);
                 playerLoc.add(dir);
                 counter++;
             }
@@ -162,6 +307,7 @@ public class SpiritBodyThreads extends Ability {
         }
     }
 
+    //Disable / Enable a specific EntityCategory for the Threads
     public boolean disableCategory(String category) {
         if(!disabledCategories.contains(category.toLowerCase())) {
             disabledCategories.add(category.toLowerCase());
@@ -177,6 +323,7 @@ public class SpiritBodyThreads extends Ability {
         preferredDistance = Math.min(distance, maxDistance);
     }
 
+    //If given EntityCategory.WATER returns EntityCategory.NONE
     public EntityCategory normalizeCategory(EntityCategory entityCategory) {
         if(entityCategory == EntityCategory.WATER)
             return EntityCategory.NONE;

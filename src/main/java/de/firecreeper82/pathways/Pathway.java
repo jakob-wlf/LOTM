@@ -84,6 +84,8 @@ public abstract class Pathway {
     }
 
 
+    //Initializes a new Pathway
+    //Called from BeyonderCmd, Plugin and PotionListener
     public static Pathway initializeNew(String pathway, UUID uuid, int sequence) {
         Pathway pathwayObject;
         if(Plugin.beyonders.containsKey(uuid))

@@ -73,16 +73,14 @@ public class Beyonder implements Listener {
     }
 
     @EventHandler
+    //Removes Items on Death
     public void onDeath(PlayerDeathEvent e) {
         if(e.getEntity() != getPlayer())
             return;
-        for(ItemStack item : e.getDrops()) {
-            if(pathway.getItems().returnItemsFromSequence(pathway.getSequence().getCurrentSequence()).contains(item)) {
-                for(Entity entity : e.getEntity().getWorld().getNearbyEntities(e.getEntity().getLocation(), 50, 50, 50)) {
-                    if(entity instanceof Item) {
-                        entity.remove();
-                    }
-                }
+        Player p = (Player) e;
+        for(Entity entity : p.getNearbyEntities(20, 20, 20)) {
+            if(entity instanceof Item && pathway.getItems().returnItemsFromSequence(pathway.getSequence().getCurrentSequence()).contains(((Item) entity).getItemStack())) {
+                entity.remove();
             }
         }
     }
@@ -105,6 +103,7 @@ public class Beyonder implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
+                //Cancel and return if player, sequence is null or player is not online
                 if(!beyonder || !online || getPlayer() == null || pathway.getSequence() == null) {
                     cancel();
                     return;
@@ -115,6 +114,7 @@ public class Beyonder implements Listener {
 
                 Player p = getPlayer();
 
+                //Call onHold() function in Sequence
                 pathway.getSequence().onHold(p.getInventory().getItemInMainHand());
             }
         }.runTaskTimer(Plugin.instance, 0, 3);
@@ -124,6 +124,7 @@ public class Beyonder implements Listener {
             int counter = 0;
             @Override
             public void run() {
+                //Cancel and return if player, sequence is null or player is not online
                 if(!beyonder || !online || getPlayer() == null || pathway.getSequence() == null) {
                     cancel();
                     return;
@@ -214,6 +215,7 @@ public class Beyonder implements Listener {
         getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20 * timeOfLoosingControl, 3, false, false));
         getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 20 * timeOfLoosingControl, 3, false, false));
 
+        //Damaging player
         new BukkitRunnable() {
             int counter = 0;
             @Override
@@ -223,6 +225,7 @@ public class Beyonder implements Listener {
 
                 counter++;
                 if(counter == timeOfLoosingControl * 20) {
+                    //When not survives, summons a Warden
                     if(!survives) {
                         Entity rampager = Objects.requireNonNull(getPlayer().getLocation().getWorld()).spawnEntity(getPlayer().getLocation(), EntityType.WARDEN);
                         rampager.setGlowing(true);
@@ -241,6 +244,7 @@ public class Beyonder implements Listener {
         }.runTaskTimer(Plugin.instance, 0, 1);
     }
 
+    //Called from the PotionListener
     public void consumePotion(int sequence, Potion potion) {
         if(sequence >= pathway.getSequence().getCurrentSequence())
             return;

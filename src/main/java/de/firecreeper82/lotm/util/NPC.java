@@ -34,15 +34,19 @@ public class NPC extends ServerPlayer {
         MinecraftServer nmsServer = ((CraftServer) Bukkit.getServer()).getServer();
         ServerLevel nmsWorld = ((CraftWorld) Objects.requireNonNull(location.getWorld())).getHandle();
         GameProfile profile = new GameProfile(uuid, name);
+
         NPC npc = new NPC(nmsServer, nmsWorld, profile);
         npc.connection = new TutNetHandler(nmsServer, new TutNetworkManager(PacketFlow.CLIENTBOUND), npc);
+
         setSkin(npc, skin);
         setPosRot(npc, location);
         npc.getBukkitEntity().setNoDamageTicks(0);
         npc.getBukkitEntity().setHealth(1f);
         Bukkit.getOnlinePlayers().forEach(player -> ((CraftPlayer) player).getHandle().connection.send(new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.ADD_PLAYER, npc)));
         nmsWorld.addNewPlayer(npc);
+
         Plugin.fakePlayers.put(uuid, npc);
+
         NPC.showAll(npc, location);
         return npc;
     }
