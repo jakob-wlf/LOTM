@@ -57,7 +57,7 @@ public class AirBullet extends Ability {
         new BukkitRunnable() {
 
             final double circlePoints = (valuesForSequence.get(pathway.getSequence().getCurrentSequence()) != null ? valuesForSequence.get(sequencePower)[1] : 20);
-            final double radius = (valuesForSequence.get(sequencePower) != null ? valuesForSequence.get(sequencePower)[0] : 0.25);
+            double radius = (valuesForSequence.get(sequencePower) != null ? valuesForSequence.get(sequencePower)[0] : 0.25);
 
             final Location loc = p.getEyeLocation();
             final World world = loc.getWorld();
@@ -97,6 +97,7 @@ public class AirBullet extends Ability {
                     circlePointOffset = 0;
                 }
                 loc.add(dir);
+                radius -= (valuesForSequence.get(sequencePower) != null ? valuesForSequence.get(sequencePower)[0] : 0.25) / 70;
 
                 //Check if hit Entity
                 if(!world.getNearbyEntities(loc, 5, 5, 5).isEmpty()) {
