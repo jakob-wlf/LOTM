@@ -95,6 +95,8 @@ public final class Plugin extends JavaPlugin{
             e.printStackTrace();
         }
 
+        saveResource("fools.yml", true);
+
         for(FogOfHistory foh : fogOfHistories.values()) {
             try {
                 saveFoH(foh);
