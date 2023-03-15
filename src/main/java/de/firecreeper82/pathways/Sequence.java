@@ -81,7 +81,6 @@ public abstract class Sequence {
             }
         }
     }
-
     public int getCurrentSequence() {
         return currentSequence;
     }

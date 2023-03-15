@@ -14,7 +14,13 @@ commands:
   disable-threads:
     description: Choose the Spirit Body Threads you want to see
     usage: /<cmd>
+  exclude-entities:
+    description: Choose the Spirit Body Threads of the entities you don't want to see
+    usage: /<cmd>
   thread-length:
     description: Choose the max distance for the Spirit Body Threads you want to see
+    usage: /<cmd>
+  configure-threads:
+    description: Configure the Spirit Body Threads you want to see
     usage: /<cmd>
 

@@ -13,9 +13,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.ScoreboardManager;
-import org.bukkit.scoreboard.Team;
 import org.bukkit.util.Vector;
 
 import java.util.*;
@@ -26,8 +23,12 @@ public class SpiritBodyThreads extends Ability {
     private final HashMap<EntityCategory, Integer> categoryToInt;
     private final HashMap<String, EntityCategory> stringToCategory;
 
-    private final ArrayList<String> disabledCategories;
+    private final HashMap<Integer, int[]> sequenceConversions;
 
+    private final ArrayList<String> disabledCategories;
+    private final ArrayList<EntityType> excludedEntities;
+
+    @SuppressWarnings("all")
     private final ArrayList<Entity> marionettes;
 
     private Entity selectedEntity;
@@ -38,20 +39,24 @@ public class SpiritBodyThreads extends Ability {
 
     private int convertTimeSeconds;
 
-    private boolean turning;
+    @SuppressWarnings("unused")
+    private int maxMarionettes;
 
-    private Team team;
+    private boolean turning;
+    private int sequence;
 
     public SpiritBodyThreads(int identifier, Pathway pathway) {
         super(identifier, pathway);
 
         disabledCategories = new ArrayList<>();
+        excludedEntities = new ArrayList<>();
 
         marionettes = new ArrayList<>();
 
         mobColors = new HashMap<>();
         categoryToInt = new HashMap<>();
         stringToCategory = new HashMap<>();
+        sequenceConversions = new HashMap<>();
 
         categoryToInt.put(EntityCategory.UNDEAD, 1);
         categoryToInt.put(EntityCategory.ARTHROPOD, 2);
@@ -70,25 +75,25 @@ public class SpiritBodyThreads extends Ability {
         stringToCategory.put("illager", EntityCategory.ILLAGER);
         stringToCategory.put("arthropod", EntityCategory.ARTHROPOD);
 
-        maxDistance = 50;
-        maxDistanceControl = 10;
+        sequence = 5;
+
+        sequenceConversions.put(5, new int[]{50, 10, 90, 3});
+        sequenceConversions.put(4, new int[]{200, 150, 15, 50});
+        sequenceConversions.put(3, new int[]{500, 500, 10, 500});
+        sequenceConversions.put(2, new int[]{1000, 750, 15, 5000});
+        sequenceConversions.put(1, new int[]{2000, 750, 15, 5000});
+
+        maxDistance = sequenceConversions.get(5)[0];
+        maxDistanceControl = sequenceConversions.get(5)[1];
         preferredDistance = maxDistance;
 
-        convertTimeSeconds = 45;
+        convertTimeSeconds = sequenceConversions.get(5)[2];
+
+        maxMarionettes = sequenceConversions.get(5)[3];
 
         turning = false;
 
         p = pathway.getBeyonder().getPlayer();
-
-        ScoreboardManager manager = Bukkit.getScoreboardManager();
-        assert manager != null;
-        Scoreboard board = manager.getNewScoreboard();
-        team = board.registerNewTeam(p.getUniqueId().toString());
-        team.setPrefix(ChatColor.DARK_PURPLE + p.getName());
-        team.addEntry(p.getUniqueId().toString());
-
-        team.setCanSeeFriendlyInvisibles(true);
-        team.setAllowFriendlyFire(false);
     }
 
     @Override
@@ -96,6 +101,7 @@ public class SpiritBodyThreads extends Ability {
     // if not -> calls the turningIntoMarionette function
     // else -> stops the turning process
     public void useAbility() {
+
         if(selectedEntity == null)
             return;
 
@@ -156,7 +162,7 @@ public class SpiritBodyThreads extends Ability {
                         return;
                     }
                     else {
-                        new Marionette(selectedEntity.getLocation());
+                        new Marionette(selectedEntity.getLocation(), selectedEntity.getType());
                         selectedEntity.remove();
                     }
 
@@ -212,6 +218,19 @@ public class SpiritBodyThreads extends Ability {
     public void onHold() {
         Player p = pathway.getBeyonder().getPlayer();
 
+        //Check if sequence has updated and adjust values accordingly
+        if(sequence != pathway.getSequence().getCurrentSequence()) {
+            if(pathway.getSequence().getCurrentSequence() > 5)
+                return;
+            sequence = pathway.getSequence().getCurrentSequence();
+            maxDistance = sequenceConversions.get(sequence)[0];
+            maxDistanceControl = sequenceConversions.get(sequence)[1];
+
+            convertTimeSeconds = sequenceConversions.get(sequence)[2];
+
+            maxMarionettes = sequenceConversions.get(sequence)[3];
+        }
+
         //Loop through hall entities and check their respective color and "draw" the Thread
         //Indicate selected entity on the actionbar
         outerloop: for(Entity e : p.getNearbyEntities(preferredDistance, preferredDistance, preferredDistance)) {
@@ -228,6 +247,10 @@ public class SpiritBodyThreads extends Ability {
                 if(entityCategory == stringToCategory.get(s) && !(e instanceof Player))
                     continue outerloop;
             }
+
+            //Check if entity is in the excludedEntities
+            if(excludedEntities.contains(e.getType()))
+                continue;
 
             //Randomly sets the selected entity to an entity in the control range
             if(selectedEntity == null && e.getLocation().clone().add(0, 0.75, 0).distance(p.getEyeLocation()) <= maxDistanceControl) {
@@ -296,9 +319,13 @@ public class SpiritBodyThreads extends Ability {
             for (String s : disabledCategories) {
                 if (s.equals("player"))
                     continue;
-                if (entityCategory == stringToCategory.get(s))
+                if (entityCategory == stringToCategory.get(s) && !(e instanceof Player))
                     continue outerloop;
             }
+
+            //Check if entity is in the excludedEntities
+            if(excludedEntities.contains(e.getType()))
+                continue;
 
             //Randomly sets the selected entity to an entity in the control range
             if (e.getLocation().distance(p.getLocation()) <= maxDistanceControl) {
@@ -309,6 +336,7 @@ public class SpiritBodyThreads extends Ability {
     }
 
     //Disable / Enable a specific EntityCategory for the Threads
+    //Return true if disabling and false if enabling
     public boolean disableCategory(String category) {
         if(!disabledCategories.contains(category.toLowerCase())) {
             disabledCategories.add(category.toLowerCase());
@@ -319,6 +347,21 @@ public class SpiritBodyThreads extends Ability {
             return false;
         }
     }
+
+    //Disable / Enable a specific Entity for the Threads
+    //Return true if disabling and false if enabling
+    public boolean addExcludedEntity(EntityType entityType) {
+        if(!excludedEntities.contains(entityType)) {
+            excludedEntities.add(entityType);
+            return true;
+        }
+        else {
+            excludedEntities.remove(entityType);
+            return false;
+        }
+    }
+
+
 
     public void setPreferredDistance(int distance) {
         preferredDistance = Math.min(distance, maxDistance);
