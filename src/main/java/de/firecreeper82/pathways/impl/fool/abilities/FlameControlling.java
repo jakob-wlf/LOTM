@@ -24,7 +24,7 @@ public class FlameControlling extends Ability {
         double multiplier = getMultiplier();
         p = pathway.getBeyonder().getPlayer();
 
-        if(pathway.getSequence().currentSequence == 7) {
+        if(pathway.getSequence().getCurrentSequence() == 7) {
             if(!p.getInventory().contains(Material.COAL) && !p.getInventory().contains(Material.CHARCOAL)) {
                 Location noFuelLoc = p.getEyeLocation().add(p.getEyeLocation().getDirection().normalize());
                 if(noFuelLoc.getWorld() == null)

@@ -14,16 +14,16 @@ import java.util.Objects;
 
 public abstract class Sequence {
 
-    public int currentSequence;
-    public Pathway pathway;
+    protected int currentSequence;
+    protected Pathway pathway;
 
-    public boolean[] usesAbilities;
-    public ArrayList<Ability> abilities;
+    protected boolean[] usesAbilities;
+    protected ArrayList<Ability> abilities;
 
-    public HashMap<Integer, PotionEffect[]> sequenceEffects;
-    public HashMap<Integer, PotionEffectType[]> sequenceResistances;
+    protected HashMap<Integer, PotionEffect[]> sequenceEffects;
+    protected HashMap<Integer, PotionEffectType[]> sequenceResistances;
 
-    public HashMap<Integer, Double> sequenceMultiplier;
+    protected HashMap<Integer, Double> sequenceMultiplier;
 
     public Sequence(Pathway pathway, int optionalSequence) {
         this.pathway = pathway;

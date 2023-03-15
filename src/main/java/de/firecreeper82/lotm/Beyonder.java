@@ -158,7 +158,7 @@ public class Beyonder implements Listener {
                     }
                 }
                 else {
-                    for(int i = pathway.getSequence().currentSequence; i < 9; i++) {
+                    for(int i = pathway.getSequence().getCurrentSequence(); i < 9; i++) {
                         if(pathway.getSequence().getSequenceEffects().containsKey(i)) {
                             for(PotionEffect effect : pathway.getSequence().getSequenceEffects().get(i)) {
                                 p.addPotionEffect(effect);
@@ -179,7 +179,7 @@ public class Beyonder implements Listener {
                     }
                 }
                 else {
-                    for(int i = pathway.getSequence().currentSequence; i < 9; i++) {
+                    for(int i = pathway.getSequence().getCurrentSequence(); i < 9; i++) {
                         if(pathway.getSequence().getSequenceResistances().containsKey(i)) {
                             for(PotionEffectType effect : pathway.getSequence().getSequenceResistances().get(i)) {
                                 if(p.getPotionEffect(effect) != null) {
@@ -195,12 +195,12 @@ public class Beyonder implements Listener {
     }
 
     public void updateSpirituality() {
-        if(pathway.getSequence().currentSequence > 8)
-            spirituality = (int) Math.pow((float) (90 / pathway.getSequence().currentSequence), 2);
-        else if(pathway.getSequence().currentSequence > 4)
-            spirituality = (int) Math.pow((double) (90 / pathway.getSequence().currentSequence) * 2, 2);
-        else if(pathway.getSequence().currentSequence < 5)
-            spirituality = (int) Math.pow((float) (90 / pathway.getSequence().currentSequence), 3) ;
+        if(pathway.getSequence().getCurrentSequence() > 8)
+            spirituality = (int) Math.pow((float) (90 / pathway.getSequence().getCurrentSequence()), 2);
+        else if(pathway.getSequence().getCurrentSequence() > 4)
+            spirituality = (int) Math.pow((double) (90 / pathway.getSequence().getCurrentSequence()) * 2, 2);
+        else if(pathway.getSequence().getCurrentSequence() < 5)
+            spirituality = (int) Math.pow((float) (90 / pathway.getSequence().getCurrentSequence()), 3) ;
         maxSpirituality = spirituality;
     }
 

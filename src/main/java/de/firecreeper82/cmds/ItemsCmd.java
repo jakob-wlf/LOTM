@@ -53,7 +53,7 @@ public class ItemsCmd implements CommandExecutor, Listener {
         //Put the Player in the openInventories HashMap
         Inventory inv = Bukkit.createInventory(p, 27, Plugin.beyonders.get(p.getUniqueId()).getPathway().getStringColor() + p.getName() + " - Items");
 
-        for(ItemStack tempItem : Plugin.beyonders.get(p.getUniqueId()).getPathway().getItems().returnItemsFromSequence(Plugin.beyonders.get(p.getUniqueId()).getPathway().getSequence().currentSequence))  {
+        for(ItemStack tempItem : Plugin.beyonders.get(p.getUniqueId()).getPathway().getItems().returnItemsFromSequence(Plugin.beyonders.get(p.getUniqueId()).getPathway().getSequence().getCurrentSequence()))  {
             inv.addItem(tempItem);
         }
 

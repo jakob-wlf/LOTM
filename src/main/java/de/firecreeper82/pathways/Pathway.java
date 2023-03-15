@@ -10,14 +10,14 @@ import java.util.UUID;
 
 public abstract class Pathway {
 
-    public UUID uuid;
-    public Sequence sequence;
-    public String name;
-    public Beyonder beyonder;
-    public int optionalSequence;
-    public Color pathwayColor;
-    public String stringColor;
-    public String nameNormalized;
+    protected UUID uuid;
+    protected Sequence sequence;
+    protected String name;
+    protected Beyonder beyonder;
+    protected int optionalSequence;
+    protected Color pathwayColor;
+    protected String stringColor;
+    protected String nameNormalized;
 
     public Items items;
 

@@ -37,7 +37,6 @@ public class FogOfHistory extends Ability implements Listener {
 
     private boolean active;
 
-
     private int currentPage;
 
     public FogOfHistory(int identifier, Pathway pathway) {
@@ -230,6 +229,7 @@ public class FogOfHistory extends Ability implements Listener {
     }
 
     public void addItem(ItemStack item) {
+        Bukkit.getConsoleSender().sendMessage(String.valueOf(pathway.getSequence().getAbilities().contains(this)));
         items.add(item);
     }
 

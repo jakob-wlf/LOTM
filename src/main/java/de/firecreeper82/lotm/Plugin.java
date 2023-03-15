@@ -165,7 +165,7 @@ public final class Plugin extends JavaPlugin{
         Bukkit.getConsoleSender().sendMessage(prefix + "§aSaving Beyonders");
         for(Map.Entry<UUID, Beyonder> entry : beyonders.entrySet()) {
             configSave.set("beyonders." + entry.getKey() + ".pathway", entry.getValue().getPathway().getNameNormalized());
-            configSave.set("beyonders." + entry.getKey() + ".sequence", entry.getValue().getPathway().getSequence().currentSequence);
+            configSave.set("beyonders." + entry.getKey() + ".sequence", entry.getValue().getPathway().getSequence().getCurrentSequence());
         }
         configSave.save(configSaveFile);
     }
