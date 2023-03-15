@@ -32,6 +32,8 @@ public class FogOfHistory extends Ability implements Listener {
     private final ArrayList<ItemStack> summonedItems;
     private ArrayList<Inventory> pages;
 
+    private final Set<ItemStack> hashSet;
+
     private final ItemStack arrow;
     private final ItemStack barrier;
 
@@ -42,10 +44,13 @@ public class FogOfHistory extends Ability implements Listener {
     public FogOfHistory(int identifier, Pathway pathway) {
         super(identifier, pathway);
         Plugin.instance.getServer().getPluginManager().registerEvents(this, Plugin.instance);
+
         items = new ArrayList<>();
+        hashSet = new HashSet<>();
 
         active = true;
 
+        //Adding Inventory ItemStacks to List
         for(ItemStack item : pathway.getBeyonder().getPlayer().getInventory().getContents()) {
             if(item == null)
                 continue;
@@ -56,6 +61,7 @@ public class FogOfHistory extends Ability implements Listener {
         }
         summonedItems = new ArrayList<>();
 
+        //initializing ItemStacks for Inventory
         barrier = new ItemStack(Material.BARRIER);
         ItemMeta tempMeta = barrier.getItemMeta();
         assert tempMeta != null;
@@ -70,8 +76,11 @@ public class FogOfHistory extends Ability implements Listener {
 
         currentPage = 0;
 
+        if(Plugin.fogOfHistories.containsKey(pathway.getBeyonder().getUuid()))
+            return;
         Plugin.fogOfHistories.put(pathway.getBeyonder().getUuid(), this);
     }
+
 
     @EventHandler
     public void onPlayerPickUpItem(EntityPickupItemEvent e) {
@@ -112,8 +121,12 @@ public class FogOfHistory extends Ability implements Listener {
 
     @Override
     public void useAbility() {
+        items.addAll(hashSet);
+        hashSet.clear();
+
         if(!active)
             return;
+
         Player p = pathway.getBeyonder().getPlayer();
 
         currentPage = 0;
@@ -121,6 +134,7 @@ public class FogOfHistory extends Ability implements Listener {
         Set<ItemStack> tempSet = new HashSet<>(items);
         items.clear();
         items.addAll(tempSet);
+
 
         items.removeAll(Collections.singleton(null));
 
@@ -229,8 +243,7 @@ public class FogOfHistory extends Ability implements Listener {
     }
 
     public void addItem(ItemStack item) {
-        Bukkit.getConsoleSender().sendMessage(String.valueOf(pathway.getSequence().getAbilities().contains(this)));
-        items.add(item);
+        hashSet.add(item);
     }
 
     public ArrayList<ItemStack> getItems() {

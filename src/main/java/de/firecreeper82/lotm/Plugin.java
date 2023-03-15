@@ -110,6 +110,31 @@ public final class Plugin extends JavaPlugin{
         for(int i = 0; i < foh.getItems().size(); i++) {
             configSaveFoh.set("fools." + foh.getPathway().getBeyonder().getUuid() + ("." + i), foh.getItems().get(i));
         }
+
+        //Remove duplicates
+        ArrayList<ItemStack> contained = new ArrayList<>();
+        for(String s : Objects.requireNonNull(configSaveFoh.getConfigurationSection("fools")).getKeys(false)) {
+            if(fogOfHistories.get(UUID.fromString(s)) == null)
+                return;
+
+            if(configSaveFoh.get("fools." + s) == null)
+                return;
+
+            for(String t : Objects.requireNonNull(configSaveFoh.getConfigurationSection("fools." + s)).getKeys(false)) {
+                int i = parseInt(t);
+                if(i == -1)
+                    return;
+
+                ItemStack item = configSaveFoh.getItemStack("fools." + s + "." + i);
+                if(item == null)
+                    continue;
+                if(contained.contains(item))
+                    configSaveFoh.set("fools." + s + "." + i, null);
+                else
+                    contained.add(item);
+            }
+        }
+
         configSaveFoh.save(configSaveFileFoh);
     }
 
@@ -163,6 +188,7 @@ public final class Plugin extends JavaPlugin{
 
     public void save() throws IOException {
         Bukkit.getConsoleSender().sendMessage(prefix + "§aSaving Beyonders");
+
         for(Map.Entry<UUID, Beyonder> entry : beyonders.entrySet()) {
             configSave.set("beyonders." + entry.getKey() + ".pathway", entry.getValue().getPathway().getNameNormalized());
             configSave.set("beyonders." + entry.getKey() + ".sequence", entry.getValue().getPathway().getSequence().getCurrentSequence());
@@ -187,7 +213,13 @@ public final class Plugin extends JavaPlugin{
                     return;
 
                 ItemStack item = configSaveFoh.getItemStack("fools." + s + "." + i);
-                fogOfHistories.get(UUID.fromString(s)).addItem(item);
+                if(item == null)
+                    continue;
+                for(FogOfHistory fogOfHistory : fogOfHistories.values()) {
+                    if(fogOfHistory.getPathway().getBeyonder().getUuid().equals(UUID.fromString(s))) {
+                        fogOfHistory.addItem(item);
+                    }
+                }
             }
         }
     }
