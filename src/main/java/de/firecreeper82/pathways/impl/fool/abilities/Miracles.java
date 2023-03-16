@@ -8,6 +8,7 @@ import de.firecreeper82.pathways.impl.fool.FoolItems;
 import de.firecreeper82.pathways.impl.fool.abilities.miracles.disasters.Disaster;
 import de.firecreeper82.pathways.impl.fool.abilities.miracles.disasters.Lightning;
 import de.firecreeper82.pathways.impl.fool.abilities.miracles.disasters.Meteor;
+import de.firecreeper82.pathways.impl.fool.abilities.miracles.disasters.Tornado;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -82,8 +83,11 @@ public class Miracles extends Ability implements Listener {
 
     private void initializeDisasters() {
         Meteor meteor = new Meteor(p);
+        Tornado tornado = new Tornado(p);
         Lightning lightning = new Lightning(p);
+
         disasters.add(meteor);
+        disasters.add(tornado);
         disasters.add(lightning);
     }
 
