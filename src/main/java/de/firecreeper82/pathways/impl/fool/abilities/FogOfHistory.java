@@ -1,6 +1,7 @@
 package de.firecreeper82.pathways.impl.fool.abilities;
 
 import de.firecreeper82.lotm.Plugin;
+import de.firecreeper82.lotm.util.UtilItems;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.fool.FoolItems;
@@ -139,6 +140,7 @@ public class FogOfHistory extends Ability implements Listener {
         items.removeAll(Collections.singleton(null));
 
         items.removeIf(item -> pathway.getSequence().checkValid(item));
+        items.removeIf(item -> UtilItems.returnAllItems().contains(item));
 
         double pageCount = Math.ceil((float) items.size() / 52);
 

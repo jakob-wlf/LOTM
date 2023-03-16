@@ -28,6 +28,7 @@ public class FoolItems extends Items {
         sequenceItems.put(5, 7);
         sequenceItems.put(6, 5);
         sequenceItems.put(7, 3);
+        sequenceItems.put(8, 2);
         createItems();
     }
 
@@ -81,6 +82,11 @@ public class FoolItems extends Items {
 
         //Scholar of Yore - Fog of History
         ability = new FogOfHistory(8, pathway);
+        pathway.getSequence().getAbilities().add(ability);
+        items.add(ability.getItem());
+
+        //Miracle Invoker - Miracles
+        ability = new Miracles(9, pathway);
         pathway.getSequence().getAbilities().add(ability);
         items.add(ability.getItem());
 

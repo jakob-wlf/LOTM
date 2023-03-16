@@ -2,6 +2,7 @@ package de.firecreeper82.pathways;
 
 import de.firecreeper82.lotm.Beyonder;
 import de.firecreeper82.lotm.Plugin;
+import de.firecreeper82.lotm.util.UtilItems;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -44,13 +45,7 @@ public class Divination implements Listener {
         openInv = new HashMap<>();
         animalDowsing = new HashMap<>();
 
-        magentaPane = new ItemStack(Material.MAGENTA_STAINED_GLASS_PANE);
-        ItemMeta magentaPaneMeta = magentaPane.getItemMeta();
-        assert magentaPaneMeta != null;
-        magentaPaneMeta.setDisplayName(" ");
-        magentaPaneMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        magentaPaneMeta.addEnchant(Enchantment.CHANNELING, 1, true);
-        magentaPane.setItemMeta(magentaPaneMeta);
+        magentaPane = UtilItems.getMagentaPane();
 
 
         stick = new ItemStack(Material.STICK);
