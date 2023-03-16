@@ -77,7 +77,7 @@ public class Beyonder implements Listener {
     public void onDeath(PlayerDeathEvent e) {
         if(e.getEntity() != getPlayer())
             return;
-        Player p = (Player) e;
+        Player p = e.getEntity();
         for(Entity entity : p.getNearbyEntities(20, 20, 20)) {
             if(entity instanceof Item && pathway.getItems().returnItemsFromSequence(pathway.getSequence().getCurrentSequence()).contains(((Item) entity).getItemStack())) {
                 entity.remove();

@@ -6,6 +6,7 @@ import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.fool.FoolItems;
 import de.firecreeper82.pathways.impl.fool.abilities.miracles.disasters.Disaster;
+import de.firecreeper82.pathways.impl.fool.abilities.miracles.disasters.Lightning;
 import de.firecreeper82.pathways.impl.fool.abilities.miracles.disasters.Meteor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -81,7 +82,9 @@ public class Miracles extends Ability implements Listener {
 
     private void initializeDisasters() {
         Meteor meteor = new Meteor(p);
+        Lightning lightning = new Lightning(p);
         disasters.add(meteor);
+        disasters.add(lightning);
     }
 
     //Create all the Inventories and put them into the array
