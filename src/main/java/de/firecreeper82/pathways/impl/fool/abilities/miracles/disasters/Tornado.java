@@ -3,11 +3,18 @@ package de.firecreeper82.pathways.impl.fool.abilities.miracles.disasters;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.UtilItems;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
+
+import java.util.Random;
 
 public class Tornado extends Disaster{
 
@@ -23,82 +30,101 @@ public class Tornado extends Disaster{
         if(world == null)
             return;
 
-        for(int i = 0; i < 20; i++) {
-            tornadoPositive(world, location, i * 15);
-            tornadoNegative(world, location, i * 15);
-        }
+        //Particles
+        new BukkitRunnable() {
+            int counter = 0;
+
+            final Random random = new Random();
+            Vector currentDirection = new Vector(random.nextDouble(3) - 1.5, 0, random.nextDouble(3) - 1.5).normalize().multiply(.2);
+
+            //Variables for entity movement
+            final double spiralRadiusVel = 1.25;
+
+            double spiralVel = 0;
+            double spiralXVel;
+            double spiralZVel;
+
+            @Override
+            public void run() {
+
+                //variables for tornado rendering
+                double spiralRadius = .5;
+
+                double spiral = 0;
+                double height = 0;
+                double spiralX;
+                double spiralZ;
+
+                //Tornado rendering
+                while(height < 22) {
+                    spiralX = spiralRadius * Math.cos(spiral);
+                    spiralZ = spiralRadius * Math.sin(spiral);
+                    spiral += .25;
+                    height += .15;
+
+                    world.spawnParticle(Particle.CLOUD, location.getX() + spiralX, location.getY() + height, location.getZ() + spiralZ, 2, 1.25, 1.75, 1.25, 0);
+
+                    if(height >= 22) {
+                        break;
+                    }
+
+                    spiralRadius += .075;
+                }
+
+                //random tornado movement
+                location.add(currentDirection);
+                while (location.getBlock().getType().isSolid()) {
+                    location.add(0, 1, 0);
+                }
+
+                Location tempLoc = location.clone();
+                tempLoc.subtract(0, 1, 0);
+                while (!tempLoc.getBlock().getType().isSolid()) {
+                    tempLoc.subtract(0, 1, 0);
+                }
+                location.setY(tempLoc.getY() + 1);
+
+                if(random.nextInt(30) == 0)
+                    currentDirection = new Vector(random.nextDouble(3) - 1.5, 0, random.nextDouble(3) - 1.5).normalize().multiply(.2);
+
+                //Entity movement
+                spiralXVel = spiralRadiusVel * Math.cos(spiralVel) * .8;
+                spiralZVel = spiralRadiusVel * Math.sin(spiralVel) * .8;
+                spiralVel += .25;
+
+                //Apply velocity to entities
+                for(Entity e : world.getNearbyEntities(location, 9.5, 20, 9.5)) {
+                    Location pLoc = e.getLocation().clone();
+                    pLoc.setY(location.getY());
+                    if(pLoc.distance(location) > 8.5) {
+                        e.setVelocity(location.clone().toVector().subtract(pLoc.toVector()).normalize().multiply(.35));
+                    }
+                    else {
+                        e.setVelocity(new Vector(spiralXVel, .25, spiralZVel));
+                    }
+                }
+
+                //Falling Blocks
+                Block block = tempLoc.getBlock();
+                Location blockLoc = tempLoc.clone();
+                blockLoc.add(0, 1, 0);
+                FallingBlock fallingBlock = world.spawnFallingBlock(blockLoc, block.getBlockData());
+                fallingBlock.setVelocity(new Vector(0, .1, 0));
+                fallingBlock.setDropItem(false);
+                block.setType(Material.AIR);
+
+                counter++;
+                if(counter >= 500) {
+                    cancel();
+                }
+
+            }
+        }.runTaskTimer(Plugin.instance, 0, 0);
+
     }
 
     @Override
     public ItemStack getItem() {
         return UtilItems.getTornado();
-    }
-
-    public void tornadoPositive(World world, Location location, int delay) {
-        new BukkitRunnable() {
-            double spiralRadius = .5;
-
-            double spiral = 0;
-            double height = 0;
-            double spiralX;
-            double spiralZ;
-
-            int counter = 0;
-
-            @Override
-            public void run() {
-                spiralX = spiralRadius * Math.cos(spiral);
-                spiralZ = spiralRadius * Math.sin(spiral);
-                spiral += 0.25;
-                height += .15;
-
-                world.spawnParticle(Particle.CLOUD, location.getX() + spiralX, location.getY() + height, location.getZ() + spiralZ, 1, .5, .5, .5, 0);
-
-                if(height >= 20) {
-                    height = 0;
-                    spiralRadius = 1;
-                }
-
-                spiralRadius += .075;
-                counter++;
-                if(counter >= 75) {
-                    cancel();
-                }
-            }
-        }.runTaskTimer(Plugin.instance, delay, 0);
-    }
-
-    public void tornadoNegative(World world, Location location, int delay) {
-        new BukkitRunnable() {
-            double spiralRadius = 1;
-
-            double spiral = 0;
-            double height = 0;
-            double spiralX;
-            double spiralZ;
-
-            int counter = 0;
-
-            @Override
-            public void run() {
-                spiralX = spiralRadius * Math.cos(spiral);
-                spiralZ = spiralRadius * Math.sin(spiral);
-                spiral += 0.25;
-                height += .15;
-
-                world.spawnParticle(Particle.CLOUD, location.getX() - spiralX, location.getY() + height, location.getZ() - spiralZ, 1, .5, .5, .5, 0);
-
-                if(height >= 20) {
-                    height = 0;
-                    spiralRadius = 1;
-                }
-
-                spiralRadius += .075;
-                counter++;
-                if(counter >= 500) {
-                    cancel();
-                }
-            }
-        }.runTaskTimer(Plugin.instance, delay, 0);
     }
 }

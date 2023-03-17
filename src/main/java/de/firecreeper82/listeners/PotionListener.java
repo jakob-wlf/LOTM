@@ -34,7 +34,7 @@ public class PotionListener implements Listener {
         //Not a beyonder already
         if(!Plugin.beyonders.containsKey(e.getPlayer().getUniqueId())) {
             //initializing new Pathway
-            Pathway pathway = Pathway.initializeNew(potion.name, e.getPlayer().getUniqueId(), sequence);
+            Pathway pathway = Pathway.initializeNew(potion.getName(), e.getPlayer().getUniqueId(), sequence);
             if(pathway == null) {
                 e.getPlayer().sendMessage("§cYour advancement has failed! You can call yourself lucky to still be alive...");
                 return;
