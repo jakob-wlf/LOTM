@@ -4,9 +4,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public abstract class Ability {
-    public int identifier;
-    public Pathway pathway;
-    public Player p;
+    protected int identifier;
+    protected Pathway pathway;
+    protected Player p;
 
     public Ability(int identifier, Pathway pathway) {
         this.identifier = identifier;

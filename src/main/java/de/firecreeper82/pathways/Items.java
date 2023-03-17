@@ -1,19 +1,15 @@
 package de.firecreeper82.pathways;
 
-import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public abstract class Items {
 
-    public Pathway pathway;
-    public ArrayList<ItemStack> items;
-    public HashMap<Integer, Integer> sequenceItems;
+    protected Pathway pathway;
+    protected ArrayList<ItemStack> items;
+    protected HashMap<Integer, Integer> sequenceItems;
 
     public Items(Pathway pathway) {
         this.pathway = pathway;
@@ -37,10 +33,12 @@ public abstract class Items {
         this.pathway = pathway;
     }
 
+    @SuppressWarnings("unused")
     public HashMap<Integer, Integer> getSequenceItems() {
         return sequenceItems;
     }
 
+    @SuppressWarnings("unused")
     public void setSequenceItems(HashMap<Integer, Integer> sequenceItems) {
         this.sequenceItems = sequenceItems;
     }

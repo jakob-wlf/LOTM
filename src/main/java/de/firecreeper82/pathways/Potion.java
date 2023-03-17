@@ -10,15 +10,16 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public abstract class Potion {
-    public String name;
+    protected String name;
 
-    public HashMap<Integer, ItemStack[]> potionRecipes;
+    protected HashMap<Integer, ItemStack[]> potionRecipes;
     public abstract ItemStack[] getSequencePotion(int sequence);
     public abstract ItemStack returnPotionForSequence(int sequence);
 
     public static ItemStack createPotion(String stringColor, int sequence, String name, Color color, String ritual) {
         ItemStack potion = new ItemStack(Material.POTION);
         PotionMeta potionMeta = (PotionMeta) potion.getItemMeta();
+        assert potionMeta != null;
         potionMeta.setDisplayName(stringColor + "Sequence " + sequence + ": " + name);
         potionMeta.setColor(color);
         potionMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
@@ -39,5 +40,9 @@ public abstract class Potion {
         potionMeta.setLore(Arrays.asList(lore));
         potion.setItemMeta(potionMeta);
         return potion;
+    }
+
+    public String getName() {
+        return name;
     }
 }

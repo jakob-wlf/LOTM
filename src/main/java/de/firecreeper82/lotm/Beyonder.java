@@ -14,7 +14,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -249,7 +248,7 @@ public class Beyonder implements Listener {
         if(sequence >= pathway.getSequence().getCurrentSequence())
             return;
 
-        if(!getPathway().getNameNormalized().equals(potion.name)) {
+        if(!getPathway().getNameNormalized().equals(potion.getName())) {
             looseControl(0, 10);
             return;
         }
