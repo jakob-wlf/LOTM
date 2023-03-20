@@ -13,6 +13,7 @@ import de.firecreeper82.pathways.impl.fool.abilities.disasters.Tornado;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
+import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -123,11 +124,12 @@ public class Miracles extends Ability implements Listener {
 
         //Summoning Mob
         if(chat == Chat.MOB) {
+            chat = Chat.NOTHING;
             String chatMsg = e.getMessage();
             EntityType entityType = null;
 
             for(EntityType type : EntityType.values()) {
-                if(type.name().replace("-", " ").equalsIgnoreCase(chatMsg)) {
+                if(type.name().replace("_", " ").equalsIgnoreCase(chatMsg)) {
                     entityType = type;
                     break;
                 }
@@ -137,7 +139,6 @@ public class Miracles extends Ability implements Listener {
 
             if(entityType == null) {
                 p.sendMessage("§c" + chatMsg + " is not a valid entity!");
-                chat = Chat.NOTHING;
                 return;
             }
 
@@ -171,7 +172,9 @@ public class Miracles extends Ability implements Listener {
                 }
             }.runTaskLater(Plugin.instance, 0);
         }
+        //Teleporting
         else if(chat == Chat.TELEPORT) {
+            chat = Chat.NOTHING;
             if(e.getMessage().split(" ").length != 1 && e.getMessage().split(" ").length != 3) {
                 p.sendMessage("§cYou need to type in coordinates or a player name");
                 chat = Chat.NOTHING;
@@ -197,10 +200,65 @@ public class Miracles extends Ability implements Listener {
                                 return;
                             }
 
-                            Location loc = new Location(p.getWorld(), Util.parseInt(e.getMessage().split(" ")[0]), Util.parseInt(e.getMessage().split(" ")[1]), Util.parseInt(e.getMessage().split(" ")[1]));
+                            Location loc = new Location(p.getWorld(), Util.parseInt(e.getMessage().split(" ")[0]), Util.parseInt(e.getMessage().split(" ")[1]), Util.parseInt(e.getMessage().split(" ")[2]));
                             p.teleport(loc);
                         }
                     }
+                    chat = Chat.NOTHING;
+                }
+            }.runTaskLater(Plugin.instance, 0);
+        }
+        //Change the Biome
+        else if(chat == Chat.BIOME) {
+            chat = Chat.NOTHING;
+            if(e.getMessage().split(" ").length != 1) {
+                p.sendMessage("§cYou need to type in the biome");
+                chat = Chat.NOTHING;
+                return;
+            }
+
+            String chatMsg = e.getMessage();
+            Biome biome = null;
+
+            for(Biome b : Biome.values()) {
+                if(b.name().replace("_", " ").equalsIgnoreCase(chatMsg)) {
+                    biome = b;
+                    break;
+                }
+            }
+
+            if(biome == null) {
+                p.sendMessage("§c" + chatMsg + " is not a valid biome!");
+                return;
+            }
+
+            final Biome biomeChange = biome;
+            final Location loc = p.getLocation();
+            final World world = p.getWorld();
+
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    final int radius = 64;
+                    for(int i = 20; i > -20; i--) {
+                        for (int x = -radius; x <= radius; x++) {
+                            for (int z = -radius; z <= radius; z++) {
+                                if( (x*x) + (z*z) <= Math.pow(radius, 2)) {
+                                    Location tempLoc = new Location(world, (int) loc.getX() + x, (int) loc.getY() + i, (int) loc.getZ() + z);
+                                    world.setBiome(tempLoc, biomeChange);
+                                    if(!tempLoc.getBlock().getType().isSolid()) {
+                                        tempLoc.subtract(0, 1, 0);
+                                        if(tempLoc.getBlock().getType().isSolid()) {
+                                            tempLoc.add(0, 1, 0);
+                                            world.spawnParticle(Particle.SPELL_WITCH, tempLoc, 5, .075, .075, .075, 2);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    String biomeName = String.join(" ", (biomeChange.name().substring(0, 1).toUpperCase() + biomeChange.name().substring(1).toLowerCase()).split("_"));
+                    p.sendMessage("§5Changed the Biome to " + biomeName);
                 }
             }.runTaskLater(Plugin.instance, 0);
         }
@@ -273,7 +331,10 @@ public class Miracles extends Ability implements Listener {
                 chat = Chat.TELEPORT;
                 p.sendMessage("§5Type the coordinates or the player you want to teleport to!");
             }
-            case 3 -> chat = Chat.BIOME;
+            case 3 -> {
+                chat = Chat.BIOME;
+                p.sendMessage("§5To which biome would you like to switch it to");
+            }
             default -> chat = Chat.NOTHING;
         }
     }
