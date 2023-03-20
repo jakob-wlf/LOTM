@@ -1,4 +1,4 @@
-package de.firecreeper82.pathways.impl.fool.abilities.miracles.disasters;
+package de.firecreeper82.pathways.impl.fool.abilities.disasters;
 
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.UtilItems;

@@ -80,6 +80,7 @@ public final class Plugin extends JavaPlugin{
         Objects.requireNonNull(this.getCommand("exclude-entities")).setExecutor(new ExcludeEntityCmd());
         Objects.requireNonNull(this.getCommand("thread-length")).setExecutor(new ThreadLengthCmd());
         Objects.requireNonNull(this.getCommand("items")).setExecutor(itemsCmd);
+        Objects.requireNonNull(this.getCommand("potions")).setExecutor(new PotionsCmd());
     }
 
     //initialize the Potion Classes
@@ -240,12 +241,10 @@ public final class Plugin extends JavaPlugin{
             if(s.equals("uuid"))
                 continue;
             try {
-                if(!configSave.contains("beyonders." + s + ".sequence") || !(configSave.get("beyonders." + s + ".sequence") instanceof Integer))
+                if(!configSave.contains("beyonders." + s + ".sequence") || !(configSave.get("beyonders." + s + ".sequence") instanceof Integer sequence))
                     return;
-                Integer sequence = (Integer) configSave.get("beyonders." + s + ".sequence");
-                int primitiveSequence = 9;
-                if(sequence != null)
-                    primitiveSequence = sequence;
+
+                int primitiveSequence = sequence;
                 Pathway pathway = Pathway.initializeNew((String) Objects.requireNonNull(configSave.get("beyonders." + s + ".pathway")), UUID.fromString(s), primitiveSequence);
                 assert pathway != null;
                 Beyonder beyonder = new Beyonder(UUID.fromString(s), pathway);

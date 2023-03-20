@@ -164,6 +164,7 @@ public class FoolSequence extends Sequence implements Listener {
         for(Ability a : abilities) {
             if(a.getIdentifier() == ability) {
                 a.useAbility();
+                pathway.getBeyonder().acting(pathway.getItems().getSequenceOfAbility(a));
                 break;
             }
         }

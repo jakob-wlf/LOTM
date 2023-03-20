@@ -17,7 +17,7 @@ public class BeyonderCmd implements CommandExecutor {
             s.sendMessage("§cYou don't have the permission to use this command!");
             return true;
         }
-        if(!(s instanceof Player)) {
+        if(!(s instanceof Player p)) {
             s.sendMessage("§cYou have to be a player to use this command!");
             return true;
         }
@@ -38,8 +38,6 @@ public class BeyonderCmd implements CommandExecutor {
             return true;
         }
 
-
-        Player p = (Player) s;
 
         //Check if Player is already a Beyonder.
         // If he is, then remove him from the pathway and initialize a new one for the player

@@ -43,6 +43,10 @@ public abstract class Items {
         this.sequenceItems = sequenceItems;
     }
 
+    public int getSequenceOfAbility(Ability a) {
+        return sequenceItems.get(a.getIdentifier());
+    }
+
     public void createItems() {
     }
 }

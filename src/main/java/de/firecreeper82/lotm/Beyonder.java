@@ -5,6 +5,7 @@ import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.Potion;
 import fr.mrmicky.fastboard.FastBoard;
 import org.bukkit.Bukkit;
+import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
@@ -27,8 +28,12 @@ public class Beyonder implements Listener {
     private Pathway pathway;
     protected UUID uuid;
 
-    protected double spirituality;
-    protected double maxSpirituality;
+    private double spirituality;
+    private double maxSpirituality;
+
+    private double actingProgress;
+    private double actingNeeded;
+    private boolean digested;
 
     private FastBoard board;
 
@@ -49,6 +54,10 @@ public class Beyonder implements Listener {
 
         beyonder = true;
         loosingControl = false;
+
+        digested = false;
+        actingNeeded = Math.pow((float) (100 / pathway.getSequence().getCurrentSequence()), 2);
+        actingProgress = 0;
     }
 
     @EventHandler
@@ -203,6 +212,24 @@ public class Beyonder implements Listener {
         maxSpirituality = spirituality;
     }
 
+    public void updateActing() {
+        if(actingProgress >= actingNeeded) {
+            digested = true;
+            getPlayer().sendMessage("§6You have digested the potion!");
+            getPlayer().spawnParticle(Particle.END_ROD, pathway.getBeyonder().getPlayer().getLocation(), 50, 1, 1, 1, 0);
+
+            actingProgress = 0;
+        }
+        actingNeeded = Math.pow((float) (100 / pathway.getSequence().getCurrentSequence()), 2);
+    }
+
+    public void acting(int sequence) {
+        if (!digested) {
+            actingProgress += 1;
+            updateActing();
+        }
+    }
+
 
     //lostControl: chance of surviving
     public void looseControl(int lostControl, int timeOfLoosingControl) {
@@ -256,13 +283,19 @@ public class Beyonder implements Listener {
             getPlayer().sendMessage("§cYour advancement has failed! You can call yourself lucky to still be alive...");
             return;
         }
-        switch(getPathway().getSequence().getCurrentSequence() - 1 - sequence) {
-            case 0 -> pathway.getBeyonder().looseControl(93, 20);
-            case 1 -> pathway.getBeyonder().looseControl(50, 20);
-            case 2 -> pathway.getBeyonder().looseControl(30, 20);
-            case 3, 4 -> pathway.getBeyonder().looseControl(20, 16);
-            case 5 -> pathway.getBeyonder().looseControl(1, 16);
-            default -> pathway.getBeyonder().looseControl(0, 10);
+
+        if(!digested) {
+            looseControl(5, 12);
+        }
+        else {
+            switch(getPathway().getSequence().getCurrentSequence() - 1 - sequence) {
+                case 0 -> looseControl(93, 20);
+                case 1 -> looseControl(50, 20);
+                case 2 -> looseControl(30, 20);
+                case 3, 4 -> looseControl(20, 16);
+                case 5 -> looseControl(1, 16);
+                default -> looseControl(0, 10);
+            }
         }
 
         pathway.getSequence().setCurrentSequence(sequence);

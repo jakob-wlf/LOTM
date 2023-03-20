@@ -23,4 +23,7 @@ commands:
   configure-threads:
     description: Configure the Spirit Body Threads you want to see
     usage: /<cmd>
+  potions:
+    description: Give yourself all the Potions of a Pathway
+    usage: /<cmd>
 

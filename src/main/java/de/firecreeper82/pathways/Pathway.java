@@ -5,6 +5,7 @@ import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.pathways.impl.fool.FoolPathway;
 import de.firecreeper82.pathways.impl.sun.SunPathway;
 import java.awt.*;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -19,11 +20,12 @@ public abstract class Pathway {
     protected String stringColor;
     protected String nameNormalized;
 
-    public Items items;
+    public static final String[] validNames = new String[]{
+            "sun",
+            "fool"
+    };
 
-    public Pathway(UUID uuid) {
-        this.uuid = uuid;
-    }
+    public Items items;
 
     public Pathway(UUID uuid, int optionalSequence) {
         this.uuid = uuid;
@@ -126,5 +128,9 @@ public abstract class Pathway {
         }
     }
 
+    @SuppressWarnings("unused")
+    public static boolean isValidPathway(String pathway) {
+        return Arrays.asList(validNames).contains(pathway);
+    }
 }
 

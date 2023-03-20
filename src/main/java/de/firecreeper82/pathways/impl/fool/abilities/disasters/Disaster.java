@@ -1,4 +1,4 @@
-package de.firecreeper82.pathways.impl.fool.abilities.miracles.disasters;
+package de.firecreeper82.pathways.impl.fool.abilities.disasters;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
