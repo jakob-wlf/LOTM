@@ -1,6 +1,7 @@
 package de.firecreeper82.pathways.impl.fool.abilities;
 
 import de.firecreeper82.lotm.Plugin;
+import de.firecreeper82.lotm.util.Util;
 import de.firecreeper82.lotm.util.UtilItems;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Pathway;
@@ -11,19 +12,24 @@ import de.firecreeper82.pathways.impl.fool.abilities.disasters.Meteor;
 import de.firecreeper82.pathways.impl.fool.abilities.disasters.Tornado;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scoreboard.Team;
 import org.bukkit.util.BlockIterator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Miracles extends Ability implements Listener {
 
@@ -31,9 +37,20 @@ public class Miracles extends Ability implements Listener {
     private Category selectedCategory;
     private final Category[] categories;
 
+    private Chat chat;
+
     private final Inventory[] inventories;
 
     private final ArrayList<Disaster> disasters;
+
+    private final ArrayList<Entity> summonedMobs;
+
+    enum Chat {
+        MOB,
+        BIOME,
+        TELEPORT,
+        NOTHING
+    }
 
     public Miracles(int identifier, Pathway pathway) {
         super(identifier, pathway);
@@ -45,6 +62,10 @@ public class Miracles extends Ability implements Listener {
         selected = 0;
         categories = Category.values();
         selectedCategory = categories[selected];
+
+        chat = Chat.NOTHING;
+
+        summonedMobs = new ArrayList<>();
 
         inventories = new Inventory[categories.length];
 
@@ -81,6 +102,109 @@ public class Miracles extends Ability implements Listener {
         }
     }
 
+    @EventHandler
+    public void onTarget(EntityTargetLivingEntityEvent e) {
+        if(!summonedMobs.contains(e.getEntity()))
+            return;
+
+        if(e.getTarget() == pathway.getBeyonder().getPlayer())
+            e.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onChat(AsyncPlayerChatEvent e) {
+        if(e.getPlayer() != pathway.getBeyonder().getPlayer())
+            return;
+
+        if(chat == Chat.NOTHING)
+            return;
+
+        e.setCancelled(true);
+
+        //Summoning Mob
+        if(chat == Chat.MOB) {
+            String chatMsg = e.getMessage();
+            EntityType entityType = null;
+
+            for(EntityType type : EntityType.values()) {
+                if(type.name().replace("-", " ").equalsIgnoreCase(chatMsg)) {
+                    entityType = type;
+                    break;
+                }
+            }
+
+            final EntityType type = entityType;
+
+            if(entityType == null) {
+                p.sendMessage("§c" + chatMsg + " is not a valid entity!");
+                chat = Chat.NOTHING;
+                return;
+            }
+
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    //Get block player is looking at
+                    BlockIterator iter = new BlockIterator(p, 100);
+                    Block lastBlock = iter.next();
+                    while (iter.hasNext()) {
+                        Block prevBlock = lastBlock;
+                        lastBlock = iter.next();
+                        if (!lastBlock.getType().isSolid()) {
+                            continue;
+                        }
+                        lastBlock = prevBlock;
+                        break;
+                    }
+
+                    Location loc = lastBlock.getLocation();
+                    World world = loc.getWorld();
+                    if(world == null)
+                        return;
+                    Entity entity = world.spawnEntity(loc, type);
+                    world.spawnParticle(Particle.SPELL_WITCH, loc, 2000, 1, 2, 1, 2);
+
+                    Team team = pathway.getBeyonder().getTeam();
+                    team.addEntry(entity.getUniqueId().toString());
+
+                    summonedMobs.add(entity);
+                }
+            }.runTaskLater(Plugin.instance, 0);
+        }
+        else if(chat == Chat.TELEPORT) {
+            if(e.getMessage().split(" ").length != 1 && e.getMessage().split(" ").length != 3) {
+                p.sendMessage("§cYou need to type in coordinates or a player name");
+                chat = Chat.NOTHING;
+                return;
+            }
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    if(e.getMessage().split(" ").length == 1) {
+                        if(Bukkit.getPlayer(e.getMessage()) == null) {
+                            p.sendMessage("§c" + e.getMessage() + " is not a valid player");
+                            chat = Chat.NOTHING;
+                            return;
+                        }
+
+                        p.teleport(Objects.requireNonNull(Bukkit.getPlayer(e.getMessage())));
+                    }
+                    else {
+                        for(String msg : e.getMessage().split(" ")) {
+                            if(!Util.isInteger(msg)) {
+                                p.sendMessage("§cYou need to type in coordinates or a player name");
+                                chat = Chat.NOTHING;
+                                return;
+                            }
+
+                            Location loc = new Location(p.getWorld(), Util.parseInt(e.getMessage().split(" ")[0]), Util.parseInt(e.getMessage().split(" ")[1]), Util.parseInt(e.getMessage().split(" ")[1]));
+                            p.teleport(loc);
+                        }
+                    }
+                }
+            }.runTaskLater(Plugin.instance, 0);
+        }
+    }
     private void initializeDisasters() {
         Meteor meteor = new Meteor(p);
         Tornado tornado = new Tornado(p);
@@ -132,11 +256,26 @@ public class Miracles extends Ability implements Listener {
         p = pathway.getBeyonder().getPlayer();
         pathway.getSequence().removeSpirituality(selectedCategory.spirituality);
 
+        chat = Chat.NOTHING;
+
         initializeInvs();
 
         //open corresponding Inventory
         if(inventories[selected] != null)
             p.openInventory(inventories[selected]);
+
+        switch (selected) {
+            case 1 -> {
+                chat = Chat.MOB;
+                p.sendMessage("§5Which Mob do you want to summon?");
+            }
+            case 2 -> {
+                chat = Chat.TELEPORT;
+                p.sendMessage("§5Type the coordinates or the player you want to teleport to!");
+            }
+            case 3 -> chat = Chat.BIOME;
+            default -> chat = Chat.NOTHING;
+        }
     }
 
     @Override

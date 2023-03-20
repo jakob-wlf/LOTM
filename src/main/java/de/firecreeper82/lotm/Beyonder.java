@@ -18,6 +18,9 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.ScoreboardManager;
+import org.bukkit.scoreboard.Team;
 
 import java.util.Objects;
 import java.util.Random;
@@ -41,6 +44,8 @@ public class Beyonder implements Listener {
     private boolean loosingControl;
     public boolean online;
 
+    private Team team;
+
     public Beyonder(UUID uuid, Pathway pathway) {
         this.pathway = pathway;
         this.uuid = uuid;
@@ -56,10 +61,19 @@ public class Beyonder implements Listener {
         loosingControl = false;
 
         digested = false;
-        //TODO: Increase the .25 to 1.75
-        //  1.25 just for testing
-        actingNeeded = Math.pow((float) (100 / pathway.getSequence().getCurrentSequence()), .25);
+        actingNeeded = Math.pow((float) (100 / pathway.getSequence().getCurrentSequence()), 3.2);
         actingProgress = 0;
+
+        //Team
+        ScoreboardManager manager = Bukkit.getScoreboardManager();
+        assert manager != null;
+        Scoreboard board = manager.getNewScoreboard();
+        team = board.registerNewTeam(getPlayer().getName() + " -- " + getPlayer().getUniqueId());
+
+        team.addEntry(getPlayer().getUniqueId().toString());
+        team.setDisplayName("display name");
+        team.setCanSeeFriendlyInvisibles(true);
+        team.setAllowFriendlyFire(false);
     }
 
     @EventHandler
@@ -97,7 +111,7 @@ public class Beyonder implements Listener {
 
     private void updateBoard() {
         board.updateTitle(pathway.getStringColor() + getPlayer().getName());
-        board.updateLines("", "§5Pathway", "- " + pathway.getStringColor() + pathway.getName(), "", "§5Sequence", "- " + pathway.getStringColor() + pathway.getSequence().getCurrentSequence() + ": " + Objects.requireNonNull(Pathway.getNamesForPathway(pathway.getNameNormalized())).get(pathway.getSequence().getCurrentSequence()), "", "§5Spirituality", "- " + pathway.getStringColor() + Math.round(spirituality) + "/" + Math.round(maxSpirituality), "§5Acting", "- " + pathway.getStringColor() + Math.round(actingProgress) + "/" + Math.round(actingNeeded));
+        board.updateLines("", "§5Pathway", "- " + pathway.getStringColor() + pathway.getName(), "", "§5Sequence", "- " + pathway.getStringColor() + pathway.getSequence().getCurrentSequence() + ": " + Objects.requireNonNull(Pathway.getNamesForPathway(pathway.getNameNormalized())).get(pathway.getSequence().getCurrentSequence()), "", "§5Spirituality", "- " + pathway.getStringColor() + Math.round(spirituality) + "/" + Math.round(maxSpirituality), "", "§5Acting", "- " + pathway.getStringColor() + Math.round(actingProgress) + "/" + Math.round(actingNeeded));
     }
 
     //Gets called everytime the Player rejoins or the Beyonder is newly initialised
@@ -105,7 +119,7 @@ public class Beyonder implements Listener {
         updateSpirituality();
         board = new FastBoard(getPlayer());
         board.updateTitle(pathway.getStringColor() + getPlayer().getName());
-        board.updateLines("", "§5Pathway", "- " + pathway.getStringColor() + pathway.getName(), "", "§5Sequence", "- " + pathway.getStringColor() + pathway.getSequence().getCurrentSequence() + ": " + Objects.requireNonNull(Pathway.getNamesForPathway(pathway.getNameNormalized())).get(pathway.getSequence().getCurrentSequence()), "", "§5Spirituality", "- " + pathway.getStringColor() + Math.round(spirituality) + "/" + Math.round(maxSpirituality), "§5Acting", "- " + pathway.getStringColor() + Math.round(actingProgress) + "/" + Math.round(actingNeeded));
+        board.updateLines("", "§5Pathway", "- " + pathway.getStringColor() + pathway.getName(), "", "§5Sequence", "- " + pathway.getStringColor() + pathway.getSequence().getCurrentSequence() + ": " + Objects.requireNonNull(Pathway.getNamesForPathway(pathway.getNameNormalized())).get(pathway.getSequence().getCurrentSequence()), "", "§5Spirituality", "- " + pathway.getStringColor() + Math.round(spirituality) + "/" + Math.round(maxSpirituality), "", "§5Acting", "- " + pathway.getStringColor() + Math.round(actingProgress) + "/" + Math.round(actingNeeded));
 
         online = true;
 
@@ -215,12 +229,12 @@ public class Beyonder implements Listener {
     }
 
     public void updateActing() {
-        if(actingProgress >= actingNeeded) {
+        if(actingProgress >= actingNeeded && !digested) {
             digested = true;
             getPlayer().sendMessage("§6You have digested the potion!");
             getPlayer().spawnParticle(Particle.END_ROD, pathway.getBeyonder().getPlayer().getLocation(), 50, 1, 1, 1, 0);
         }
-        actingNeeded = Math.pow((100f / pathway.getSequence().getCurrentSequence()), .25);
+        actingNeeded = Math.pow((100f / pathway.getSequence().getCurrentSequence()), 3.2);
     }
 
     public void acting(int sequence) {
@@ -338,4 +352,11 @@ public class Beyonder implements Listener {
         pathway.setSequence(null);
         pathway = null;
     }
+
+    public Team getTeam() {
+        return team;
+    }
 }
+
+
+
