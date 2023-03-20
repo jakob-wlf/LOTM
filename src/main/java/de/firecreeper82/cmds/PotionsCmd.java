@@ -36,7 +36,7 @@ public class PotionsCmd implements CommandExecutor {
             case "sun" -> {
                 for(Potion potion : Plugin.instance.getPotions()) {
                     if(potion instanceof SunPotions) {
-                        for(int i = 1; i < 9; i++) {
+                        for(int i = 1; i < 10; i++) {
                             p.getInventory().addItem(potion.returnPotionForSequence(i));
                         }
                     }
@@ -46,7 +46,7 @@ public class PotionsCmd implements CommandExecutor {
             case "fool" -> {
                 for(Potion potion : Plugin.instance.getPotions()) {
                     if(potion instanceof FoolPotions) {
-                        for(int i = 1; i < 9; i++) {
+                        for(int i = 1; i < 10; i++) {
                             p.getInventory().addItem(potion.returnPotionForSequence(i));
                         }
                     }

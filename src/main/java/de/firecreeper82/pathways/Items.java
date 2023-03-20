@@ -44,7 +44,7 @@ public abstract class Items {
     }
 
     public int getSequenceOfAbility(Ability a) {
-        return sequenceItems.get(a.getIdentifier());
+        return sequenceItems.get(a.getIdentifier() - 1);
     }
 
     public void createItems() {

@@ -55,7 +55,35 @@ public abstract class Sequence {
         }
     }
 
-    public abstract void useAbility(int ability, ItemStack item);
+    public void useAbility(int ability, ItemStack item) {
+
+        int spiritualityDrainage = 0;
+        try {
+            String line = Objects.requireNonNull(Objects.requireNonNull(item.getItemMeta()).getLore()).get(1);
+            spiritualityDrainage = Integer.parseInt(line.substring(18));
+        }
+        catch (Exception ignored) {}
+
+        if(spiritualityDrainage > pathway.getBeyonder().getSpirituality())
+            return;
+
+        if(usesAbilities[ability - 1]) {
+            if(ability == 4)
+                usesAbilities[ability - 1] = false;
+            return;
+        }
+
+        //remove spirituality
+        removeSpirituality(spiritualityDrainage);
+
+        for(Ability a : abilities) {
+            if(a.getIdentifier() == ability) {
+                a.useAbility();
+                pathway.getBeyonder().acting(pathway.getItems().getSequenceOfAbility(a));
+                break;
+            }
+        }
+    }
 
     public boolean checkValid(ItemStack item) {
         if(item == null)

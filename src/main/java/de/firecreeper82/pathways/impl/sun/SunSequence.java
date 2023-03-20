@@ -70,36 +70,4 @@ public class SunSequence extends Sequence {
         sequenceEffects.put(2, effects2);
 
     }
-
-    //Calls use Ability function for corresponding ability
-    //gets called from useAbility(ItemStack, PlayerInteractEvent) in Sequence
-    @Override
-    public void useAbility(int ability, ItemStack item) {
-
-        int spiritualityDrainage = 0;
-        try {
-            String line = Objects.requireNonNull(Objects.requireNonNull(item.getItemMeta()).getLore()).get(1);
-            spiritualityDrainage = Integer.parseInt(line.substring(18));
-        }
-        catch (Exception ignored) {}
-
-        if(spiritualityDrainage > pathway.getBeyonder().getSpirituality())
-            return;
-
-        if(usesAbilities[ability - 1]) {
-            if(ability == 6 || ability == 15 || ability == 16 || ability == 19)
-                usesAbilities[ability - 1] = false;
-            return;
-        }
-
-        //remove spirituality
-        removeSpirituality(spiritualityDrainage);
-
-        for(Ability a : abilities) {
-            if(a.getIdentifier() == ability) {
-                a.useAbility();
-                break;
-            }
-        }
-    }
 }
