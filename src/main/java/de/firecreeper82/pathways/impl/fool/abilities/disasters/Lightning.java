@@ -30,8 +30,10 @@ public class Lightning extends Disaster{
             public void run() {
                 counter++;
 
+                world.setClearWeatherDuration(0);
+                world.setStorm(true);
                 world.setThundering(true);
-                world.setThunderDuration(20 * 60 * 2);
+                world.setThunderDuration(10 * 60 * 20);
 
                 Random random = new Random();
                 for(int i = 0; i < 8; i++) {

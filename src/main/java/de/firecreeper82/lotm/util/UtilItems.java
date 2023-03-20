@@ -1,13 +1,21 @@
 package de.firecreeper82.lotm.util;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.profile.PlayerProfile;
+import org.bukkit.profile.PlayerTextures;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 public class UtilItems {
 
@@ -29,6 +37,83 @@ public class UtilItems {
         list.add(magentaPane);
 
         return magentaPane;
+    }
+
+    public static ItemStack getDowsingRod() {
+        final ItemStack dowsingStick = new ItemStack(Material.STICK);
+        ItemMeta stickMeta = dowsingStick.getItemMeta();
+        assert stickMeta != null;
+        stickMeta.setDisplayName("§5Dowsing Rod Seeking");
+        stickMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        stickMeta.addEnchant(Enchantment.CHANNELING, 1, true);
+        dowsingStick.setItemMeta(stickMeta);
+
+        list.add(dowsingStick);
+
+        return dowsingStick;
+    }
+
+    public static ItemStack getCowHead() {
+        final ItemStack cowHead = new ItemStack(Material.PLAYER_HEAD);
+        SkullMeta cowMeta = (SkullMeta) cowHead.getItemMeta();
+        assert cowMeta != null;
+        cowMeta.setDisplayName("§6Entities");
+        String[] cowLore = {"§5Divine the location of entities"};
+        cowMeta.setLore(Arrays.asList(cowLore));
+        PlayerProfile cowProfile = Bukkit.createPlayerProfile(UUID.randomUUID());
+        PlayerTextures cowTextures = cowProfile.getTextures();
+        try {
+            cowTextures.setSkin(new URL("https://textures.minecraft.net/texture/c5a9cd58d4c67bccc8fb1f5f756a2d381c9ffac2924b7f4cb71aa9fa13fb5c"));
+        }
+        catch (MalformedURLException ignored) {}
+        cowMeta.setOwnerProfile(cowProfile);
+        cowHead.setItemMeta(cowMeta);
+
+        list.add(cowHead);
+
+        return cowHead;
+    }
+
+    public static ItemStack getGrassHead() {
+        final ItemStack grassHead = new ItemStack(Material.PLAYER_HEAD);
+        SkullMeta grassMeta = (SkullMeta) grassHead.getItemMeta();
+        assert grassMeta != null;
+        grassMeta.setDisplayName("§6Biomes");
+        String[] grassLore = {"§5Divine the location of biomes"};
+        grassMeta.setLore(Arrays.asList(grassLore));
+        PlayerProfile grassProfile = Bukkit.createPlayerProfile(UUID.randomUUID());
+        PlayerTextures grassTextures = grassProfile.getTextures();
+        try {
+            grassTextures.setSkin(new URL("http://textures.minecraft.net/texture/16bb9fb97ba87cb727cd0ff477f769370bea19ccbfafb581629cd5639f2fec2b"));
+        }
+        catch (MalformedURLException ignored) {}
+        grassMeta.setOwnerProfile(grassProfile);
+        grassHead.setItemMeta(grassMeta);
+
+        list.add(grassHead);
+
+        return grassHead;
+    }
+
+    public static ItemStack getDivinationHead() {
+        final ItemStack playerHead = new ItemStack(Material.PLAYER_HEAD);
+        SkullMeta playerMeta = (SkullMeta) playerHead.getItemMeta();
+        assert playerMeta != null;
+        playerMeta.setDisplayName("§6Biomes");
+        String[] playerLore = {"§5Divine the location of biomes"};
+        playerMeta.setLore(Arrays.asList(playerLore));
+        PlayerProfile playerProfile = Bukkit.createPlayerProfile(UUID.randomUUID());
+        PlayerTextures playerTextures = playerProfile.getTextures();
+        try {
+            playerTextures.setSkin(new URL("http://textures.minecraft.net/texture/4d9d043adc884b979b4f42bdb350f2a301327cab49c4ce2de42a8f4601fe9dbf"));
+        }
+        catch (MalformedURLException ignored) {}
+        playerMeta.setOwnerProfile(playerProfile);
+        playerHead.setItemMeta(playerMeta);
+
+        list.add(playerHead);
+
+        return playerHead;
     }
 
     public static ItemStack getMeteor() {
@@ -72,4 +157,47 @@ public class UtilItems {
 
         return lightning;
     }
+
+    public static ItemStack getSunnyWeather() {
+        final ItemStack sun = new ItemStack(Material.SUNFLOWER);
+        ItemMeta sunMeta = sun.getItemMeta();
+        assert sunMeta != null;
+        sunMeta.setDisplayName("§6Clear Weather");
+        sunMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        sunMeta.addEnchant(Enchantment.CHANNELING, 1, true);
+        sun.setItemMeta(sunMeta);
+
+        list.add(sun);
+
+        return sun;
+    }
+
+    public static ItemStack getRainyWeather() {
+        final ItemStack rain = new ItemStack(Material.WATER_BUCKET);
+        ItemMeta rainMeta = rain.getItemMeta();
+        assert rainMeta != null;
+        rainMeta.setDisplayName("§3Rainy Weather");
+        rainMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        rainMeta.addEnchant(Enchantment.CHANNELING, 1, true);
+        rain.setItemMeta(rainMeta);
+
+        list.add(rain);
+
+        return rain;
+    }
+
+    public static ItemStack getStormyWeather() {
+        final ItemStack storm = new ItemStack(Material.BLAZE_ROD);
+        ItemMeta stormMeta = storm.getItemMeta();
+        assert stormMeta != null;
+        stormMeta.setDisplayName("§9Stormy Weather");
+        stormMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        stormMeta.addEnchant(Enchantment.CHANNELING, 1, true);
+        storm.setItemMeta(stormMeta);
+
+        list.add(storm);
+
+        return storm;
+    }
+
 }

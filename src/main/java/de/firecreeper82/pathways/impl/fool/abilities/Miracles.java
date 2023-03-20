@@ -82,7 +82,7 @@ public class Miracles extends Ability implements Listener {
             return;
         e.setCancelled(true);
 
-        //Check if clicked on disaster and spawn corresponding disaster where player is looking at;
+        //Check if clicked on disaster and spawn corresponding disaster where player is looking at
         for(Disaster disaster : disasters) {
             if(!disaster.getItem().isSimilar(e.getCurrentItem()))
                 continue;
@@ -101,6 +101,29 @@ public class Miracles extends Ability implements Listener {
             disaster.spawnDisaster(p, loc);
             p.closeInventory();
         }
+
+        World world = p.getWorld();
+        if(UtilItems.getSunnyWeather().isSimilar(e.getCurrentItem())) {
+            p.sendMessage("§6The weather clears up!");
+            world.setClearWeatherDuration(120 * 60 * 20);
+            p.closeInventory();
+        }
+        else if(UtilItems.getRainyWeather().isSimilar(e.getCurrentItem())) {
+            p.sendMessage("§3It begins to rain!");
+            world.setClearWeatherDuration(0);
+            world.setStorm(true);
+            world.setThunderDuration(120 * 60 * 20);
+            p.closeInventory();
+        }
+        else if(UtilItems.getStormyWeather().isSimilar(e.getCurrentItem())) {
+            p.sendMessage("§9A storm is approaching");
+            world.setClearWeatherDuration(0);
+            world.setStorm(true);
+            world.setThundering(true);
+            world.setThunderDuration(120 * 60 * 20);
+            p.closeInventory();
+        }
+
     }
 
     @EventHandler
@@ -240,7 +263,7 @@ public class Miracles extends Ability implements Listener {
                 @Override
                 public void run() {
                     final int radius = 64;
-                    for(int i = 20; i > -20; i--) {
+                    for(int i = radius / 2; i > -(radius / 2); i--) {
                         for (int x = -radius; x <= radius; x++) {
                             for (int z = -radius; z <= radius; z++) {
                                 if( (x*x) + (z*z) <= Math.pow(radius, 2)) {
@@ -280,16 +303,31 @@ public class Miracles extends Ability implements Listener {
         final ItemStack tornado = UtilItems.getTornado();
         final ItemStack lightning = UtilItems.getLightning();
 
-        //Natural Disasters Inventory
-        Inventory inventory = Bukkit.createInventory(p, 27, "§5§lNatural Disasters");
-        for (int i = 0; i < inventory.getSize(); i++) {
-            inventory.setItem(i, pane);
-        }
-        inventory.setItem(10, meteor);
-        inventory.setItem(13, tornado);
-        inventory.setItem(17, lightning);
+        final ItemStack sun = UtilItems.getSunnyWeather();
+        final ItemStack rain = UtilItems.getRainyWeather();
+        final ItemStack storm = UtilItems.getStormyWeather();
 
-        inventories[0] = inventory;
+        //Natural Disasters Inventory
+        Inventory inventoryDisaster = Bukkit.createInventory(p, 27, "§5§lNatural Disasters");
+        for (int i = 0; i < inventoryDisaster.getSize(); i++) {
+            inventoryDisaster.setItem(i, pane);
+        }
+        inventoryDisaster.setItem(10, meteor);
+        inventoryDisaster.setItem(13, tornado);
+        inventoryDisaster.setItem(17, lightning);
+
+        inventories[0] = inventoryDisaster;
+
+        //Weather Inventory
+        Inventory inventoryWeather = Bukkit.createInventory(p, 27, "§5§lChange the Weather");
+        for (int i = 0; i < inventoryWeather.getSize(); i++) {
+            inventoryWeather.setItem(i, pane);
+        }
+        inventoryWeather.setItem(10, sun);
+        inventoryWeather.setItem(13, rain);
+        inventoryWeather.setItem(17, storm);
+
+        inventories[4] = inventoryWeather;
     }
 
     enum Category {

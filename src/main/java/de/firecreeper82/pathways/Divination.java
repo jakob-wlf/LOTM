@@ -7,7 +7,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -17,9 +16,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.profile.PlayerProfile;
 import org.bukkit.profile.PlayerTextures;
@@ -46,60 +43,10 @@ public class Divination implements Listener {
         animalDowsing = new HashMap<>();
 
         magentaPane = UtilItems.getMagentaPane();
-
-
-        stick = new ItemStack(Material.STICK);
-        ItemMeta stickMeta = stick.getItemMeta();
-        assert stickMeta != null;
-        stickMeta.setDisplayName("§5Dowsing Rod Seeking");
-        stickMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        stickMeta.addEnchant(Enchantment.CHANNELING, 1, true);
-        stick.setItemMeta(stickMeta);
-
-        cowHead = new ItemStack(Material.PLAYER_HEAD);
-        SkullMeta cowMeta = (SkullMeta) cowHead.getItemMeta();
-        assert cowMeta != null;
-        cowMeta.setDisplayName("§6Entities");
-        String[] cowLore = {"§5Divine the location of entities"};
-        cowMeta.setLore(Arrays.asList(cowLore));
-        PlayerProfile cowProfile = Bukkit.createPlayerProfile(UUID.randomUUID());
-        PlayerTextures cowTextures = cowProfile.getTextures();
-        try {
-            cowTextures.setSkin(new URL("https://textures.minecraft.net/texture/c5a9cd58d4c67bccc8fb1f5f756a2d381c9ffac2924b7f4cb71aa9fa13fb5c"));
-        }
-        catch (MalformedURLException ignored) {}
-        cowMeta.setOwnerProfile(cowProfile);
-        cowHead.setItemMeta(cowMeta);
-
-        grassHead = new ItemStack(Material.PLAYER_HEAD);
-        SkullMeta grassMeta = (SkullMeta) grassHead.getItemMeta();
-        assert grassMeta != null;
-        grassMeta.setDisplayName("§6Biomes");
-        String[] grassLore = {"§5Divine the location of biomes"};
-        grassMeta.setLore(Arrays.asList(grassLore));
-        PlayerProfile grassProfile = Bukkit.createPlayerProfile(UUID.randomUUID());
-        PlayerTextures grassTextures = grassProfile.getTextures();
-        try {
-            grassTextures.setSkin(new URL("http://textures.minecraft.net/texture/16bb9fb97ba87cb727cd0ff477f769370bea19ccbfafb581629cd5639f2fec2b"));
-        }
-        catch (MalformedURLException ignored) {}
-        grassMeta.setOwnerProfile(grassProfile);
-        grassHead.setItemMeta(grassMeta);
-
-        playerHead = new ItemStack(Material.PLAYER_HEAD);
-        SkullMeta playerMeta = (SkullMeta) playerHead.getItemMeta();
-        assert playerMeta != null;
-        playerMeta.setDisplayName("§6Biomes");
-        String[] playerLore = {"§5Divine the location of biomes"};
-        playerMeta.setLore(Arrays.asList(playerLore));
-        PlayerProfile playerProfile = Bukkit.createPlayerProfile(UUID.randomUUID());
-        PlayerTextures playerTextures = playerProfile.getTextures();
-        try {
-            playerTextures.setSkin(new URL("http://textures.minecraft.net/texture/4d9d043adc884b979b4f42bdb350f2a301327cab49c4ce2de42a8f4601fe9dbf"));
-        }
-        catch (MalformedURLException ignored) {}
-        playerMeta.setOwnerProfile(playerProfile);
-        playerHead.setItemMeta(playerMeta);
+        stick = UtilItems.getDowsingRod();
+        cowHead = UtilItems.getCowHead();
+        grassHead = UtilItems.getGrassHead();
+        playerHead = UtilItems.getDivinationHead();
     }
 
     public void divine(Beyonder beyonder) {
