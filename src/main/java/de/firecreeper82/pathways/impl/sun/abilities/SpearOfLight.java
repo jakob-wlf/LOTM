@@ -24,8 +24,9 @@ public class SpearOfLight extends Ability {
     public Block lastLightBlock;
     public Material lastMaterial;
 
-    public SpearOfLight(int identifier, Pathway pathway) {
-        super(identifier, pathway);
+    public SpearOfLight(int identifier, Pathway pathway, int sequence) {
+        super(identifier, pathway, sequence);
+        pathway.getItems().addToSequenceItems(identifier, sequence);
     }
 
     @Override

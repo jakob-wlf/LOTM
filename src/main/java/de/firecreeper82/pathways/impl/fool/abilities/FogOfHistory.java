@@ -42,8 +42,11 @@ public class FogOfHistory extends Ability implements Listener {
 
     private int currentPage;
 
-    public FogOfHistory(int identifier, Pathway pathway) {
-        super(identifier, pathway);
+    public FogOfHistory(int identifier, Pathway pathway, int sequence) {
+        super(identifier, pathway, sequence);
+
+        pathway.getItems().addToSequenceItems(identifier, sequence);
+
         Plugin.instance.getServer().getPluginManager().registerEvents(this, Plugin.instance);
 
         items = new ArrayList<>();

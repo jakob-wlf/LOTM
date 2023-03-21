@@ -18,8 +18,9 @@ import java.util.ArrayList;
 
 public class HolyLight extends Ability {
 
-    public HolyLight(int identifier, Pathway pathway) {
-        super(identifier, pathway);
+    public HolyLight(int identifier, Pathway pathway, int sequence) {
+        super(identifier, pathway, sequence);
+        pathway.getItems().addToSequenceItems(identifier, sequence);
     }
     @Override
     public void useAbility() {

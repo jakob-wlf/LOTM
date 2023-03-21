@@ -23,8 +23,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class UnshadowedDomain extends Ability {
-    public UnshadowedDomain(int identifier, Pathway pathway) {
-        super(identifier, pathway);
+    public UnshadowedDomain(int identifier, Pathway pathway, int sequence) {
+        super(identifier, pathway, sequence);
+        pathway.getItems().addToSequenceItems(identifier, sequence);
     }
 
     @Override

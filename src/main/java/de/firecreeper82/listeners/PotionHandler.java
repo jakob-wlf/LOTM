@@ -22,6 +22,9 @@ public class PotionHandler implements Listener {
         currentRecipe = new HashMap<>();
     }
 
+    /**
+    This is just temporary and will definitely be reworked
+     */
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
 

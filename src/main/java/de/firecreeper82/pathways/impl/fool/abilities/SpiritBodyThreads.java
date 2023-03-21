@@ -45,8 +45,10 @@ public class SpiritBodyThreads extends Ability {
     private boolean turning;
     private int sequence;
 
-    public SpiritBodyThreads(int identifier, Pathway pathway) {
-        super(identifier, pathway);
+    public SpiritBodyThreads(int identifier, Pathway pathway, int sequenceAbility) {
+        super(identifier, pathway, sequenceAbility);
+
+        pathway.getItems().addToSequenceItems(identifier, sequenceAbility);
 
         disabledCategories = new ArrayList<>();
         excludedEntities = new ArrayList<>();

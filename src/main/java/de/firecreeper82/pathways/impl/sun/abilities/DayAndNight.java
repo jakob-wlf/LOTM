@@ -21,8 +21,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.ArrayList;
 
 public class DayAndNight extends Ability {
-    public DayAndNight(int identifier, Pathway pathway) {
-        super(identifier, pathway);
+    public DayAndNight(int identifier, Pathway pathway, int sequence) {
+        super(identifier, pathway, sequence);
+        pathway.getItems().addToSequenceItems(identifier, sequence);
     }
 
     @Override

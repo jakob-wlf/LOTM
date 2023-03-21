@@ -16,8 +16,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class LightOfPurification extends Ability {
-    public LightOfPurification(int identifier, Pathway pathway) {
-        super(identifier, pathway);
+    public LightOfPurification(int identifier, Pathway pathway, int sequence) {
+        super(identifier, pathway, sequence);
+        pathway.getItems().addToSequenceItems(identifier, sequence);
     }
 
     @Override

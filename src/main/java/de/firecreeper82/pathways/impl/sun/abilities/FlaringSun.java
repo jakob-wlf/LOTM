@@ -18,8 +18,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class FlaringSun extends Ability {
-    public FlaringSun(int identifier, Pathway pathway) {
-        super(identifier, pathway);
+    public FlaringSun(int identifier, Pathway pathway, int sequence) {
+        super(identifier, pathway, sequence);
+        pathway.getItems().addToSequenceItems(identifier, sequence);
     }
 
     private ArrayList<Block> airBlocks;

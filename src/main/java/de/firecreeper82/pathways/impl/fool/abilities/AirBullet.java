@@ -26,8 +26,8 @@ public class AirBullet extends Ability {
     private int sequencePower;
     private boolean wasAdjustedOnce;
 
-    public AirBullet(int identifier, Pathway pathway) {
-        super(identifier, pathway);
+    public AirBullet(int identifier, Pathway pathway, int sequence) {
+        super(identifier, pathway, sequence);
 
         valuesForSequence = new HashMap<>();
         valuesForSequence.put(7, new double[]{0.25, 20, 0, 1});
@@ -40,6 +40,8 @@ public class AirBullet extends Ability {
 
         sequencePower = pathway.getSequence().getCurrentSequence();
         wasAdjustedOnce = false;
+
+        pathway.getItems().addToSequenceItems(identifier, sequence);
     }
 
     @Override
@@ -158,6 +160,6 @@ public class AirBullet extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return FoolItems.createItem(Material.GHAST_TEAR, "Air Bullet", "30", identifier, 7, pathway.getBeyonder().getPlayer().getName());
+        return FoolItems.createItem(Material.GHAST_TEAR, "Air Bullet", "30", identifier, sequence, pathway.getBeyonder().getPlayer().getName());
     }
 }

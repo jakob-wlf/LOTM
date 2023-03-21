@@ -21,8 +21,9 @@ import java.util.Objects;
 
 public class FlameJump extends Ability {
 
-    public FlameJump(int identifier, Pathway pathway) {
-        super(identifier, pathway);
+    public FlameJump(int identifier, Pathway pathway, int sequence) {
+        super(identifier, pathway, sequence);
+        pathway.getItems().addToSequenceItems(identifier, sequence);
     }
 
     Block teleportBlock;

@@ -21,8 +21,10 @@ public class Hiding extends Ability implements Listener {
     private boolean hiding;
     private GameMode prevGameMode;
 
-    public Hiding(int identifier, Pathway pathway) {
-        super(identifier, pathway);
+    public Hiding(int identifier, Pathway pathway, int sequence) {
+        super(identifier, pathway, sequence);
+
+        pathway.getItems().addToSequenceItems(identifier, sequence);
 
         Plugin.instance.getServer().getPluginManager().registerEvents(this, Plugin.instance);
         p = pathway.getBeyonder().getPlayer();

@@ -15,8 +15,9 @@ import java.util.Objects;
 
 
 public class HolyOath extends Ability {
-    public HolyOath(int identifier, Pathway pathway) {
-        super(identifier, pathway);
+    public HolyOath(int identifier, Pathway pathway, int sequence) {
+        super(identifier, pathway, sequence);
+        pathway.getItems().addToSequenceItems(identifier, sequence);
     }
 
     @Override

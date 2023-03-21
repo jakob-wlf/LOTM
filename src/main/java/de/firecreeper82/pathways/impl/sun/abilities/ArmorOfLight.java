@@ -29,8 +29,9 @@ public class ArmorOfLight extends Ability implements Listener {
 
     boolean dead;
 
-    public ArmorOfLight(int identifier, Pathway pathway) {
-        super(identifier, pathway);
+    public ArmorOfLight(int identifier, Pathway pathway, int sequence) {
+        super(identifier, pathway, sequence);
+        pathway.getItems().addToSequenceItems(identifier, sequence);
 
         Plugin.instance.getServer().getPluginManager().registerEvents(this, Plugin.instance);
 

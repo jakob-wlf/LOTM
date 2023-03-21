@@ -16,8 +16,9 @@ import java.util.Objects;
 import java.util.Random;
 
 public class LightOfHoliness extends Ability {
-    public LightOfHoliness(int identifier, Pathway pathway) {
-        super(identifier, pathway);
+    public LightOfHoliness(int identifier, Pathway pathway, int sequence) {
+        super(identifier, pathway, sequence);
+        pathway.getItems().addToSequenceItems(identifier, sequence);
     }
 
     @Override

@@ -17,8 +17,9 @@ import org.bukkit.util.BlockIterator;
 import java.util.ArrayList;
 
 public class HolyLightSummoning extends Ability {
-    public HolyLightSummoning(int identifier, Pathway pathway) {
-        super(identifier, pathway);
+    public HolyLightSummoning(int identifier, Pathway pathway, int sequence) {
+        super(identifier, pathway, sequence);
+        pathway.getItems().addToSequenceItems(identifier, sequence);
     }
     @Override
     public void useAbility() {

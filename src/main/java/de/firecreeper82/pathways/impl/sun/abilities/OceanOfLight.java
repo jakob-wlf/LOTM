@@ -19,8 +19,9 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class OceanOfLight extends Ability {
-    public OceanOfLight(int identifier, Pathway pathway) {
-        super(identifier, pathway);
+    public OceanOfLight(int identifier, Pathway pathway, int sequence) {
+        super(identifier, pathway, sequence);
+        pathway.getItems().addToSequenceItems(identifier, sequence);
     }
 
     @Override

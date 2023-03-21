@@ -10,6 +10,11 @@ public abstract class Items {
     protected Pathway pathway;
     protected ArrayList<ItemStack> items;
     protected HashMap<Integer, Integer> sequenceItems;
+    protected HashMap<Integer, String[]> abilityInfo;
+
+    public void addToSequenceItems(int index, int value) {
+        sequenceItems.put(index, value);
+    }
 
     public Items(Pathway pathway) {
         this.pathway = pathway;

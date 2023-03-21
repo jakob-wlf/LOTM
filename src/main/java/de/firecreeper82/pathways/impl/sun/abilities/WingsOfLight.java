@@ -12,8 +12,9 @@ import org.bukkit.util.Vector;
 import java.util.Objects;
 
 public class WingsOfLight extends Ability {
-    public WingsOfLight(int identifier, Pathway pathway) {
-        super(identifier, pathway);
+    public WingsOfLight(int identifier, Pathway pathway, int sequence) {
+        super(identifier, pathway, sequence);
+        pathway.getItems().addToSequenceItems(identifier, sequence);
     }
 
     boolean x = true;

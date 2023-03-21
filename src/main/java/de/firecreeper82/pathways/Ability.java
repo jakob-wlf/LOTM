@@ -7,10 +7,12 @@ public abstract class Ability {
     protected int identifier;
     protected Pathway pathway;
     protected Player p;
+    protected int sequence;
 
-    public Ability(int identifier, Pathway pathway) {
+    public Ability(int identifier, Pathway pathway, int sequence) {
         this.identifier = identifier;
         this.pathway = pathway;
+        this.sequence = sequence;
     }
 
 
@@ -48,6 +50,9 @@ public abstract class Ability {
 
     public void removeAbility() {}
 
+    public int getSequence() {
+        return sequence;
+    }
 
     public double getMultiplier() {
         double multiplier = 1;

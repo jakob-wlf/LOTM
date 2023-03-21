@@ -53,8 +53,10 @@ public class Miracles extends Ability implements Listener {
         NOTHING
     }
 
-    public Miracles(int identifier, Pathway pathway) {
-        super(identifier, pathway);
+    public Miracles(int identifier, Pathway pathway, int sequence) {
+        super(identifier, pathway, sequence);
+
+        pathway.getItems().addToSequenceItems(identifier, sequence);
 
         Plugin.instance.getServer().getPluginManager().registerEvents(this, Plugin.instance);
 

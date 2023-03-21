@@ -9,8 +9,9 @@ import org.bukkit.inventory.ItemStack;
 
 public class Divine extends Ability {
 
-    public Divine(int identifier, Pathway pathway) {
-        super(identifier, pathway);
+    public Divine(int identifier, Pathway pathway, int sequence) {
+        super(identifier, pathway, sequence);
+        pathway.getItems().addToSequenceItems(identifier, sequence);
     }
 
     @Override

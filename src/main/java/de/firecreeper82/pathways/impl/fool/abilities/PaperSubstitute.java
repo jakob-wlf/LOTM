@@ -22,8 +22,10 @@ import java.util.Random;
 
 public class PaperSubstitute extends Ability {
 
-    public PaperSubstitute(int identifier, Pathway pathway) {
-        super(identifier, pathway);
+    public PaperSubstitute(int identifier, Pathway pathway, int sequence) {
+        super(identifier, pathway, sequence);
+
+        pathway.getItems().addToSequenceItems(identifier, sequence);
     }
 
     @Override

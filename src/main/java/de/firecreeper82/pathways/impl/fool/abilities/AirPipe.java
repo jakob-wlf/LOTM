@@ -14,8 +14,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class AirPipe extends Ability {
 
-    public AirPipe(int identifier, Pathway pathway) {
-        super(identifier, pathway);
+    public AirPipe(int identifier, Pathway pathway, int sequence) {
+        super(identifier, pathway, sequence);
+        pathway.getItems().addToSequenceItems(identifier, sequence);
     }
 
     @Override

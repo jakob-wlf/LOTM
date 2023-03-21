@@ -19,8 +19,9 @@ import org.bukkit.util.BlockIterator;
 import java.util.ArrayList;
 
 public class Illuminate extends Ability {
-    public Illuminate(int identifier, Pathway pathway) {
-        super(identifier, pathway);
+    public Illuminate(int identifier, Pathway pathway, int sequence) {
+        super(identifier, pathway, sequence);
+        pathway.getItems().addToSequenceItems(identifier, sequence);
     }
 
     @Override

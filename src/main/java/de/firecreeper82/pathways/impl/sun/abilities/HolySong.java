@@ -18,8 +18,9 @@ import java.util.Objects;
 
 public class HolySong extends Ability {
 
-    public HolySong(int identifier, Pathway pathway) {
-        super(identifier, pathway);
+    public HolySong(int identifier, Pathway pathway, int sequence) {
+        super(identifier, pathway, sequence);
+        pathway.getItems().addToSequenceItems(identifier, sequence);
     }
 
     @Override

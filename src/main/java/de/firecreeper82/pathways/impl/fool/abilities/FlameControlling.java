@@ -15,8 +15,9 @@ import org.bukkit.util.Vector;
 
 public class FlameControlling extends Ability {
 
-    public FlameControlling(int identifier, Pathway pathway) {
-        super(identifier, pathway);
+    public FlameControlling(int identifier, Pathway pathway, int sequence) {
+        super(identifier, pathway, sequence);
+        pathway.getItems().addToSequenceItems(identifier, sequence);
     }
 
     @Override

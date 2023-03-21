@@ -20,8 +20,9 @@ import org.bukkit.util.BlockIterator;
 import java.util.ArrayList;
 
 public class FireOfLight extends Ability {
-    public FireOfLight(int identifier, Pathway pathway) {
-        super(identifier, pathway);
+    public FireOfLight(int identifier, Pathway pathway, int sequence) {
+        super(identifier, pathway, sequence);
+        pathway.getItems().addToSequenceItems(identifier, sequence);
     }
 
     @Override

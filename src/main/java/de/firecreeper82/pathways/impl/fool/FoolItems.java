@@ -19,17 +19,8 @@ public class FoolItems extends Items {
     public FoolItems(Pathway pathway) {
         super(pathway);
         items = new ArrayList<>();
-        sequenceItems = new HashMap<>();
-        sequenceItems.put(0, 9);
-        sequenceItems.put(1, 7);
-        sequenceItems.put(2, 7);
-        sequenceItems.put(3, 7);
-        sequenceItems.put(4, 7);
-        sequenceItems.put(5, 7);
-        sequenceItems.put(6, 5);
-        sequenceItems.put(7, 3);
-        sequenceItems.put(8, 3);
-        sequenceItems.put(9, 2);
+
+        abilityInfo = new HashMap<>();
         createItems();
     }
 
@@ -47,52 +38,52 @@ public class FoolItems extends Items {
     @Override
     public void createItems() {
         //Seer - Divination
-        Ability ability = new Divine(1, pathway);
+        Ability ability = new Divine(1, pathway, 9);
         pathway.getSequence().getAbilities().add(ability);
         items.add(ability.getItem());
 
         //Magician - Flame Controlling
-        ability = new FlameControlling(2, pathway);
+        ability = new FlameControlling(2, pathway, 7);
         pathway.getSequence().getAbilities().add(ability);
         items.add(ability.getItem());
 
         //Magician - Air Bullet
-        ability = new AirBullet(3, pathway);
+        ability = new AirBullet(3, pathway, 7);
         pathway.getSequence().getAbilities().add(ability);
         items.add(ability.getItem());
 
         //Magician - Air Pipe
-        ability = new AirPipe(4, pathway);
+        ability = new AirPipe(4, pathway, 7);
         pathway.getSequence().getAbilities().add(ability);
         items.add(ability.getItem());
 
         //Magician - Flaming Jump
-        ability = new FlameJump(5, pathway);
+        ability = new FlameJump(5, pathway, 7);
         pathway.getSequence().getAbilities().add(ability);
         items.add(ability.getItem());
 
         //Magician - Paper Figurine Substitute
-        ability = new PaperSubstitute(6, pathway);
+        ability = new PaperSubstitute(6, pathway, 7);
         pathway.getSequence().getAbilities().add(ability);
         items.add(ability.getItem());
 
         //Marionettist - Spirit Body Threads
-        ability = new SpiritBodyThreads(7, pathway);
+        ability = new SpiritBodyThreads(7, pathway, 5);
         pathway.getSequence().getAbilities().add(ability);
         items.add(ability.getItem());
 
         //Scholar of Yore - Fog of History
-        ability = new FogOfHistory(8, pathway);
+        ability = new FogOfHistory(8, pathway, 3);
         pathway.getSequence().getAbilities().add(ability);
         items.add(ability.getItem());
 
         //Scholar of Yore - Hide Fog of History
-        ability = new Hiding(9, pathway);
+        ability = new Hiding(9, pathway, 3);
         pathway.getSequence().getAbilities().add(ability);
         items.add(ability.getItem());
 
         //Miracle Invoker - Miracles
-        ability = new Miracles(10, pathway);
+        ability = new Miracles(10, pathway, 2);
         pathway.getSequence().getAbilities().add(ability);
         items.add(ability.getItem());
 
