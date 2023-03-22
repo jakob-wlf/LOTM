@@ -245,7 +245,7 @@ public class FogOfHistory extends Ability implements Listener {
 
     @Override
     public ItemStack getItem() {
-        return FoolItems.createItem(Material.QUARTZ, "Fog of History", "100", identifier, 3, pathway.getBeyonder().getPlayer().getName());
+        return FoolItems.createItem(Material.QUARTZ, "Fog of History", "100", identifier, sequence, pathway.getBeyonder().getPlayer().getName());
     }
 
     public void addItem(ItemStack item) {

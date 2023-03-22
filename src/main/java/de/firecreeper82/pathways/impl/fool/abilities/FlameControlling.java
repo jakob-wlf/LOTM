@@ -98,6 +98,6 @@ public class FlameControlling extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return FoolItems.createItem(Material.FIRE_CHARGE, "Flame Controlling", "45", identifier, 7, pathway.getBeyonder().getPlayer().getName());
+        return FoolItems.createItem(Material.FIRE_CHARGE, "Flame Controlling", "45", identifier, sequence, pathway.getBeyonder().getPlayer().getName());
     }
 }

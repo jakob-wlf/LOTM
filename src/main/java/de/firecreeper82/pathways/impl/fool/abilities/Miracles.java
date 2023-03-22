@@ -398,6 +398,6 @@ public class Miracles extends Ability implements Listener {
 
     @Override
     public ItemStack getItem() {
-        return FoolItems.createItem(Material.NETHER_STAR, "Miracles", "varying", identifier, 2, pathway.getBeyonder().getPlayer().getName());
+        return FoolItems.createItem(Material.NETHER_STAR, "Miracles", "varying", identifier, sequence, pathway.getBeyonder().getPlayer().getName());
     }
 }

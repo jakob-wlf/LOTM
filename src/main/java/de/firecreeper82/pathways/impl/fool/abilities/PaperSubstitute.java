@@ -84,6 +84,6 @@ public class PaperSubstitute extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return FoolItems.createItem(Material.ARMOR_STAND, "Paper Figurine Substitute", "35", identifier, 7, pathway.getBeyonder().getPlayer().getName());
+        return FoolItems.createItem(Material.ARMOR_STAND, "Paper Figurine Substitute", "35", identifier, sequence, pathway.getBeyonder().getPlayer().getName());
     }
 }

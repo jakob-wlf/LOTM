@@ -104,9 +104,10 @@ public class FoolItems extends Items {
         addAbility(new FlameJump(5, pathway, 7, this));
         addAbility(new PaperSubstitute(6, pathway, 7,this));
         addAbility(new SpiritBodyThreads(7, pathway, 5, this));
-        addAbility(new FogOfHistory(8, pathway, 3, this));
-        addAbility(new Hiding(9, pathway, 3, this));
-        addAbility(new Miracles(10, pathway, 2, this));
+        addAbility(new MarionetteControlling(8, pathway, 5, this));
+        addAbility(new FogOfHistory(9, pathway, 3, this));
+        addAbility(new Hiding(10, pathway, 3, this));
+        addAbility(new Miracles(11, pathway, 2, this));
     }
 
     public void addAbility(Ability ability) {

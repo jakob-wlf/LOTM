@@ -81,6 +81,6 @@ public class Hiding extends Ability implements Listener {
 
     @Override
     public ItemStack getItem() {
-        return FoolItems.createItem(Material.LIGHT_GRAY_DYE, "Hiding in the Fog of History", "85", identifier, 3, pathway.getBeyonder().getPlayer().getName());
+        return FoolItems.createItem(Material.LIGHT_GRAY_DYE, "Hiding in the Fog of History", "85", identifier, sequence, pathway.getBeyonder().getPlayer().getName());
     }
 }

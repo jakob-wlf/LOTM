@@ -10,6 +10,9 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.entity.*;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -18,7 +21,7 @@ import org.bukkit.util.Vector;
 
 import java.util.*;
 
-public class SpiritBodyThreads extends Ability {
+public class SpiritBodyThreads extends Ability implements Listener {
 
     private final HashMap<Integer, int[]> mobColors;
     private final HashMap<EntityCategory, Integer> categoryToInt;
@@ -50,6 +53,8 @@ public class SpiritBodyThreads extends Ability {
         super(identifier, pathway, sequenceAbility, items);
 
         items.addToSequenceItems(identifier - 1, sequenceAbility);
+
+        Plugin.instance.getServer().getPluginManager().registerEvents(this, Plugin.instance);
 
         disabledCategories = new ArrayList<>();
         excludedEntities = new ArrayList<>();
@@ -99,6 +104,14 @@ public class SpiritBodyThreads extends Ability {
         p = pathway.getBeyonder().getPlayer();
     }
 
+
+    @EventHandler
+    //Check if turning process was interrupted by damage
+    public void onDamage(EntityDamageEvent e) {
+        if(turning && e.getEntity() == selectedEntity)
+            turning = false;
+    }
+
     @Override
     //Check if Player is already turning something into Marionette
     // if not -> calls the turningIntoMarionette function
@@ -122,10 +135,12 @@ public class SpiritBodyThreads extends Ability {
             return;
         }
         Player p = pathway.getBeyonder().getPlayer();
-        turning = true;
 
         //Make hostile entities aware of Player
         ((Damageable) e).damage(0, p);
+
+        turning = true;
+
 
         //Runs every 1/2 seconds and gives Entity effects
         //At the end of the time if entity is still being turned, removes entity
@@ -214,7 +229,7 @@ public class SpiritBodyThreads extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return FoolItems.createItem(Material.LEAD, "Spirit Body Threads", "100", identifier, 5, pathway.getBeyonder().getPlayer().getName());
+        return FoolItems.createItem(Material.LEAD, "Spirit Body Threads", "100", identifier, sequence, pathway.getBeyonder().getPlayer().getName());
     }
 
     @Override
@@ -254,6 +269,12 @@ public class SpiritBodyThreads extends Ability {
             //Check if entity is in the excludedEntities
             if(excludedEntities.contains(e.getType()))
                 continue;
+
+            //Check if entity is already a Marionette
+            if(e instanceof Mob m) {
+                if (pathway.getBeyonder().getMarionetteEntities().contains(m))
+                    continue;
+            }
 
             //Randomly sets the selected entity to an entity in the control range
             if(selectedEntity == null && e.getLocation().clone().add(0, 0.75, 0).distance(p.getEyeLocation()) <= maxDistanceControl) {
@@ -329,6 +350,13 @@ public class SpiritBodyThreads extends Ability {
             //Check if entity is in the excludedEntities
             if(excludedEntities.contains(e.getType()))
                 continue;
+
+            //Check if entity is already a Marionette
+            if(e instanceof Mob m) {
+                if (pathway.getBeyonder().getMarionetteEntities().contains(m))
+                    continue;
+            }
+
 
             //Randomly sets the selected entity to an entity in the control range
             if (e.getLocation().distance(p.getLocation()) <= maxDistanceControl) {

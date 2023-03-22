@@ -58,7 +58,7 @@ public class FlameJump extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return FoolItems.createItem(Material.BLAZE_POWDER, "Flaming Jump", "25", identifier, 7, pathway.getBeyonder().getPlayer().getName());
+        return FoolItems.createItem(Material.BLAZE_POWDER, "Flaming Jump", "25", identifier, sequence, pathway.getBeyonder().getPlayer().getName());
     }
 
     public static List<Block> getNearbyBlocks(Location location, int radius) {

@@ -18,6 +18,10 @@ public class Marionette implements Listener {
 
     private Mob entity;
     private Pathway pathway;
+    private EntityType type;
+
+    private boolean active;
+    private boolean alive;
 
     private Mob currentTarget;
 
@@ -29,7 +33,8 @@ public class Marionette implements Listener {
                 EntityType.WITHER,
                 EntityType.GHAST,
                 EntityType.EVOKER,
-                EntityType.WITCH
+                EntityType.WITCH,
+                EntityType.BLAZE
         };
 
         World world = loc.getWorld();
@@ -43,6 +48,10 @@ public class Marionette implements Listener {
 
         this.entity = (Mob) livingEntity;
         this.pathway = pathway;
+        this.type = entityType;
+
+        active = true;
+        alive = true;
 
         entity.setRemoveWhenFarAway(false);
         entity.setCustomName("§5" + pathway.getBeyonder().getPlayer().getName() + "'s Marionette");
@@ -53,6 +62,13 @@ public class Marionette implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
+
+                if(!active)
+                    return;
+
+                if(!alive)
+                    cancel();
+
                 if(currentTarget == entity || pathway.getBeyonder().getMarionetteEntities().contains(currentTarget))
                     currentTarget = null;
 
@@ -92,6 +108,11 @@ public class Marionette implements Listener {
         if(e.getEntity() instanceof Mob m && e.getDamager() == entity && pathway.getBeyonder().getMarionetteEntities().contains(m))
             e.setCancelled(true);
 
+        if(e.getEntity() instanceof Mob m && m == entity && e.getDamage() > m.getHealth()) {
+            pathway.getBeyonder().getMarionettes().remove(this);
+            pathway.getBeyonder().getMarionetteEntities().remove(entity);
+            alive = false;
+        }
     }
 
 
@@ -101,5 +122,33 @@ public class Marionette implements Listener {
             return;
 
         currentTarget = ent;
+    }
+
+    public void removeEntity() {
+        pathway.getBeyonder().getMarionetteEntities().remove(entity);
+        active = false;
+        entity.remove();
+    }
+
+    public void respawnEntity() {
+        active = true;
+
+        Location loc = pathway.getBeyonder().getPlayer().getLocation();
+        World world = loc.getWorld();
+        if(world == null)
+            return;
+        Entity e = world.spawnEntity(loc, type);
+        if(!(e instanceof LivingEntity livingEntity))
+            return;
+
+        this.entity = (Mob) livingEntity;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public EntityType getType() {
+        return type;
     }
 }
