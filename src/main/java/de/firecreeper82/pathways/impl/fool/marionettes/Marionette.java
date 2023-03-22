@@ -1,49 +1,105 @@
 package de.firecreeper82.pathways.impl.fool.marionettes;
 
-import net.minecraft.world.entity.*;
-import net.minecraft.world.item.ItemStack;
+import de.firecreeper82.lotm.Plugin;
+import de.firecreeper82.pathways.Pathway;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_19_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_19_R1.inventory.CraftItemStack;
+import org.bukkit.World;
+import org.bukkit.entity.*;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
-import java.util.Objects;
+import java.util.Arrays;
 
-public class Marionette extends LivingEntity {
+public class Marionette implements Listener {
 
+    private Mob entity;
+    private Pathway pathway;
 
-    @SuppressWarnings("unchecked")
-    public Marionette(Location location, org.bukkit.entity.EntityType entityType) {
-        super(toNmsEntityType(entityType), ((CraftWorld) Objects.requireNonNull(location.getWorld())).getHandle());
+    private Mob currentTarget;
 
-        setPos(location.getX(), location.getY(), location.getZ());
-        level.addFreshEntity(this);
+    private final EntityType[] rangedEntities;
+
+    public Marionette(EntityType entityType, Location loc, Pathway pathway) {
+
+        rangedEntities = new EntityType[]{
+                EntityType.WITHER,
+                EntityType.GHAST,
+                EntityType.EVOKER,
+                EntityType.WITCH
+        };
+
+        World world = loc.getWorld();
+        if(world == null)
+            return;
+        Entity e = world.spawnEntity(loc, entityType);
+        if(!(e instanceof LivingEntity livingEntity))
+            return;
+
+        Plugin.instance.getServer().getPluginManager().registerEvents(this, Plugin.instance);
+
+        this.entity = (Mob) livingEntity;
+        this.pathway = pathway;
+
+        entity.setRemoveWhenFarAway(false);
+        entity.setCustomName("§5" + pathway.getBeyonder().getPlayer().getName() + "'s Marionette");
+
+        pathway.getBeyonder().getMarionettes().add(this);
+        pathway.getBeyonder().getMarionetteEntities().add(entity);
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if(currentTarget == entity || pathway.getBeyonder().getMarionetteEntities().contains(currentTarget))
+                    currentTarget = null;
+
+                if(currentTarget == null && pathway.getBeyonder().getPlayer().getLocation().distance(entity.getLocation()) > 2.5) {
+                    if(!Arrays.asList(rangedEntities).contains(entity.getType()))
+                        entity.setTarget(pathway.getBeyonder().getPlayer());
+                    else {
+                        if(pathway.getBeyonder().getPlayer().getLocation().distance(entity.getLocation()) > 6)
+                            entity.setVelocity(pathway.getBeyonder().getPlayer().getLocation().toVector().subtract(entity.getLocation().toVector()).normalize().multiply(.25));
+                        entity.setTarget(null);
+                    }
+                }
+
+                else if(currentTarget != null)
+                    entity.setTarget(currentTarget);
+                else
+                    entity.setTarget(null);
+            }
+        }.runTaskTimer(Plugin.instance, 0, 0);
+    }
+
+    @EventHandler
+    public void onBowShoot(EntityShootBowEvent e) {
+        if(e.getEntity() == entity && entity.getTarget() == pathway.getBeyonder().getPlayer())
+            e.setCancelled(true);
+        else if(entity.getTarget() != null)
+            Bukkit.getConsoleSender().sendMessage(entity.getTarget().getType().name());
+        else
+            Bukkit.getConsoleSender().sendMessage("No target");
+    }
+
+    @EventHandler
+    public void entityDamageByEntity(EntityDamageByEntityEvent e) {
+        if(e.getEntity() instanceof Mob m && m == currentTarget && e.getDamage() > m.getHealth())
+            currentTarget = null;
+
+        if(e.getEntity() instanceof Mob m && e.getDamager() == entity && pathway.getBeyonder().getMarionetteEntities().contains(m))
+            e.setCancelled(true);
 
     }
 
-    @SuppressWarnings("all")
-    public static EntityType toNmsEntityType(org.bukkit.entity.EntityType bukkitType) {
-        return EntityType.byString(bukkitType.getKey().toString()).orElse(null);
-    }
 
-    @Override
-    public Iterable<ItemStack> getArmorSlots() {
-        return new ArrayList<>();
-    }
+    @EventHandler
+    public void onTargetEntity(EntityDamageByEntityEvent e) {
+        if(!(e.getDamager() instanceof Player p) || p != pathway.getBeyonder().getPlayer() || !(e.getEntity() instanceof Mob ent))
+            return;
 
-    @Override
-    public ItemStack getItemBySlot(EquipmentSlot equipmentSlot) {
-        return CraftItemStack.asNMSCopy(new org.bukkit.inventory.ItemStack(Material.AIR));
-    }
-
-    @Override
-    public void setItemSlot(EquipmentSlot equipmentSlot, ItemStack itemStack) {
-
-    }
-
-    @Override
-    public HumanoidArm getMainArm() {
-        return HumanoidArm.LEFT;
+        currentTarget = ent;
     }
 }

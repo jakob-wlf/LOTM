@@ -30,13 +30,13 @@ public class FoolItems extends Items {
     @Override
     public void initializeAbilityInfos() {
         HashMap<Integer, String> names = Objects.requireNonNull(Pathway.getNamesForPathway(pathway.getNameNormalized()));
-        String[] s9 = formatAbilityInfo("9: " + names.get(9),
+        String[] s9 = formatAbilityInfo(pathway.getStringColor(), "9: " + names.get(9),
                 "§5Use: §7/items §5to get the abilities for your Sequence",
                     "§5Divination: §7Divine the location of entities, biomes or structures"
                 );
         abilityInfo.put(9, s9);
 
-        String[] s8 = formatAbilityInfo("8: " + names.get(8),
+        String[] s8 = formatAbilityInfo(pathway.getStringColor(), "8: " + names.get(8),
                 "§5Enhanced Attributes: §7Strength, Speed, Jump Height",
                     "§5You will no longer take Fall-Damage",
                     "§5Paper Throw: §7Right-Click with Paper to throw it"

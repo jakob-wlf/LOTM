@@ -83,8 +83,8 @@ public class SpiritBodyThreads extends Ability {
         sequenceConversions.put(5, new int[]{50, 10, 90, 3});
         sequenceConversions.put(4, new int[]{200, 150, 15, 50});
         sequenceConversions.put(3, new int[]{500, 500, 10, 500});
-        sequenceConversions.put(2, new int[]{1000, 750, 15, 5000});
-        sequenceConversions.put(1, new int[]{2000, 750, 15, 5000});
+        sequenceConversions.put(2, new int[]{1000, 750, 6, 5000});
+        sequenceConversions.put(1, new int[]{2000, 750, 5, 5000});
 
         maxDistance = sequenceConversions.get(5)[0];
         maxDistanceControl = sequenceConversions.get(5)[1];
@@ -165,7 +165,7 @@ public class SpiritBodyThreads extends Ability {
                         return;
                     }
                     else {
-                        new Marionette(selectedEntity.getLocation(), selectedEntity.getType());
+                        new Marionette(selectedEntity.getType(), selectedEntity.getLocation(), pathway);
                         selectedEntity.remove();
                     }
 

@@ -3,13 +3,11 @@ package de.firecreeper82.lotm;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.Potion;
+import de.firecreeper82.pathways.impl.fool.marionettes.Marionette;
 import fr.mrmicky.fastboard.FastBoard;
 import org.bukkit.Bukkit;
 import org.bukkit.Particle;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Item;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -22,6 +20,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
 
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
@@ -46,6 +45,9 @@ public class Beyonder implements Listener {
 
     private Team team;
 
+    private ArrayList<Marionette> marionettes;
+    private ArrayList<Mob> marionetteEntities;
+
     public Beyonder(UUID uuid, Pathway pathway) {
         this.pathway = pathway;
         this.uuid = uuid;
@@ -58,9 +60,13 @@ public class Beyonder implements Listener {
 
         pathway.initItems();
 
+        marionettes = new ArrayList<>();
+        marionetteEntities = new ArrayList<>();
+
         beyonder = true;
         loosingControl = false;
 
+        //acting initializing
         digested = false;
         actingNeeded = Math.pow((float) (100 / pathway.getSequence().getCurrentSequence()), .25);
         actingProgress = 0;
@@ -364,6 +370,14 @@ public class Beyonder implements Listener {
 
     public boolean isBeyonder() {
         return beyonder;
+    }
+
+    public ArrayList<Marionette> getMarionettes() {
+        return marionettes;
+    }
+
+    public ArrayList<Mob> getMarionetteEntities() {
+        return marionetteEntities;
     }
 }
 
