@@ -2,6 +2,7 @@ package de.firecreeper82.pathways.impl.fool.abilities;
 
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.pathways.Ability;
+import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.fool.FoolItems;
 import de.firecreeper82.pathways.impl.fool.marionettes.Marionette;
@@ -45,10 +46,10 @@ public class SpiritBodyThreads extends Ability {
     private boolean turning;
     private int sequence;
 
-    public SpiritBodyThreads(int identifier, Pathway pathway, int sequenceAbility) {
-        super(identifier, pathway, sequenceAbility);
+    public SpiritBodyThreads(int identifier, Pathway pathway, int sequenceAbility, Items items) {
+        super(identifier, pathway, sequenceAbility, items);
 
-        pathway.getItems().addToSequenceItems(identifier, sequenceAbility);
+        items.addToSequenceItems(identifier - 1, sequenceAbility);
 
         disabledCategories = new ArrayList<>();
         excludedEntities = new ArrayList<>();

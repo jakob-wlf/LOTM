@@ -55,7 +55,7 @@ public class FoolSequence extends Sequence implements Listener {
     //Paper throw ability
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
-        if(e.getPlayer() != getPathway().getBeyonder().getPlayer() || e.getItem() == null || currentSequence > 8 || pathway.getBeyonder().getSpirituality() < 6)
+        if(e.getPlayer() != getPathway().getBeyonder().getPlayer() || e.getItem() == null || currentSequence > 8 || pathway.getBeyonder().getSpirituality() < 6 || !pathway.getBeyonder().isBeyonder())
             return;
         if(e.getItem().getType() == Material.PAPER) {
             Player p = e.getPlayer();

@@ -13,6 +13,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class FoolItems extends Items {
 
@@ -21,7 +22,66 @@ public class FoolItems extends Items {
         items = new ArrayList<>();
 
         abilityInfo = new HashMap<>();
+        sequenceItems = new HashMap<>();
+        initializeAbilityInfos();
         createItems();
+    }
+
+    @Override
+    public void initializeAbilityInfos() {
+        HashMap<Integer, String> names = Objects.requireNonNull(Pathway.getNamesForPathway(pathway.getNameNormalized()));
+        String[] s9 = formatAbilityInfo("9: " + names.get(9),
+                "§5Use: §7/items §5to get the abilities for your Sequence",
+                    "§5Divination: §7Divine the location of entities, biomes or structures"
+                );
+        abilityInfo.put(9, s9);
+
+        String[] s8 = formatAbilityInfo("8: " + names.get(8),
+                "§5Enhanced Attributes: §7Strength, Speed, Jump Height",
+                    "§5You will no longer take Fall-Damage",
+                    "§5Paper Throw: §7Right-Click with Paper to throw it"
+        );
+        abilityInfo.put(8, s8);
+
+        String[] s7 = formatAbilityInfo(pathway.getStringColor(), "7: " + names.get(7),
+                "§5Flame Controlling: §7Use up coal to produce flames",
+                    "§5Air Bullet: §7Shoot a projectile made out of air",
+                    "§5Air Pipe: §7Breathe underwater",
+                    "§5Flaming Jump: §7Teleport to nearby flames or fireplaces",
+                    "§5Paper Figurine Substitute: §7Substitute yourself with a Paper Figurine to avoid incoming attacks. (Uses up paper)"
+        );
+        abilityInfo.put(7, s7);
+
+        String[] s6 = formatAbilityInfo(pathway.getStringColor(), "6: " + names.get(6),
+                "§5Flame Controlling doesn't consume coal anymore"
+        );
+        abilityInfo.put(6, s6);
+
+        String[] s5 = formatAbilityInfo(pathway.getStringColor(), "5: " + names.get(5),
+                "§5Spirit Body Threads: §7Convert Entities into marionettes"
+        );
+        abilityInfo.put(5, s5);
+
+        String[] s4 = formatAbilityInfo(pathway.getStringColor(), "4: " + names.get(4),
+                "§5All abilities enhanced massively"
+        );
+        abilityInfo.put(4, s4);
+
+        String[] s3 = formatAbilityInfo(pathway.getStringColor(), "3: " + names.get(3),
+                "§5Fog of History: §7Get any item you have ever held out of the Fog of History",
+                    "§5Hiding in the Fog of History: §7Hide inside the Fog of History to escape pursuers"
+        );
+        abilityInfo.put(3, s3);
+
+        String[] s2 = formatAbilityInfo(pathway.getStringColor(), "2: " + names.get(2),
+                "§5Miracles: §7Create various miracles including natural disaster, summoning mobs and changing the biome"
+        );
+        abilityInfo.put(2, s2);
+
+        String[] s1 = formatAbilityInfo(pathway.getStringColor(), "1: " + names.get(1),
+                "§cNo new Abilities yet!"
+        );
+        abilityInfo.put(1, s1);
     }
 
     @Override
@@ -37,57 +97,21 @@ public class FoolItems extends Items {
 
     @Override
     public void createItems() {
-        //Seer - Divination
-        Ability ability = new Divine(1, pathway, 9);
+        addAbility(new Divine(1, pathway, 9, this));
+        addAbility(new FlameControlling(2, pathway, 7, this));
+        addAbility(new AirBullet(3, pathway, 7, this));
+        addAbility(new AirPipe(4, pathway, 7, this));
+        addAbility(new FlameJump(5, pathway, 7, this));
+        addAbility(new PaperSubstitute(6, pathway, 7,this));
+        addAbility(new SpiritBodyThreads(7, pathway, 5, this));
+        addAbility(new FogOfHistory(8, pathway, 3, this));
+        addAbility(new Hiding(9, pathway, 3, this));
+        addAbility(new Miracles(10, pathway, 2, this));
+    }
+
+    public void addAbility(Ability ability) {
         pathway.getSequence().getAbilities().add(ability);
         items.add(ability.getItem());
-
-        //Magician - Flame Controlling
-        ability = new FlameControlling(2, pathway, 7);
-        pathway.getSequence().getAbilities().add(ability);
-        items.add(ability.getItem());
-
-        //Magician - Air Bullet
-        ability = new AirBullet(3, pathway, 7);
-        pathway.getSequence().getAbilities().add(ability);
-        items.add(ability.getItem());
-
-        //Magician - Air Pipe
-        ability = new AirPipe(4, pathway, 7);
-        pathway.getSequence().getAbilities().add(ability);
-        items.add(ability.getItem());
-
-        //Magician - Flaming Jump
-        ability = new FlameJump(5, pathway, 7);
-        pathway.getSequence().getAbilities().add(ability);
-        items.add(ability.getItem());
-
-        //Magician - Paper Figurine Substitute
-        ability = new PaperSubstitute(6, pathway, 7);
-        pathway.getSequence().getAbilities().add(ability);
-        items.add(ability.getItem());
-
-        //Marionettist - Spirit Body Threads
-        ability = new SpiritBodyThreads(7, pathway, 5);
-        pathway.getSequence().getAbilities().add(ability);
-        items.add(ability.getItem());
-
-        //Scholar of Yore - Fog of History
-        ability = new FogOfHistory(8, pathway, 3);
-        pathway.getSequence().getAbilities().add(ability);
-        items.add(ability.getItem());
-
-        //Scholar of Yore - Hide Fog of History
-        ability = new Hiding(9, pathway, 3);
-        pathway.getSequence().getAbilities().add(ability);
-        items.add(ability.getItem());
-
-        //Miracle Invoker - Miracles
-        ability = new Miracles(10, pathway, 2);
-        pathway.getSequence().getAbilities().add(ability);
-        items.add(ability.getItem());
-
-
     }
 
     public static ItemStack createItem(Material item, String name, String spirituality, int id, int sequence, String player) {

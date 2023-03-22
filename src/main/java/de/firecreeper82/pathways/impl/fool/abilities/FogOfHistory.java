@@ -3,6 +3,7 @@ package de.firecreeper82.pathways.impl.fool.abilities;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.UtilItems;
 import de.firecreeper82.pathways.Ability;
+import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.fool.FoolItems;
 import org.bukkit.Bukkit;
@@ -42,10 +43,10 @@ public class FogOfHistory extends Ability implements Listener {
 
     private int currentPage;
 
-    public FogOfHistory(int identifier, Pathway pathway, int sequence) {
-        super(identifier, pathway, sequence);
+    public FogOfHistory(int identifier, Pathway pathway, int sequence, Items itemsClass) {
+        super(identifier, pathway, sequence, itemsClass);
 
-        pathway.getItems().addToSequenceItems(identifier, sequence);
+        itemsClass.addToSequenceItems(identifier - 1, sequence);
 
         Plugin.instance.getServer().getPluginManager().registerEvents(this, Plugin.instance);
 

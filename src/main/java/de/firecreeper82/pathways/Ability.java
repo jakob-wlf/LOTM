@@ -8,11 +8,13 @@ public abstract class Ability {
     protected Pathway pathway;
     protected Player p;
     protected int sequence;
+    protected Items items;
 
-    public Ability(int identifier, Pathway pathway, int sequence) {
+    public Ability(int identifier, Pathway pathway, int sequence, Items items) {
         this.identifier = identifier;
         this.pathway = pathway;
         this.sequence = sequence;
+        this.items = items;
     }
 
 

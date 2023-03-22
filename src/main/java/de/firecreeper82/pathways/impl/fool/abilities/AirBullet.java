@@ -3,6 +3,7 @@ package de.firecreeper82.pathways.impl.fool.abilities;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.VectorUtils;
 import de.firecreeper82.pathways.Ability;
+import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.fool.FoolItems;
 import net.md_5.bungee.api.ChatMessageType;
@@ -26,8 +27,8 @@ public class AirBullet extends Ability {
     private int sequencePower;
     private boolean wasAdjustedOnce;
 
-    public AirBullet(int identifier, Pathway pathway, int sequence) {
-        super(identifier, pathway, sequence);
+    public AirBullet(int identifier, Pathway pathway, int sequence, Items items) {
+        super(identifier, pathway, sequence, items);
 
         valuesForSequence = new HashMap<>();
         valuesForSequence.put(7, new double[]{0.25, 20, 0, 1});
@@ -41,7 +42,7 @@ public class AirBullet extends Ability {
         sequencePower = pathway.getSequence().getCurrentSequence();
         wasAdjustedOnce = false;
 
-        pathway.getItems().addToSequenceItems(identifier, sequence);
+        items.addToSequenceItems(identifier - 1, sequence);
     }
 
     @Override

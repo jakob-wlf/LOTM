@@ -26,7 +26,7 @@ public class FoolPathway extends Pathway {
 
     @Override
     public void initItems() {
-        items = new FoolItems(getPathway());
+        items = new FoolItems(this);
     }
 
     public static HashMap<Integer, String> getNames() {
@@ -43,5 +43,4 @@ public class FoolPathway extends Pathway {
         names.put(1, "Attendant of Mysteries");
         return names;
     }
-
 }

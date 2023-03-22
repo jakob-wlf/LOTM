@@ -52,6 +52,22 @@ public abstract class Items {
         return sequenceItems.get(a.getIdentifier() - 1);
     }
 
-    public void createItems() {
+    public abstract void createItems();
+
+    public abstract void initializeAbilityInfos();
+
+    protected String[] formatAbilityInfo(String pathwayColor, String sequenceName, String... s) {
+        String[] formatted = new String[3 + s.length];
+        formatted[0] = pathwayColor + sequenceName + " -- New Ablities";
+        formatted[1] = "§6-----------------------------";
+        formatted[2 + s.length] = "§6-----------------------------";
+
+        System.arraycopy(s, 0, formatted, 2, s.length);
+
+        return formatted;
+    }
+
+    public HashMap<Integer, String[]> getAbilityInfo() {
+        return abilityInfo;
     }
 }

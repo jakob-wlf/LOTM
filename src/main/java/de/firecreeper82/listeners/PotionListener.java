@@ -48,6 +48,8 @@ public class PotionListener implements Listener {
                 case 5 -> pathway.getBeyonder().looseControl(1, 20);
                 default -> pathway.getBeyonder().looseControl(0, 10);
             }
+
+            e.getPlayer().sendMessage(pathway.getItems().getAbilityInfo().get(sequence));
         }
         //Is a beyonder
         else {

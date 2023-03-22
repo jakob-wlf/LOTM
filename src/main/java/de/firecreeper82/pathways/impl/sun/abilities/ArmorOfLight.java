@@ -2,6 +2,7 @@ package de.firecreeper82.pathways.impl.sun.abilities;
 
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.pathways.Ability;
+import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.sun.SunItems;
 import org.bukkit.*;
@@ -29,9 +30,9 @@ public class ArmorOfLight extends Ability implements Listener {
 
     boolean dead;
 
-    public ArmorOfLight(int identifier, Pathway pathway, int sequence) {
-        super(identifier, pathway, sequence);
-        pathway.getItems().addToSequenceItems(identifier, sequence);
+    public ArmorOfLight(int identifier, Pathway pathway, int sequence, Items items) {
+        super(identifier, pathway, sequence, items);
+        items.addToSequenceItems(identifier - 1, sequence);
 
         Plugin.instance.getServer().getPluginManager().registerEvents(this, Plugin.instance);
 

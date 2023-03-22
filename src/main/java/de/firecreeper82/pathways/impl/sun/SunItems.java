@@ -20,6 +20,7 @@ public class SunItems extends Items {
         super(pathway);
         items = new ArrayList<>();
         sequenceItems = new HashMap<>();
+        initializeAbilityInfos();
         createItems();
     }
 
@@ -36,88 +37,31 @@ public class SunItems extends Items {
 
     @Override
     public void createItems() {
-        //Bard - Holy song
-        Ability ability = new HolySong(1, pathway, 9);
-        pathway.getSequence().getAbilities().add(ability);
-        items.add(ability.getItem());
+        addAbility(new HolySong(1, pathway, 9, this));
+        addAbility(new HolyLight(2, pathway, 8, this));
+        addAbility(new Illuminate(3, pathway, 8, this));
+        addAbility(new FireOfLight(4, pathway, 7, this));
+        addAbility(new HolyLightSummoning(5, pathway, 7, this));
+        addAbility(new HolyOath(6, pathway, 7, this));
+        addAbility(new CleaveOfPurification(7, pathway, 7, this));
+        addAbility(new LightOfHoliness(10, pathway, 5, this));
+        addAbility(new LightOfPurification(11, pathway, 5, this));
+        addAbility(new UnshadowedSpear(12, pathway, 4, this));
+        addAbility(new FlaringSun(13, pathway, 4, this));
+        addAbility(new UnshadowedDomain(14, pathway, 4, this));
+        addAbility(new ArmorOfLight(15, pathway, 4, this));
+        addAbility(new WingsOfLight(16, pathway, 3, this));
+        addAbility(new SpearOfLight(17, pathway, 2, this));
+        addAbility(new OceanOfLight(18, pathway, 2, this));
+        addAbility(new DayAndNight(19, pathway, 1, this));
+    }
 
-        //Light Supplicant - Holy Light
-        ability = new HolyLight(2, pathway, 8);
-        pathway.getSequence().getAbilities().add(ability);
-        items.add(ability.getItem());
+    @Override
+    public void initializeAbilityInfos() {
 
-        //Light Supplicant - Illuminate
-        ability = new Illuminate(3, pathway, 8);
-        pathway.getSequence().getAbilities().add(ability);
-        items.add(ability.getItem());
+    }
 
-        //Solar High Priest - Fire of Light
-        ability = new FireOfLight(4, pathway, 7);
-        pathway.getSequence().getAbilities().add(ability);
-        items.add(ability.getItem());
-
-        //Solar High Priest - Holy Light Summoning
-        ability = new HolyLightSummoning(5, pathway, 7);
-        pathway.getSequence().getAbilities().add(ability);
-        items.add(ability.getItem());
-
-        //Solar High Priest - Holy Oath
-        ability = new HolyOath(6, pathway, 7);
-        pathway.getSequence().getAbilities().add(ability);
-        items.add(ability.getItem());
-
-        //Solar High Priest - Cleave of Purification
-        ability = new CleaveOfPurification(7, pathway, 7);
-        pathway.getSequence().getAbilities().add(ability);
-        items.add(ability.getItem());
-
-        //Priest of Light - Light of Holiness
-        ability = new LightOfHoliness(10, pathway, 5);
-        pathway.getSequence().getAbilities().add(ability);
-        items.add(ability.getItem());
-
-        //Priest of Light - Light of Purification
-        ability = new LightOfPurification(11, pathway, 5);
-        pathway.getSequence().getAbilities().add(ability);
-        items.add(ability.getItem());
-
-        //Unshadowed - Unshadowed Spear
-        ability = new UnshadowedSpear(12, pathway, 4);
-        pathway.getSequence().getAbilities().add(ability);
-        items.add(ability.getItem());
-
-        //Unshadowed - Flaring Sun
-        ability = new FlaringSun(13, pathway, 4);
-        pathway.getSequence().getAbilities().add(ability);
-        items.add(ability.getItem());
-
-        //Unshadowed - Unshadowed Domain
-        ability = new UnshadowedDomain(14, pathway, 4);
-        pathway.getSequence().getAbilities().add(ability);
-        items.add(ability.getItem());
-
-        //Unshadowed - Armor of Light
-        ability = new ArmorOfLight(15, pathway, 4);
-        pathway.getSequence().getAbilities().add(ability);
-        items.add(ability.getItem());
-
-        //Justice Mentor - Wings of Light
-        ability = new WingsOfLight(16, pathway, 3);
-        pathway.getSequence().getAbilities().add(ability);
-        items.add(ability.getItem());
-
-        //Light Seeker - Spear of Light
-        ability = new SpearOfLight(17, pathway, 2);
-        pathway.getSequence().getAbilities().add(ability);
-        items.add(ability.getItem());
-
-        //Light Seeker - Ocean of Light
-        ability = new OceanOfLight(18, pathway, 2);
-        pathway.getSequence().getAbilities().add(ability);
-        items.add(ability.getItem());
-
-        //White Angel - Day and Night
-        ability = new DayAndNight(19, pathway, 1);
+    public void addAbility(Ability ability) {
         pathway.getSequence().getAbilities().add(ability);
         items.add(ability.getItem());
     }
