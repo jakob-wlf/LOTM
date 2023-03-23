@@ -288,6 +288,7 @@ public class Miracles extends Ability implements Listener {
             }.runTaskLater(Plugin.instance, 0);
         }
     }
+
     private void initializeDisasters() {
         Meteor meteor = new Meteor(p);
         Tornado tornado = new Tornado(p);

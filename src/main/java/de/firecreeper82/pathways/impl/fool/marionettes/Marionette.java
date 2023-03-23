@@ -94,10 +94,6 @@ public class Marionette implements Listener {
     public void onBowShoot(EntityShootBowEvent e) {
         if(e.getEntity() == entity && entity.getTarget() == pathway.getBeyonder().getPlayer())
             e.setCancelled(true);
-        else if(entity.getTarget() != null)
-            Bukkit.getConsoleSender().sendMessage(entity.getTarget().getType().name());
-        else
-            Bukkit.getConsoleSender().sendMessage("No target");
     }
 
     @EventHandler
@@ -150,5 +146,11 @@ public class Marionette implements Listener {
 
     public EntityType getType() {
         return type;
+    }
+
+    public Mob getEntity() {
+        if(!active)
+            return null;
+        return entity;
     }
 }
