@@ -200,4 +200,39 @@ public class UtilItems {
         return storm;
     }
 
+    public static ItemStack getThreadLength() {
+        final ItemStack lengthString = new ItemStack(Material.STRING);
+        ItemMeta stringMeta = lengthString.getItemMeta();
+        assert stringMeta != null;
+        stringMeta.setDisplayName("§6Change Thread Length");
+        stringMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        stringMeta.addEnchant(Enchantment.CHANNELING, 1, true);
+        lengthString.setItemMeta(stringMeta);
+
+        list.add(lengthString);
+
+        return lengthString;
+    }
+
+    public static ItemStack getExcludeEntities() {
+        final ItemStack item = new ItemStack(Material.BARRIER);
+        ItemMeta itemMeta = item.getItemMeta();
+        assert itemMeta != null;
+        itemMeta.setDisplayName("§cExclude Entities");
+        String[] lore = {
+                "§cType in an Entity of which you want to", " §4exclude §cthe §4Spirit Body Threads",
+                "§cToggle §4exclude §centities on", " §cand include entities off",
+                "§cType cancel to §4cancel §cand reset to §4reset"
+
+        };
+        itemMeta.setLore(Arrays.asList(lore));
+        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        itemMeta.addEnchant(Enchantment.CHANNELING, 1, true);
+        item.setItemMeta(itemMeta);
+
+        list.add(item);
+
+        return item;
+    }
+
 }

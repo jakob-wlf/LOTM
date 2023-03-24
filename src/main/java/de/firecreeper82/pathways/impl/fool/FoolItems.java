@@ -58,7 +58,10 @@ public class FoolItems extends Items {
         abilityInfo.put(6, s6);
 
         String[] s5 = formatAbilityInfo(pathway.getStringColor(), "5: " + names.get(5),
-                "§5Spirit Body Threads: §7Convert Entities into marionettes"
+                "§5Spirit Body Threads: §7Convert Entities into marionettes",
+                    "§5Marionette Controlling: §7Despawn/Respawn your marionettes",
+                    "§5Marionettes will follow you around and fight for you",
+                    "§5Use §7/configure-threads §5 to configure from what distance you can control entities and which entities you want to see the Spirit-Body-Threads of"
         );
         abilityInfo.put(5, s5);
 
@@ -69,12 +72,14 @@ public class FoolItems extends Items {
 
         String[] s3 = formatAbilityInfo(pathway.getStringColor(), "3: " + names.get(3),
                 "§5Fog of History: §7Get any item you have ever held out of the Fog of History",
-                    "§5Hiding in the Fog of History: §7Hide inside the Fog of History to escape pursuers"
+                    "§5Hiding in the Fog of History: §7Hide inside the Fog of History to escape pursuers",
+                    "§5Air Bullet is now adjustable by using §7Right-Click"
         );
         abilityInfo.put(3, s3);
 
         String[] s2 = formatAbilityInfo(pathway.getStringColor(), "2: " + names.get(2),
-                "§5Miracles: §7Create various miracles including natural disaster, summoning mobs and changing the biome"
+                "§5Miracles: §7Create various miracles including natural disaster, summoning mobs and changing the biome",
+                    "§5Change the selected Miracle using §7Right-Click"
         );
         abilityInfo.put(2, s2);
 

@@ -138,6 +138,8 @@ public class Marionette implements Listener {
             return;
 
         this.entity = (Mob) livingEntity;
+        entity.setRemoveWhenFarAway(false);
+        entity.setCustomName("§5" + pathway.getBeyonder().getPlayer().getName() + "'s Marionette");
     }
 
     public boolean isActive() {

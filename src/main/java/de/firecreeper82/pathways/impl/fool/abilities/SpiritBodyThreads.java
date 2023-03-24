@@ -405,4 +405,8 @@ public class SpiritBodyThreads extends Ability implements Listener {
 
         return entityCategory;
     }
+
+    public int getMaxDistance() {
+        return maxDistance;
+    }
 }
