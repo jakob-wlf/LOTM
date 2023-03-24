@@ -31,6 +31,9 @@ public class SpiritBodyThreads extends Ability implements Listener {
 
     private final ArrayList<String> disabledCategories;
     private final ArrayList<EntityType> excludedEntities;
+    private final ArrayList<EntityType> includedEntities;
+
+    private boolean excluded;
 
     @SuppressWarnings("all")
     private final ArrayList<Entity> marionettes;
@@ -58,6 +61,8 @@ public class SpiritBodyThreads extends Ability implements Listener {
 
         disabledCategories = new ArrayList<>();
         excludedEntities = new ArrayList<>();
+        includedEntities = new ArrayList<>();
+        excluded = true;
 
         marionettes = new ArrayList<>();
 
@@ -266,8 +271,12 @@ public class SpiritBodyThreads extends Ability implements Listener {
                     continue outerloop;
             }
 
-            //Check if entity is in the excludedEntities
-            if(excludedEntities.contains(e.getType()))
+            //Check if entity is in the excludedEntities and if the mode is set to excluded
+            if(excludedEntities.contains(e.getType()) && excluded)
+                continue;
+
+            //Check if entity is in the includedEntities and if the mode is set to !excluded
+            if(!includedEntities.contains(e.getType()) && !excluded)
                 continue;
 
             //Check if entity is already a Marionette
@@ -347,8 +356,12 @@ public class SpiritBodyThreads extends Ability implements Listener {
                     continue outerloop;
             }
 
-            //Check if entity is in the excludedEntities
-            if(excludedEntities.contains(e.getType()))
+            //Check if entity is in the excludedEntities and if the mode is set to excluded
+            if(excludedEntities.contains(e.getType()) && excluded)
+                continue;
+
+            //Check if entity is in the includedEntities and if the mode is set to !excluded
+            if(!includedEntities.contains(e.getType()) && !excluded)
                 continue;
 
             //Check if entity is already a Marionette
@@ -392,7 +405,30 @@ public class SpiritBodyThreads extends Ability implements Listener {
         }
     }
 
+    //Disable / Enable a specific Entity for the Threads
+    //Return true if enabling and false if disabling
+    public boolean addIncludedEntity(EntityType entityType) {
+        if(!includedEntities.contains(entityType)) {
+            includedEntities.add(entityType);
+            return true;
+        }
+        else {
+            includedEntities.remove(entityType);
+            return false;
+        }
+    }
 
+    public boolean isExcluded() {
+        return excluded;
+    }
+
+    public void setExcluded(boolean excluded) {
+        this.excluded = excluded;
+    }
+
+    public void resetExcludedEntities() {
+        excludedEntities.clear();
+    }
 
     public void setPreferredDistance(int distance) {
         preferredDistance = Math.min(distance, maxDistance);

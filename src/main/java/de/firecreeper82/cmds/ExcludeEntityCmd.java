@@ -16,7 +16,7 @@ public class ExcludeEntityCmd implements CommandExecutor {
     //Command for the Player to choose which Spirit Body Threads he can see
     //Only works for Beyonders of the Fool Pathway
     public boolean onCommand(@NonNull CommandSender s, @NonNull Command command, @NonNull String label, @NonNull String[] args) {
-        if (!(s instanceof Player)) {
+        if (!(s instanceof Player p)) {
             s.sendMessage("§cYou have to be a player to use this command!");
             return true;
         }
@@ -24,8 +24,6 @@ public class ExcludeEntityCmd implements CommandExecutor {
             s.sendMessage("§cWrong usage: Use /exclude-entity <Entity>");
             return true;
         }
-
-        Player p = (Player) s;
 
         if (!Plugin.beyonders.containsKey(p.getUniqueId())) {
             s.sendMessage("§cYou have to be a Beyonder to use this command!");
@@ -58,7 +56,7 @@ public class ExcludeEntityCmd implements CommandExecutor {
             p.sendMessage("§aUse the same command to enable the Spirit Body Thread again");
         }
         else {
-            p.sendMessage("§aEnabled the category " + entityType.name().substring(0, 1).toUpperCase() + entityType.name().substring(1).toLowerCase() + "!");
+            p.sendMessage("§aEnabled the entity " + entityType.name().substring(0, 1).toUpperCase() + entityType.name().substring(1).toLowerCase() + "!");
         }
 
         return true;

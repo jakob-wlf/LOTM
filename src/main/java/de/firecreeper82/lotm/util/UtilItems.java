@@ -235,4 +235,25 @@ public class UtilItems {
         return item;
     }
 
+    public static ItemStack getIncludeEntities() {
+        final ItemStack item = new ItemStack(Material.GREEN_CONCRETE);
+        ItemMeta itemMeta = item.getItemMeta();
+        assert itemMeta != null;
+        itemMeta.setDisplayName("§aInclude Entities");
+        String[] lore = {
+                "§aType in an Entity of which you want to", " §2include §athe §2Spirit Body Threads",
+                "§aToggle §2include §aentities on", " §aand exclude entities off",
+                "§aType cancel to §2cancel §aand reset to §2reset"
+
+        };
+        itemMeta.setLore(Arrays.asList(lore));
+        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        itemMeta.addEnchant(Enchantment.CHANNELING, 1, true);
+        item.setItemMeta(itemMeta);
+
+        list.add(item);
+
+        return item;
+    }
+
 }
