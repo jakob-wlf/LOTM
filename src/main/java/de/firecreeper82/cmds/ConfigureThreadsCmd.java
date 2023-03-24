@@ -170,7 +170,7 @@ public class ConfigureThreadsCmd implements CommandExecutor, Listener {
                     EntityType entityType = null;
 
                     for(EntityType type : EntityType.values()) {
-                        if(type.name().equalsIgnoreCase(e.getMessage())) {
+                        if(type.name().replace("_", " ").equalsIgnoreCase(e.getMessage())) {
                             entityType = type;
                             break;
                         }
@@ -213,7 +213,7 @@ public class ConfigureThreadsCmd implements CommandExecutor, Listener {
                     EntityType entityType = null;
 
                     for(EntityType type : EntityType.values()) {
-                        if(type.name().equalsIgnoreCase(e.getMessage())) {
+                        if(type.name().replace("_", " ").equalsIgnoreCase(e.getMessage())) {
                             entityType = type;
                             break;
                         }

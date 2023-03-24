@@ -9,21 +9,24 @@ import de.firecreeper82.pathways.impl.fool.marionettes.Marionette;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-public class MarionetteControlling extends Ability implements Listener {
+public class MarionetteManagement extends Ability implements Listener {
 
     private int currentIndex;
-    private boolean controlling;
+    private static boolean teleportCooldown;
 
-    public MarionetteControlling(int identifier, Pathway pathway, int sequence, Items items) {
+    public MarionetteManagement(int identifier, Pathway pathway, int sequence, Items items) {
         super(identifier, pathway, sequence, items);
         items.addToSequenceItems(identifier - 1, sequence);
 
         currentIndex = 0;
-        controlling = false;
+        teleportCooldown = false;
 
         Plugin.instance.getServer().getPluginManager().registerEvents(this, Plugin.instance);
     }
@@ -35,25 +38,22 @@ public class MarionetteControlling extends Ability implements Listener {
         if(pathway.getBeyonder().getMarionettes().isEmpty())
             return;
 
-        //Marionette marionette = pathway.getBeyonder().getMarionettes().get(currentIndex);
-        controlling = !controlling;
+        Marionette marionette = pathway.getBeyonder().getMarionettes().get(currentIndex);
+        if(marionette.isActive())
+            marionette.removeEntity();
+        else
+            marionette.respawnEntity();
     }
 
     @Override
     public ItemStack getItem() {
-        return FoolItems.createItem(Material.STRING, "Marionette Controlling", "None", identifier, sequence, pathway.getBeyonder().getPlayer().getName());
+        return FoolItems.createItem(Material.TRIPWIRE_HOOK, "Marionette Management", "None", identifier, sequence, pathway.getBeyonder().getPlayer().getName());
     }
 
     @Override
     public void leftClick() {
         if(pathway.getBeyonder().getMarionettes().isEmpty())
             return;
-
-        if(controlling) {
-            p.sendTitle("", "§cYou can't switch while controlling", 10, 70, 10);
-            return;
-        }
-
         if(currentIndex == pathway.getBeyonder().getMarionettes().size() - 1)
             currentIndex = 0;
         else
@@ -69,11 +69,6 @@ public class MarionetteControlling extends Ability implements Listener {
             return;
         }
 
-        if(controlling) {
-            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§5You are currently controlling a marionette"));
-            return;
-        }
-
         while(currentIndex >= pathway.getBeyonder().getMarionettes().size()) {
             currentIndex--;
         }
@@ -81,7 +76,8 @@ public class MarionetteControlling extends Ability implements Listener {
         Marionette marionette = pathway.getBeyonder().getMarionettes().get(currentIndex);
 
         String entityName = pathway.getBeyonder().getMarionettes().get(currentIndex).getType().name().substring(0, 1).toUpperCase() + pathway.getBeyonder().getMarionettes().get(currentIndex).getType().name().substring(1).toLowerCase();
-        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§5Selected: §7" + entityName + " §5-- §7Right-Click §5to control "));
+        String status = marionette.isActive() ? "despawn" : "respawn";
+        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§5Selected: §7" + entityName + " §5-- §7Right-Click §5to " + status));
 
         for(Marionette m : pathway.getBeyonder().getMarionettes()) {
             if(!m.isActive())
@@ -101,5 +97,44 @@ public class MarionetteControlling extends Ability implements Listener {
                 world.spawnParticle(Particle.REDSTONE, playerLoc, 2, .025, .025, .025, dust);
             }
         }
+    }
+
+    @EventHandler
+    public void onSneak(PlayerToggleSneakEvent e) {
+        p = pathway.getBeyonder().getPlayer();
+
+        if(!e.isSneaking() || e.getPlayer() != p || teleportCooldown || !p.getInventory().getItemInMainHand().isSimilar(getItem()) || pathway.getSequence().getCurrentSequence() > 4)
+            return;
+
+        if(pathway.getBeyonder().getMarionettes().isEmpty()) {
+            p.sendTitle("", "§cYou don't have any Marionettes active", 10, 70, 10);
+            return;
+        }
+
+        Marionette marionette = pathway.getBeyonder().getMarionettes().get(currentIndex);
+
+        if(!marionette.isActive()) {
+            p.sendTitle("", "§cYou don't have any Marionettes active", 10, 70, 10);
+            return;
+        }
+
+        Location playerLoc = p.getLocation();
+        Location mobLoc = marionette.getEntity().getLocation();
+
+        World world = p.getWorld();
+
+        marionette.getEntity().teleport(playerLoc);
+        p.teleport(mobLoc);
+
+        world.spawnParticle(Particle.SPELL_WITCH, playerLoc, 250, 1, 2, 1, 2);
+        world.spawnParticle(Particle.SPELL_WITCH, mobLoc, 250, 1, 2, 1, 2);
+
+        teleportCooldown = true;
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                teleportCooldown = false;
+            }
+        }.runTaskLater(Plugin.instance, 30);
     }
 }

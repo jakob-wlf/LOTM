@@ -94,6 +94,8 @@ public class Tornado extends Disaster{
 
                 //Apply velocity to entities
                 for(Entity e : world.getNearbyEntities(location, 9.5, 20, 9.5)) {
+                    if(e == p)
+                        continue;
                     Location pLoc = e.getLocation().clone();
                     pLoc.setY(location.getY());
                     if(pLoc.distance(location) > 8.5) {

@@ -2,7 +2,6 @@ package de.firecreeper82.pathways.impl.fool.marionettes;
 
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.pathways.Pathway;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.*;
@@ -72,11 +71,11 @@ public class Marionette implements Listener {
                 if(currentTarget == entity || pathway.getBeyonder().getMarionetteEntities().contains(currentTarget))
                     currentTarget = null;
 
-                if(currentTarget == null && pathway.getBeyonder().getPlayer().getLocation().distance(entity.getLocation()) > 2.5) {
+                if(currentTarget == null && pathway.getBeyonder().getPlayer().getLocation().distance(entity.getLocation()) > 8) {
                     if(!Arrays.asList(rangedEntities).contains(entity.getType()))
                         entity.setTarget(pathway.getBeyonder().getPlayer());
                     else {
-                        if(pathway.getBeyonder().getPlayer().getLocation().distance(entity.getLocation()) > 6)
+                        if(pathway.getBeyonder().getPlayer().getLocation().distance(entity.getLocation()) > 10)
                             entity.setVelocity(pathway.getBeyonder().getPlayer().getLocation().toVector().subtract(entity.getLocation().toVector()).normalize().multiply(.25));
                         entity.setTarget(null);
                     }
