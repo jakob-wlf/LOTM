@@ -3,6 +3,7 @@ package de.firecreeper82.pathways.impl.fool.abilities;
 import com.mojang.authlib.properties.Property;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.NPC;
+import de.firecreeper82.lotm.util.UtilItems;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
@@ -15,19 +16,18 @@ import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.*;
 import org.bukkit.craftbukkit.v1_19_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_19_R1.entity.CraftPlayer;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Mob;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -107,6 +107,8 @@ public class MarionetteControlling extends Ability implements Listener {
         playerInv = Bukkit.createInventory(p, InventoryType.PLAYER);
         playerInv.setContents(p.getInventory().getContents());
 
+        final ItemStack attackItem = UtilItems.getAttack();
+
         //spawning Fake Player where Player was standing
         ServerPlayer player = ((CraftPlayer) p).getHandle();
         Property property = player.getGameProfile().getProperties().get("textures").iterator().next();
@@ -115,6 +117,8 @@ public class MarionetteControlling extends Ability implements Listener {
                 property.getSignature()
         };
         ServerPlayer npc = NPC.create(loc, p.getName(), skin);
+        npc.setHealth((float) p.getHealth());
+        npc.setNoGravity(false);
 
         //teleporting the player to the location of the entity
         p.teleport(marionette.getEntity().getLocation());
@@ -158,8 +162,18 @@ public class MarionetteControlling extends Ability implements Listener {
                 for(ItemStack item : p.getInventory().getContents()) {
                     if(pathway.getSequence().checkValid(item))
                         continue;
+
+                    if(item == null)
+                        continue;
+
+                    if(item.isSimilar(attackItem))
+                        continue;
+
                     p.getInventory().remove(item);
                 }
+
+                if(!p.getInventory().contains(attackItem))
+                    p.getInventory().addItem(attackItem);
 
                 if(attackMob == null)
                     return;
@@ -217,6 +231,7 @@ public class MarionetteControlling extends Ability implements Listener {
                 ServerLevel nmsWorld = ((CraftWorld) npc.getBukkitEntity().getWorld()).getHandle();
                 nmsWorld.removePlayerImmediately(Plugin.fakePlayers.get(npc.getBukkitEntity().getUniqueId()), net.minecraft.world.entity.Entity.RemovalReason.DISCARDED);
                 p.teleport(npc.getBukkitEntity().getLocation());
+                p.getInventory().remove(UtilItems.getAttack());
                 p.getInventory().setContents(playerInv.getContents());
                 p.setInvisible(false);
                 p.setInvulnerable(false);
@@ -246,22 +261,33 @@ public class MarionetteControlling extends Ability implements Listener {
         e.setCancelled(true);
     }
 
-
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent e) {
         p = pathway.getBeyonder().getPlayer();
 
-        if(e.getDamager() != p || !controlling || controlledMarionette == null || attackMob == null)
+        if(controlledMarionette == null)
+            return;
+
+        if(e.getDamager() == p && e.getEntity() == controlledMarionette.getEntity())
+            e.setCancelled(true);
+
+        if(e.getDamager() != p || !controlling || controlledMarionette == null)
+            return;
+
+        if(!p.getInventory().getItemInMainHand().isSimilar(UtilItems.getAttack()))
+            return;
+
+        if(Arrays.asList(rangedEntities).contains(controlledMarionette.getType()))
+            attack(controlledMarionette.getType(), p);
+
+        if(attackMob == null)
             return;
 
 
-        e.setCancelled(true);
         //if entity doesn't have attack damage attribute
         try {
             if(!Arrays.asList(rangedEntities).contains(controlledMarionette.getType()))
                 controlledMarionette.getEntity().attack(attackMob);
-            else
-                controlledMarionette.attack(attackMob);
         }
         catch (Exception ignored) {}
     }
@@ -270,22 +296,89 @@ public class MarionetteControlling extends Ability implements Listener {
     public void onInteract(PlayerInteractEvent e) {
         p = pathway.getBeyonder().getPlayer();
 
-        if(e.getItem() != null && e.getItem().getType() != Material.AIR)
+        if(e.getItem() == null)
             return;
 
-        if(e.getPlayer() != p || !controlling || e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK || controlledMarionette == null || attackMob == null)
+        if(e.getPlayer() != p || !controlling || !UtilItems.getAttack().isSimilar(e.getItem()) || controlledMarionette == null)
             return;
+
+        if(Arrays.asList(rangedEntities).contains(controlledMarionette.getType()))
+            attack(controlledMarionette.getType(), p);
 
         e.setCancelled(true);
+
+        if(attackMob == null)
+            return;
+
         //if entity doesn't have attack damage attribute
         try {
             if(!Arrays.asList(rangedEntities).contains(controlledMarionette.getType()))
                 controlledMarionette.getEntity().attack(attackMob);
-            else
-                controlledMarionette.attack(attackMob);
         }
         catch (Exception ignored) {}
 
+    }
+
+    public void attack(EntityType entityType, Player p) {
+        switch(entityType) {
+            case BLAZE ->
+                new BukkitRunnable() {
+                    int counter = 0;
+                    @Override
+                    public void run() {
+                        SmallFireball fireball = (SmallFireball) p.getWorld().spawnEntity(p.getEyeLocation().clone().add(p.getEyeLocation().getDirection().normalize()), EntityType.SMALL_FIREBALL);
+                        fireball.setShooter(controlledMarionette.getEntity());
+                        fireball.setVelocity(p.getLocation().getDirection().normalize());
+                        counter++;
+                        if(counter >= 3)
+                            cancel();
+                    }
+                }.runTaskTimer(Plugin.instance, 0, 6);
+
+            case ENDER_DRAGON -> {
+                DragonFireball fireball = (DragonFireball) p.getWorld().spawnEntity(p.getEyeLocation().clone().add(p.getEyeLocation().getDirection().normalize()), EntityType.DRAGON_FIREBALL);
+                fireball.setShooter(controlledMarionette.getEntity());
+                fireball.setVelocity(p.getLocation().getDirection().normalize());
+            }
+
+            case EVOKER -> {
+                int vectorMultiplier = 1;
+                for(int i = 0; i < 16; i++) {
+                    p.getWorld().spawnEntity(p.getEyeLocation().clone().add(p.getEyeLocation().getDirection().normalize().multiply(vectorMultiplier)), EntityType.EVOKER_FANGS);
+                    vectorMultiplier++;
+                }
+            }
+
+            case GHAST -> {
+                Fireball fireball = (Fireball) p.getWorld().spawnEntity(p.getEyeLocation().clone().add(p.getEyeLocation().getDirection().normalize()), EntityType.FIREBALL);
+                fireball.setShooter(controlledMarionette.getEntity());
+                fireball.setVelocity(p.getLocation().getDirection().normalize());
+            }
+
+            case PILLAGER, SKELETON, STRAY -> {
+                Arrow arrow = (Arrow) p.getWorld().spawnEntity(p.getEyeLocation().clone().add(p.getEyeLocation().getDirection().normalize()), EntityType.ARROW);
+                arrow.setShooter(controlledMarionette.getEntity());
+                arrow.setVelocity(p.getLocation().getDirection().normalize());
+            }
+
+            case WITCH -> {
+                ItemStack itemStack = new ItemStack(Material.SPLASH_POTION);
+                PotionMeta potionMeta = (PotionMeta) itemStack.getItemMeta();
+
+                assert potionMeta != null;
+                potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.HARM, 20 * 5, 0), true);
+                ThrownPotion potion = (ThrownPotion) p.getWorld().spawnEntity(p.getEyeLocation().clone().add(p.getEyeLocation().getDirection().normalize()), EntityType.SPLASH_POTION);
+                potion.setItem(itemStack);
+                potion.setVelocity(p.getLocation().getDirection().normalize());
+            }
+
+            case WITHER -> {
+                WitherSkull skull = (WitherSkull) p.getWorld().spawnEntity(p.getEyeLocation().clone().add(p.getEyeLocation().getDirection().normalize()), EntityType.WITHER_SKULL);
+                skull.setCharged(true);
+                skull.setShooter(controlledMarionette.getEntity());
+                skull.setVelocity(p.getLocation().getDirection().normalize().multiply(2.5));
+            }
+        }
     }
 
     @Override

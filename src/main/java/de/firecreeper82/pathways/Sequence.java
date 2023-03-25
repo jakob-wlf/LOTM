@@ -1,5 +1,6 @@
 package de.firecreeper82.pathways;
 
+import de.firecreeper82.lotm.util.UtilItems;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -50,6 +51,11 @@ public abstract class Sequence {
     public void destroyItem(ItemStack item, PlayerDropItemEvent e) {
         if(pathway.getItems().getItems().contains(item)) {
             e.getItemDrop().remove();
+        }
+
+        for(ItemStack itemStack : UtilItems.returnAllItems()) {
+            if(itemStack.isSimilar(item))
+                e.getItemDrop().remove();
         }
     }
 

@@ -118,34 +118,6 @@ public class Marionette implements Listener {
             e.setCancelled(true);
     }
 
-    private boolean hasAttacked = false;
-    private Mob attackedMob;
-    private boolean isAttacking = false;
-
-    public void attack(Mob attackMob) {
-        if(!beingControlled)
-            return;
-
-        attackedMob = attackMob;
-        isAttacking = true;
-
-        new BukkitRunnable() {
-            int counter = 0;
-            @Override
-            public void run() {
-                entity.setAware(true);
-                entity.setTarget(attackMob);
-                counter++;
-                if(hasAttacked) {
-                    cancel();
-                    entity.setAware(false);
-                    attackedMob = null;
-                    hasAttacked = false;
-                    isAttacking = false;
-                }
-            }
-        }.runTaskTimer(Plugin.instance, 0, 1);
-    }
 
     @EventHandler
     public void entityDamageByEntity(EntityDamageByEntityEvent e) {
@@ -157,6 +129,11 @@ public class Marionette implements Listener {
         if(e.getEntity() instanceof Mob m && e.getDamager() == entity && pathway.getBeyonder().getMarionetteEntities().contains(m))
             e.setCancelled(true);
 
+        if(e.getEntity() instanceof Mob m && m == entity && e.getDamager() == p) {
+            e.setCancelled(true);
+            return;
+        }
+
         if(e.getEntity() instanceof Mob m && m == entity && e.getDamage() > m.getHealth()) {
             pathway.getBeyonder().getMarionettes().remove(this);
             pathway.getBeyonder().getMarionetteEntities().remove(entity);
@@ -166,9 +143,6 @@ public class Marionette implements Listener {
 
         if(e.getEntity() == p && e.getDamager() == entity)
             e.setCancelled(true);
-
-        if(isAttacking && e.getEntity() == attackedMob)
-            hasAttacked = true;
     }
 
     @EventHandler
