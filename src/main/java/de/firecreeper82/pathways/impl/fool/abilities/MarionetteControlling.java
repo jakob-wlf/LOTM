@@ -23,6 +23,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
@@ -30,7 +31,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MarionetteControlling extends Ability implements Listener {
@@ -55,6 +55,7 @@ public class MarionetteControlling extends Ability implements Listener {
 
         rangedEntities = new EntityType[] {
                 EntityType.BLAZE,
+                EntityType.ENDER_DRAGON,
                 EntityType.EVOKER,
                 EntityType.ELDER_GUARDIAN,
                 EntityType.GHAST,
@@ -65,13 +66,13 @@ public class MarionetteControlling extends Ability implements Listener {
                 EntityType.STRAY,
                 EntityType.WITCH,
                 EntityType.WITHER
-
         };
 
         flyingEntities = new EntityType[] {
                 EntityType.BAT,
                 EntityType.BEE,
                 EntityType.BLAZE,
+                EntityType.ENDER_DRAGON,
                 EntityType.GHAST,
                 EntityType.PARROT,
                 EntityType.PHANTOM,
@@ -90,6 +91,10 @@ public class MarionetteControlling extends Ability implements Listener {
             return;
 
         Marionette marionette = pathway.getBeyonder().getMarionettes().get(currentIndex);
+        if(!marionette.isActive()) {
+            p.sendTitle("", "§cThe selected marionette is not active", 10, 70, 10);
+            return;
+        }
 
         controlling = !controlling;
 
@@ -132,12 +137,20 @@ public class MarionetteControlling extends Ability implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if(!controlling) {
+                if(!controlling || !marionette.isAlive() || !marionette.isBeingControlled()) {
+                    controlling = false;
                     cancel();
                     return;
                 }
 
-                marionette.getEntity().teleport(p.getLocation());
+                marionette.getEntity().teleport(p.getLocation().subtract(p.getLocation().getDirection().normalize().multiply(.75)));
+                Location tempLoc = marionette.getEntity().getLocation();
+                while(tempLoc.getBlock().getType().isSolid()) {
+                    tempLoc.add(0, .15, 0);
+                }
+                marionette.getEntity().teleport(tempLoc);
+
+
                 for(Player hidePlayer : Bukkit.getOnlinePlayers()) {
                     hidePlayer.hidePlayer(Plugin.instance, p);
                 }
@@ -148,37 +161,46 @@ public class MarionetteControlling extends Ability implements Listener {
                     p.getInventory().remove(item);
                 }
 
-                ArrayList<Mob> hasLineOfSight = new ArrayList<>();
-
-                for(Entity entity : p.getNearbyEntities(radius, radius, radius)) {
-                    if(entity == p)
-                        continue;
-
-                    if(!(entity instanceof Mob m) || pathway.getBeyonder().getMarionetteEntities().contains(m))
-                        continue;
-
-                    if(!p.hasLineOfSight(m))
-                        continue;
-
-                    hasLineOfSight.add(m);
-                }
-
-                if(hasLineOfSight.isEmpty())
+                if(attackMob == null)
                     return;
-
-                Mob mob = hasLineOfSight.get(0);
-                double minDistance = mob.getLocation().distance(p.getLocation());
-
-                for(Mob m : hasLineOfSight) {
-                    if(m.getLocation().distance(p.getLocation()) < minDistance) {
-                        minDistance = m.getLocation().distance(p.getLocation());
-                        mob = m;
-                    }
-                }
-
-                attackMob = mob;
+                p.spawnParticle(Particle.FLASH, attackMob.getLocation(), 1, 0, 0, 0, 0);
             }
         }.runTaskTimer(Plugin.instance, 0, 0);
+
+        //Select the targeted mob
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Vector v = p.getEyeLocation().clone().getDirection().normalize();
+                Location startLoc = p.getEyeLocation().clone();
+                World world = startLoc.getWorld();
+
+                if(!controlling || controlledMarionette == null) {
+                    cancel();
+                    return;
+                }
+                if(world == null)
+                    return;
+
+                for(int i = 0; i < radius; i++) {
+                    startLoc.add(v);
+                    if(world.getNearbyEntities(startLoc, 2, 2, 2).isEmpty())
+                        continue;
+
+                    boolean hasFoundEntity = false;
+                    for(Entity entity : world.getNearbyEntities(startLoc, 2, 2, 2)) {
+                        if(!(entity instanceof Mob m))
+                            continue;
+                        if(entity == controlledMarionette.getEntity() || entity == p)
+                            continue;
+                        attackMob = m;
+                        hasFoundEntity = true;
+                    }
+                    if(!hasFoundEntity)
+                        attackMob = null;
+                }
+            }
+        }.runTaskTimer(Plugin.instance, 0, 10);
 
         //Remove the Fake Player when Player stops controlling the marionette
         new BukkitRunnable() {
@@ -198,6 +220,11 @@ public class MarionetteControlling extends Ability implements Listener {
                 p.getInventory().setContents(playerInv.getContents());
                 p.setInvisible(false);
                 p.setInvulnerable(false);
+
+                for(Player hidePlayer : Bukkit.getOnlinePlayers()) {
+                    hidePlayer.showPlayer(Plugin.instance, p);
+                }
+
                 marionette.setBeingControlled(false);
                 attackMob = null;
                 controlledMarionette = null;
@@ -208,6 +235,18 @@ public class MarionetteControlling extends Ability implements Listener {
         }.runTaskTimer(Plugin.instance, 0, 0);
     }
 
+    //Remove fall damage for Marionette
+    @EventHandler
+    public void onDamage(EntityDamageEvent e) {
+        if(controlledMarionette == null)
+            return;
+        if(e.getEntity() != controlledMarionette.getEntity() || (e.getCause() != EntityDamageEvent.DamageCause.FALL && e.getCause() != EntityDamageEvent.DamageCause.SUFFOCATION) ||!controlling)
+            return;
+
+        e.setCancelled(true);
+    }
+
+
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent e) {
         p = pathway.getBeyonder().getPlayer();
@@ -217,10 +256,14 @@ public class MarionetteControlling extends Ability implements Listener {
 
 
         e.setCancelled(true);
-        if(!Arrays.asList(rangedEntities).contains(controlledMarionette.getType()))
-            controlledMarionette.getEntity().attack(attackMob);
-        else
-            controlledMarionette.attack(attackMob);
+        //if entity doesn't have attack damage attribute
+        try {
+            if(!Arrays.asList(rangedEntities).contains(controlledMarionette.getType()))
+                controlledMarionette.getEntity().attack(attackMob);
+            else
+                controlledMarionette.attack(attackMob);
+        }
+        catch (Exception ignored) {}
     }
 
     @EventHandler
@@ -234,10 +277,14 @@ public class MarionetteControlling extends Ability implements Listener {
             return;
 
         e.setCancelled(true);
-        if(!Arrays.asList(rangedEntities).contains(controlledMarionette.getType()))
-            controlledMarionette.getEntity().attack(attackMob);
-        else
-            controlledMarionette.attack(attackMob);
+        //if entity doesn't have attack damage attribute
+        try {
+            if(!Arrays.asList(rangedEntities).contains(controlledMarionette.getType()))
+                controlledMarionette.getEntity().attack(attackMob);
+            else
+                controlledMarionette.attack(attackMob);
+        }
+        catch (Exception ignored) {}
 
     }
 

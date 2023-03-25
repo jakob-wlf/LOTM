@@ -8,6 +8,7 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
@@ -159,6 +160,7 @@ public class Marionette implements Listener {
         if(e.getEntity() instanceof Mob m && m == entity && e.getDamage() > m.getHealth()) {
             pathway.getBeyonder().getMarionettes().remove(this);
             pathway.getBeyonder().getMarionetteEntities().remove(entity);
+            setBeingControlled(false);
             alive = false;
         }
 
@@ -167,6 +169,16 @@ public class Marionette implements Listener {
 
         if(isAttacking && e.getEntity() == attackedMob)
             hasAttacked = true;
+    }
+
+    @EventHandler
+    public void entityDamage(EntityDamageEvent e) {
+        if(e.getEntity() instanceof Mob m && m == entity && e.getDamage() > m.getHealth()) {
+            pathway.getBeyonder().getMarionettes().remove(this);
+            pathway.getBeyonder().getMarionetteEntities().remove(entity);
+            setBeingControlled(false);
+            alive = false;
+        }
     }
 
 
@@ -222,5 +234,13 @@ public class Marionette implements Listener {
         this.beingControlled = beingControlled;
 
         entity.setAware(!beingControlled);
+    }
+
+    public boolean isBeingControlled() {
+        return beingControlled;
+    }
+
+    public boolean isAlive() {
+        return alive;
     }
 }

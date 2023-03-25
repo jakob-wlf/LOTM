@@ -39,6 +39,10 @@ public class MarionetteManagement extends Ability implements Listener {
             return;
 
         Marionette marionette = pathway.getBeyonder().getMarionettes().get(currentIndex);
+        if(marionette.isBeingControlled()) {
+            p.sendTitle("", "§cYou are currently controlling this marionette", 10, 70, 10);
+            return;
+        }
         if(marionette.isActive())
             marionette.removeEntity();
         else

@@ -8,9 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Objects;
+import java.util.*;
 
 public abstract class Sequence {
 
@@ -68,7 +66,7 @@ public abstract class Sequence {
             return;
 
         if(usesAbilities[ability - 1]) {
-            if(ability == 4)
+            if(getIds().contains(ability))
                 usesAbilities[ability - 1] = false;
             return;
         }
@@ -84,6 +82,8 @@ public abstract class Sequence {
             }
         }
     }
+
+    public abstract List<Integer> getIds();
 
     public boolean checkValid(ItemStack item) {
         if(item == null)

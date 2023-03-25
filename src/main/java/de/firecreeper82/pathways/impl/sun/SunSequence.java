@@ -1,22 +1,26 @@
 package de.firecreeper82.pathways.impl.sun;
 
-import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.Sequence;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Objects;
+import java.util.List;
 
 public class SunSequence extends Sequence {
 
     public SunSequence(Pathway pathway, int optionalSequence) {
         super(pathway, optionalSequence);
         init();
+    }
+
+    @Override
+    public List<Integer> getIds() {
+        Integer[] ids = {17, 14, 13, 6};
+        return Arrays.asList(ids);
     }
 
     public void init() {

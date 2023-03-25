@@ -20,10 +20,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Objects;
+import java.util.*;
 
 public class FoolSequence extends Sequence implements Listener {
 
@@ -31,6 +28,12 @@ public class FoolSequence extends Sequence implements Listener {
         super(pathway, optionalSequence);
         init();
         Plugin.instance.getServer().getPluginManager().registerEvents(this, Plugin.instance);
+    }
+
+    @Override
+    public List<Integer> getIds() {
+        Integer[] ids = {4};
+        return Arrays.asList(ids);
     }
 
     public void init() {
