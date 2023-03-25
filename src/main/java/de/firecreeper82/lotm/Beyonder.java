@@ -68,19 +68,21 @@ public class Beyonder implements Listener {
 
         //acting initializing
         digested = false;
-        actingNeeded = Math.pow((float) (100 / pathway.getSequence().getCurrentSequence()), .25);
+        actingNeeded = Math.pow((float) (100 / pathway.getSequence().getCurrentSequence()), 3);
         actingProgress = 0;
 
         //Team
         ScoreboardManager manager = Bukkit.getScoreboardManager();
         assert manager != null;
         Scoreboard board = manager.getNewScoreboard();
-        team = board.registerNewTeam(getPlayer().getName() + " -- " + getPlayer().getUniqueId());
+        team = board.registerNewTeam(getPlayer().getName() + " -- " + UUID.randomUUID());
 
         team.addEntry(getPlayer().getUniqueId().toString());
         team.setDisplayName("display name");
         team.setCanSeeFriendlyInvisibles(true);
         team.setAllowFriendlyFire(false);
+        team.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.ALWAYS);
+
     }
 
     @EventHandler
@@ -241,7 +243,7 @@ public class Beyonder implements Listener {
             getPlayer().sendMessage("§6You have digested the potion!");
             getPlayer().spawnParticle(Particle.END_ROD, pathway.getBeyonder().getPlayer().getLocation(), 50, 1, 1, 1, 0);
         }
-        actingNeeded = Math.pow((100f / pathway.getSequence().getCurrentSequence()), .25);
+        actingNeeded = Math.pow((100f / pathway.getSequence().getCurrentSequence()), 3);
     }
 
     public void acting(int sequence) {

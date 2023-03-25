@@ -2,6 +2,7 @@ package de.firecreeper82.lotm.util;
 
 public class Util {
 
+    @SuppressWarnings("all")
     public static boolean isInteger(String s) {
         try {
             Integer.parseInt(s);
@@ -19,5 +20,9 @@ public class Util {
         catch (NumberFormatException exception) {
             throw new NumberFormatException();
         }
+    }
+
+    public static String capitalize(String s) {
+        return (s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase());
     }
 }
