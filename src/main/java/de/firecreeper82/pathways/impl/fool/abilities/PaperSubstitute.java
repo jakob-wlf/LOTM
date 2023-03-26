@@ -56,7 +56,7 @@ public class PaperSubstitute extends Ability {
                 property.getValue(),
                 property.getSignature()
         };
-        ServerPlayer npc = NPC.create(loc, p.getName(), skin);
+        ServerPlayer npc = NPC.create(loc, p.getName(), skin, true);
 
         Random random = new Random();
         Location newLoc = loc.clone().add((random.nextInt(12) - 6), random.nextInt(5) - 2, random.nextInt(12) - 6);

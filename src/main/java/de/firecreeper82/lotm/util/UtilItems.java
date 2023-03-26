@@ -260,7 +260,11 @@ public class UtilItems {
         final ItemStack item = new ItemStack(Material.DIAMOND_SWORD);
         ItemMeta itemMeta = item.getItemMeta();
         assert itemMeta != null;
-        itemMeta.setDisplayName("§eAttack");
+        itemMeta.setDisplayName("§5Attack");
+        String[] lore = {
+                "§aRight click to attack!"
+        };
+        itemMeta.setLore(Arrays.asList(lore));
         itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         itemMeta.addEnchant(Enchantment.CHANNELING, 1, true);
         item.setItemMeta(itemMeta);

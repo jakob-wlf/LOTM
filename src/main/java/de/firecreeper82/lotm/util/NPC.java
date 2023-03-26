@@ -29,7 +29,7 @@ public class NPC extends ServerPlayer {
     }
 
     //Creating the FakePlayer and calling the showAll function to send the packets
-    public static ServerPlayer create(Location location, String name, String[] skin) {
+    public static ServerPlayer create(Location location, String name, String[] skin, boolean hideFromTab) {
         UUID uuid = UUID.randomUUID();
         MinecraftServer nmsServer = ((CraftServer) Bukkit.getServer()).getServer();
         ServerLevel nmsWorld = ((CraftWorld) Objects.requireNonNull(location.getWorld())).getHandle();
@@ -47,7 +47,7 @@ public class NPC extends ServerPlayer {
 
         Plugin.fakePlayers.put(uuid, npc);
 
-        NPC.showAll(npc, location);
+        NPC.showAll(npc, location, hideFromTab);
         return npc;
     }
 
@@ -65,7 +65,7 @@ public class NPC extends ServerPlayer {
 
     //Create all the packets and send them to the player
     //Send the ClientboundPlayerInfoPacket later to remove FakePlayer from tab list but still load the skin
-    public static void showAll(ServerPlayer entityPlayer, Location location) {
+    public static void showAll(ServerPlayer entityPlayer, Location location, boolean hideFromTab) {
         ClientboundPlayerInfoPacket playerInfoAdd = new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.ADD_PLAYER);
         ClientboundAddPlayerPacket namedEntitySpawn = new ClientboundAddPlayerPacket(entityPlayer);
         ClientboundRotateHeadPacket headRotation = new ClientboundRotateHeadPacket(entityPlayer, (byte) ((location.getYaw() * 256f) / 360f));
@@ -81,7 +81,8 @@ public class NPC extends ServerPlayer {
             public void run() {
                 for (Player player : Bukkit.getOnlinePlayers()) {
                     ServerGamePacketListenerImpl connection = ((CraftPlayer) player).getHandle().connection;
-                    connection.send(playerInfoRemove);
+                    if(hideFromTab)
+                        connection.send(playerInfoRemove);
                 }
             }
         }.runTaskLater(Plugin.instance, 5);

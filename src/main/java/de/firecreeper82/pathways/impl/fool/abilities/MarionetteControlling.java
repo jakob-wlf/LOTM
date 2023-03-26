@@ -46,6 +46,8 @@ public class MarionetteControlling extends Ability implements Listener {
     private final EntityType[] rangedEntities;
     private final EntityType[] flyingEntities;
 
+    private ServerPlayer fakePlayer;
+
     public MarionetteControlling(int identifier, Pathway pathway, int sequence, Items items) {
         super(identifier, pathway, sequence, items);
         items.addToSequenceItems(identifier - 1, sequence);
@@ -64,6 +66,7 @@ public class MarionetteControlling extends Ability implements Listener {
                 EntityType.PILLAGER,
                 EntityType.SKELETON,
                 EntityType.STRAY,
+                EntityType.WARDEN,
                 EntityType.WITCH,
                 EntityType.WITHER
         };
@@ -116,9 +119,11 @@ public class MarionetteControlling extends Ability implements Listener {
                 property.getValue(),
                 property.getSignature()
         };
-        ServerPlayer npc = NPC.create(loc, p.getName(), skin);
+        ServerPlayer npc = NPC.create(loc, p.getName(), skin, false);
         npc.setHealth((float) p.getHealth());
         npc.setNoGravity(false);
+
+        fakePlayer = npc;
 
         //teleporting the player to the location of the entity
         p.teleport(marionette.getEntity().getLocation());
@@ -175,9 +180,6 @@ public class MarionetteControlling extends Ability implements Listener {
                 if(!p.getInventory().contains(attackItem))
                     p.getInventory().addItem(attackItem);
 
-                if(attackMob == null)
-                    return;
-                p.spawnParticle(Particle.FLASH, attackMob.getLocation(), 1, 0, 0, 0, 0);
             }
         }.runTaskTimer(Plugin.instance, 0, 0);
 
@@ -216,6 +218,7 @@ public class MarionetteControlling extends Ability implements Listener {
             }
         }.runTaskTimer(Plugin.instance, 0, 10);
 
+
         //Remove the Fake Player when Player stops controlling the marionette
         new BukkitRunnable() {
             @Override
@@ -235,6 +238,8 @@ public class MarionetteControlling extends Ability implements Listener {
                 p.getInventory().setContents(playerInv.getContents());
                 p.setInvisible(false);
                 p.setInvulnerable(false);
+
+                fakePlayer = null;
 
                 for(Player hidePlayer : Bukkit.getOnlinePlayers()) {
                     hidePlayer.showPlayer(Plugin.instance, p);
@@ -262,6 +267,15 @@ public class MarionetteControlling extends Ability implements Listener {
     }
 
     @EventHandler
+    public void onPlayerDamage(EntityDamageEvent e) {
+        if(fakePlayer == null)
+            return;
+        if(e.getEntity() == fakePlayer.getBukkitEntity().getPlayer()) {
+            controlling = false;
+        }
+    }
+
+    @EventHandler
     public void onDamage(EntityDamageByEntityEvent e) {
         p = pathway.getBeyonder().getPlayer();
 
@@ -269,6 +283,9 @@ public class MarionetteControlling extends Ability implements Listener {
             return;
 
         if(e.getDamager() == p && e.getEntity() == controlledMarionette.getEntity())
+            e.setCancelled(true);
+
+        if(controlling && e.getDamager() == p)
             e.setCancelled(true);
 
         if(e.getDamager() != p || !controlling || controlledMarionette == null)
@@ -361,12 +378,33 @@ public class MarionetteControlling extends Ability implements Listener {
                 arrow.setVelocity(p.getLocation().getDirection().normalize());
             }
 
+            case WARDEN -> {
+                Location sonicLoc = p.getEyeLocation().clone().add(p.getEyeLocation().getDirection().normalize());
+                Vector vector = p.getEyeLocation().getDirection().normalize();
+                World world = p.getWorld();
+                for(int i = 0; i < 24; i++) {
+                    sonicLoc.add(vector);
+                    world.spawnParticle(Particle.SONIC_BOOM, sonicLoc, 1, 0, 0, 0 ,0);
+                    if(world.getNearbyEntities(sonicLoc, 3, 3, 3).isEmpty())
+                        continue;
+
+                    for(Entity entity : world.getNearbyEntities(sonicLoc, 3, 3, 3)) {
+                        if(entity instanceof LivingEntity livingEntity && entity != p && entity != controlledMarionette.getEntity()) {
+                            float knockback = 10;
+                            livingEntity.damage(16, controlledMarionette.getEntity());
+                            Vector knockBackVector = livingEntity.getLocation().toVector().subtract(p.getEyeLocation().toVector()).normalize().multiply(knockback);
+                            livingEntity.setVelocity(knockBackVector);
+                        }
+                    }
+                }
+            }
+
             case WITCH -> {
                 ItemStack itemStack = new ItemStack(Material.SPLASH_POTION);
                 PotionMeta potionMeta = (PotionMeta) itemStack.getItemMeta();
-
                 assert potionMeta != null;
                 potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.HARM, 20 * 5, 0), true);
+                itemStack.setItemMeta(potionMeta);
                 ThrownPotion potion = (ThrownPotion) p.getWorld().spawnEntity(p.getEyeLocation().clone().add(p.getEyeLocation().getDirection().normalize()), EntityType.SPLASH_POTION);
                 potion.setItem(itemStack);
                 potion.setVelocity(p.getLocation().getDirection().normalize());
@@ -376,7 +414,7 @@ public class MarionetteControlling extends Ability implements Listener {
                 WitherSkull skull = (WitherSkull) p.getWorld().spawnEntity(p.getEyeLocation().clone().add(p.getEyeLocation().getDirection().normalize()), EntityType.WITHER_SKULL);
                 skull.setCharged(true);
                 skull.setShooter(controlledMarionette.getEntity());
-                skull.setVelocity(p.getLocation().getDirection().normalize().multiply(2.5));
+                skull.setVelocity(p.getLocation().getDirection().normalize().multiply(3.5));
             }
         }
     }
