@@ -14,7 +14,15 @@ public abstract class Potion {
 
     protected HashMap<Integer, ItemStack[]> mainIngredients;
     protected HashMap<Integer, ItemStack[]> supplementaryIngredients;
-    public abstract ItemStack[] getSequencePotion(int sequence);
+
+    public ItemStack[] getMainIngredients(int sequence) {
+        return mainIngredients.get(sequence);
+    }
+
+    public ItemStack[] getSupplIngredients(int sequence) {
+        return supplementaryIngredients.get(sequence);
+    }
+
     public abstract ItemStack returnPotionForSequence(int sequence);
 
     public static ItemStack createPotion(String stringColor, int sequence, String name, Color color, String ritual) {

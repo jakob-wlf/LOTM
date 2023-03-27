@@ -64,11 +64,6 @@ public class SunPotions extends Potion {
     }
 
     @Override
-    public ItemStack[] getSequencePotion(int sequence) {
-        return mainIngredients.get(sequence);
-    }
-
-    @Override
     public ItemStack returnPotionForSequence(int sequence) {
         return Potion.createPotion(
                 "§6",

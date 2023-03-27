@@ -17,16 +17,13 @@ public class FoolPotions extends Potion {
         mainIngredients = new HashMap<>();
         supplementaryIngredients = new HashMap<>();
 
-        ItemStack[] recipe9 = {
-                BeyonderItems.getLavosSquidBlood(),
-                BeyonderItems.getStellarAquaCrystal()
-        };
-        mainIngredients.put(9, recipe9);
-        ItemStack[] recipe8 = {
-                new ItemStack(Material.GOAT_HORN),
-                new ItemStack(Material.ROSE_BUSH)
-        };
-        mainIngredients.put(8, recipe8);
+        putMainIntoHashMap(9, BeyonderItems.getLavosSquidBlood(), BeyonderItems.getStellarAquaCrystal());
+        putMainIntoHashMap(8, BeyonderItems.getGoatHorn(), BeyonderItems.getRose());
+
+        putSupplIntoHashMap(9, new ItemStack(Material.WATER_BUCKET), new ItemStack(Material.MUTTON));
+        putSupplIntoHashMap(8, new ItemStack(Material.WATER_BUCKET), new ItemStack(Material.SUNFLOWER), new ItemStack(Material.GRASS));
+
+
         ItemStack[] recipe7 = {
                 new ItemStack(Material.DARK_OAK_SAPLING),
                 new ItemStack(Material.BLACK_DYE)
@@ -64,10 +61,14 @@ public class FoolPotions extends Potion {
         mainIngredients.put(1, recipe1);
     }
 
-    @Override
-    public ItemStack[] getSequencePotion(int sequence) {
-        return mainIngredients.get(sequence);
+    public void putMainIntoHashMap(int sequence, ItemStack... ingredients) {
+        mainIngredients.put(sequence, ingredients);
     }
+
+    public void putSupplIntoHashMap(int sequence, ItemStack... ingredients) {
+        supplementaryIngredients.put(sequence, ingredients);
+    }
+
 
     @Override
     public ItemStack returnPotionForSequence(int sequence) {

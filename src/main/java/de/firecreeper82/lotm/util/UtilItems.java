@@ -302,4 +302,18 @@ public class UtilItems {
         return item;
     }
 
+    public static ItemStack getConfirmPotion() {
+        final ItemStack item = new ItemStack(Material.LIME_CONCRETE);
+        ItemMeta itemMeta = item.getItemMeta();
+        assert itemMeta != null;
+        itemMeta.setDisplayName("§aBrew Potion");
+        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        itemMeta.addEnchant(Enchantment.CHANNELING, 1, true);
+        item.setItemMeta(itemMeta);
+
+        list.add(item);
+
+        return item;
+    }
+
 }
