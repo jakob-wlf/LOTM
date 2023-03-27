@@ -81,6 +81,7 @@ public final class Plugin extends JavaPlugin{
         Objects.requireNonNull(this.getCommand("thread-length")).setExecutor(new ThreadLengthCmd());
         Objects.requireNonNull(this.getCommand("items")).setExecutor(itemsCmd);
         Objects.requireNonNull(this.getCommand("potions")).setExecutor(new PotionsCmd());
+        Objects.requireNonNull(this.getCommand("test")).setExecutor(new TestCmd());
     }
 
     //initialize the Potion Classes

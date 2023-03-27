@@ -26,4 +26,7 @@ commands:
   potions:
     description: Give yourself all the Potions of a Pathway
     usage: /<cmd>
+  test:
+    description: Used for testing various things
+    usage: /<cmd>
 

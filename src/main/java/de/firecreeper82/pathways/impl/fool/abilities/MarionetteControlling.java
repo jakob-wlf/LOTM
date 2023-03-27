@@ -159,6 +159,8 @@ public class MarionetteControlling extends Ability implements Listener {
                 }
                 marionette.getEntity().teleport(tempLoc);
 
+                p.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 40, 1));
+
 
                 for(Player hidePlayer : Bukkit.getOnlinePlayers()) {
                     hidePlayer.hidePlayer(Plugin.instance, p);
