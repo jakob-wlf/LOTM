@@ -12,7 +12,8 @@ import java.util.HashMap;
 public abstract class Potion {
     protected String name;
 
-    protected HashMap<Integer, ItemStack[]> potionRecipes;
+    protected HashMap<Integer, ItemStack[]> mainIngredients;
+    protected HashMap<Integer, ItemStack[]> supplementaryIngredients;
     public abstract ItemStack[] getSequencePotion(int sequence);
     public abstract ItemStack returnPotionForSequence(int sequence);
 

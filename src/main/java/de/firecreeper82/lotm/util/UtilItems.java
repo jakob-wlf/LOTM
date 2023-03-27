@@ -39,6 +39,34 @@ public class UtilItems {
         return magentaPane;
     }
 
+    public static ItemStack getPurplePane() {
+        final ItemStack magentaPane = new ItemStack(Material.PURPLE_STAINED_GLASS_PANE);
+        ItemMeta magentaPaneMeta = magentaPane.getItemMeta();
+        assert magentaPaneMeta != null;
+        magentaPaneMeta.setDisplayName(" ");
+        magentaPaneMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        magentaPaneMeta.addEnchant(Enchantment.CHANNELING, 1, true);
+        magentaPane.setItemMeta(magentaPaneMeta);
+
+        list.add(magentaPane);
+
+        return magentaPane;
+    }
+
+    public static ItemStack getWhitePane() {
+        final ItemStack magentaPane = new ItemStack(Material.WHITE_STAINED_GLASS_PANE);
+        ItemMeta magentaPaneMeta = magentaPane.getItemMeta();
+        assert magentaPaneMeta != null;
+        magentaPaneMeta.setDisplayName(" ");
+        magentaPaneMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        magentaPaneMeta.addEnchant(Enchantment.CHANNELING, 1, true);
+        magentaPane.setItemMeta(magentaPaneMeta);
+
+        list.add(magentaPane);
+
+        return magentaPane;
+    }
+
     public static ItemStack getDowsingRod() {
         final ItemStack dowsingStick = new ItemStack(Material.STICK);
         ItemMeta stickMeta = dowsingStick.getItemMeta();

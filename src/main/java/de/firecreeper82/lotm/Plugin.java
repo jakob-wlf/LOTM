@@ -5,7 +5,9 @@ import de.firecreeper82.listeners.DeathListener;
 import de.firecreeper82.listeners.InteractListener;
 import de.firecreeper82.listeners.PotionHandler;
 import de.firecreeper82.listeners.PotionListener;
+import de.firecreeper82.lotm.util.mobs.BeyonderMobs;
 import de.firecreeper82.pathways.Divination;
+import de.firecreeper82.pathways.EntitiesHandler;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.Potion;
 import de.firecreeper82.pathways.impl.fool.FoolPotions;
@@ -56,9 +58,15 @@ public final class Plugin extends JavaPlugin{
         createSaveConfig();
 
         register();
+        init();
         initPotions();
 
         createSaveConfigFoH();
+    }
+
+    //Initialize classes
+    public void init() {
+        new EntitiesHandler();
     }
 
     //register all the Listeners and CommandExecutors
@@ -73,6 +81,7 @@ public final class Plugin extends JavaPlugin{
         pl.registerEvents(new PotionListener(), this);
         pl.registerEvents(new DeathListener(), this);
         pl.registerEvents(divination, this);
+        pl.registerEvents(new BeyonderMobs(), this);
 
         Objects.requireNonNull(this.getCommand("beyonder")).setExecutor(new BeyonderCmd());
         Objects.requireNonNull(this.getCommand("disable-threads")).setExecutor(new DisableThreadsCmd());
