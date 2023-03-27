@@ -17,26 +17,50 @@ public class BeyonderItems {
     }
 
     public static ItemStack getLavosSquidBlood() {
-        final ItemStack magentaPane = new ItemStack(Material.REDSTONE);
-        ItemMeta magentaPaneMeta = magentaPane.getItemMeta();
+        final ItemStack item = new ItemStack(Material.REDSTONE);
+        ItemMeta magentaPaneMeta = item.getItemMeta();
         assert magentaPaneMeta != null;
         magentaPaneMeta.setDisplayName("§4Lavos Squid Blood");
-        magentaPane.setItemMeta(magentaPaneMeta);
+        item.setItemMeta(magentaPaneMeta);
 
-        list.add(magentaPane);
+        list.add(item);
 
-        return magentaPane;
+        return item;
     }
 
     public static ItemStack getStellarAquaCrystal() {
-        final ItemStack magentaPane = new ItemStack(Material.PRISMARINE_CRYSTALS);
-        ItemMeta magentaPaneMeta = magentaPane.getItemMeta();
-        assert magentaPaneMeta != null;
-        magentaPaneMeta.setDisplayName("§bStellar Aqua Crystal");
-        magentaPane.setItemMeta(magentaPaneMeta);
+        final ItemStack item = new ItemStack(Material.PRISMARINE_CRYSTALS);
+        ItemMeta itemMeta = item.getItemMeta();
+        assert itemMeta != null;
+        itemMeta.setDisplayName("§bStellar Aqua Crystal");
+        item.setItemMeta(itemMeta);
 
-        list.add(magentaPane);
+        list.add(item);
 
-        return magentaPane;
+        return item;
+    }
+
+    public static ItemStack getGoatHorn() {
+        final ItemStack item = new ItemStack(Material.GOAT_HORN);
+        ItemMeta itemMeta = item.getItemMeta();
+        assert itemMeta != null;
+        itemMeta.setDisplayName("§7Hornacis Gray Mountain Goat Horn");
+        item.setItemMeta(itemMeta);
+
+        list.add(item);
+
+        return item;
+    }
+
+    public static ItemStack getRose() {
+        final ItemStack item = new ItemStack(Material.ROSE_BUSH);
+        ItemMeta itemMeta = item.getItemMeta();
+        assert itemMeta != null;
+        itemMeta.setDisplayName("§4Human Faced Rose");
+        item.setItemMeta(itemMeta);
+
+        list.add(item);
+
+        return item;
     }
 }
