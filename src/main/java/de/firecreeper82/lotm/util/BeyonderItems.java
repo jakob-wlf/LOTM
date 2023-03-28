@@ -63,4 +63,28 @@ public class BeyonderItems {
 
         return item;
     }
+
+    public static ItemStack getRoot() {
+        final ItemStack item = new ItemStack(Material.HANGING_ROOTS);
+        ItemMeta itemMeta = item.getItemMeta();
+        assert itemMeta != null;
+        itemMeta.setDisplayName("§6Root of a Mist Treant");
+        item.setItemMeta(itemMeta);
+
+        list.add(item);
+
+        return item;
+    }
+
+    public static ItemStack getPanther() {
+        final ItemStack item = new ItemStack(Material.BLACK_DYE);
+        ItemMeta itemMeta = item.getItemMeta();
+        assert itemMeta != null;
+        itemMeta.setDisplayName("§8Spinal Fluid of a Black Patterned Panther");
+        item.setItemMeta(itemMeta);
+
+        list.add(item);
+
+        return item;
+    }
 }

@@ -17,10 +17,9 @@ public class BlockHandler implements Listener {
     public BlockHandler() {
         customBlocks = new ArrayList<>();
 
-        //40
-        initBlock(Material.PRISMARINE, BeyonderItems.getStellarAquaCrystal(), 2, "prismarine");
-        //80
-        initBlock(Material.ROSE_BUSH, BeyonderItems.getRose(), 2, "rose");
+        initBlock(Material.PRISMARINE, BeyonderItems.getStellarAquaCrystal(), 40, "prismarine");
+        initBlock(Material.ROSE_BUSH, BeyonderItems.getRose(), 80, "rose");
+        initBlock(Material.HANGING_ROOTS, BeyonderItems.getRoot(), 120, "root");
     }
 
     private void initBlock(Material material, ItemStack drop, int rarity, String id) {

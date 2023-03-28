@@ -1,6 +1,7 @@
 package de.firecreeper82.pathways.impl.fool;
 
 import de.firecreeper82.lotm.util.BeyonderItems;
+import de.firecreeper82.lotm.util.UtilItems;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.Potion;
 import org.bukkit.Color;
@@ -19,16 +20,13 @@ public class FoolPotions extends Potion {
 
         putMainIntoHashMap(9, BeyonderItems.getLavosSquidBlood(), BeyonderItems.getStellarAquaCrystal());
         putMainIntoHashMap(8, BeyonderItems.getGoatHorn(), BeyonderItems.getRose());
+        putMainIntoHashMap(7, BeyonderItems.getRoot(), BeyonderItems.getPanther());
 
         putSupplIntoHashMap(9, new ItemStack(Material.WATER_BUCKET), new ItemStack(Material.MUTTON));
-        putSupplIntoHashMap(8, new ItemStack(Material.WATER_BUCKET), new ItemStack(Material.SUNFLOWER), new ItemStack(Material.GRASS));
+        putSupplIntoHashMap(8, UtilItems.getWaterPotion(), new ItemStack(Material.SUNFLOWER), new ItemStack(Material.GRASS));
+        putSupplIntoHashMap(7, UtilItems.getMundanePotion(), new ItemStack(Material.AMETHYST_SHARD), new ItemStack(Material.GLOW_INK_SAC));
 
 
-        ItemStack[] recipe7 = {
-                new ItemStack(Material.DARK_OAK_SAPLING),
-                new ItemStack(Material.BLACK_DYE)
-        };
-        mainIngredients.put(7, recipe7);
         ItemStack[] recipe6 = {
                 new ItemStack(Material.PHANTOM_MEMBRANE),
                 new ItemStack(Material.SKELETON_SKULL)

@@ -6,7 +6,10 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.potion.PotionData;
+import org.bukkit.potion.PotionType;
 import org.bukkit.profile.PlayerProfile;
 import org.bukkit.profile.PlayerTextures;
 
@@ -316,4 +319,21 @@ public class UtilItems {
         return item;
     }
 
+    public static ItemStack getMundanePotion() {
+        final ItemStack potion = new ItemStack(Material.POTION);
+        PotionMeta potionMeta = (PotionMeta) potion.getItemMeta();
+        assert potionMeta != null;
+        potionMeta.setBasePotionData(new PotionData(PotionType.MUNDANE));
+        potion.setItemMeta(potionMeta);
+        return potion;
+    }
+
+    public static ItemStack getWaterPotion() {
+        final ItemStack potion = new ItemStack(Material.POTION);
+        PotionMeta potionMeta = (PotionMeta) potion.getItemMeta();
+        assert potionMeta != null;
+        potionMeta.setBasePotionData(new PotionData(PotionType.WATER));
+        potion.setItemMeta(potionMeta);
+        return potion;
+    }
 }

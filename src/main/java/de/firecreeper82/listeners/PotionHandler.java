@@ -136,8 +136,16 @@ public class PotionHandler implements Listener {
         if(correctPotion == null)
             return;
 
-        inv.setItem(49, correctPotion);
+        inv.setItem(10, new ItemStack(Material.AIR));
+        inv.setItem(11, new ItemStack(Material.AIR));
+        inv.setItem(15, new ItemStack(Material.AIR));
+        inv.setItem(16, new ItemStack(Material.AIR));
+        inv.setItem(19, new ItemStack(Material.AIR));
+        inv.setItem(20, new ItemStack(Material.AIR));
+        inv.setItem(24, new ItemStack(Material.AIR));
+        inv.setItem(25, new ItemStack(Material.AIR));
 
+        inv.setItem(49, correctPotion);
 
     }
 
@@ -155,7 +163,7 @@ public class PotionHandler implements Listener {
                 1, 0, 0, 2, 2, 2, 0, 0, 1,
                 1, 3, 2, 2, 2, 2, 2, 3, 1,
                 1, 3, 3, 3, 3, 3, 3, 4, 1,
-                1, 1, 1, 1, 3, 1, 1, 1, 1
+                1, 1, 1, 1, 0, 1, 1, 1, 1
         };
 
         HashMap<Integer, ItemStack> itemMap = new HashMap<>();

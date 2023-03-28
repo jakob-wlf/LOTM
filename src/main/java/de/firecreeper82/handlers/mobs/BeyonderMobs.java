@@ -24,10 +24,9 @@ public class BeyonderMobs implements Listener {
     public BeyonderMobs() {
         customEntities = new ArrayList<>();
 
-        //100
-        spawnEntity("§9Lavos Squid", "squid", 2, BeyonderItems.getLavosSquidBlood(), EntityType.SQUID, 20);
-        //35
-        spawnEntity("§7Hornacis Gray Mountain Goat", "goat", 2, BeyonderItems.getGoatHorn(), EntityType.GOAT, 30);
+        spawnEntity("§9Lavos Squid", "squid", 80, BeyonderItems.getLavosSquidBlood(), EntityType.SQUID, 20);
+        spawnEntity("§7Hornacis Gray Mountain Goat", "goat", 35, BeyonderItems.getGoatHorn(), EntityType.GOAT, 30);
+        spawnEntity("§0Black Patterned Panther", "panther", 45, BeyonderItems.getPanther(), EntityType.OCELOT, 60);
     }
 
     private void spawnEntity(String name, String id, int rarity, ItemStack drop, EntityType entityType, Integer health) {
