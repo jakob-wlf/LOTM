@@ -50,7 +50,7 @@ public class UnshadowedSpear extends Ability {
         float angle = p.getEyeLocation().getYaw()/60;
 
         Location spearLocation = p.getEyeLocation().subtract(Math.cos(angle), 0, Math.sin(angle));
-        Vector dir = loc.toVector().subtract(spearLocation.toVector()).normalize();
+        Vector dir = loc.toVector().subtract(spearLocation.toVector()).normalize().multiply(2);
         Vector direction = dir.clone();
 
         lastLightBlock = spearLocation.getBlock();
@@ -88,9 +88,9 @@ public class UnshadowedSpear extends Ability {
 
                                 entity.setVelocity(entity.getVelocity().add(spearLocation.getDirection().normalize().multiply(1.5)));
                                 if(((LivingEntity) entity).getCategory() == EntityCategory.UNDEAD)
-                                    ((Damageable) entity).damage(33 * multiplier, p);
+                                    ((Damageable) entity).damage(25 * multiplier, p);
                                 else
-                                    ((Damageable) entity).damage(17 * multiplier, p);
+                                    ((Damageable) entity).damage(14 * multiplier, p);
 
                                 Location sphereLoc = ((LivingEntity) entity).getEyeLocation().clone();
 
@@ -161,9 +161,9 @@ public class UnshadowedSpear extends Ability {
                                                 //entity hit
                                                 if (entity.getBoundingBox().overlaps(particleMinVector, particleMaxVector)) {
                                                     if(((LivingEntity) entity).getCategory() == EntityCategory.UNDEAD)
-                                                        ((Damageable) entity).damage(25 * multiplier, p);
-                                                    else
                                                         ((Damageable) entity).damage(18 * multiplier, p);
+                                                    else
+                                                        ((Damageable) entity).damage(8 * multiplier, p);
                                                 }
                                             }
                                         }
@@ -197,7 +197,7 @@ public class UnshadowedSpear extends Ability {
             public void run () {
                 pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
             }
-        }.runTaskLater(Plugin.instance, 20 * 3);
+        }.runTaskLater(Plugin.instance, 15);
     }
 
     public void buildSpear(Location loc, Vector direc) {

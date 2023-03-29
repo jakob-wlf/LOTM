@@ -113,10 +113,11 @@ public class SunItems extends Items {
         addAbility(new FlaringSun(11, pathway, 4, this));
         addAbility(new UnshadowedDomain(12, pathway, 4, this));
         addAbility(new ArmorOfLight(13, pathway, 4, this));
-        addAbility(new WingsOfLight(14, pathway, 3, this));
+        addAbility(new BeamOfLight(14, pathway, 3, this));
         addAbility(new SpearOfLight(15, pathway, 2, this));
         addAbility(new OceanOfLight(16, pathway, 2, this));
-        addAbility(new DayAndNight(17, pathway, 1, this));
+        addAbility(new WingsOfLight(17, pathway, 1, this));
+        addAbility(new DayAndNight(18, pathway, 1, this));
     }
 
     public void addAbility(Ability ability) {

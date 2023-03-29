@@ -10,21 +10,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.util.HashMap;
 import java.util.Objects;
 
-public class WingsOfLight extends Ability {
-
-    private final HashMap<Integer, Double> velocityMultiplier;
+public class WingsOfLight extends Ability{
 
     public WingsOfLight(int identifier, Pathway pathway, int sequence, Items items) {
         super(identifier, pathway, sequence, items);
         items.addToSequenceItems(identifier - 1, sequence);
-
-        velocityMultiplier = new HashMap<>();
-        velocityMultiplier.put(3, .5);
-        velocityMultiplier.put(2, 1d);
-        velocityMultiplier.put(1, 2d);
     }
 
     boolean x = true;
@@ -53,8 +45,11 @@ public class WingsOfLight extends Ability {
         p = pathway.getBeyonder().getPlayer();
         pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
+        p.setVelocity(new Vector(0, 1, 0));
+
         new BukkitRunnable() {
             int counter = 0;
+            int counterVelocity = 0;
             @Override
             public void run() {
                 counter++;
@@ -64,19 +59,26 @@ public class WingsOfLight extends Ability {
                     counter = 0;
                 }
 
+                if(counterVelocity < 4)
+                    counterVelocity++;
+                else if(counterVelocity == 4) {
+                    p.setVelocity(new Vector(0, 0, 0));
+                    counterVelocity = 5;
+                }
+
                 Location loc = p.getLocation();
                 drawParticles(loc);
-                    p.setGliding(true);
-                    p.setVelocity(p.getLocation().getDirection().normalize().multiply(velocityMultiplier.get(pathway.getSequence().getCurrentSequence())));
+                p.setGravity(false);
 
-                if(pathway.getBeyonder().getSpirituality() <= 500 || !pathway.getBeyonder().online || p.getLocation().clone().subtract(0, 1, 0).getBlock().getType().isSolid()) {
-                    p.setGliding(false);
+
+                if(pathway.getBeyonder().getSpirituality() <= 500 || !pathway.getBeyonder().online) {
+                    p.setGravity(true);
                     pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                     cancel();
                 }
 
                 if(!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
-                    p.setGliding(false);
+                    p.setGravity(true);
                     cancel();
                 }
             }
