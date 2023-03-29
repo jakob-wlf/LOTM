@@ -114,7 +114,7 @@ public class WingsOfLight extends Ability{
                     loc.add(v);
                     loc.add(v2);
                     for (int k = 0; k < 3; k++)
-                        Objects.requireNonNull(loc.getWorld()).spawnParticle(Particle.ELECTRIC_SPARK, loc, 5, 0.02, 0.02, 0.02, 0);
+                        Objects.requireNonNull(loc.getWorld()).spawnParticle(Particle.ELECTRIC_SPARK, loc, 1, 0.02, 0.02, 0.02, 0);
                     loc.subtract(v2);
                     loc.subtract(v);
                 }

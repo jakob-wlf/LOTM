@@ -6,7 +6,7 @@ import de.firecreeper82.listeners.DeathListener;
 import de.firecreeper82.listeners.InteractListener;
 import de.firecreeper82.listeners.PotionHandler;
 import de.firecreeper82.listeners.PotionListener;
-import de.firecreeper82.handlers.mobs.BeyonderMobs;
+import de.firecreeper82.handlers.mobs.BeyonderMobsHandler;
 import de.firecreeper82.pathways.Divination;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.Potion;
@@ -75,7 +75,7 @@ public final class Plugin extends JavaPlugin{
         pl.registerEvents(new PotionListener(), this);
         pl.registerEvents(new DeathListener(), this);
         pl.registerEvents(divination, this);
-        pl.registerEvents(new BeyonderMobs(), this);
+        pl.registerEvents(new BeyonderMobsHandler(), this);
         pl.registerEvents(new BlockHandler(), this);
 
         Objects.requireNonNull(this.getCommand("beyonder")).setExecutor(new BeyonderCmd());

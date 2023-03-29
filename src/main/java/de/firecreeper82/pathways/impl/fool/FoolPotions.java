@@ -21,17 +21,14 @@ public class FoolPotions extends Potion {
         putMainIntoHashMap(9, BeyonderItems.getLavosSquidBlood(), BeyonderItems.getStellarAquaCrystal());
         putMainIntoHashMap(8, BeyonderItems.getGoatHorn(), BeyonderItems.getRose());
         putMainIntoHashMap(7, BeyonderItems.getRoot(), BeyonderItems.getPanther());
+        putMainIntoHashMap(6, BeyonderItems.getPituitaryGland(), BeyonderItems.getShadowCharacteristic());
 
         putSupplIntoHashMap(9, new ItemStack(Material.WATER_BUCKET), new ItemStack(Material.MUTTON));
         putSupplIntoHashMap(8, UtilItems.getWaterPotion(), new ItemStack(Material.SUNFLOWER), new ItemStack(Material.GRASS));
         putSupplIntoHashMap(7, UtilItems.getMundanePotion(), new ItemStack(Material.AMETHYST_SHARD), new ItemStack(Material.GLOW_INK_SAC));
+        putSupplIntoHashMap(6, new ItemStack(Material.SOUL_SAND), new ItemStack(Material.SOUL_SAND), new ItemStack(Material.SOUL_SAND));
 
 
-        ItemStack[] recipe6 = {
-                new ItemStack(Material.PHANTOM_MEMBRANE),
-                new ItemStack(Material.SKELETON_SKULL)
-        };
-        mainIngredients.put(6, recipe6);
         ItemStack[] recipe5 = {
                 new ItemStack(Material.GUNPOWDER),
                 new ItemStack(Material.GHAST_TEAR)
