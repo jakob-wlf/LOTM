@@ -28,12 +28,12 @@ public class BeyonderMobsHandler implements Listener {
         spawnEntity("§9Lavos Squid", "squid", 80, BeyonderItems.getLavosSquidBlood(), EntityType.SQUID, 20, null, null);
         spawnEntity("§7Hornacis Gray Mountain Goat", "goat", 35, BeyonderItems.getGoatHorn(), EntityType.GOAT, 30, null, null);
         spawnEntity("§0Black Patterned Panther", "panther", 45, BeyonderItems.getPanther(), EntityType.OCELOT, 60, null, null);
-        spawnEntity("§5Thousand-Faced Hunter", "thousand-faced", 100, BeyonderItems.getPituitaryGland(), EntityType.PILLAGER, 70, beyonderMobs, EntityType.ILLUSIONER);
-        spawnEntity("§0Human-Skinned Shadow", "shadow", 80, BeyonderItems.getShadowCharacteristic(), EntityType.ENDERMAN, 70, beyonderMobs, null);
+        spawnEntity("§5Thousand-Faced Hunter", "thousand-faced", 75, BeyonderItems.getPituitaryGland(), EntityType.PILLAGER, 70, beyonderMobs, EntityType.ILLUSIONER);
+        spawnEntity("§0Human-Skinned Shadow", "shadow", 50, BeyonderItems.getShadowCharacteristic(), EntityType.ENDERMAN, 70, beyonderMobs, null);
         spawnEntity("§7Ancient Wraith", "wraith", 250, BeyonderItems.getWraithDust(), EntityType.SKELETON, 145, beyonderMobs, EntityType.VEX);
         spawnEntity("§5Six Winged Gargoyle", "gargoyle", 300, BeyonderItems.getGargoyleCrystal(), EntityType.ZOMBIE, 250, beyonderMobs, EntityType.IRON_GOLEM);
-        spawnEntity("§5Bizarro Bane", "bane", 1, BeyonderItems.getBizarroEye(), EntityType.WITCH, 200, beyonderMobs, EntityType.ALLAY);
-        spawnEntity("§5Spirit World Plunderer", "plunderer", 1, BeyonderItems.getPlundererBody(), EntityType.ZOMBIFIED_PIGLIN, 250, beyonderMobs, EntityType.VEX);
+        spawnEntity("§5Bizarro Bane", "bane", 60, BeyonderItems.getBizarroEye(), EntityType.WITCH, 200, beyonderMobs, EntityType.ALLAY);
+        spawnEntity("§5Spirit World Plunderer", "plunderer", 100, BeyonderItems.getPlundererBody(), EntityType.ZOMBIFIED_PIGLIN, 250, beyonderMobs, EntityType.VEX);
 
     }
 
