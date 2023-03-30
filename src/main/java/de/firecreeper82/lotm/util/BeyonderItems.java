@@ -2,6 +2,8 @@ package de.firecreeper82.lotm.util;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -18,6 +20,7 @@ import java.util.UUID;
 public class BeyonderItems {
 
     private static final List<ItemStack> list = new ArrayList<>();
+    private static final UUID characteristicUUID = UUID.fromString("4fba5f2f-cc36-4dc2-9b77-6064bb10788d");
 
     public static List<ItemStack> returnAllItems() {
         return list;
@@ -114,13 +117,69 @@ public class BeyonderItems {
         assert itemMeta != null;
         itemMeta.setDisplayName("§8Characteristic of a Human-Skinned Shadow");
 
-        PlayerProfile profile = Bukkit.createPlayerProfile(UUID.randomUUID());
+        PlayerProfile profile = Bukkit.createPlayerProfile(characteristicUUID);
         PlayerTextures textures = profile.getTextures();
 
         try { textures.setSkin(new URL("http://textures.minecraft.net/texture/3ccc8a690c89ebf01adf0440c0a3d540e2db89cfc97ad3b8e01810bf3289f67a")); }
         catch (MalformedURLException ignored) {}
 
         itemMeta.setOwnerProfile(profile);
+
+        item.setItemMeta(itemMeta);
+
+        list.add(item);
+
+        return item;
+    }
+
+    public static ItemStack getWraithDust() {
+        final ItemStack item = new ItemStack(Material.GUNPOWDER);
+        ItemMeta itemMeta = item.getItemMeta();
+        assert itemMeta != null;
+        itemMeta.setDisplayName("§7Dust of Ancient Wraiths");
+
+        item.setItemMeta(itemMeta);
+
+        list.add(item);
+
+        return item;
+    }
+
+    public static ItemStack getGargoyleCrystal() {
+        final ItemStack item = new ItemStack(Material.CONDUIT);
+        ItemMeta itemMeta = item.getItemMeta();
+        assert itemMeta != null;
+        itemMeta.setDisplayName("§5Core Crystal of Six Winged Gargoyle");
+
+        item.setItemMeta(itemMeta);
+
+        list.add(item);
+
+        return item;
+    }
+
+    public static ItemStack getBizarroEye() {
+        final ItemStack item = new ItemStack(Material.FERMENTED_SPIDER_EYE);
+        ItemMeta itemMeta = item.getItemMeta();
+        assert itemMeta != null;
+        itemMeta.setDisplayName("§5Eye of a Bizarro Bane");
+        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        itemMeta.addEnchant(Enchantment.CHANNELING, 1, true);
+
+        item.setItemMeta(itemMeta);
+
+        list.add(item);
+
+        return item;
+    }
+
+    public static ItemStack getPlundererBody() {
+        final ItemStack item = new ItemStack(Material.DIAMOND_CHESTPLATE);
+        ItemMeta itemMeta = item.getItemMeta();
+        assert itemMeta != null;
+        itemMeta.setDisplayName("§5Soul Body of a Spirit World Plunderer");
+        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES);
+        itemMeta.addEnchant(Enchantment.CHANNELING, 1, true);
 
         item.setItemMeta(itemMeta);
 

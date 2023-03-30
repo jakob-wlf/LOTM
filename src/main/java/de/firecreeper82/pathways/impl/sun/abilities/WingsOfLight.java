@@ -1,6 +1,7 @@
 package de.firecreeper82.pathways.impl.sun.abilities;
 
 import de.firecreeper82.lotm.Plugin;
+import de.firecreeper82.lotm.util.VectorUtils;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
@@ -107,8 +108,8 @@ public class WingsOfLight extends Ability{
                     target.setY(y);
 
                     Vector v = target.toVector().subtract(loc.toVector());
-                    Vector v2 = getBackVector(loc);
-                    v = rotateAroundAxisY(v, fire);
+                    Vector v2 = VectorUtils.getBackVector(loc);
+                    v = VectorUtils.rotateAroundAxisY(v, fire);
                     v2.setY(0).multiply(-0.5);
 
                     loc.add(v);
@@ -123,20 +124,5 @@ public class WingsOfLight extends Ability{
             y -= space;
             x = defX;
         }
-    }
-
-    public static Vector rotateAroundAxisY(Vector v, double fire) {
-        double x, z, cos, sin;
-        cos = Math.cos(fire);
-        sin = Math.sin(fire);
-        x = v.getX() * cos + v.getZ() * sin;
-        z = v.getX() * -sin + v.getZ() * cos;
-        return v.setX(x).setZ(z);
-    }
-
-    public static Vector getBackVector(Location loc) {
-        final float newZ = (float) (loc.getZ() + (1 * Math.sin(Math.toRadians(loc.getYaw() + 90))));
-        final float newX = (float) (loc.getX() + (1 * Math.cos(Math.toRadians(loc.getYaw() + 90))));
-        return new Vector(newX - loc.getX(), 0, newZ - loc.getZ());
     }
 }

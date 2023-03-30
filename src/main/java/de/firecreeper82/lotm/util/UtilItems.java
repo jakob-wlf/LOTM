@@ -336,4 +336,13 @@ public class UtilItems {
         potion.setItemMeta(potionMeta);
         return potion;
     }
+
+    public static ItemStack getRegenPotion() {
+        final ItemStack potion = new ItemStack(Material.POTION);
+        PotionMeta potionMeta = (PotionMeta) potion.getItemMeta();
+        assert potionMeta != null;
+        potionMeta.setBasePotionData(new PotionData(PotionType.REGEN));
+        potion.setItemMeta(potionMeta);
+        return potion;
+    }
 }
