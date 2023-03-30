@@ -5,15 +5,12 @@ import de.firecreeper82.lotm.util.VectorUtils;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Mob;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-import java.util.HashMap;
-import java.util.Objects;
+import java.util.*;
 
 public class BeyonderMobs {
 
@@ -24,11 +21,14 @@ public class BeyonderMobs {
         new BukkitRunnable() {
             @Override
             public void run() {
-                for(String id : mobs.keySet()) {
-                    switch (id) {
-                        case "wraith" -> wraith(mobs.get(id));
-                        case "gargoyle" -> gargoyle(mobs.get(id));
+                for(Map.Entry<String, Entity> set : mobs.entrySet()) {
+                    switch (set.getKey()) {
+                        case "wraith" -> wraith(set.getValue());
+                        case "gargoyle" -> gargoyle(set.getValue());
+                        case "bane" -> bane(set.getValue());
                     }
+
+                    mobs.remove(set.getKey(), set.getValue());
                 }
             }
         }.runTaskTimer(Plugin.instance, 0, 40);
@@ -39,7 +39,79 @@ public class BeyonderMobs {
     }
 
     private void wraith(Entity entity) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if(!entity.isValid()) {
+                    cancel();
+                    return;
+                }
 
+                Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(new Random().nextInt(256), new Random().nextInt(256), new Random().nextInt(256)), .6f);
+                entity.getWorld().spawnParticle(Particle.REDSTONE, entity.getLocation(), 50, .5, .5, .5, dust);
+            }
+        }.runTaskTimer(Plugin.instance, 0, 0);
+    }
+
+    private void plunderer(Vex vex) {
+
+    }
+
+    private void bane(Entity entity) {
+        Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(200, 60, 0), 2f);
+        Random random = new Random();
+
+        new BukkitRunnable() {
+            Player target;
+            @Override
+            public void run() {
+                if(!entity.isValid()) {
+                    cancel();
+                    return;
+                }
+
+                entity.getWorld().spawnParticle(Particle.REDSTONE, entity.getLocation(), 60, 1, 2, 1, dust);
+
+                if(target == null && entity.getNearbyEntities(40, 40, 40).isEmpty())
+                    return;
+
+                if(target == null) {
+                    for(Entity e : entity.getNearbyEntities(40, 40, 40)) {
+                        if(!(e instanceof Player))
+                            return;
+                        target = (Player) e;
+                    }
+                }
+
+                if(target == null)
+                    return;
+
+                ((Allay) entity).setTarget(target);
+
+                if(random.nextInt(15) == 0)  {
+                    Location loc = entity.getLocation().clone();
+                    Vector vector = (target.getLocation().toVector().subtract(loc.toVector())).normalize();
+                    new BukkitRunnable() {
+                        int counter = 0;
+                        @Override
+                        public void run() {
+                            entity.getWorld().spawnParticle(Particle.REDSTONE, loc, 45, .5, .5, .5, dust);
+                            loc.add(vector);
+
+                            for(Entity e : entity.getWorld().getNearbyEntities(loc, 1, 1, 1)) {
+                                if(e != target)
+                                    continue;
+                                target.damage(12, entity);
+                            }
+
+                            counter++;
+                            if(counter > 50)
+                                cancel();
+                        }
+                    }.runTaskTimer(Plugin.instance, 0, 1);
+                }
+            }
+        }.runTaskTimer(Plugin.instance, 0, 2);
     }
 
     private void gargoyle(Entity entity) {
@@ -68,9 +140,9 @@ public class BeyonderMobs {
                     return;
                 }
 
-                drawWings(entity.getLocation());
+                drawWings(entity.getLocation().add(0, .5, 0));
             }
-        }.runTaskTimer(Plugin.instance, 0, 0);
+        }.runTaskTimer(Plugin.instance, 0, 2);
     }
 
 
@@ -120,7 +192,7 @@ public class BeyonderMobs {
 
                     Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(50, 50, 50), .6f);
                     for (int k = 0; k < 3; k++)
-                        Objects.requireNonNull(loc.getWorld()).spawnParticle(Particle.REDSTONE, loc, 1, 0.02, 0.02, 0.02, dust);
+                        Objects.requireNonNull(loc.getWorld()).spawnParticle(Particle.REDSTONE, loc, 3, 0.02, 0.02, 0.02, dust);
                     loc.subtract(v2);
                     loc.subtract(v);
                 }

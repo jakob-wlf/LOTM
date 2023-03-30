@@ -91,7 +91,7 @@ public class BeamOfLight extends Ability {
                         tempLoc.add(vec);
 
                         world.spawnParticle(Particle.END_ROD, tempLoc, 1, .05, .05, .05, 0);
-                        if(tempLoc.getBlock().getType() != Material.BEDROCK) {
+                        if(tempLoc.getBlock().getType().getHardness() >= 0) {
                             if(random.nextInt(3) == 0)
                                 tempLoc.getBlock().setType(Material.FIRE);
                             else
