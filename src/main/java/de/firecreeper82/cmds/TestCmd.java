@@ -1,6 +1,7 @@
 package de.firecreeper82.cmds;
 
 import de.firecreeper82.lotm.Plugin;
+import de.firecreeper82.lotm.util.Util;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -20,6 +21,9 @@ public class TestCmd implements CommandExecutor {
         if(args[0].equalsIgnoreCase("cauldron"))
             cauldronCmd(p);
 
+        if(args[0].equalsIgnoreCase("characteristic")) {
+            p.getInventory().addItem(Plugin.instance.getCharacteristic().getCharacteristic(Util.parseInt(args[2]), args[1], "§" + args[3]));
+        }
 
 
         return true;

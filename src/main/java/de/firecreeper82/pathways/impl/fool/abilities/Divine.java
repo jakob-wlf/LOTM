@@ -17,7 +17,7 @@ public class Divine extends Ability {
 
     @Override
     public void useAbility() {
-        Plugin.instance.divination.divine(pathway.getBeyonder());
+        Plugin.instance.getDivination().divine(pathway.getBeyonder());
     }
 
     @Override

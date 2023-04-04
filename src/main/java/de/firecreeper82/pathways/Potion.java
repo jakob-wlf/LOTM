@@ -11,6 +11,7 @@ import java.util.HashMap;
 
 public abstract class Potion {
     protected String name;
+    protected String stringColor;
 
     protected HashMap<Integer, ItemStack[]> mainIngredients;
     protected HashMap<Integer, ItemStack[]> supplementaryIngredients;
@@ -53,5 +54,9 @@ public abstract class Potion {
 
     public String getName() {
         return name;
+    }
+
+    public String getStringColor() {
+        return stringColor;
     }
 }

@@ -2,6 +2,8 @@ package de.firecreeper82.handlers.mobs;
 
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.BeyonderItems;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -41,6 +43,29 @@ public class BeyonderMobsHandler implements Listener {
 
     private void spawnEntity(String name, String id, int rarity, ItemStack drop, EntityType entityType, Integer health, BeyonderMobs beyonderMobs, EntityType spawnType) {
         customEntities.add(new CustomEntity(name, id, rarity, drop, entityType, health, beyonderMobs, spawnType));
+    }
+
+    public boolean spawnEntity(String id, Location location, World world) {
+        for(CustomEntity customEntity : customEntities) {
+            if(!customEntity.id().equalsIgnoreCase(id))
+                continue;
+
+            Entity entity = customEntity.spawnType() == null ? world.spawnEntity(location, customEntity.entityType()) : world.spawnEntity(location, customEntity.spawnType());
+            entity.setCustomName(customEntity.name());
+
+            if(entity instanceof LivingEntity livingEntity && customEntity.maxHealth() != null) {
+                Objects.requireNonNull(livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(customEntity.maxHealth());
+                livingEntity.setHealth(customEntity.maxHealth());
+            }
+
+            entity.setMetadata("customEntityId", new FixedMetadataValue(Plugin.instance, customEntity.id()));
+
+            if(customEntity.beyonderMobs() != null) {
+                customEntity.beyonderMobs().addMob(entity, customEntity.id());
+            }
+            return true;
+        }
+        return false;
     }
 
     @EventHandler

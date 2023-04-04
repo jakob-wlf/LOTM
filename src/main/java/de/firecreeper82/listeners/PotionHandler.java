@@ -93,11 +93,13 @@ public class PotionHandler implements Listener {
         ArrayList<ItemStack> mainIngredients = new ArrayList<>();
         ArrayList<ItemStack> supplementaryIngredients = new ArrayList<>();
 
+        //Add the ingredients in the spot for the main ingredients to an ArrayList
         addToIngredients(inv, mainIngredients, 10);
         addToIngredients(inv, mainIngredients, 11);
         addToIngredients(inv, mainIngredients, 19);
         addToIngredients(inv, mainIngredients, 20);
 
+        //Add the ingredients in the spot for the supplementary ingredients to an ArrayList
         addToIngredients(inv, supplementaryIngredients, 15);
         addToIngredients(inv, supplementaryIngredients, 16);
         addToIngredients(inv, supplementaryIngredients, 24);
@@ -111,13 +113,21 @@ public class PotionHandler implements Listener {
                 if(potion.getSupplIngredients(i) == null || potion.getMainIngredients(i) == null)
                     continue;
 
-                if(mainIngredients.size() != potion.getMainIngredients(i).length || supplementaryIngredients.size() != potion.getSupplIngredients(i).length)
+                if(supplementaryIngredients.size() != potion.getSupplIngredients(i).length)
                     continue;
 
-                boolean isCorrect = true;
+                boolean isCorrect = mainIngredients.size() == potion.getMainIngredients(i).length;
                 for(int j = 0; j < mainIngredients.size(); j++) {
+                    if(!isCorrect)
+                        break;
                     if(!mainIngredients.get(j).isSimilar(potion.getMainIngredients(i)[j]))
                         isCorrect = false;
+                }
+
+                if(!isCorrect) {
+                    if(!mainIngredients.isEmpty() && mainIngredients.get(0).isSimilar(Plugin.instance.getCharacteristic().getCharacteristic(i, potion.getName(), potion.getStringColor()))) {
+                        isCorrect = true;
+                    }
                 }
 
                 for(int j = 0; j < supplementaryIngredients.size(); j++) {

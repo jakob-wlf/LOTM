@@ -29,4 +29,7 @@ commands:
   test:
     description: Used for testing various things
     usage: /<cmd>
+  spawn:
+    description: Spawn a custom entity
+    usage: /<cmd>
 

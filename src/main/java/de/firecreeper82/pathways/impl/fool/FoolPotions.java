@@ -1,5 +1,6 @@
 package de.firecreeper82.pathways.impl.fool;
 
+import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.BeyonderItems;
 import de.firecreeper82.lotm.util.UtilItems;
 import de.firecreeper82.pathways.Pathway;
@@ -15,6 +16,7 @@ public class FoolPotions extends Potion {
 
     public FoolPotions() {
         name = "fool";
+        stringColor = "§5";
         mainIngredients = new HashMap<>();
         supplementaryIngredients = new HashMap<>();
 
@@ -25,6 +27,8 @@ public class FoolPotions extends Potion {
         putMainIntoHashMap(5, BeyonderItems.getWraithDust(), BeyonderItems.getGargoyleCrystal());
         putMainIntoHashMap(4, BeyonderItems.getBizarroEye(), BeyonderItems.getPlundererBody());
         putMainIntoHashMap(3, BeyonderItems.getWolfEye(), BeyonderItems.getWolfHeart());
+        putMainIntoHashMap(2, Plugin.instance.getCharacteristic().getCharacteristic(2, "fool", stringColor));
+        putMainIntoHashMap(1, Plugin.instance.getCharacteristic().getCharacteristic(1, "fool", stringColor));
 
         putSupplIntoHashMap(9, new ItemStack(Material.WATER_BUCKET), new ItemStack(Material.MUTTON));
         putSupplIntoHashMap(8, UtilItems.getWaterPotion(), new ItemStack(Material.SUNFLOWER), new ItemStack(Material.GRASS));
@@ -33,18 +37,8 @@ public class FoolPotions extends Potion {
         putSupplIntoHashMap(5, UtilItems.getRegenPotion(), new ItemStack(Material.DARK_OAK_LOG), new ItemStack(Material.FERMENTED_SPIDER_EYE));
         putSupplIntoHashMap(4, new ItemStack(Material.ENDER_EYE), new ItemStack(Material.BIRCH_LOG), new ItemStack(Material.TURTLE_HELMET));
         putSupplIntoHashMap(3, new ItemStack(Material.NETHER_STAR), new ItemStack(Material.ANCIENT_DEBRIS), new ItemStack(Material.BOOKSHELF));
-
-
-        ItemStack[] recipe2 = {
-                new ItemStack(Material.BLAZE_ROD),
-                new ItemStack(Material.GOLD_NUGGET)
-        };
-        mainIngredients.put(2, recipe2);
-        ItemStack[] recipe1 = {
-                new ItemStack(Material.REDSTONE_TORCH),
-                new ItemStack(Material.REDSTONE_ORE)
-        };
-        mainIngredients.put(1, recipe1);
+        putSupplIntoHashMap(2, new ItemStack(Material.NETHER_STAR), new ItemStack(Material.DRAGON_BREATH), new ItemStack(Material.WITHER_ROSE));
+        putSupplIntoHashMap(1);
     }
 
     public void putMainIntoHashMap(int sequence, ItemStack... ingredients) {

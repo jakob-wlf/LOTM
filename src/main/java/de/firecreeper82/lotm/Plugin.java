@@ -32,7 +32,8 @@ public final class Plugin extends JavaPlugin{
     public static Plugin instance;
     public static String prefix;
 
-    public static Characteristic characteristic;
+    private Characteristic characteristic;
+    private BeyonderMobsHandler beyonderMobsHandler;
 
     public static HashMap<UUID, Beyonder> beyonders;
 
@@ -46,8 +47,8 @@ public final class Plugin extends JavaPlugin{
     private File configSaveFileFoh;
     private FileConfiguration configSaveFoh;
 
-    public ArrayList<Potion> potions;
-    public Divination divination;
+    private ArrayList<Potion> potions;
+    private Divination divination;
 
     @Override
     public void onEnable() {
@@ -74,6 +75,7 @@ public final class Plugin extends JavaPlugin{
     public void register() {
         ItemsCmd itemsCmd = new ItemsCmd();
         divination = new Divination();
+        beyonderMobsHandler = new BeyonderMobsHandler();
 
         PluginManager pl = this.getServer().getPluginManager();
         pl.registerEvents(new InteractListener(), this);
@@ -82,7 +84,7 @@ public final class Plugin extends JavaPlugin{
         pl.registerEvents(new PotionListener(), this);
         pl.registerEvents(new DeathListener(), this);
         pl.registerEvents(divination, this);
-        pl.registerEvents(new BeyonderMobsHandler(), this);
+        pl.registerEvents(beyonderMobsHandler, this);
         pl.registerEvents(new BlockHandler(), this);
 
         Objects.requireNonNull(this.getCommand("beyonder")).setExecutor(new BeyonderCmd());
@@ -93,6 +95,7 @@ public final class Plugin extends JavaPlugin{
         Objects.requireNonNull(this.getCommand("items")).setExecutor(itemsCmd);
         Objects.requireNonNull(this.getCommand("potions")).setExecutor(new PotionsCmd());
         Objects.requireNonNull(this.getCommand("test")).setExecutor(new TestCmd());
+        Objects.requireNonNull(this.getCommand("spawn")).setExecutor(new SpawnCmd());
     }
 
     //initialize the Potion Classes
@@ -277,5 +280,17 @@ public final class Plugin extends JavaPlugin{
 
     public ArrayList<Potion> getPotions() {
         return potions;
+    }
+
+    public Divination getDivination() {
+        return divination;
+    }
+
+    public Characteristic getCharacteristic() {
+        return characteristic;
+    }
+
+    public BeyonderMobsHandler getBeyonderMobsHandler() {
+        return beyonderMobsHandler;
     }
 }

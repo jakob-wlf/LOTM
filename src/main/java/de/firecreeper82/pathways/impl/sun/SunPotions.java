@@ -13,6 +13,7 @@ public class SunPotions extends Potion {
 
     public SunPotions() {
         name = "sun";
+        stringColor = "§6";
         mainIngredients = new HashMap<>();
         supplementaryIngredients = new HashMap<>();
 
