@@ -1,5 +1,6 @@
 package de.firecreeper82.pathways.impl.sun;
 
+import de.firecreeper82.lotm.util.BeyonderItems;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.Potion;
 import org.bukkit.Color;
@@ -17,21 +18,15 @@ public class SunPotions extends Potion {
         mainIngredients = new HashMap<>();
         supplementaryIngredients = new HashMap<>();
 
-        ItemStack[] recipe9 = {
-                new ItemStack(Material.AMETHYST_SHARD),
-                new ItemStack(Material.SUNFLOWER)
-        };
-        mainIngredients.put(9, recipe9);
-        ItemStack[] recipe8 = {
-                new ItemStack(Material.NETHER_GOLD_ORE),
-                new ItemStack(Material.MAGMA_BLOCK)
-        };
-        mainIngredients.put(8, recipe8);
-        ItemStack[] recipe7 = {
-                new ItemStack(Material.GOLD_INGOT),
-                new ItemStack(Material.RAW_GOLD)
-        };
-        mainIngredients.put(7, recipe7);
+        putMainIntoHashMap(9, BeyonderItems.getSunflower(), BeyonderItems.getSirenRock());
+        putMainIntoHashMap(8, BeyonderItems.getMagmaHeart());
+        putMainIntoHashMap(7, BeyonderItems.getRoosterComb(), BeyonderItems.getSpiritTreeFruit());
+
+        putSupplIntoHashMap(9, new ItemStack(Material.GRASS), new ItemStack(Material.SUNFLOWER));
+        putSupplIntoHashMap(8, new ItemStack(Material.SUNFLOWER), new ItemStack(Material.SWEET_BERRIES));
+        putSupplIntoHashMap(7, new ItemStack(Material.OBSIDIAN), new ItemStack(Material.LAVA_BUCKET), new ItemStack(Material.FEATHER));
+
+
         ItemStack[] recipe6 = {
                 new ItemStack(Material.COPPER_INGOT),
                 new ItemStack(Material.RAW_COPPER)

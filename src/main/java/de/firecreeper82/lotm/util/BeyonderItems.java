@@ -74,6 +74,90 @@ public class BeyonderItems {
         return item;
     }
 
+    public static ItemStack getSunflower() {
+        final ItemStack item = new ItemStack(Material.SUNFLOWER);
+        ItemMeta itemMeta = item.getItemMeta();
+        assert itemMeta != null;
+        itemMeta.setDisplayName("§6Crystal Sunflower");
+        item.setItemMeta(itemMeta);
+
+        list.add(item);
+
+        return item;
+    }
+
+    public static ItemStack getSirenRock() {
+        final ItemStack item = new ItemStack(Material.PRISMARINE_SHARD);
+        ItemMeta itemMeta = item.getItemMeta();
+        assert itemMeta != null;
+        itemMeta.setDisplayName("§9Piece of Siren Rock");
+        item.setItemMeta(itemMeta);
+
+        list.add(item);
+
+        return item;
+    }
+
+    public static ItemStack getMagmaHeart() {
+        final ItemStack item = new ItemStack(Material.MAGMA_CREAM);
+        ItemMeta itemMeta = item.getItemMeta();
+        assert itemMeta != null;
+        itemMeta.setDisplayName("§4Heart of a Magma Titan");
+        item.setItemMeta(itemMeta);
+
+        list.add(item);
+
+        return item;
+    }
+
+    public static ItemStack getRoosterComb() {
+        final ItemStack item = new ItemStack(Material.FEATHER);
+        ItemMeta itemMeta = item.getItemMeta();
+        assert itemMeta != null;
+        itemMeta.setDisplayName("§6Comb of a Dawn Rooster");
+        item.setItemMeta(itemMeta);
+
+        list.add(item);
+
+        return item;
+    }
+
+    public static ItemStack getSpiritTreeFruit() {
+        final ItemStack item = new ItemStack(Material.GLOW_BERRIES);
+        ItemMeta itemMeta = item.getItemMeta();
+        assert itemMeta != null;
+        itemMeta.setDisplayName("§6Fruit of a Radiance Spirit Pact Tree");
+        item.setItemMeta(itemMeta);
+
+        list.add(item);
+
+        return item;
+    }
+
+    public static ItemStack getBirdFeather() {
+        final ItemStack item = new ItemStack(Material.FEATHER);
+        ItemMeta itemMeta = item.getItemMeta();
+        assert itemMeta != null;
+        itemMeta.setDisplayName("§6Feather of Spirit Pact Bird");
+        item.setItemMeta(itemMeta);
+
+        list.add(item);
+
+        return item;
+    }
+
+    public static ItemStack getCrystallizedRoot() {
+        final ItemStack item = new ItemStack(Material.HANGING_ROOTS);
+        ItemMeta itemMeta = item.getItemMeta();
+        assert itemMeta != null;
+        itemMeta.setDisplayName("§6Crystallized Root of Tree of Elders");
+        item.setItemMeta(itemMeta);
+
+        list.add(item);
+
+        return item;
+    }
+
     public static ItemStack getRoot() {
         final ItemStack item = new ItemStack(Material.HANGING_ROOTS);
         ItemMeta itemMeta = item.getItemMeta();

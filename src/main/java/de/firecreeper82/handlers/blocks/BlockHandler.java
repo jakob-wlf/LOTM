@@ -20,6 +20,10 @@ public class BlockHandler implements Listener {
         initBlock(Material.PRISMARINE, BeyonderItems.getStellarAquaCrystal(), 40, "prismarine");
         initBlock(Material.ROSE_BUSH, BeyonderItems.getRose(), 80, "rose");
         initBlock(Material.HANGING_ROOTS, BeyonderItems.getRoot(), 120, "root");
+        initBlock(Material.SUNFLOWER, BeyonderItems.getSunflower(), 60, "sunflower");
+        initBlock(Material.SEA_LANTERN, BeyonderItems.getSirenRock(), 25, "siren-rock");
+        initBlock(Material.FLOWERING_AZALEA_LEAVES, BeyonderItems.getSpiritTreeFruit(), 40, "tree-fruit");
+        initBlock(Material.MANGROVE_LOG, BeyonderItems.getCrystallizedRoot(), 70, "crystallized-root");
     }
 
     private void initBlock(Material material, ItemStack drop, int rarity, String id) {

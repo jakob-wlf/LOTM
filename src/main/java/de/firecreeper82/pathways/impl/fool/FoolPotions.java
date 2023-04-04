@@ -41,15 +41,6 @@ public class FoolPotions extends Potion {
         putSupplIntoHashMap(1);
     }
 
-    public void putMainIntoHashMap(int sequence, ItemStack... ingredients) {
-        mainIngredients.put(sequence, ingredients);
-    }
-
-    public void putSupplIntoHashMap(int sequence, ItemStack... ingredients) {
-        supplementaryIngredients.put(sequence, ingredients);
-    }
-
-
     @Override
     public ItemStack returnPotionForSequence(int sequence) {
         return Potion.createPotion(

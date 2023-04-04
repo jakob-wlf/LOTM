@@ -59,4 +59,13 @@ public abstract class Potion {
     public String getStringColor() {
         return stringColor;
     }
+
+    public void putMainIntoHashMap(int sequence, ItemStack... ingredients) {
+        mainIngredients.put(sequence, ingredients);
+    }
+
+    public void putSupplIntoHashMap(int sequence, ItemStack... ingredients) {
+        supplementaryIngredients.put(sequence, ingredients);
+    }
+
 }
