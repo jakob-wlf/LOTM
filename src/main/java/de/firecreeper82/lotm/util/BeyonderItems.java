@@ -187,4 +187,19 @@ public class BeyonderItems {
 
         return item;
     }
+    public static ItemStack getWolfEye() {
+        final ItemStack item = new ItemStack(Material.SPIDER_EYE);
+        ItemMeta itemMeta = item.getItemMeta();
+        assert itemMeta != null;
+        itemMeta.setDisplayName("§5Eye of a Hound of Fulgrim");
+        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES);
+        itemMeta.addEnchant(Enchantment.CHANNELING, 1, true);
+
+        item.setItemMeta(itemMeta);
+
+        list.add(item);
+
+        return item;
+    }
+
 }

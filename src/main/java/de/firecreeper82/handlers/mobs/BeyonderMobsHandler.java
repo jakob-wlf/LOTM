@@ -33,7 +33,8 @@ public class BeyonderMobsHandler implements Listener {
         spawnEntity("§7Ancient Wraith", "wraith", 250, BeyonderItems.getWraithDust(), EntityType.SKELETON, 145, beyonderMobs, EntityType.VEX);
         spawnEntity("§5Six Winged Gargoyle", "gargoyle", 300, BeyonderItems.getGargoyleCrystal(), EntityType.ZOMBIE, 250, beyonderMobs, EntityType.IRON_GOLEM);
         spawnEntity("§5Bizarro Bane", "bane", 60, BeyonderItems.getBizarroEye(), EntityType.WITCH, 200, beyonderMobs, EntityType.ALLAY);
-        spawnEntity("§5Spirit World Plunderer", "plunderer", 100, BeyonderItems.getPlundererBody(), EntityType.ZOMBIFIED_PIGLIN, 250, beyonderMobs, EntityType.VEX);
+        spawnEntity("§5Spirit World Plunderer", "plunderer", 450, BeyonderItems.getPlundererBody(), EntityType.ZOMBIFIED_PIGLIN, 250, beyonderMobs, EntityType.VEX);
+        spawnEntity("§5Hound of Fulgrim", "wolf", 125, BeyonderItems.getWolfEye(), EntityType.WOLF, 750, beyonderMobs, null);
 
     }
 

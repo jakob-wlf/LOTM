@@ -44,46 +44,89 @@ public class WingsOfLight extends Ability{
     @Override
     public void useAbility() {
         p = pathway.getBeyonder().getPlayer();
-        pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
-        p.setVelocity(new Vector(0, 1, 0));
+        if(pathway.getSequence().getCurrentSequence() > 1) {
+            p.setVelocity(new Vector(0, 1, 0));
+            pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
+            new BukkitRunnable() {
+                int counter = 0;
+                int counterVelocity = 0;
 
+                @Override
+                public void run() {
+                    counter++;
+
+                    if (counter >= 20) {
+                        pathway.getBeyonder().setSpirituality(pathway.getBeyonder().getSpirituality() - 500);
+                        counter = 0;
+                    }
+
+                    if (counterVelocity < 4)
+                        counterVelocity++;
+                    else if (counterVelocity == 4) {
+                        p.setVelocity(new Vector(0, 0, 0));
+                        counterVelocity = 5;
+                    }
+
+                    Location loc = p.getLocation();
+                    drawParticles(loc);
+                    p.setGravity(false);
+
+
+                    if (pathway.getBeyonder().getSpirituality() <= 500 || !pathway.getBeyonder().online) {
+                        p.setGravity(true);
+                        pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
+                        cancel();
+                    }
+
+                    if (!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
+                        p.setGravity(true);
+                        cancel();
+                    }
+                }
+            }.runTaskTimer(Plugin.instance, 0, 1);
+            return;
+        }
+
+        p.setFallDistance(0);
+        p.setVelocity(p.getEyeLocation().getDirection().normalize().multiply(1.75));
         new BukkitRunnable() {
             int counter = 0;
-            int counterVelocity = 0;
             @Override
             public void run() {
+                if(counter > 20) {
+                    cancel();
+                    return;
+                }
+
                 counter++;
-
-                if(counter >= 20) {
-                    pathway.getBeyonder().setSpirituality(pathway.getBeyonder().getSpirituality() - 500);
-                    counter = 0;
-                }
-
-                if(counterVelocity < 4)
-                    counterVelocity++;
-                else if(counterVelocity == 4) {
-                    p.setVelocity(new Vector(0, 0, 0));
-                    counterVelocity = 5;
-                }
-
-                Location loc = p.getLocation();
-                drawParticles(loc);
-                p.setGravity(false);
-
-
-                if(pathway.getBeyonder().getSpirituality() <= 500 || !pathway.getBeyonder().online) {
-                    p.setGravity(true);
-                    pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
-                    cancel();
-                }
-
-                if(!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
-                    p.setGravity(true);
-                    cancel();
-                }
+                drawParticles(p.getLocation());
             }
-        }.runTaskTimer(Plugin.instance, 0, 1);
+        }.runTaskTimer(Plugin.instance, 0, 0);
+    }
+
+    @Override
+    public void leftClick() {
+        p = pathway.getBeyonder().getPlayer();
+        if(pathway.getSequence().getCurrentSequence() > 1)
+            return;
+
+        p.setVelocity(new Vector(0, 0, 0));
+        p.setFallDistance(0);
+        p.setGravity(!p.hasGravity());
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if(p.hasGravity()) {
+                    cancel();
+                    return;
+                }
+
+                drawParticles(p.getLocation());
+                p.setVelocity(new Vector(0, 0, 0));
+            }
+        }.runTaskTimer(Plugin.instance, 0, 0);
     }
 
     @Override

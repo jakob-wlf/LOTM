@@ -116,7 +116,7 @@ public class SunItems extends Items {
         addAbility(new BeamOfLight(14, pathway, 3, this));
         addAbility(new SpearOfLight(15, pathway, 2, this));
         addAbility(new OceanOfLight(16, pathway, 2, this));
-        addAbility(new WingsOfLight(17, pathway, 1, this));
+        addAbility(new WingsOfLight(17, pathway, 2, this));
         addAbility(new DayAndNight(18, pathway, 1, this));
     }
 

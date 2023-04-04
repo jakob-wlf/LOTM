@@ -3,9 +3,13 @@ package de.firecreeper82.handlers.mobs;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.VectorUtils;
 import org.bukkit.Color;
+import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -26,12 +30,54 @@ public class BeyonderMobs {
                         case "wraith" -> wraith(set.getValue());
                         case "gargoyle" -> gargoyle(set.getValue());
                         case "bane" -> bane(set.getValue());
+                        case "plunderer" -> plunderer((Vex) set.getValue());
+                        case "wolf" -> wolf((Wolf) set.getValue());
                     }
 
                     mobs.remove(set.getKey(), set.getValue());
                 }
             }
         }.runTaskTimer(Plugin.instance, 0, 40);
+    }
+
+    private void wolf(Wolf wolf) {
+        Particle.DustOptions dust = new Particle.DustOptions(Color.fromRGB(216, 216, 216), 50f);
+
+        new BukkitRunnable() {
+            Player target;
+            @Override
+            public void run() {
+                if(!wolf.isValid()) {
+                    cancel();
+                }
+
+                wolf.setCollarColor(DyeColor.RED);
+                wolf.setTamed(false);
+                wolf.setAngry(true);
+                wolf.setInterested(false);
+
+                Objects.requireNonNull(wolf.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)).setBaseValue(Objects.requireNonNull(wolf.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)).getBaseValue() * 5);
+
+                wolf.getWorld().spawnParticle(Particle.REDSTONE, wolf.getLocation(), 10, 1, 1, 1, dust);
+
+                if(target == null && wolf.getNearbyEntities(40, 40, 40).isEmpty())
+                    return;
+
+                if(target == null) {
+                    for(Entity e : wolf.getNearbyEntities(40, 40, 40)) {
+                        if(!(e instanceof Player))
+                            continue;
+                        target = (Player) e;
+                    }
+                }
+
+                if(target == null)
+                    return;
+
+                wolf.setTarget(target);
+
+            }
+        }.runTaskTimer(Plugin.instance, 0, 0);
     }
 
     public void addMob(@NonNull Entity mob, @NonNull String id) {
@@ -54,7 +100,112 @@ public class BeyonderMobs {
     }
 
     private void plunderer(Vex vex) {
+        Random random = new Random();
+        Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(154, 0, 194), 1.25f);
 
+        new BukkitRunnable() {
+            Player target;
+            @Override
+            public void run() {
+                if(!vex.isValid()) {
+                    cancel();
+                }
+
+                if(target == null && vex.getNearbyEntities(40, 40, 40).isEmpty())
+                    return;
+
+                if(target == null) {
+                    for(Entity e : vex.getNearbyEntities(40, 40, 40)) {
+                        if(!(e instanceof Player))
+                            continue;
+                        target = (Player) e;
+                    }
+                }
+
+                if(target == null)
+                    return;
+
+                vex.setTarget(target);
+
+                if(random.nextInt(25) == 0) {
+                    switch (random.nextInt(10)) {
+                        case 0, 1, 2 -> {
+                            for(int i = 0; i < random.nextInt(5) + 1; i++) {
+                                Location spawnLoc = vex.getLocation().add(random.nextInt(6) - 3, random.nextInt(6) - 3, random.nextInt(6) - 3);
+                                vex.getWorld().spawnEntity(spawnLoc, EntityType.VEX);
+                            }
+                        }
+
+                        case 3, 4, 5, 6, 7, 8, 9 -> {
+                            if(target == null)
+                                break;
+
+
+                            Location loc = vex.getLocation().clone();
+                            Vector vector = (target.getLocation().toVector().subtract(loc.toVector())).normalize();
+                            final Player playerTarget = target;
+                            new BukkitRunnable() {
+                                int counter = 0;
+
+                                @Override
+                                public void run() {
+                                    vex.getWorld().spawnParticle(Particle.REDSTONE, loc, 4, .05, .05, .05, dust);
+                                    loc.add(vector);
+
+                                    for(Entity e : vex.getWorld().getNearbyEntities(loc, 1, 1, 1)) {
+                                        if(e != playerTarget)
+                                            continue;
+                                        playerTarget.damage(4, vex);
+                                        playerTarget.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 60, 2));
+                                        playerTarget.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 60, 2));
+                                    }
+
+                                    counter++;
+                                    if(counter > 50)
+                                        cancel();
+                                }
+                            }.runTaskTimer(Plugin.instance, 0, 4);
+                        }
+                    }
+                }
+
+
+            }
+        }.runTaskTimer(Plugin.instance, 0, 0);
+
+        drawSpiral(vex, 0, 0);
+        drawSpiral(vex, .25, 10);
+
+    }
+
+    private void drawSpiral(Entity entity, double heightOffset, int delay) {
+        Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(154, 0, 194), 1.25f);
+        new BukkitRunnable() {
+            final double spiralRadius = 1;
+
+            double spiral = 0;
+            double height = heightOffset;
+            double spiralX;
+            double spiralZ;
+            @Override
+            public void run() {
+                if(!entity.isValid()) {
+                    cancel();
+                }
+
+                Location entityLoc = entity.getLocation().clone();
+                entityLoc.add(0, 0.75, 0);
+
+                spiralX = spiralRadius * Math.cos(spiral);
+                spiralZ = spiralRadius * Math.sin(spiral);
+                spiral += 0.25;
+                height += .05;
+                if(height >= 2.5)
+                    height = 0;
+                if(entityLoc.getWorld() != null)
+                    entityLoc.getWorld().spawnParticle(Particle.REDSTONE, spiralX + entityLoc.getX(), height + entityLoc.getY(), spiralZ + entityLoc.getZ(), 5, dust);
+            }
+        }.runTaskTimer(Plugin.instance, delay, 0);
     }
 
     private void bane(Entity entity) {
