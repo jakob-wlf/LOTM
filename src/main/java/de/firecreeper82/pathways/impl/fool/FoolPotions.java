@@ -24,6 +24,7 @@ public class FoolPotions extends Potion {
         putMainIntoHashMap(6, BeyonderItems.getPituitaryGland(), BeyonderItems.getShadowCharacteristic());
         putMainIntoHashMap(5, BeyonderItems.getWraithDust(), BeyonderItems.getGargoyleCrystal());
         putMainIntoHashMap(4, BeyonderItems.getBizarroEye(), BeyonderItems.getPlundererBody());
+        putMainIntoHashMap(3, BeyonderItems.getWolfEye(), BeyonderItems.getWolfHeart());
 
         putSupplIntoHashMap(9, new ItemStack(Material.WATER_BUCKET), new ItemStack(Material.MUTTON));
         putSupplIntoHashMap(8, UtilItems.getWaterPotion(), new ItemStack(Material.SUNFLOWER), new ItemStack(Material.GRASS));
@@ -31,12 +32,9 @@ public class FoolPotions extends Potion {
         putSupplIntoHashMap(6, new ItemStack(Material.SKELETON_SKULL), new ItemStack(Material.SOUL_SAND), new ItemStack(Material.GOLDEN_CARROT));
         putSupplIntoHashMap(5, UtilItems.getRegenPotion(), new ItemStack(Material.DARK_OAK_LOG), new ItemStack(Material.FERMENTED_SPIDER_EYE));
         putSupplIntoHashMap(4, new ItemStack(Material.ENDER_EYE), new ItemStack(Material.BIRCH_LOG), new ItemStack(Material.TURTLE_HELMET));
+        putSupplIntoHashMap(3, new ItemStack(Material.NETHER_STAR), new ItemStack(Material.ANCIENT_DEBRIS), new ItemStack(Material.BOOKSHELF));
 
-        ItemStack[] recipe3 = {
-                new ItemStack(Material.DIAMOND),
-                new ItemStack(Material.EMERALD)
-        };
-        mainIngredients.put(3, recipe3);
+
         ItemStack[] recipe2 = {
                 new ItemStack(Material.BLAZE_ROD),
                 new ItemStack(Material.GOLD_NUGGET)

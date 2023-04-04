@@ -32,12 +32,50 @@ public class BeyonderMobs {
                         case "bane" -> bane(set.getValue());
                         case "plunderer" -> plunderer((Vex) set.getValue());
                         case "wolf" -> wolf((Wolf) set.getValue());
+                        case "fog-wolf" -> fogWolf((Wolf) set.getValue());
                     }
 
                     mobs.remove(set.getKey(), set.getValue());
                 }
             }
         }.runTaskTimer(Plugin.instance, 0, 40);
+    }
+
+    private void fogWolf(Wolf wolf) {
+        new BukkitRunnable() {
+            Player target;
+            @Override
+            public void run() {
+                if(!wolf.isValid()) {
+                    cancel();
+                }
+
+                wolf.setCollarColor(DyeColor.RED);
+                wolf.setTamed(false);
+                wolf.setAngry(true);
+                wolf.setInterested(false);
+
+                Objects.requireNonNull(wolf.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)).setBaseValue(Objects.requireNonNull(wolf.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)).getBaseValue() * 10);
+                Objects.requireNonNull(wolf.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)).setBaseValue(Objects.requireNonNull(wolf.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)).getBaseValue() * 6);
+
+                if(target == null && wolf.getNearbyEntities(40, 40, 40).isEmpty())
+                    return;
+
+                if(target == null) {
+                    for(Entity e : wolf.getNearbyEntities(40, 40, 40)) {
+                        if(!(e instanceof Player))
+                            continue;
+                        target = (Player) e;
+                    }
+                }
+
+                if(target == null)
+                    return;
+
+                wolf.setTarget(target);
+
+            }
+        }.runTaskTimer(Plugin.instance, 0, 0);
     }
 
     private void wolf(Wolf wolf) {
@@ -56,7 +94,8 @@ public class BeyonderMobs {
                 wolf.setAngry(true);
                 wolf.setInterested(false);
 
-                Objects.requireNonNull(wolf.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)).setBaseValue(Objects.requireNonNull(wolf.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)).getBaseValue() * 5);
+                Objects.requireNonNull(wolf.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)).setBaseValue(Objects.requireNonNull(wolf.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)).getBaseValue() * 10);
+                Objects.requireNonNull(wolf.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)).setBaseValue(Objects.requireNonNull(wolf.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)).getBaseValue() * 6);
 
                 wolf.getWorld().spawnParticle(Particle.REDSTONE, wolf.getLocation(), 10, 1, 1, 1, dust);
 

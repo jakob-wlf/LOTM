@@ -187,6 +187,7 @@ public class BeyonderItems {
 
         return item;
     }
+
     public static ItemStack getWolfEye() {
         final ItemStack item = new ItemStack(Material.SPIDER_EYE);
         ItemMeta itemMeta = item.getItemMeta();
@@ -202,4 +203,18 @@ public class BeyonderItems {
         return item;
     }
 
+    public static ItemStack getWolfHeart() {
+        final ItemStack item = new ItemStack(Material.COAL);
+        ItemMeta itemMeta = item.getItemMeta();
+        assert itemMeta != null;
+        itemMeta.setDisplayName("§5Transfromed Heart of a Demonic Wolf of Fog");
+        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES);
+        itemMeta.addEnchant(Enchantment.CHANNELING, 1, true);
+
+        item.setItemMeta(itemMeta);
+
+        list.add(item);
+
+        return item;
+    }
 }

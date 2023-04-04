@@ -7,6 +7,7 @@ import de.firecreeper82.listeners.InteractListener;
 import de.firecreeper82.listeners.PotionHandler;
 import de.firecreeper82.listeners.PotionListener;
 import de.firecreeper82.handlers.mobs.BeyonderMobsHandler;
+import de.firecreeper82.pathways.Characteristic;
 import de.firecreeper82.pathways.Divination;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.Potion;
@@ -23,12 +24,15 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
+import java.net.MalformedURLException;
 import java.util.*;
 
 public final class Plugin extends JavaPlugin{
 
     public static Plugin instance;
     public static String prefix;
+
+    public static Characteristic characteristic;
 
     public static HashMap<UUID, Beyonder> beyonders;
 
@@ -52,6 +56,9 @@ public final class Plugin extends JavaPlugin{
 
         beyonders = new HashMap<>();
         fakePlayers = new HashMap<>();
+
+        try { characteristic = new Characteristic(); }
+        catch (MalformedURLException ignored) {}
 
         Bukkit.getConsoleSender().sendMessage(prefix + "§aEnabled Plugin");
 
