@@ -24,6 +24,7 @@ public class BlockHandler implements Listener {
         initBlock(Material.SEA_LANTERN, BeyonderItems.getSirenRock(), 25, "siren-rock");
         initBlock(Material.FLOWERING_AZALEA_LEAVES, BeyonderItems.getSpiritTreeFruit(), 40, "tree-fruit");
         initBlock(Material.MANGROVE_LOG, BeyonderItems.getCrystallizedRoot(), 70, "crystallized-root");
+        initBlock(Material.AMETHYST_BLOCK, BeyonderItems.getWhiteBrillianceRock(), 120, "white-rock");
     }
 
     private void initBlock(Material material, ItemStack drop, int rarity, String id) {

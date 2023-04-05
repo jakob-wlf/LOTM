@@ -40,7 +40,7 @@ public class BeyonderMobsHandler implements Listener {
         spawnEntity("§5Demonic Wolf of Fog", "fog-wolf", 125, BeyonderItems.getWolfHeart(), EntityType.FOX, 750, beyonderMobs, EntityType.WOLF);
 
         spawnEntity("§4Magma Titan", "magma-titan", 30, BeyonderItems.getMagmaHeart(), EntityType.MAGMA_CUBE, 32, null, null);
-        spawnEntity("§6Dawn Rooster", "magma-titan", 85, BeyonderItems.getMagmaHeart(), EntityType.CHICKEN, 40, null, null);
+        spawnEntity("§6Dawn Rooster", "rooster", 85, BeyonderItems.getRedRoosterComb(), EntityType.CHICKEN, 40, beyonderMobs, null);
 
     }
 

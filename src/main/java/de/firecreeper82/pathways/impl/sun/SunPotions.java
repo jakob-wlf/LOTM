@@ -1,6 +1,8 @@
 package de.firecreeper82.pathways.impl.sun;
 
+import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.BeyonderItems;
+import de.firecreeper82.pathways.Characteristic;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.Potion;
 import org.bukkit.Color;
@@ -21,17 +23,19 @@ public class SunPotions extends Potion {
         putMainIntoHashMap(9, BeyonderItems.getSunflower(), BeyonderItems.getSirenRock());
         putMainIntoHashMap(8, BeyonderItems.getMagmaHeart());
         putMainIntoHashMap(7, BeyonderItems.getRoosterComb(), BeyonderItems.getSpiritTreeFruit());
+        putMainIntoHashMap(6, BeyonderItems.getCrystallizedRoot(), BeyonderItems.getBirdFeather());
+        putMainIntoHashMap(2, Plugin.instance.getCharacteristic().getCharacteristic(2, "sun", stringColor));
+        putMainIntoHashMap(1, Plugin.instance.getCharacteristic().getCharacteristic(2, "sun", stringColor));
 
         putSupplIntoHashMap(9, new ItemStack(Material.GRASS), new ItemStack(Material.SUNFLOWER));
         putSupplIntoHashMap(8, new ItemStack(Material.SUNFLOWER), new ItemStack(Material.SWEET_BERRIES));
         putSupplIntoHashMap(7, new ItemStack(Material.OBSIDIAN), new ItemStack(Material.LAVA_BUCKET), new ItemStack(Material.FEATHER));
+        putSupplIntoHashMap(6, BeyonderItems.getSunflower(), new ItemStack(Material.FERN), new ItemStack(Material.GLOW_BERRIES));
+        putSupplIntoHashMap(2);
+        putSupplIntoHashMap(1);
 
 
-        ItemStack[] recipe6 = {
-                new ItemStack(Material.COPPER_INGOT),
-                new ItemStack(Material.RAW_COPPER)
-        };
-        mainIngredients.put(6, recipe6);
+
         ItemStack[] recipe5 = {
                 new ItemStack(Material.IRON_INGOT),
                 new ItemStack(Material.RAW_IRON)
@@ -47,16 +51,6 @@ public class SunPotions extends Potion {
                 new ItemStack(Material.EMERALD)
         };
         mainIngredients.put(3, recipe3);
-        ItemStack[] recipe2 = {
-                new ItemStack(Material.BLAZE_ROD),
-                new ItemStack(Material.GOLD_NUGGET)
-        };
-        mainIngredients.put(2, recipe2);
-        ItemStack[] recipe1 = {
-                new ItemStack(Material.REDSTONE_TORCH),
-                new ItemStack(Material.REDSTONE_ORE)
-        };
-        mainIngredients.put(1, recipe1);
     }
 
     @Override

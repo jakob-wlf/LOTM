@@ -68,7 +68,7 @@ public class Beyonder implements Listener {
 
         //acting initializing
         digested = false;
-        actingNeeded = Math.pow((float) (100 / pathway.getSequence().getCurrentSequence()), .25);
+        actingNeeded = Math.pow((float) (100 / pathway.getSequence().getCurrentSequence()), 2);
         actingProgress = 0;
 
         //Team
@@ -243,7 +243,7 @@ public class Beyonder implements Listener {
             getPlayer().sendMessage("§6You have digested the potion!");
             getPlayer().spawnParticle(Particle.END_ROD, pathway.getBeyonder().getPlayer().getLocation(), 50, 1, 1, 1, 0);
         }
-        actingNeeded = Math.pow((100f / pathway.getSequence().getCurrentSequence()), .25);
+        actingNeeded = Math.pow((100f / pathway.getSequence().getCurrentSequence()), 2);
     }
 
     public void acting(int sequence) {

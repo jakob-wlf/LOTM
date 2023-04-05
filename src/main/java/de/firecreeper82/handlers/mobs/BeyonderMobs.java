@@ -1,6 +1,7 @@
 package de.firecreeper82.handlers.mobs;
 
 import de.firecreeper82.lotm.Plugin;
+import de.firecreeper82.lotm.util.BeyonderItems;
 import de.firecreeper82.lotm.util.VectorUtils;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
@@ -33,12 +34,43 @@ public class BeyonderMobs {
                         case "plunderer" -> plunderer((Vex) set.getValue());
                         case "wolf" -> wolf((Wolf) set.getValue());
                         case "fog-wolf" -> fogWolf((Wolf) set.getValue());
+                        case "rooster" -> rooster((Chicken) set.getValue());
                     }
 
                     mobs.remove(set.getKey(), set.getValue());
                 }
             }
         }.runTaskTimer(Plugin.instance, 0, 40);
+    }
+
+    private void rooster(Chicken chicken) {
+        Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(0, 215, 255), 1f);
+        Random random = new Random();
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (!chicken.isValid()) {
+                    cancel();
+                    return;
+                }
+
+                chicken.getWorld().spawnParticle(Particle.REDSTONE, chicken.getLocation(), 5, 1, 2, 1, dust);
+
+                if(random.nextInt(55) == 0) {
+                    chicken.getWorld().spawnParticle(Particle.REDSTONE, chicken.getLocation(), 200, 2, 2, 2, dust);
+                    chicken.getWorld().spawnParticle(Particle.END_ROD, chicken.getLocation(), 350, 0.5, 0.5, 0.5, .25);
+                    for(Entity entity : chicken.getNearbyEntities(5, 5, 5)) {
+                        if(entity instanceof Damageable damageable)
+                            damageable.damage(10, chicken);
+                    }
+                }
+
+                if(random.nextInt(20 * 4 * 3) == 0) {
+                    chicken.getWorld().dropItem(chicken.getLocation(), BeyonderItems.getRoosterComb());
+                }
+            }
+        }.runTaskTimer(Plugin.instance, 0, 0);
     }
 
     private void fogWolf(Wolf wolf) {

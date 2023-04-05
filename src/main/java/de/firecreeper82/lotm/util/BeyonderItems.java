@@ -158,6 +158,30 @@ public class BeyonderItems {
         return item;
     }
 
+    public static ItemStack getWhiteBrillianceRock() {
+        final ItemStack item = new ItemStack(Material.AMETHYST_SHARD);
+        ItemMeta itemMeta = item.getItemMeta();
+        assert itemMeta != null;
+        itemMeta.setDisplayName("§6White Brilliance Rock");
+        item.setItemMeta(itemMeta);
+
+        list.add(item);
+
+        return item;
+    }
+
+    public static ItemStack getRedRoosterComb() {
+        final ItemStack item = new ItemStack(Material.RED_DYE);
+        ItemMeta itemMeta = item.getItemMeta();
+        assert itemMeta != null;
+        itemMeta.setDisplayName("§6Red Comb of a Dawn Rooster");
+        item.setItemMeta(itemMeta);
+
+        list.add(item);
+
+        return item;
+    }
+
     public static ItemStack getRoot() {
         final ItemStack item = new ItemStack(Material.HANGING_ROOTS);
         ItemMeta itemMeta = item.getItemMeta();
