@@ -16,6 +16,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BlockIterator;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class HolyLight extends Ability {
 
@@ -52,10 +53,10 @@ public class HolyLight extends Ability {
 
                 Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(0, 215, 255), 1f);
                 for(double i = 0; i < 3.2; i+=0.8) {
-                    for(int j = 0; j < 100; j++) {
+                    for(int j = 0; j < 50; j++) {
                         double x = i * Math.cos(j);
                         double z = i * Math.sin(j);
-                        loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX() + x, loc.getY(), loc.getZ() + z, 5, dust);
+                        Objects.requireNonNull(loc.getWorld()).spawnParticle(Particle.REDSTONE, loc.getX() + x, loc.getY(), loc.getZ() + z, 2, dust);
                         loc.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, loc.getX() + x, loc.getY() + 1, loc.getZ() + z, 1, 0, 0, 0, 0);
                     }
                 }
@@ -74,8 +75,7 @@ public class HolyLight extends Ability {
                     //damage nearby entities
                     ArrayList<Entity> nearbyEntities = (ArrayList<Entity>) loc.getWorld().getNearbyEntities(loc.subtract(5, 0, 5), 10, 10, 10);
                     for(Entity entity : nearbyEntities) {
-                        if(entity instanceof LivingEntity) {
-                            LivingEntity livingEntity = (LivingEntity) entity;
+                        if(entity instanceof LivingEntity livingEntity) {
                             if (livingEntity.getCategory() == EntityCategory.UNDEAD) {
                                 ((Damageable) entity).damage(15 * multiplier, p);
                             } else {
@@ -91,6 +91,6 @@ public class HolyLight extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.GLOWSTONE_DUST, "Holy Light", "15", identifier, 8, Bukkit.getPlayer(pathway.getUuid()).getName());
+        return SunItems.createItem(Material.GLOWSTONE_DUST, "Holy Light", "15", identifier, 8, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
     }
 }

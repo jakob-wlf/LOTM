@@ -170,6 +170,32 @@ public class BeyonderItems {
         return item;
     }
 
+    public static ItemStack getHolyBrillianceRock() {
+        final ItemStack item = new ItemStack(Material.QUARTZ);
+        ItemMeta itemMeta = item.getItemMeta();
+        assert itemMeta != null;
+        itemMeta.setDisplayName("§6Holy Brilliance Rock");
+        item.setItemMeta(itemMeta);
+
+        list.add(item);
+
+        return item;
+    }
+
+    public static ItemStack getTailFeather() {
+        final ItemStack item = new ItemStack(Material.FEATHER);
+        ItemMeta itemMeta = item.getItemMeta();
+        assert itemMeta != null;
+        itemMeta.setDisplayName("§6Divine Birds Tail Feather");
+        item.setItemMeta(itemMeta);
+
+        list.add(item);
+
+        return item;
+    }
+
+
+
     public static ItemStack getRedRoosterComb() {
         final ItemStack item = new ItemStack(Material.RED_DYE);
         ItemMeta itemMeta = item.getItemMeta();

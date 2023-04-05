@@ -47,6 +47,8 @@ public class BeyonderMobs {
         Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(0, 215, 255), 1f);
         Random random = new Random();
 
+        final HashMap<Long, Location> burnedLocations = new HashMap<>();
+
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -57,16 +59,38 @@ public class BeyonderMobs {
 
                 chicken.getWorld().spawnParticle(Particle.REDSTONE, chicken.getLocation(), 5, 1, 2, 1, dust);
 
-                if(random.nextInt(55) == 0) {
+                burnedLocations.put(System.currentTimeMillis(), chicken.getLocation());
+
+                for(Location loc : burnedLocations.values()) {
+                    Objects.requireNonNull(loc.getWorld()).spawnParticle(Particle.FLAME, loc, 2, .05, .05, .05, 0);
+                    if(loc.getWorld().getNearbyEntities(loc, 1, 1, 1).isEmpty())
+                        continue;
+                    for(Entity entity : loc.getWorld().getNearbyEntities(loc, .5, .5, .5)) {
+                        if(!(entity instanceof Damageable damageable) || damageable == chicken)
+                            continue;
+                        damageable.damage(6, chicken);
+                    }
+                }
+
+                try {
+                    for(Long l : burnedLocations.keySet()) {
+                        long temp = l;
+                        if((temp + (1000 * 5)) < System.currentTimeMillis())
+                            burnedLocations.remove(l);
+                    }
+                }
+                catch(Exception ignored) {}
+
+                if(random.nextInt(40) == 0) {
                     chicken.getWorld().spawnParticle(Particle.REDSTONE, chicken.getLocation(), 200, 2, 2, 2, dust);
                     chicken.getWorld().spawnParticle(Particle.END_ROD, chicken.getLocation(), 350, 0.5, 0.5, 0.5, .25);
                     for(Entity entity : chicken.getNearbyEntities(5, 5, 5)) {
                         if(entity instanceof Damageable damageable)
-                            damageable.damage(10, chicken);
+                            damageable.damage(16, chicken);
                     }
                 }
 
-                if(random.nextInt(20 * 4 * 3) == 0) {
+                if(random.nextInt(20 * 60 * 3) == 0) {
                     chicken.getWorld().dropItem(chicken.getLocation(), BeyonderItems.getRoosterComb());
                 }
             }
@@ -147,7 +171,7 @@ public class BeyonderMobs {
                 wolf.setTarget(target);
 
             }
-        }.runTaskTimer(Plugin.instance, 0, 0);
+        }.runTaskTimer(Plugin.instance, 0, 5);
     }
 
     public void addMob(@NonNull Entity mob, @NonNull String id) {
