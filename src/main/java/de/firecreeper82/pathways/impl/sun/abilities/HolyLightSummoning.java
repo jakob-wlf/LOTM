@@ -7,15 +7,13 @@ import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.sun.SunItems;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BlockIterator;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class HolyLightSummoning extends Ability {
     public HolyLightSummoning(int identifier, Pathway pathway, int sequence, Items items) {
@@ -51,7 +49,7 @@ public class HolyLightSummoning extends Ability {
                 counter++;
 
                 //Particles
-                loc.getWorld().spawnParticle(Particle.END_ROD, loc.getX() + 3.2, loc.getY(), loc.getZ(), 6, 0.1, 0, 0.1, 0);
+                Objects.requireNonNull(loc.getWorld()).spawnParticle(Particle.END_ROD, loc.getX() + 3.2, loc.getY(), loc.getZ(), 6, 0.1, 0, 0.1, 0);
                 loc.getWorld().spawnParticle(Particle.END_ROD, loc.getX() - 3.2, loc.getY(), loc.getZ(), 6, 0.1, 0, 0.1, 0);
                 loc.getWorld().spawnParticle(Particle.END_ROD, loc.getX(), loc.getY(), loc.getZ() + 3.2, 6, 0.1, 0, 0.1, 0);
                 loc.getWorld().spawnParticle(Particle.END_ROD, loc.getX(), loc.getY(), loc.getZ() - 3.2, 6, 0.1, 0, 0.1, 0);
@@ -128,8 +126,7 @@ public class HolyLightSummoning extends Ability {
                     //damage nearby entities
                     ArrayList<Entity> nearbyEntities = (ArrayList<Entity>) loc.getWorld().getNearbyEntities(loc, 15, 15, 15);
                     for(Entity entity : nearbyEntities) {
-                        if(entity instanceof LivingEntity) {
-                            LivingEntity livingEntity = (LivingEntity) entity;
+                        if(entity instanceof LivingEntity livingEntity) {
                             if (livingEntity.getCategory() == EntityCategory.UNDEAD) {
                                 ((Damageable) entity).damage(22 * multiplier, p);
                             } else {
@@ -170,21 +167,6 @@ public class HolyLightSummoning extends Ability {
 
     @Override
     public ItemStack getItem() {
-        ItemStack currentItem = new ItemStack(Material.BLAZE_ROD);
-        ItemMeta itemMeta = currentItem.getItemMeta();
-        itemMeta.setDisplayName("§6Holy Light Summoning");
-        itemMeta.addEnchant(Enchantment.CHANNELING, 5, true);
-        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        itemMeta.addItemFlags(ItemFlag.values());
-        ArrayList<String> lore = new ArrayList<>();
-        lore.clear();
-        lore.add("§5Click to use");
-        lore.add("§5Spirituality: §730");
-        lore.add("§8§l-----------------");
-        lore.add("§6Sun - Pathway (7)");
-        lore.add("§8" + Bukkit.getPlayer(pathway.getUuid()).getName());
-        itemMeta.setLore(lore);
-        currentItem.setItemMeta(itemMeta);
-        return SunItems.createItem(Material.BLAZE_ROD, "Holy Light Summoning", "30", identifier, 7, Bukkit.getPlayer(pathway.getUuid()).getName());
+        return SunItems.createItem(Material.BLAZE_ROD, "Holy Light Summoning", "30", identifier, 7, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
     }
 }
