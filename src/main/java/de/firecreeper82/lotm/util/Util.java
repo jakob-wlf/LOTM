@@ -1,5 +1,7 @@
 package de.firecreeper82.lotm.util;
 
+import java.util.Random;
+
 public class Util {
 
     @SuppressWarnings("all")
@@ -24,5 +26,18 @@ public class Util {
 
     public static String capitalize(String s) {
         return (s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase());
+    }
+
+    public static int biasedRandomNumber(double[] probabilityDistribution, int min) {
+        Random random = new Random();
+
+        double r = random.nextDouble();
+        double sum = 0.0;
+        int i = 0;
+        while (i < probabilityDistribution.length - 1 && r > sum + probabilityDistribution[i]) {
+            sum += probabilityDistribution[i];
+            i++;
+        }
+        return i + min;
     }
 }

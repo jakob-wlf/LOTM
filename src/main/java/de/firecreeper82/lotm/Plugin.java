@@ -2,15 +2,9 @@ package de.firecreeper82.lotm;
 
 import de.firecreeper82.cmds.*;
 import de.firecreeper82.handlers.blocks.BlockHandler;
-import de.firecreeper82.listeners.DeathListener;
-import de.firecreeper82.listeners.InteractListener;
-import de.firecreeper82.listeners.PotionHandler;
-import de.firecreeper82.listeners.PotionListener;
+import de.firecreeper82.listeners.*;
 import de.firecreeper82.handlers.mobs.BeyonderMobsHandler;
-import de.firecreeper82.pathways.Characteristic;
-import de.firecreeper82.pathways.Divination;
-import de.firecreeper82.pathways.Pathway;
-import de.firecreeper82.pathways.Potion;
+import de.firecreeper82.pathways.*;
 import de.firecreeper82.pathways.impl.fool.FoolPotions;
 import de.firecreeper82.pathways.impl.fool.abilities.FogOfHistory;
 import de.firecreeper82.pathways.impl.sun.SunPotions;
@@ -19,6 +13,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -33,6 +28,7 @@ public final class Plugin extends JavaPlugin{
     public static String prefix;
 
     private Characteristic characteristic;
+    private Recipe recipe;
     private BeyonderMobsHandler beyonderMobsHandler;
 
     public static HashMap<UUID, Beyonder> beyonders;
@@ -50,6 +46,8 @@ public final class Plugin extends JavaPlugin{
     private ArrayList<Potion> potions;
     private Divination divination;
 
+    public static UUID randomUUID;
+
     @Override
     public void onEnable() {
         instance = this;
@@ -58,8 +56,12 @@ public final class Plugin extends JavaPlugin{
         beyonders = new HashMap<>();
         fakePlayers = new HashMap<>();
 
+        randomUUID = UUID.fromString("1af36f3a-d8a3-11ed-afa1-0242ac120002");
+
         try { characteristic = new Characteristic(); }
         catch (MalformedURLException ignored) {}
+
+        recipe = new Recipe();
 
         Bukkit.getConsoleSender().sendMessage(prefix + "§aEnabled Plugin");
 
@@ -77,15 +79,17 @@ public final class Plugin extends JavaPlugin{
         divination = new Divination();
         beyonderMobsHandler = new BeyonderMobsHandler();
 
-        PluginManager pl = this.getServer().getPluginManager();
-        pl.registerEvents(new InteractListener(), this);
-        pl.registerEvents(itemsCmd, this);
-        pl.registerEvents(new PotionHandler(), this);
-        pl.registerEvents(new PotionListener(), this);
-        pl.registerEvents(new DeathListener(), this);
-        pl.registerEvents(divination, this);
-        pl.registerEvents(beyonderMobsHandler, this);
-        pl.registerEvents(new BlockHandler(), this);
+        registerEvents(
+                new InteractListener(),
+                itemsCmd,
+                new PotionHandler(),
+                new PotionListener(),
+                new DeathListener(),
+                divination,
+                beyonderMobsHandler,
+                new BlockHandler(),
+                new GenerationListener()
+        );
 
         Objects.requireNonNull(this.getCommand("beyonder")).setExecutor(new BeyonderCmd());
         Objects.requireNonNull(this.getCommand("disable-threads")).setExecutor(new DisableThreadsCmd());
@@ -96,6 +100,13 @@ public final class Plugin extends JavaPlugin{
         Objects.requireNonNull(this.getCommand("potions")).setExecutor(new PotionsCmd());
         Objects.requireNonNull(this.getCommand("test")).setExecutor(new TestCmd());
         Objects.requireNonNull(this.getCommand("spawn")).setExecutor(new SpawnCmd());
+    }
+
+    private void registerEvents(Listener... listeners) {
+        PluginManager pl = this.getServer().getPluginManager();
+        for(Listener listener : listeners) {
+            pl.registerEvents(listener, this);
+        }
     }
 
     //initialize the Potion Classes
@@ -292,5 +303,9 @@ public final class Plugin extends JavaPlugin{
 
     public BeyonderMobsHandler getBeyonderMobsHandler() {
         return beyonderMobsHandler;
+    }
+
+    public Recipe getRecipe() {
+        return recipe;
     }
 }

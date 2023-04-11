@@ -1,5 +1,6 @@
 package de.firecreeper82.lotm.util;
 
+import de.firecreeper82.lotm.Plugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -18,7 +19,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 public class UtilItems {
 
@@ -91,7 +91,7 @@ public class UtilItems {
         cowMeta.setDisplayName("§6Entities");
         String[] cowLore = {"§5Divine the location of entities"};
         cowMeta.setLore(Arrays.asList(cowLore));
-        PlayerProfile cowProfile = Bukkit.createPlayerProfile(UUID.randomUUID());
+        PlayerProfile cowProfile = Bukkit.createPlayerProfile(Plugin.randomUUID);
         PlayerTextures cowTextures = cowProfile.getTextures();
         try {
             cowTextures.setSkin(new URL("https://textures.minecraft.net/texture/c5a9cd58d4c67bccc8fb1f5f756a2d381c9ffac2924b7f4cb71aa9fa13fb5c"));
@@ -112,7 +112,7 @@ public class UtilItems {
         grassMeta.setDisplayName("§6Biomes");
         String[] grassLore = {"§5Divine the location of biomes"};
         grassMeta.setLore(Arrays.asList(grassLore));
-        PlayerProfile grassProfile = Bukkit.createPlayerProfile(UUID.randomUUID());
+        PlayerProfile grassProfile = Bukkit.createPlayerProfile(Plugin.randomUUID);
         PlayerTextures grassTextures = grassProfile.getTextures();
         try {
             grassTextures.setSkin(new URL("http://textures.minecraft.net/texture/16bb9fb97ba87cb727cd0ff477f769370bea19ccbfafb581629cd5639f2fec2b"));
@@ -133,7 +133,7 @@ public class UtilItems {
         playerMeta.setDisplayName("§6Biomes");
         String[] playerLore = {"§5Divine the location of biomes"};
         playerMeta.setLore(Arrays.asList(playerLore));
-        PlayerProfile playerProfile = Bukkit.createPlayerProfile(UUID.randomUUID());
+        PlayerProfile playerProfile = Bukkit.createPlayerProfile(Plugin.randomUUID);
         PlayerTextures playerTextures = playerProfile.getTextures();
         try {
             playerTextures.setSkin(new URL("http://textures.minecraft.net/texture/4d9d043adc884b979b4f42bdb350f2a301327cab49c4ce2de42a8f4601fe9dbf"));

@@ -1,5 +1,6 @@
 package de.firecreeper82.pathways;
 
+import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -24,7 +25,7 @@ public class Characteristic {
 
     public Characteristic() throws MalformedURLException {
         blocksForPathway = new HashMap<>();
-        uuid = UUID.randomUUID();
+        uuid = Plugin.randomUUID;
         blocksForPathway.put("fool", new URL("http://textures.minecraft.net/texture/855af6c5ff21eb55631a25221d753cdc9a0f679d5cacf555b350ba0e3521e092"));
         blocksForPathway.put("sun", new URL("http://textures.minecraft.net/texture/8a03a8a877de7a4d6b167633a96ae3983998fd9d9a4c5e3fa817d138e81e4499"));
     }

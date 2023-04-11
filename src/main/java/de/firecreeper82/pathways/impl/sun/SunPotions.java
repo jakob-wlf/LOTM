@@ -25,8 +25,9 @@ public class SunPotions extends Potion {
         putMainIntoHashMap(6, BeyonderItems.getCrystallizedRoot(), BeyonderItems.getBirdFeather());
         putMainIntoHashMap(5, BeyonderItems.getRedRoosterComb(), BeyonderItems.getWhiteBrillianceRock());
         putMainIntoHashMap(4, BeyonderItems.getTailFeather(), BeyonderItems.getHolyBrillianceRock());
+        putMainIntoHashMap(3, Plugin.instance.getCharacteristic().getCharacteristic(3, "sun", stringColor));
         putMainIntoHashMap(2, Plugin.instance.getCharacteristic().getCharacteristic(2, "sun", stringColor));
-        putMainIntoHashMap(1, Plugin.instance.getCharacteristic().getCharacteristic(2, "sun", stringColor));
+        putMainIntoHashMap(1, Plugin.instance.getCharacteristic().getCharacteristic(1, "sun", stringColor));
 
         putSupplIntoHashMap(9, new ItemStack(Material.GRASS), new ItemStack(Material.SUNFLOWER));
         putSupplIntoHashMap(8, new ItemStack(Material.SUNFLOWER), new ItemStack(Material.SWEET_BERRIES));
@@ -34,14 +35,9 @@ public class SunPotions extends Potion {
         putSupplIntoHashMap(6, BeyonderItems.getSunflower(), new ItemStack(Material.FERN), new ItemStack(Material.GLOW_BERRIES));
         putSupplIntoHashMap(5, new ItemStack(Material.MAGMA_CREAM), new ItemStack(Material.SUNFLOWER));
         putSupplIntoHashMap(4, BeyonderItems.getRedRoosterComb(), BeyonderItems.getWhiteBrillianceRock());
+        putSupplIntoHashMap(3);
         putSupplIntoHashMap(2);
         putSupplIntoHashMap(1);
-
-        ItemStack[] recipe3 = {
-                new ItemStack(Material.DIAMOND),
-                new ItemStack(Material.EMERALD)
-        };
-        mainIngredients.put(3, recipe3);
     }
 
     @Override

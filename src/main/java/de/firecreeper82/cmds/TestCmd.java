@@ -25,6 +25,11 @@ public class TestCmd implements CommandExecutor {
             p.getInventory().addItem(Plugin.instance.getCharacteristic().getCharacteristic(Util.parseInt(args[2]), args[1], "§" + args[3]));
         }
 
+        if(args[0].equalsIgnoreCase("recipe")) {
+            p.getInventory().addItem(Plugin.instance.getRecipe().getRecipeForSequence(Plugin.instance.getPotions().get(0), Util.parseInt(args[1])));
+        }
+
+
 
         return true;
     }
