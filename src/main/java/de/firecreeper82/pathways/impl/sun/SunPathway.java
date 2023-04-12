@@ -1,6 +1,5 @@
 package de.firecreeper82.pathways.impl.sun;
 
-import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.pathways.Pathway;
 
 import java.awt.*;
@@ -11,13 +10,11 @@ public class SunPathway extends Pathway {
 
     public SunPathway(UUID uuid, int optionalSequence) {
         super(uuid, optionalSequence);
-        sequence = new SunSequence(this, optionalSequence);
-        init();
     }
 
     @Override
     public void init() {
-        beyonder = Plugin.beyonders.get(uuid);
+        sequence = new SunSequence(this, optionalSequence);
         name = "§6Sun";
         nameNormalized = "sun";
         pathwayColor = Color.orange;

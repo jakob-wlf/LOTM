@@ -11,13 +11,11 @@ public class FoolPathway extends Pathway {
 
     public FoolPathway(UUID uuid, int optionalSequence) {
         super(uuid, optionalSequence);
-        sequence = new FoolSequence(this, optionalSequence);
-        init();
     }
 
     @Override
     public void init() {
-        beyonder = Plugin.beyonders.get(uuid);
+        sequence = new FoolSequence(this, optionalSequence);
         name = "§5Fool";
         nameNormalized = "fool";
         pathwayColor = Color.orange;

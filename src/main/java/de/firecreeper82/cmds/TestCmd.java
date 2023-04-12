@@ -2,6 +2,7 @@ package de.firecreeper82.cmds;
 
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.Util;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -29,7 +30,9 @@ public class TestCmd implements CommandExecutor {
             p.getInventory().addItem(Plugin.instance.getRecipe().getRecipeForSequence(Plugin.instance.getPotions().get(0), Util.parseInt(args[1])));
         }
 
-
+        if(args[0].equalsIgnoreCase("instances")) {
+            Bukkit.broadcastMessage(Plugin.beyonders.size() + "");
+        }
 
         return true;
     }

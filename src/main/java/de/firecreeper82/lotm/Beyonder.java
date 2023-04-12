@@ -3,16 +3,21 @@ package de.firecreeper82.lotm;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.Potion;
+import de.firecreeper82.pathways.impl.fool.FoolPathway;
+import de.firecreeper82.pathways.impl.fool.abilities.Hiding;
 import de.firecreeper82.pathways.impl.fool.marionettes.Marionette;
 import fr.mrmicky.fastboard.FastBoard;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -45,43 +50,29 @@ public class Beyonder implements Listener {
 
     private Team team;
 
-    private ArrayList<Marionette> marionettes;
-    private ArrayList<Mob> marionetteEntities;
+    private final ArrayList<Marionette> marionettes;
+    private final ArrayList<Mob> marionetteEntities;
 
     public Beyonder(UUID uuid, Pathway pathway) {
         this.pathway = pathway;
         this.uuid = uuid;
 
         pathway.setBeyonder(this);
-        if(getPlayer() == null)
-            return;
 
-        start();
-
-        pathway.initItems();
+        beyonder = true;
+        online = false;
 
         marionettes = new ArrayList<>();
         marionetteEntities = new ArrayList<>();
 
-        beyonder = true;
         loosingControl = false;
 
-        //acting initializing
-        digested = false;
-        actingNeeded = Math.pow((float) (100 / pathway.getSequence().getCurrentSequence()), 2);
-        actingProgress = 0;
+        if(getPlayer() == null || !Bukkit.getOnlinePlayers().contains(getPlayer()))
+            return;
 
-        //Team
-        ScoreboardManager manager = Bukkit.getScoreboardManager();
-        assert manager != null;
-        Scoreboard board = manager.getNewScoreboard();
-        team = board.registerNewTeam(getPlayer().getName() + " -- " + UUID.randomUUID());
-
-        team.addEntry(getPlayer().getUniqueId().toString());
-        team.setDisplayName("display name");
-        team.setCanSeeFriendlyInvisibles(true);
-        team.setAllowFriendlyFire(false);
-        team.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.ALWAYS);
+        pathway.init();
+        pathway.initItems();
+        start();
 
     }
 
@@ -92,6 +83,11 @@ public class Beyonder implements Listener {
             return;
         if(!beyonder)
             return;
+
+        pathway.setBeyonder(this);
+
+        pathway.init();
+        pathway.initItems();
         start();
     }
 
@@ -108,14 +104,64 @@ public class Beyonder implements Listener {
     @EventHandler
     //Removes Items on Death
     public void onDeath(PlayerDeathEvent e) {
+        if(!beyonder)
+            return;
         if(e.getEntity() != getPlayer())
             return;
         Player p = e.getEntity();
-        for(Entity entity : p.getNearbyEntities(20, 20, 20)) {
-            if(entity instanceof Item && pathway.getItems().returnItemsFromSequence(pathway.getSequence().getCurrentSequence()).contains(((Item) entity).getItemStack())) {
-                entity.remove();
-            }
+        Location deathLoc = p.getLocation();
+
+        if(pathway.getSequence() == null)
+            return;
+
+        Bukkit.broadcastMessage("You died");
+
+        if(pathway instanceof FoolPathway && pathway.getSequence().getCurrentSequence() <= 2) {
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    if(deathLoc.getWorld() == null)
+                        return;
+
+                    for(Entity entity : deathLoc.getWorld().getNearbyEntities(deathLoc, 20, 20, 20)) {
+                        if(!(entity instanceof Item))
+                            continue;
+
+                        entity.remove();
+                    }
+
+                    for(ItemStack item : e.getDrops()) {
+                        p.getInventory().addItem(item);
+                    }
+
+                    p.teleport(deathLoc);
+
+                    for(Ability ability : pathway.getSequence().getAbilities()) {
+                        if(ability instanceof Hiding hiding)
+                            hiding.useAbility();
+                    }
+                }
+            }.runTaskLater(Plugin.instance, 3);
+            return;
         }
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if(deathLoc.getWorld() == null)
+                    return;
+
+                for(Entity entity : deathLoc.getWorld().getNearbyEntities(deathLoc, 20, 20, 20)) {
+                    if(!(entity instanceof Item item))
+                        continue;
+
+                    for(ItemStack itemStack : pathway.getItems().returnItemsFromSequence(pathway.getSequence().getCurrentSequence())) {
+                        if(itemStack.isSimilar(item.getItemStack()))
+                            entity.remove();
+                    }
+                }
+            }
+        }.runTaskLater(Plugin.instance, 3);
     }
 
     private void updateBoard() {
@@ -125,6 +171,23 @@ public class Beyonder implements Listener {
 
     //Gets called everytime the Player rejoins or the Beyonder is newly initialised
     public void start() {
+        //Team
+        ScoreboardManager manager = Bukkit.getScoreboardManager();
+        assert manager != null;
+        Scoreboard scoreboard = manager.getNewScoreboard();
+        team = scoreboard.registerNewTeam(getPlayer().getName() + " -- " + UUID.randomUUID());
+
+        team.addEntry(getPlayer().getUniqueId().toString());
+        team.setDisplayName("display name");
+        team.setCanSeeFriendlyInvisibles(true);
+        team.setAllowFriendlyFire(false);
+        team.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.ALWAYS);
+
+        //acting initializing
+        digested = false;
+        actingNeeded = Math.pow((float) (100 / pathway.getSequence().getCurrentSequence()), 2);
+        actingProgress = 0;
+
         updateSpirituality();
         board = new FastBoard(getPlayer());
         board.updateTitle(pathway.getStringColor() + getPlayer().getName());
@@ -359,6 +422,7 @@ public class Beyonder implements Listener {
             a.removeAbility();
         }
         Plugin.instance.removeBeyonder(getUuid());
+        HandlerList.unregisterAll(this);
         if(board != null)
             board.delete();
         beyonder = false;

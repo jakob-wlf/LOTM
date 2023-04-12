@@ -34,21 +34,21 @@ public class BeyonderMobsHandler implements Listener {
         customEntities = new ArrayList<>();
         BeyonderMobs beyonderMobs = new BeyonderMobs();
 
-        spawnEntity("§9Lavos Squid", "squid", 80, BeyonderItems.getLavosSquidBlood(), EntityType.SQUID, 20, null, null, "none", true);
-        spawnEntity("§7Hornacis Gray Mountain Goat", "goat", 35, BeyonderItems.getGoatHorn(), EntityType.GOAT, 30, null, null, "none", true);
-        spawnEntity("§0Black Patterned Panther", "panther", 45, BeyonderItems.getPanther(), EntityType.OCELOT, 60, null, null, "none", true);
-        spawnEntity("§5Thousand-Faced Hunter", "thousand-faced", 75, BeyonderItems.getPituitaryGland(), EntityType.PILLAGER, 70, beyonderMobs, EntityType.ILLUSIONER, "none", true);
-        spawnEntity("§0Human-Skinned Shadow", "shadow", 50, BeyonderItems.getShadowCharacteristic(), EntityType.ENDERMAN, 70, beyonderMobs, null, "none", true);
-        spawnEntity("§7Ancient Wraith", "wraith", 250, BeyonderItems.getWraithDust(), EntityType.SKELETON, 145, beyonderMobs, EntityType.VEX, "wraith", true);
-        spawnEntity("§5Six Winged Gargoyle", "gargoyle", 300, BeyonderItems.getGargoyleCrystal(), EntityType.ZOMBIE, 250, beyonderMobs, EntityType.IRON_GOLEM, "gargoyle", true);
-        spawnEntity("§5Bizarro Bane", "bane", 60, BeyonderItems.getBizarroEye(), EntityType.WITCH, 200, beyonderMobs, EntityType.ALLAY, "bane", true, new BaneAbility(20));
-        spawnEntity("§5Spirit World Plunderer", "plunderer", 450, BeyonderItems.getPlundererBody(), EntityType.ZOMBIFIED_PIGLIN, 250, beyonderMobs, EntityType.VEX, "plunderer", false, new SpawnVex(70), new PlundererAbility(35));
-        spawnEntity("§5Hound of Fulgrim", "wolf", 125, BeyonderItems.getWolfEye(), EntityType.WOLF, 750, beyonderMobs, null, "wolf", true);
-        spawnEntity("§5Demonic Wolf of Fog", "fog-wolf", 125, BeyonderItems.getWolfHeart(), EntityType.FOX, 750, beyonderMobs, EntityType.WOLF, "fog-wolf", true);
+        spawnEntity("§9Lavos Squid", "squid", 50, BeyonderItems.getLavosSquidBlood(), EntityType.SQUID, 20, null, null, "none", true);
+        spawnEntity("§7Hornacis Gray Mountain Goat", "goat", 18, BeyonderItems.getGoatHorn(), EntityType.GOAT, 30, null, null, "none", true);
+        spawnEntity("§0Black Patterned Panther", "panther", 28, BeyonderItems.getPanther(), EntityType.OCELOT, 60, null, null, "none", true);
+        spawnEntity("§5Thousand-Faced Hunter", "thousand-faced", 55, BeyonderItems.getPituitaryGland(), EntityType.PILLAGER, 70, beyonderMobs, EntityType.ILLUSIONER, "none", true);
+        spawnEntity("§0Human-Skinned Shadow", "shadow", 35, BeyonderItems.getShadowCharacteristic(), EntityType.ENDERMAN, 70, beyonderMobs, null, "none", true);
+        spawnEntity("§7Ancient Wraith", "wraith", 85, BeyonderItems.getWraithDust(), EntityType.SKELETON, 145, beyonderMobs, EntityType.VEX, "wraith", true);
+        spawnEntity("§5Six Winged Gargoyle", "gargoyle", 115, BeyonderItems.getGargoyleCrystal(), EntityType.ZOMBIE, 250, beyonderMobs, EntityType.IRON_GOLEM, "gargoyle", true);
+        spawnEntity("§5Bizarro Bane", "bane", 40, BeyonderItems.getBizarroEye(), EntityType.WITCH, 200, beyonderMobs, EntityType.ALLAY, "bane", true, new BaneAbility(20));
+        spawnEntity("§5Spirit World Plunderer", "plunderer", 155, BeyonderItems.getPlundererBody(), EntityType.ZOMBIFIED_PIGLIN, 250, beyonderMobs, EntityType.VEX, "plunderer", false, new SpawnVex(70), new PlundererAbility(35));
+        spawnEntity("§5Hound of Fulgrim", "wolf", 85, BeyonderItems.getWolfEye(), EntityType.WOLF, 750, beyonderMobs, null, "wolf", true);
+        spawnEntity("§5Demonic Wolf of Fog", "fog-wolf", 75, BeyonderItems.getWolfHeart(), EntityType.FOX, 750, beyonderMobs, EntityType.WOLF, "fog-wolf", true);
 
-        spawnEntity("§4Magma Titan", "magma-titan", 30, BeyonderItems.getMagmaHeart(), EntityType.MAGMA_CUBE, 32, null, null, "none", true);
+        spawnEntity("§4Magma Titan", "magma-titan", 25, BeyonderItems.getMagmaHeart(), EntityType.MAGMA_CUBE, 32, null, null, "none", true);
         spawnEntity("§6Dawn Rooster", "rooster", 85, BeyonderItems.getRedRoosterComb(), EntityType.CHICKEN, 60, beyonderMobs, null, "rooster", true, new RoosterAbility(60));
-        spawnEntity("§6Divine Bird", "divine-bird", 300, BeyonderItems.getTailFeather(), EntityType.COW, 85, beyonderMobs, EntityType.PARROT, "divine-bird", true, new HolyLightSummoning(65), new FlaringSun(185));
+        spawnEntity("§6Divine Bird", "divine-bird", 185, BeyonderItems.getTailFeather(), EntityType.COW, 85, beyonderMobs, EntityType.PARROT, "divine-bird", true, new HolyLightSummoning(65), new FlaringSun(185));
 
     }
 

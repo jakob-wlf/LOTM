@@ -42,6 +42,20 @@ public class UtilItems {
         return magentaPane;
     }
 
+    public static ItemStack getCauldron() {
+        final ItemStack item = new ItemStack(Material.CAULDRON );
+        ItemMeta itemMeta = item.getItemMeta();
+        assert itemMeta != null;
+        itemMeta.setDisplayName("§5Brewing Cauldron");
+        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        itemMeta.addEnchant(Enchantment.CHANNELING, 1, true);
+        item.setItemMeta(itemMeta);
+
+        list.add(item);
+
+        return item;
+    }
+
     public static ItemStack getPurplePane() {
         final ItemStack magentaPane = new ItemStack(Material.PURPLE_STAINED_GLASS_PANE);
         ItemMeta magentaPaneMeta = magentaPane.getItemMeta();

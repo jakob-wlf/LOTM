@@ -10,6 +10,8 @@ import de.firecreeper82.pathways.impl.fool.abilities.FogOfHistory;
 import de.firecreeper82.pathways.impl.sun.SunPotions;
 import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.Bukkit;
+import org.bukkit.GameRule;
+import org.bukkit.World;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -71,6 +73,10 @@ public final class Plugin extends JavaPlugin{
         initPotions();
 
         createSaveConfigFoH();
+
+        for(World world : Bukkit.getWorlds()) {
+            world.setGameRule(GameRule.DO_IMMEDIATE_RESPAWN, true);
+        }
     }
 
     //register all the Listeners and CommandExecutors
@@ -271,11 +277,7 @@ public final class Plugin extends JavaPlugin{
                     return;
 
                 int primitiveSequence = sequence;
-                Pathway pathway = Pathway.initializeNew((String) Objects.requireNonNull(configSave.get("beyonders." + s + ".pathway")), UUID.fromString(s), primitiveSequence);
-                assert pathway != null;
-                Beyonder beyonder = new Beyonder(UUID.fromString(s), pathway);
-                Plugin.beyonders.put(UUID.fromString(s), beyonder);
-                Plugin.instance.getServer().getPluginManager().registerEvents(beyonder, Plugin.instance);
+                Pathway.initializeNew((String) Objects.requireNonNull(configSave.get("beyonders." + s + ".pathway")), UUID.fromString(s), primitiveSequence);
             }
             catch (Exception exception) {
                 Bukkit.getConsoleSender().sendMessage("Failed to initialize " + s);

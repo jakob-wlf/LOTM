@@ -500,4 +500,8 @@ public class MarionetteControlling extends Ability implements Listener {
             }
         }
     }
+
+    public boolean isControlling() {
+        return controlling;
+    }
 }

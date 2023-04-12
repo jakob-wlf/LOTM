@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -80,6 +81,21 @@ public class Hiding extends Ability implements Listener {
     public void onPlayerInteract(PlayerInteractEvent e) {
         if(e.getPlayer() != p || !hiding)
             return;
+
+        e.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onPlayerMove(PlayerMoveEvent e) {
+        if(e.getPlayer() != p || !hiding)
+            return;
+
+        for(Ability ability : pathway.getSequence().getAbilities()) {
+            if(!(ability instanceof MarionetteControlling controlling))
+                continue;
+            if(controlling.isControlling())
+                return;
+        }
 
         e.setCancelled(true);
     }
