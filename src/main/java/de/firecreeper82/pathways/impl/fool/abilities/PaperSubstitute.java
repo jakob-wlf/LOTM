@@ -59,11 +59,11 @@ public class PaperSubstitute extends Ability {
         ServerPlayer npc = NPC.create(loc, p.getName(), skin, true);
 
         Random random = new Random();
-        Location newLoc = loc.clone().add((random.nextInt(12) - 6), random.nextInt(5) - 2, random.nextInt(12) - 6);
+        Location newLoc = loc.clone().add((random.nextInt(50) - 25), random.nextInt(25) - 12.5, random.nextInt(50) - 25);
         for(int i = 0; i < 500; i++) {
             if(!newLoc.getBlock().getType().isSolid())
                 break;
-            newLoc = loc.clone().add((random.nextInt(12) - 6), random.nextInt(5) - 2, random.nextInt(12) - 6);
+            newLoc = loc.clone().add((random.nextInt(50) - 25), random.nextInt(25) - 12.5, random.nextInt(50) - 25);
         }
         p.teleport(newLoc);
 

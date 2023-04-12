@@ -7,20 +7,17 @@ import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.fool.FoolItems;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Color;
-import org.bukkit.GameMode;
-import org.bukkit.Material;
-import org.bukkit.Particle;
+import org.bukkit.*;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class Hiding extends Ability implements Listener {
 
     private boolean hiding;
-    private GameMode prevGameMode;
 
     public Hiding(int identifier, Pathway pathway, int sequence, Items items) {
         super(identifier, pathway, sequence, items);
@@ -29,6 +26,12 @@ public class Hiding extends Ability implements Listener {
 
         Plugin.instance.getServer().getPluginManager().registerEvents(this, Plugin.instance);
         p = pathway.getBeyonder().getPlayer();
+        p.setInvisible(false);
+        p.setInvulnerable(false);
+
+        for(Player p : Bukkit.getOnlinePlayers()) {
+            p.showPlayer(Plugin.instance, pathway.getBeyonder().getPlayer());
+        }
     }
 
     @Override
@@ -38,30 +41,43 @@ public class Hiding extends Ability implements Listener {
 
         p = pathway.getBeyonder().getPlayer();
 
-        prevGameMode = p.getGameMode();
-        p.setGameMode(GameMode.SPECTATOR);
-
         hiding = true;
-        p.teleport(p.getLocation().add(0, 1, 0));
+
+        for(Player player : Bukkit.getOnlinePlayers()) {
+            player.hidePlayer(Plugin.instance, p);
+        }
+
+        p.setInvulnerable(true);
+        p.setInvisible(true);
 
         new BukkitRunnable() {
+            final Particle.DustOptions dust = new Particle.DustOptions(Color.fromRGB(216, 216, 216), 50f);
             @Override
             public void run() {
 
-                Particle.DustOptions dust = new Particle.DustOptions(Color.fromRGB(216, 216, 216), 50f);
-                p.spawnParticle(Particle.REDSTONE, p.getLocation(), 5000, 10, 10, 10, dust);
+                p.spawnParticle(Particle.REDSTONE, p.getLocation(), 500, 6, 6, 6, dust);
+                for(Player player : Bukkit.getOnlinePlayers()) {
+                    player.hidePlayer(Plugin.instance, p);
+                }
+
+                p.setInvulnerable(true);
+                p.setInvisible(true);
 
                 if(!hiding) {
                     cancel();
-                    p.setGameMode(prevGameMode);
-                    p.teleport(p.getLocation().subtract(0, 1, 0));
+                    p.setInvisible(false);
+                    for(Player p : Bukkit.getOnlinePlayers()) {
+                        p.showPlayer(Plugin.instance, pathway.getBeyonder().getPlayer());
+                    }
+
+                    p.setInvulnerable(false);
                 }
             }
         }.runTaskTimer(Plugin.instance, 0, 8);
     }
 
     @EventHandler
-    public void onPlayerMove(PlayerMoveEvent e) {
+    public void onPlayerInteract(PlayerInteractEvent e) {
         if(e.getPlayer() != p || !hiding)
             return;
 
@@ -82,5 +98,9 @@ public class Hiding extends Ability implements Listener {
     @Override
     public ItemStack getItem() {
         return FoolItems.createItem(Material.LIGHT_GRAY_DYE, "Hiding in the Fog of History", "85", identifier, sequence, pathway.getBeyonder().getPlayer().getName());
+    }
+
+    public boolean isHiding() {
+        return hiding;
     }
 }

@@ -113,17 +113,30 @@ public class MarionetteControlling extends Ability implements Listener {
         final ItemStack attackItem = UtilItems.getAttack();
 
         //spawning Fake Player where Player was standing
-        ServerPlayer player = ((CraftPlayer) p).getHandle();
-        Property property = player.getGameProfile().getProperties().get("textures").iterator().next();
-        String[] skin = {
-                property.getValue(),
-                property.getSignature()
-        };
-        ServerPlayer npc = NPC.create(loc, p.getName(), skin, false);
-        npc.setHealth((float) p.getHealth());
-        npc.setNoGravity(false);
+        boolean hiding = false;
+        for(Ability ability : pathway.getSequence().getAbilities()) {
+            if(ability instanceof Hiding hidingAbility) {
+                hiding = hidingAbility.isHiding();
+                Bukkit.broadcastMessage("Test");
+            }
+        }
 
-        fakePlayer = npc;
+        ServerPlayer npc;
+        if(!hiding) {
+            ServerPlayer player = ((CraftPlayer) p).getHandle();
+            Property property = player.getGameProfile().getProperties().get("textures").iterator().next();
+            String[] skin = {
+                    property.getValue(),
+                    property.getSignature()
+            };
+            npc = NPC.create(loc, p.getName(), skin, false);
+            npc.setHealth((float) p.getHealth());
+            npc.setNoGravity(false);
+
+            fakePlayer = npc;
+        }
+        else
+            npc = null;
 
         //teleporting the player to the location of the entity
         p.teleport(marionette.getEntity().getLocation());
@@ -228,14 +241,17 @@ public class MarionetteControlling extends Ability implements Listener {
                 if(controlling)
                     return;
 
-                if(!Plugin.fakePlayers.containsKey(npc.getBukkitEntity().getUniqueId())) {
-                    cancel();
-                    return;
+                if(npc != null) {
+                    if(!Plugin.fakePlayers.containsKey(npc.getBukkitEntity().getUniqueId())) {
+                        cancel();
+                        return;
+                    }
+
+                    ServerLevel nmsWorld = ((CraftWorld) npc.getBukkitEntity().getWorld()).getHandle();
+                    nmsWorld.removePlayerImmediately(Plugin.fakePlayers.get(npc.getBukkitEntity().getUniqueId()), net.minecraft.world.entity.Entity.RemovalReason.DISCARDED);
+                    p.teleport(npc.getBukkitEntity().getLocation());
                 }
 
-                ServerLevel nmsWorld = ((CraftWorld) npc.getBukkitEntity().getWorld()).getHandle();
-                nmsWorld.removePlayerImmediately(Plugin.fakePlayers.get(npc.getBukkitEntity().getUniqueId()), net.minecraft.world.entity.Entity.RemovalReason.DISCARDED);
-                p.teleport(npc.getBukkitEntity().getLocation());
                 p.getInventory().remove(UtilItems.getAttack());
                 p.getInventory().setContents(playerInv.getContents());
                 p.setInvisible(false);
