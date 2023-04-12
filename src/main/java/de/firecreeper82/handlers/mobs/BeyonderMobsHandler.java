@@ -39,8 +39,8 @@ public class BeyonderMobsHandler implements Listener {
         spawnEntity("§0Black Patterned Panther", "panther", 28, BeyonderItems.getPanther(), EntityType.OCELOT, 60, null, null, "none", true);
         spawnEntity("§5Thousand-Faced Hunter", "thousand-faced", 55, BeyonderItems.getPituitaryGland(), EntityType.PILLAGER, 70, beyonderMobs, EntityType.ILLUSIONER, "none", true);
         spawnEntity("§0Human-Skinned Shadow", "shadow", 35, BeyonderItems.getShadowCharacteristic(), EntityType.ENDERMAN, 70, beyonderMobs, null, "none", true);
-        spawnEntity("§7Ancient Wraith", "wraith", 85, BeyonderItems.getWraithDust(), EntityType.SKELETON, 145, beyonderMobs, EntityType.VEX, "wraith", true);
-        spawnEntity("§5Six Winged Gargoyle", "gargoyle", 115, BeyonderItems.getGargoyleCrystal(), EntityType.ZOMBIE, 250, beyonderMobs, EntityType.IRON_GOLEM, "gargoyle", true);
+        spawnEntity("§7Ancient Wraith", "wraith", 120, BeyonderItems.getWraithDust(), EntityType.SKELETON, 145, beyonderMobs, EntityType.VEX, "wraith", true);
+        spawnEntity("§5Six Winged Gargoyle", "gargoyle", 180, BeyonderItems.getGargoyleCrystal(), EntityType.ZOMBIE, 250, beyonderMobs, EntityType.IRON_GOLEM, "gargoyle", true);
         spawnEntity("§5Bizarro Bane", "bane", 40, BeyonderItems.getBizarroEye(), EntityType.WITCH, 200, beyonderMobs, EntityType.ALLAY, "bane", true, new BaneAbility(20));
         spawnEntity("§5Spirit World Plunderer", "plunderer", 155, BeyonderItems.getPlundererBody(), EntityType.ZOMBIFIED_PIGLIN, 250, beyonderMobs, EntityType.VEX, "plunderer", false, new SpawnVex(70), new PlundererAbility(35));
         spawnEntity("§5Hound of Fulgrim", "wolf", 85, BeyonderItems.getWolfEye(), EntityType.WOLF, 750, beyonderMobs, null, "wolf", true);

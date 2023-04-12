@@ -114,6 +114,7 @@ public class FoolItems extends Items {
         addAbility(new FogOfHistory(10, pathway, 3, this));
         addAbility(new Hiding(11, pathway, 3, this));
         addAbility(new Miracles(12, pathway, 2, this));
+        addAbility(new Grafting(13, pathway, 1, this));
     }
 
     public void addAbility(Ability ability) {

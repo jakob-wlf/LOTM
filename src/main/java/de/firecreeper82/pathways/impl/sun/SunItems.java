@@ -118,6 +118,7 @@ public class SunItems extends Items {
         addAbility(new OceanOfLight(16, pathway, 2, this));
         addAbility(new WingsOfLight(17, pathway, 2, this));
         addAbility(new DayAndNight(18, pathway, 1, this));
+        //addAbility(new SolarFlare(19, pathway, 1, this));
     }
 
     public void addAbility(Ability ability) {

@@ -24,6 +24,6 @@ public class SolarFlare extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.TORCH, "Solar Flare", "250000", identifier, 4, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
+        return SunItems.createItem(Material.SOUL_TORCH, "Solar Flare", "250000", identifier, 4, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
     }
 }

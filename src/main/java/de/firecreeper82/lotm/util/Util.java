@@ -2,6 +2,7 @@ package de.firecreeper82.lotm.util;
 
 import java.util.Random;
 
+
 public class Util {
 
     @SuppressWarnings("all")

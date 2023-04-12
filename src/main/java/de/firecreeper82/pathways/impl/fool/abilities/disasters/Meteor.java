@@ -118,8 +118,6 @@ public class Meteor extends Disaster{
             block.setGravity(false);
             currentBlock.add(block);
         }
-
-
     }
 
     @Override
