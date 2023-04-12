@@ -1,8 +1,8 @@
 package de.firecreeper82.pathways.impl.sun.abilities;
 
 import de.firecreeper82.lotm.Plugin;
-import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
+import de.firecreeper82.pathways.MobUsableAbility;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.sun.SunItems;
 import org.bukkit.*;
@@ -16,9 +16,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BlockIterator;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
-public class FlaringSun extends Ability {
+public class FlaringSun extends MobUsableAbility {
     public FlaringSun(int identifier, Pathway pathway, int sequence, Items items) {
         super(identifier, pathway, sequence, items);
         items.addToSequenceItems(identifier - 1, sequence);
@@ -26,33 +27,27 @@ public class FlaringSun extends Ability {
 
     private ArrayList<Block> airBlocks;
 
+    public FlaringSun(int frequency) {
+        super(frequency);
+    }
+
     @Override
-    public void useAbility() {
-        double multiplier = getMultiplier();
-
+    public void useAbility(Location startLoc, Location endLoc, double multiplier, Entity user, Entity target) {
         airBlocks = new ArrayList<>();
-        p = pathway.getBeyonder().getPlayer();
-        pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
-        //get block player is looking at
-        BlockIterator iter = new BlockIterator(p, 15);
-        Block lastBlock = iter.next();
-        while (iter.hasNext()) {
-            lastBlock = iter.next();
-            if (!lastBlock.getType().isSolid()) {
-                continue;
-            }
-            break;
-        }
+        Location loc;
 
-        Location loc = lastBlock.getLocation().add(0, 1, 0);
+        if(target != null)
+            loc = target.getLocation();
+        else
+            loc = startLoc.clone();
 
         int burnRadius = 10;
         for(int i = 3; i > -8; i--) {
             for (int x = -burnRadius; x <= burnRadius; x++) {
                 for (int z = -burnRadius; z <= burnRadius; z++) {
                     if( (x*x) + (z*z) <= Math.pow(burnRadius, 2)) {
-                        Block block = p.getWorld().getBlockAt((int) loc.getX() + x, (int) loc.getY() + i, (int) loc.getZ() + z);
+                        Block block = user.getWorld().getBlockAt((int) loc.getX() + x, (int) loc.getY() + i, (int) loc.getZ() + z);
                         if(block.getType() == Material.DIRT || block.getType() == Material.DIRT_PATH || block.getType() == Material.COARSE_DIRT || block.getType() == Material.ROOTED_DIRT || block.getType() == Material.GRASS_BLOCK)
                             block.setType(Material.NETHERRACK);
                         if(block.getType() == Material.STONE || block.getType() == Material.COBBLESTONE || block.getType() == Material.DIORITE || block.getType() == Material.ANDESITE || block.getType() == Material.GRANITE || block.getType() == Material.DEEPSLATE || block.getType() == Material.TUFF || block.getType() == Material.CALCITE || block.getType() == Material.GRAVEL)
@@ -81,7 +76,7 @@ public class FlaringSun extends Ability {
                 counter++;
 
                 //Spawn particles
-                loc.getWorld().spawnParticle(Particle.FLAME, loc, 50, 2, 2, 2, 0);
+                Objects.requireNonNull(loc.getWorld()).spawnParticle(Particle.FLAME, loc, 50, 2, 2, 2, 0);
                 loc.getWorld().spawnParticle(Particle.END_ROD, loc, 70, 2, 2, 2, 0);
                 for (double i = 0; i <= Math.PI; i += Math.PI / 15) {
                     double radius = Math.sin(i) * sphereRadius;
@@ -91,7 +86,7 @@ public class FlaringSun extends Ability {
                         double z = Math.sin(a) * radius;
                         sphereLoc.add(x, y, z);
                         Particle.DustOptions dustSphere = new Particle.DustOptions(Color.fromBGR(0, 215, 255), 1f);
-                        sphereLoc.getWorld().spawnParticle(Particle.REDSTONE, sphereLoc, 1, 0.25, 0.25, 0.25, 0, dustSphere);
+                        Objects.requireNonNull(sphereLoc.getWorld()).spawnParticle(Particle.REDSTONE, sphereLoc, 1, 0.25, 0.25, 0.25, 0, dustSphere);
                         sphereLoc.getWorld().spawnParticle(Particle.FLAME, sphereLoc, 1, 0.25, 0.25, 0.25, 0);
                         if(counter == 1 && !sphereLoc.getBlock().getType().isSolid()) {
                             airBlocks.add(sphereLoc.getBlock());
@@ -104,14 +99,13 @@ public class FlaringSun extends Ability {
                 //damage nearby entities
                 ArrayList<Entity> nearbyEntities = (ArrayList<Entity>) loc.getWorld().getNearbyEntities(loc, 10, 10, 10);
                 for(Entity entity : nearbyEntities) {
-                    if(entity instanceof LivingEntity) {
-                        LivingEntity livingEntity = (LivingEntity) entity;
+                    if(entity instanceof LivingEntity livingEntity) {
                         if (livingEntity.getCategory() == EntityCategory.UNDEAD) {
-                            ((Damageable) entity).damage(35 * multiplier, p);
+                            ((Damageable) entity).damage(35 * multiplier, user);
                             livingEntity.setFireTicks(50 * 20);
-                        } else if(entity != p) {
+                        } else if(entity != user) {
                             livingEntity.setFireTicks(50 * 20);
-                            ((Damageable) entity).damage(18, p);
+                            ((Damageable) entity).damage(18, user);
                         }
                     }
                 }
@@ -121,14 +115,37 @@ public class FlaringSun extends Ability {
                         b.setType(Material.AIR);
                     }
                     cancel();
-                    pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
+                    if(pathway != null)
+                        pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                 }
             }
         }.runTaskTimer(Plugin.instance, 0, 1);
     }
 
     @Override
+    public void useAbility() {
+        double multiplier = getMultiplier();
+
+        p = pathway.getBeyonder().getPlayer();
+        pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
+
+        //get block player is looking at
+        BlockIterator iter = new BlockIterator(p, 15);
+        Block lastBlock = iter.next();
+        while (iter.hasNext()) {
+            lastBlock = iter.next();
+            if (!lastBlock.getType().isSolid()) {
+                continue;
+            }
+            break;
+        }
+
+        Location loc = lastBlock.getLocation().add(0, 1, 0);
+        useAbility(loc, loc, multiplier, p, null);
+    }
+
+    @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.SUNFLOWER, "Flaring Sun", "200", identifier, 4, Bukkit.getPlayer(pathway.getUuid()).getName());
+        return SunItems.createItem(Material.SUNFLOWER, "Flaring Sun", "200", identifier, 4, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
     }
 }

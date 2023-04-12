@@ -1,7 +1,14 @@
 package de.firecreeper82.handlers.mobs;
 
+import de.firecreeper82.handlers.mobs.abilities.BaneAbility;
+import de.firecreeper82.handlers.mobs.abilities.PlundererAbility;
+import de.firecreeper82.handlers.mobs.abilities.RoosterAbility;
+import de.firecreeper82.handlers.mobs.abilities.SpawnVex;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.BeyonderItems;
+import de.firecreeper82.pathways.MobUsableAbility;
+import de.firecreeper82.pathways.impl.sun.abilities.FlaringSun;
+import de.firecreeper82.pathways.impl.sun.abilities.HolyLightSummoning;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
@@ -27,26 +34,26 @@ public class BeyonderMobsHandler implements Listener {
         customEntities = new ArrayList<>();
         BeyonderMobs beyonderMobs = new BeyonderMobs();
 
-        spawnEntity("§9Lavos Squid", "squid", 80, BeyonderItems.getLavosSquidBlood(), EntityType.SQUID, 20, null, null);
-        spawnEntity("§7Hornacis Gray Mountain Goat", "goat", 35, BeyonderItems.getGoatHorn(), EntityType.GOAT, 30, null, null);
-        spawnEntity("§0Black Patterned Panther", "panther", 45, BeyonderItems.getPanther(), EntityType.OCELOT, 60, null, null);
-        spawnEntity("§5Thousand-Faced Hunter", "thousand-faced", 75, BeyonderItems.getPituitaryGland(), EntityType.PILLAGER, 70, beyonderMobs, EntityType.ILLUSIONER);
-        spawnEntity("§0Human-Skinned Shadow", "shadow", 50, BeyonderItems.getShadowCharacteristic(), EntityType.ENDERMAN, 70, beyonderMobs, null);
-        spawnEntity("§7Ancient Wraith", "wraith", 250, BeyonderItems.getWraithDust(), EntityType.SKELETON, 145, beyonderMobs, EntityType.VEX);
-        spawnEntity("§5Six Winged Gargoyle", "gargoyle", 300, BeyonderItems.getGargoyleCrystal(), EntityType.ZOMBIE, 250, beyonderMobs, EntityType.IRON_GOLEM);
-        spawnEntity("§5Bizarro Bane", "bane", 60, BeyonderItems.getBizarroEye(), EntityType.WITCH, 200, beyonderMobs, EntityType.ALLAY);
-        spawnEntity("§5Spirit World Plunderer", "plunderer", 450, BeyonderItems.getPlundererBody(), EntityType.ZOMBIFIED_PIGLIN, 250, beyonderMobs, EntityType.VEX);
-        spawnEntity("§5Hound of Fulgrim", "wolf", 125, BeyonderItems.getWolfEye(), EntityType.WOLF, 750, beyonderMobs, null);
-        spawnEntity("§5Demonic Wolf of Fog", "fog-wolf", 125, BeyonderItems.getWolfHeart(), EntityType.FOX, 750, beyonderMobs, EntityType.WOLF);
+        spawnEntity("§9Lavos Squid", "squid", 80, BeyonderItems.getLavosSquidBlood(), EntityType.SQUID, 20, null, null, "none", true);
+        spawnEntity("§7Hornacis Gray Mountain Goat", "goat", 35, BeyonderItems.getGoatHorn(), EntityType.GOAT, 30, null, null, "none", true);
+        spawnEntity("§0Black Patterned Panther", "panther", 45, BeyonderItems.getPanther(), EntityType.OCELOT, 60, null, null, "none", true);
+        spawnEntity("§5Thousand-Faced Hunter", "thousand-faced", 75, BeyonderItems.getPituitaryGland(), EntityType.PILLAGER, 70, beyonderMobs, EntityType.ILLUSIONER, "none", true);
+        spawnEntity("§0Human-Skinned Shadow", "shadow", 50, BeyonderItems.getShadowCharacteristic(), EntityType.ENDERMAN, 70, beyonderMobs, null, "none", true);
+        spawnEntity("§7Ancient Wraith", "wraith", 250, BeyonderItems.getWraithDust(), EntityType.SKELETON, 145, beyonderMobs, EntityType.VEX, "wraith", true);
+        spawnEntity("§5Six Winged Gargoyle", "gargoyle", 300, BeyonderItems.getGargoyleCrystal(), EntityType.ZOMBIE, 250, beyonderMobs, EntityType.IRON_GOLEM, "gargoyle", true);
+        spawnEntity("§5Bizarro Bane", "bane", 60, BeyonderItems.getBizarroEye(), EntityType.WITCH, 200, beyonderMobs, EntityType.ALLAY, "bane", true, new BaneAbility(20));
+        spawnEntity("§5Spirit World Plunderer", "plunderer", 450, BeyonderItems.getPlundererBody(), EntityType.ZOMBIFIED_PIGLIN, 250, beyonderMobs, EntityType.VEX, "plunderer", false, new SpawnVex(70), new PlundererAbility(35));
+        spawnEntity("§5Hound of Fulgrim", "wolf", 125, BeyonderItems.getWolfEye(), EntityType.WOLF, 750, beyonderMobs, null, "wolf", true);
+        spawnEntity("§5Demonic Wolf of Fog", "fog-wolf", 125, BeyonderItems.getWolfHeart(), EntityType.FOX, 750, beyonderMobs, EntityType.WOLF, "fog-wolf", true);
 
-        spawnEntity("§4Magma Titan", "magma-titan", 30, BeyonderItems.getMagmaHeart(), EntityType.MAGMA_CUBE, 32, null, null);
-        spawnEntity("§6Dawn Rooster", "rooster", 85, BeyonderItems.getRedRoosterComb(), EntityType.CHICKEN, 60, beyonderMobs, null);
-        spawnEntity("§6Divine Bird", "divine-bird", 300, BeyonderItems.getTailFeather(), EntityType.COW, 85, beyonderMobs, EntityType.PARROT);
+        spawnEntity("§4Magma Titan", "magma-titan", 30, BeyonderItems.getMagmaHeart(), EntityType.MAGMA_CUBE, 32, null, null, "none", true);
+        spawnEntity("§6Dawn Rooster", "rooster", 85, BeyonderItems.getRedRoosterComb(), EntityType.CHICKEN, 60, beyonderMobs, null, "rooster", true, new RoosterAbility(60));
+        spawnEntity("§6Divine Bird", "divine-bird", 300, BeyonderItems.getTailFeather(), EntityType.COW, 85, beyonderMobs, EntityType.PARROT, "divine-bird", true, new HolyLightSummoning(65), new FlaringSun(185));
 
     }
 
-    private void spawnEntity(String name, String id, int rarity, ItemStack drop, EntityType entityType, Integer health, BeyonderMobs beyonderMobs, EntityType spawnType) {
-        customEntities.add(new CustomEntity(name, id, rarity, drop, entityType, health, beyonderMobs, spawnType));
+    private void spawnEntity(String name, String id, int rarity, ItemStack drop, EntityType entityType, Integer health, BeyonderMobs beyonderMobs, EntityType spawnType, String particle, boolean repeatingParticles, MobUsableAbility... abilities) {
+        customEntities.add(new CustomEntity(name, id, rarity, drop, entityType, health, beyonderMobs, spawnType, particle, repeatingParticles, abilities));
     }
 
     public boolean spawnEntity(String id, Location location, World world) {
@@ -65,7 +72,7 @@ public class BeyonderMobsHandler implements Listener {
             entity.setMetadata("customEntityId", new FixedMetadataValue(Plugin.instance, customEntity.id()));
 
             if(customEntity.beyonderMobs() != null) {
-                customEntity.beyonderMobs().addMob(entity, customEntity.id());
+                customEntity.beyonderMobs().addMob(entity, customEntity);
             }
             return true;
         }
@@ -100,7 +107,7 @@ public class BeyonderMobsHandler implements Listener {
             entity.setMetadata("customEntityId", new FixedMetadataValue(Plugin.instance, customEntity.id()));
 
             if(customEntity.beyonderMobs() != null) {
-                customEntity.beyonderMobs().addMob(entity, customEntity.id());
+                customEntity.beyonderMobs().addMob(entity, customEntity);
             }
         }
     }
