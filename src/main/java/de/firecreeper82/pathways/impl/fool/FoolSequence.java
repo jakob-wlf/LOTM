@@ -32,7 +32,7 @@ public class FoolSequence extends Sequence implements Listener {
 
     @Override
     public List<Integer> getIds() {
-        Integer[] ids = {4};
+        Integer[] ids = {4, 14};
         return Arrays.asList(ids);
     }
 

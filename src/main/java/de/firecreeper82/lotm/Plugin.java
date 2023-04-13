@@ -15,6 +15,7 @@ import org.bukkit.World;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Entity;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
@@ -38,6 +39,8 @@ public final class Plugin extends JavaPlugin{
     public static HashMap<UUID, ServerPlayer> fakePlayers = new HashMap<>();
 
     public static HashMap<UUID, FogOfHistory> fogOfHistories = new HashMap<>();
+
+    private ArrayList<ArrayList<Entity>> concealedEntities;
 
     private File configSaveFile;
     private FileConfiguration configSave;
@@ -64,6 +67,8 @@ public final class Plugin extends JavaPlugin{
         catch (MalformedURLException ignored) {}
 
         recipe = new Recipe();
+
+        concealedEntities = new ArrayList<>();
 
         Bukkit.getConsoleSender().sendMessage(prefix + "§aEnabled Plugin");
 
@@ -309,5 +314,17 @@ public final class Plugin extends JavaPlugin{
 
     public Recipe getRecipe() {
         return recipe;
+    }
+
+    public void addToConcealedEntities(ArrayList<Entity> list) {
+        concealedEntities.add(list);
+    }
+
+    public void removeFromConcealedEntities(ArrayList<Entity> list) {
+        concealedEntities.remove(list);
+    }
+
+    public ArrayList<ArrayList<Entity>> getConcealedEntities() {
+        return concealedEntities;
     }
 }

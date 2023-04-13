@@ -43,6 +43,13 @@ public class BeyonderMobs {
                     }
                 }
 
+                for(ArrayList<Entity> list : Plugin.instance.getConcealedEntities()) {
+                    if(list.contains(target)) {
+                        target = null;
+                        return;
+                    }
+                }
+
                 if(target == null)
                     return;
 

@@ -358,6 +358,6 @@ public class Grafting extends Ability implements Listener {
 
     @Override
     public ItemStack getItem() {
-        return FoolItems.createItem(Material.ECHO_SHARD, "Grafting", "None", identifier, sequence, pathway.getBeyonder().getPlayer().getName());
+        return FoolItems.createItem(Material.ECHO_SHARD, "Grafting", "5000", identifier, sequence, pathway.getBeyonder().getPlayer().getName());
     }
 }

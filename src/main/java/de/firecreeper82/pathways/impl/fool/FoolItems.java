@@ -115,6 +115,7 @@ public class FoolItems extends Items {
         addAbility(new Hiding(11, pathway, 3, this));
         addAbility(new Miracles(12, pathway, 2, this));
         addAbility(new Grafting(13, pathway, 1, this));
+        addAbility(new RealmOfMysteries(14, pathway, 1, this));
     }
 
     public void addAbility(Ability ability) {

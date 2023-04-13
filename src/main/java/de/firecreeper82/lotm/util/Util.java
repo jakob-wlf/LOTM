@@ -1,5 +1,10 @@
 package de.firecreeper82.lotm.util;
 
+import jline.internal.Nullable;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+
 import java.util.Random;
 
 
@@ -40,5 +45,25 @@ public class Util {
             i++;
         }
         return i + min;
+    }
+
+    public static void drawCircle(Location loc, int sphereRadius, int detail, Particle.DustOptions dust, @Nullable Material material) {
+        //Spawn particles
+        for (double i = 0; i <= Math.PI; i += Math.PI / detail) {
+            double radius = Math.sin(i) * sphereRadius;
+            double y = Math.cos(i) * sphereRadius;
+            for (double a = 0; a < Math.PI * 2; a += Math.PI / detail) {
+                double x = Math.cos(a) * radius;
+                double z = Math.sin(a) * radius;
+                loc.add(x, y, z);
+                if(loc.getWorld() == null)
+                    return;
+                loc.getWorld().spawnParticle(Particle.REDSTONE, loc, 1, .2, .2, .2, 0, dust);
+                if(material != null && (loc.getBlock().getType().getHardness() >= 0 || loc.getBlock().getType() == Material.BARRIER) && (!loc.getBlock().getType().isSolid() || loc.getBlock().getType() == Material.BARRIER)) {
+                    loc.getBlock().setType(material);
+                }
+                loc.subtract(x, y, z);
+            }
+        }
     }
 }
