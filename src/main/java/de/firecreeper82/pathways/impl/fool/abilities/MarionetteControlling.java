@@ -64,6 +64,7 @@ public class MarionetteControlling extends Ability implements Listener {
                 EntityType.GUARDIAN,
                 EntityType.ILLUSIONER,
                 EntityType.PILLAGER,
+                EntityType.SHULKER,
                 EntityType.SKELETON,
                 EntityType.STRAY,
                 EntityType.WARDEN,

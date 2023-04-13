@@ -53,6 +53,8 @@ public class Beyonder implements Listener {
     private final ArrayList<Marionette> marionettes;
     private final ArrayList<Mob> marionetteEntities;
 
+    private int resurrections;
+
     public Beyonder(UUID uuid, Pathway pathway) {
         this.pathway = pathway;
         this.uuid = uuid;
@@ -66,6 +68,8 @@ public class Beyonder implements Listener {
         marionetteEntities = new ArrayList<>();
 
         loosingControl = false;
+
+        resurrections = 0;
 
         if(getPlayer() == null || !Bukkit.getOnlinePlayers().contains(getPlayer()))
             return;
@@ -114,9 +118,8 @@ public class Beyonder implements Listener {
         if(pathway.getSequence() == null)
             return;
 
-        Bukkit.broadcastMessage("You died");
 
-        if(pathway instanceof FoolPathway && pathway.getSequence().getCurrentSequence() <= 2) {
+        if(pathway instanceof FoolPathway && pathway.getSequence().getCurrentSequence() <= 2 && resurrections < 5) {
             new BukkitRunnable() {
                 @Override
                 public void run() {
@@ -140,6 +143,8 @@ public class Beyonder implements Listener {
                         if(ability instanceof Hiding hiding)
                             hiding.useAbility();
                     }
+
+                    resurrections++;
                 }
             }.runTaskLater(Plugin.instance, 3);
             return;
