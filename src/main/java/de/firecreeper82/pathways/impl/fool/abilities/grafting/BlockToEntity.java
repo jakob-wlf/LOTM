@@ -65,7 +65,7 @@ public class BlockToEntity {
                             fallingBlock.setVelocity(dir);
 
                             if(counter % 8 == 0 && entity instanceof Damageable damageable)
-                                damageable.damage(4, player);
+                                damageable.damage(4);
                         }
                         counter++;
                         if(counter > 20 * 30 * 2 || !entity.isValid()) {

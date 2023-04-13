@@ -31,6 +31,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MarionetteControlling extends Ability implements Listener {
@@ -118,7 +119,6 @@ public class MarionetteControlling extends Ability implements Listener {
         for(Ability ability : pathway.getSequence().getAbilities()) {
             if(ability instanceof Hiding hidingAbility) {
                 hiding = hidingAbility.isHiding();
-                Bukkit.broadcastMessage("Test");
             }
         }
 
@@ -133,6 +133,12 @@ public class MarionetteControlling extends Ability implements Listener {
             npc = NPC.create(loc, p.getName(), skin, false);
             npc.setHealth((float) p.getHealth());
             npc.setNoGravity(false);
+
+            for(ArrayList<Entity> list : Plugin.instance.getConcealedEntities()) {
+                if(!list.contains(p))
+                    continue;
+                list.add(npc.getBukkitEntity());
+            }
 
             fakePlayer = npc;
         }

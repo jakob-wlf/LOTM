@@ -49,6 +49,7 @@ public class PlundererAbility extends MobUsableAbility {
                     playerTarget.damage(4, user);
                     playerTarget.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 60, 2));
                     playerTarget.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 60, 2));
+                    cancel();
                 }
 
                 counter++;

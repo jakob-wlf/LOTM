@@ -11,9 +11,11 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -104,5 +106,17 @@ public class RealmOfMysteries extends Ability implements Listener {
 
         if(!concealedEntities.contains(e.getDamager()))
             e.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onChat(AsyncPlayerChatEvent e) {
+        if(!concealedEntities.contains(e.getPlayer()))
+            return;
+
+        for(Player player : e.getRecipients()) {
+            if(concealedEntities.contains(player))
+                continue;
+            e.getRecipients().remove(player);
+        }
     }
 }
