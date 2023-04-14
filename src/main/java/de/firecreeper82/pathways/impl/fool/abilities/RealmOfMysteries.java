@@ -35,7 +35,7 @@ public class RealmOfMysteries extends Ability implements Listener {
         super(identifier, pathway, sequence, items);
 
         items.addToSequenceItems(identifier - 1, sequence);
-        radius = 16;
+        radius = 30;
 
         Plugin.instance.getServer().getPluginManager().registerEvents(this, Plugin.instance);
         concealedEntities = new ArrayList<>();
@@ -70,9 +70,10 @@ public class RealmOfMysteries extends Ability implements Listener {
 
         new BukkitRunnable() {
             final int currentRadius = radius;
+            final long max = Math.max(20, Math.min(55, Math.round(currentRadius * 2.5)));
             @Override
             public void run() {
-                Util.drawCircle(loc, currentRadius, 27, dust, Material.BARRIER);
+                Util.drawCircle(loc, currentRadius, (int) max, dust, Material.BARRIER);
 
                 if(loc.getWorld() == null)
                     return;
@@ -96,7 +97,7 @@ public class RealmOfMysteries extends Ability implements Listener {
                 }
 
                 if(!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
-                    Util.drawCircle(loc, currentRadius, 27, dust, Material.AIR);
+                    Util.drawCircle(loc, currentRadius, (int) max, dust, Material.AIR);
                     for(Entity entity : concealedEntities) {
                         if(!(entity instanceof Player player))
                             continue;
@@ -126,7 +127,7 @@ public class RealmOfMysteries extends Ability implements Listener {
     public void leftClick() {
         p = pathway.getBeyonder().getPlayer();
         radius++;
-        if(radius > 16)
+        if(radius > 30)
             radius = 5;
 
         p.sendMessage("§5Radius is now " + radius);
