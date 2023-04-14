@@ -147,10 +147,12 @@ public class SpiritBodyThreads extends Ability implements Listener {
         turning = true;
 
 
+        final int beyonderMultiplier = (Plugin.beyonders.containsKey(e.getUniqueId()) && Plugin.beyonders.get(e.getUniqueId()).getPathway() != null && Plugin.beyonders.get(e.getUniqueId()).getPathway().getSequence() != null) ? (9 / Plugin.beyonders.get(e.getUniqueId()).getPathway().getSequence().getCurrentSequence()) : 1;
+
         //Runs every 1/2 seconds and gives Entity effects
         //At the end of the time if entity is still being turned, removes entity
         new BukkitRunnable() {
-            long counter = 2L * convertTimeSeconds;
+            long counter = 2L * convertTimeSeconds * beyonderMultiplier;
             @Override
             public void run() {
                 if(!turning) {

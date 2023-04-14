@@ -38,10 +38,10 @@ public class PotionHandler implements Listener {
         if(e.getClickedBlock().getType() != Material.CAULDRON)
             return;
 
-        if((e.getClickedBlock().getMetadata("special").isEmpty()) || e.getClickedBlock().getMetadata("special").get(0).value() == null || !(e.getClickedBlock().getMetadata("special").get(0).value() instanceof Boolean metaDataTag))
-            return;
-
-        if(!metaDataTag)
+        if(
+                ((e.getClickedBlock().getMetadata("special").isEmpty()) || e.getClickedBlock().getMetadata("special").get(0).value() == null || !(e.getClickedBlock().getMetadata("special").get(0).value() instanceof Boolean metaDataTag) || !metaDataTag) &&
+                e.getClickedBlock().getLocation().subtract(0, 1, 0).getBlock().getType() != Material.SOUL_FIRE
+        )
             return;
 
         e.setCancelled(true);

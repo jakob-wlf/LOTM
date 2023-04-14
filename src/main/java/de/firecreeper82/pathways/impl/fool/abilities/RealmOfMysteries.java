@@ -11,12 +11,15 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -71,6 +74,13 @@ public class RealmOfMysteries extends Ability implements Listener {
                         }
                         entity.teleport(entLoc);
                     }
+                }
+
+                for(Entity entity : concealedEntities) {
+                    if(!(entity instanceof LivingEntity livingEntity))
+                        continue;
+                    livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.DARKNESS, 12, 1, false, false));
+                    livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 80, 1, false, false));
                 }
 
                 if(!pathway.getSequence().getUsesAbilities()[identifier - 1]) {

@@ -85,6 +85,8 @@ public class HealthSynchronization implements Listener {
         if(e.getEntity() == entity2) {
             mob1.damage(0);
         }
+        else
+            e.setCancelled(true);
 
         new BukkitRunnable() {
             @Override

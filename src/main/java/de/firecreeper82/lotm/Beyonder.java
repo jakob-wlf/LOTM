@@ -47,6 +47,7 @@ public class Beyonder implements Listener {
     private boolean beyonder;
     private boolean loosingControl;
     public boolean online;
+    private boolean initializedOnce;
 
     private Team team;
 
@@ -63,6 +64,7 @@ public class Beyonder implements Listener {
 
         beyonder = true;
         online = false;
+        initializedOnce = false;
 
         marionettes = new ArrayList<>();
         marionetteEntities = new ArrayList<>();
@@ -73,6 +75,8 @@ public class Beyonder implements Listener {
 
         if(getPlayer() == null || !Bukkit.getOnlinePlayers().contains(getPlayer()))
             return;
+
+        initializedOnce = true;
 
         pathway.init();
         pathway.initItems();
@@ -90,8 +94,10 @@ public class Beyonder implements Listener {
 
         pathway.setBeyonder(this);
 
-        pathway.init();
-        pathway.initItems();
+        if(!initializedOnce) {
+            pathway.init();
+            pathway.initItems();
+        }
         start();
     }
 
@@ -146,7 +152,7 @@ public class Beyonder implements Listener {
 
                     resurrections++;
                 }
-            }.runTaskLater(Plugin.instance, 3);
+            }.runTaskLater(Plugin.instance, 2);
             return;
         }
 
@@ -166,7 +172,7 @@ public class Beyonder implements Listener {
                     }
                 }
             }
-        }.runTaskLater(Plugin.instance, 3);
+        }.runTaskLater(Plugin.instance, 2);
     }
 
     private void updateBoard() {
@@ -199,6 +205,7 @@ public class Beyonder implements Listener {
         board.updateLines("", "§5Pathway", "- " + pathway.getStringColor() + pathway.getName(), "", "§5Sequence", "- " + pathway.getStringColor() + pathway.getSequence().getCurrentSequence() + ": " + Objects.requireNonNull(Pathway.getNamesForPathway(pathway.getNameNormalized())).get(pathway.getSequence().getCurrentSequence()), "", "§5Spirituality", "- " + pathway.getStringColor() + Math.round(spirituality) + "/" + Math.round(maxSpirituality), "", "§5Acting", "- " + pathway.getStringColor() + Math.round(actingProgress) + "/" + Math.round(actingNeeded));
 
         online = true;
+        initializedOnce = true;
 
         //onHold
         new BukkitRunnable() {
