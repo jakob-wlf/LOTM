@@ -8,7 +8,7 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
@@ -48,12 +48,12 @@ public class Marionette implements Listener {
         if(world == null)
             return;
         Entity e = world.spawnEntity(loc, entityType);
-        if(!(e instanceof LivingEntity livingEntity))
+        if(!(e instanceof Mob livingEntity))
             return;
 
         Plugin.instance.getServer().getPluginManager().registerEvents(this, Plugin.instance);
 
-        this.entity = (Mob) livingEntity;
+        this.entity = livingEntity;
         this.pathway = pathway;
         this.type = entityType;
 
@@ -72,6 +72,8 @@ public class Marionette implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
+                if(currentTarget != null && !currentTarget.isValid())
+                    currentTarget = null;
 
                 if(!active)
                     return;
@@ -123,9 +125,6 @@ public class Marionette implements Listener {
     public void entityDamageByEntity(EntityDamageByEntityEvent e) {
         Player p = pathway.getBeyonder().getPlayer();
 
-        if(e.getEntity() instanceof Mob m && m == currentTarget && e.getDamage() > m.getHealth())
-            currentTarget = null;
-
         if(e.getEntity() instanceof Mob m && e.getDamager() == entity && pathway.getBeyonder().getMarionetteEntities().contains(m))
             e.setCancelled(true);
 
@@ -134,25 +133,19 @@ public class Marionette implements Listener {
             return;
         }
 
-        if(e.getEntity() instanceof Mob m && m == entity && e.getDamage() > m.getHealth()) {
-            pathway.getBeyonder().getMarionettes().remove(this);
-            pathway.getBeyonder().getMarionetteEntities().remove(entity);
-            setBeingControlled(false);
-            alive = false;
-        }
-
         if(e.getEntity() == p && e.getDamager() == entity)
             e.setCancelled(true);
     }
 
     @EventHandler
-    public void entityDamage(EntityDamageEvent e) {
-        if(e.getEntity() instanceof Mob m && m == entity && e.getDamage() > m.getHealth()) {
-            pathway.getBeyonder().getMarionettes().remove(this);
-            pathway.getBeyonder().getMarionetteEntities().remove(entity);
-            setBeingControlled(false);
-            alive = false;
-        }
+    public void onDeath(EntityDeathEvent e) {
+        if(e.getEntity() != entity)
+            return;
+
+        alive = false;
+        active = false;
+        pathway.getBeyonder().getMarionetteEntities().remove(entity);
+        pathway.getBeyonder().getMarionettes().remove(this);
     }
 
 

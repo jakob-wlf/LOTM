@@ -5,6 +5,7 @@ import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.Potion;
 import de.firecreeper82.pathways.impl.fool.FoolPathway;
 import de.firecreeper82.pathways.impl.fool.abilities.Hiding;
+import de.firecreeper82.pathways.impl.fool.marionettes.BeyonderMarionette;
 import de.firecreeper82.pathways.impl.fool.marionettes.Marionette;
 import fr.mrmicky.fastboard.FastBoard;
 import org.bukkit.Bukkit;
@@ -52,6 +53,8 @@ public class Beyonder implements Listener {
     private Team team;
 
     private final ArrayList<Marionette> marionettes;
+    private final ArrayList<BeyonderMarionette> beyonderMarionettes;
+    private final ArrayList<Mob> beyonderMarionetteEntities;
     private final ArrayList<Mob> marionetteEntities;
 
     private int resurrections;
@@ -67,6 +70,8 @@ public class Beyonder implements Listener {
         initializedOnce = false;
 
         marionettes = new ArrayList<>();
+        beyonderMarionettes = new ArrayList<>();
+        beyonderMarionetteEntities = new ArrayList<>();
         marionetteEntities = new ArrayList<>();
 
         loosingControl = false;
@@ -456,6 +461,14 @@ public class Beyonder implements Listener {
 
     public ArrayList<Mob> getMarionetteEntities() {
         return marionetteEntities;
+    }
+
+    public ArrayList<BeyonderMarionette> getBeyonderMarionettes() {
+        return beyonderMarionettes;
+    }
+
+    public ArrayList<Mob> getBeyonderMarionetteEntities() {
+        return beyonderMarionetteEntities;
     }
 }
 

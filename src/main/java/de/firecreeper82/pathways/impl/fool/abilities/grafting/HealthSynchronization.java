@@ -71,22 +71,25 @@ public class HealthSynchronization implements Listener {
             return;
         }
 
-        if(hasFired)
-            return;
-
         if(e.getEntity() != entity1 && e.getEntity() != entity2)
             return;
 
         if(!(entity1 instanceof LivingEntity mob1))
             return;
 
-        hasFired = true;
+        if(e.getEntity() == entity1) {
+            e.setCancelled(true);
+            return;
+        }
+
+        if(hasFired)
+            return;
 
         if(e.getEntity() == entity2) {
             mob1.damage(0);
         }
-        else
-            e.setCancelled(true);
+
+        hasFired = true;
 
         new BukkitRunnable() {
             @Override

@@ -48,7 +48,7 @@ public class BeyonderMobsHandler implements Listener {
 
         spawnEntity("§4Magma Titan", "magma-titan", 25, BeyonderItems.getMagmaHeart(), EntityType.MAGMA_CUBE, 32, null, null, "none", true);
         spawnEntity("§6Dawn Rooster", "rooster", 85, BeyonderItems.getRedRoosterComb(), EntityType.CHICKEN, 60, beyonderMobs, null, "rooster", true, new RoosterAbility(60));
-        spawnEntity("§6Divine Bird", "divine-bird", 185, BeyonderItems.getTailFeather(), EntityType.COW, 85, beyonderMobs, EntityType.PARROT, "divine-bird", true, new HolyLightSummoning(65), new FlaringSun(185));
+        spawnEntity("§6Divine Bird", "divine-bird", 185, BeyonderItems.getTailFeather(), EntityType.COW, 85, beyonderMobs, EntityType.PARROT, "divine-bird", true, new HolyLightSummoning(90), new FlaringSun(350));
 
     }
 
@@ -129,5 +129,9 @@ public class BeyonderMobsHandler implements Listener {
                 break;
             }
         }
+    }
+
+    public ArrayList<CustomEntity> getCustomEntities() {
+        return customEntities;
     }
 }

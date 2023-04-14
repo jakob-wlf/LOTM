@@ -10,8 +10,6 @@ import java.util.*;
 
 public class BeyonderMobs {
 
-
-
     public void addMob(Entity entity, CustomEntity customEntity) {
         Random random = new Random();
         if(!customEntity.repeatingParticles())

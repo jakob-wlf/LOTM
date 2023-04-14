@@ -364,18 +364,18 @@ public class MarionetteControlling extends Ability implements Listener {
     public void attack(EntityType entityType, Player p) {
         switch(entityType) {
             case BLAZE ->
-                new BukkitRunnable() {
-                    int counter = 0;
-                    @Override
-                    public void run() {
-                        SmallFireball fireball = (SmallFireball) p.getWorld().spawnEntity(p.getEyeLocation().clone().add(p.getEyeLocation().getDirection().normalize()), EntityType.SMALL_FIREBALL);
-                        fireball.setShooter(controlledMarionette.getEntity());
-                        fireball.setVelocity(p.getLocation().getDirection().normalize());
-                        counter++;
-                        if(counter >= 3)
-                            cancel();
-                    }
-                }.runTaskTimer(Plugin.instance, 0, 6);
+                    new BukkitRunnable() {
+                        int counter = 0;
+                        @Override
+                        public void run() {
+                            SmallFireball fireball = (SmallFireball) p.getWorld().spawnEntity(p.getEyeLocation().clone().add(p.getEyeLocation().getDirection().normalize()), EntityType.SMALL_FIREBALL);
+                            fireball.setShooter(controlledMarionette.getEntity());
+                            fireball.setVelocity(p.getLocation().getDirection().normalize());
+                            counter++;
+                            if(counter >= 3)
+                                cancel();
+                        }
+                    }.runTaskTimer(Plugin.instance, 0, 6);
 
             case ENDER_DRAGON -> {
                 DragonFireball fireball = (DragonFireball) p.getWorld().spawnEntity(p.getEyeLocation().clone().add(p.getEyeLocation().getDirection().normalize()), EntityType.DRAGON_FIREBALL);

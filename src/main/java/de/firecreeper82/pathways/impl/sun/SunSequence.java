@@ -67,7 +67,7 @@ public class SunSequence extends Sequence {
 
         PotionEffect[] effects2 = {
                 new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60, 2, false, false, false),
-                new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60, 3, false, false, false),
+                new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60, 2, false, false, false),
                 new PotionEffect(PotionEffectType.SPEED, 60, 2, false, false, true),
                 new PotionEffect(PotionEffectType.SATURATION, 60, 10, false, false, true),
         };

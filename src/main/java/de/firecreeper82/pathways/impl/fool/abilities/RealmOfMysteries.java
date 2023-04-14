@@ -6,10 +6,10 @@ import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.fool.FoolItems;
-import org.bukkit.Color;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
+import net.minecraft.network.protocol.game.ClientboundPlayerInfoPacket;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import org.bukkit.*;
+import org.bukkit.craftbukkit.v1_19_R1.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -35,7 +35,7 @@ public class RealmOfMysteries extends Ability implements Listener {
         super(identifier, pathway, sequence, items);
 
         items.addToSequenceItems(identifier - 1, sequence);
-        radius = 10;
+        radius = 16;
 
         Plugin.instance.getServer().getPluginManager().registerEvents(this, Plugin.instance);
         concealedEntities = new ArrayList<>();
@@ -55,12 +55,24 @@ public class RealmOfMysteries extends Ability implements Listener {
         Plugin.instance.addToConcealedEntities(concealedEntities);
 
         Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(0, 0, 0), 85f);
+        for(Entity entity : concealedEntities) {
+            if(!(entity instanceof Player player))
+                continue;
+
+            ClientboundPlayerInfoPacket playerInfoRemove = new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.REMOVE_PLAYER, ((CraftPlayer) player).getHandle());
+            for(Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+                if(concealedEntities.contains(onlinePlayer))
+                    continue;
+                ServerGamePacketListenerImpl connection = ((CraftPlayer) onlinePlayer).getHandle().connection;
+                connection.send(playerInfoRemove);
+            }
+        }
 
         new BukkitRunnable() {
             final int currentRadius = radius;
             @Override
             public void run() {
-                Util.drawCircle(loc, currentRadius, 23, dust, Material.BARRIER);
+                Util.drawCircle(loc, currentRadius, 27, dust, Material.BARRIER);
 
                 if(loc.getWorld() == null)
                     return;
@@ -80,11 +92,23 @@ public class RealmOfMysteries extends Ability implements Listener {
                     if(!(entity instanceof LivingEntity livingEntity))
                         continue;
                     livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.DARKNESS, 12, 1, false, false));
-                    livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 80, 1, false, false));
+                    livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 220, 1, false, false));
                 }
 
                 if(!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
-                    Util.drawCircle(loc, currentRadius, 23, dust, Material.AIR);
+                    Util.drawCircle(loc, currentRadius, 27, dust, Material.AIR);
+                    for(Entity entity : concealedEntities) {
+                        if(!(entity instanceof Player player))
+                            continue;
+
+                        ClientboundPlayerInfoPacket playerInfoAdd = new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.ADD_PLAYER, ((CraftPlayer) player).getHandle());
+                        for(Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+                            if(concealedEntities.contains(onlinePlayer))
+                                continue;
+                            ServerGamePacketListenerImpl connection = ((CraftPlayer) onlinePlayer).getHandle().connection;
+                            connection.send(playerInfoAdd);
+                        }
+                    }
                     Plugin.instance.removeFromConcealedEntities(concealedEntities);
                     concealedEntities.clear();
                     cancel();
@@ -102,7 +126,7 @@ public class RealmOfMysteries extends Ability implements Listener {
     public void leftClick() {
         p = pathway.getBeyonder().getPlayer();
         radius++;
-        if(radius > 10)
+        if(radius > 16)
             radius = 5;
 
         p.sendMessage("§5Radius is now " + radius);

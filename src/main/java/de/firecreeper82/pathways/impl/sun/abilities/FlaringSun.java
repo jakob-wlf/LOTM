@@ -101,11 +101,11 @@ public class FlaringSun extends MobUsableAbility {
                 for(Entity entity : nearbyEntities) {
                     if(entity instanceof LivingEntity livingEntity) {
                         if (livingEntity.getCategory() == EntityCategory.UNDEAD) {
-                            ((Damageable) entity).damage(35 * multiplier, user);
+                            ((Damageable) entity).damage(12 * multiplier, user);
                             livingEntity.setFireTicks(50 * 20);
                         } else if(entity != user) {
                             livingEntity.setFireTicks(50 * 20);
-                            ((Damageable) entity).damage(18, user);
+                            ((Damageable) entity).damage(5, user);
                         }
                     }
                 }

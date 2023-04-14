@@ -28,7 +28,6 @@ import java.util.Map;
 public class Grafting extends Ability implements Listener {
 
     private final HashMap<Location[], Integer> graftedLocations;
-    private final ArrayList<Entity> teleportedPlayers;
     private final ArrayList<HealthSynchronization> healthSynchros;
     private final ArrayList<EntityToLocation> stuckEntities;
     private final ArrayList<EntityToEntity> entityToEntities;
@@ -43,7 +42,6 @@ public class Grafting extends Ability implements Listener {
         Plugin.instance.getServer().getPluginManager().registerEvents(this, Plugin.instance);
 
         graftedLocations = new HashMap<>();
-        teleportedPlayers = new ArrayList<>();
         healthSynchros = new ArrayList<>();
         stuckEntities = new ArrayList<>();
         entityToEntities = new ArrayList<>();
@@ -59,31 +57,7 @@ public class Grafting extends Ability implements Listener {
                         return;
 
                     for(Entity entity : entry.getKey()[0].getWorld().getNearbyEntities(entry.getKey()[0], entry.getValue(), entry.getValue(), entry.getValue())) {
-                        if(teleportedPlayers.contains(entity))
-                            continue;
-
                         entity.teleport(entry.getKey()[1]);
-                        teleportedPlayers.add(entity);
-                        new BukkitRunnable() {
-                            @Override
-                            public void run() {
-                                teleportedPlayers.remove(entity);
-                            }
-                        }.runTaskLater(Plugin.instance, 30);
-                    }
-
-                    for(Entity entity : entry.getKey()[1].getWorld().getNearbyEntities(entry.getKey()[1], radius, 1, radius)) {
-                        if(teleportedPlayers.contains(entity))
-                            continue;
-
-                        entity.teleport(entry.getKey()[0]);
-                        teleportedPlayers.add(entity);
-                        new BukkitRunnable() {
-                            @Override
-                            public void run() {
-                                teleportedPlayers.remove(entity);
-                            }
-                        }.runTaskLater(Plugin.instance, 50);
                     }
                 }
             }
@@ -132,8 +106,6 @@ public class Grafting extends Ability implements Listener {
     public void useAbility() {
         p = pathway.getBeyonder().getPlayer();
 
-
-
         Location playerLookEntity = p.getEyeLocation();
         Vector vectorEntity = playerLookEntity.getDirection().normalize().multiply(.5);
         //Get entity player is looking at
@@ -165,6 +137,7 @@ public class Grafting extends Ability implements Listener {
         switch (selectedCategory) {
 
             case Location -> {
+                playerLook.add(0, .5, 0);
                 if(!grafting) {
                     loc1 = playerLook;
                 }

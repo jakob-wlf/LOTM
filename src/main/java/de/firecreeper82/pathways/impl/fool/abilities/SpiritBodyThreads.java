@@ -5,6 +5,7 @@ import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.fool.FoolItems;
+import de.firecreeper82.pathways.impl.fool.marionettes.BeyonderMarionette;
 import de.firecreeper82.pathways.impl.fool.marionettes.Marionette;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -187,7 +188,10 @@ public class SpiritBodyThreads extends Ability implements Listener {
                         return;
                     }
                     else {
-                        new Marionette(selectedEntity.getType(), selectedEntity.getLocation(), pathway);
+                        if(selectedEntity.getMetadata("customEntityId").isEmpty())
+                            new Marionette(selectedEntity.getType(), selectedEntity.getLocation(), pathway);
+                        else
+                            new BeyonderMarionette((String) selectedEntity.getMetadata("customEntityId").get(0).value(), selectedEntity.getLocation(), pathway);
                         selectedEntity.remove();
                     }
 
@@ -284,6 +288,9 @@ public class SpiritBodyThreads extends Ability implements Listener {
             //Check if entity is already a Marionette
             if(e instanceof Mob m) {
                 if (pathway.getBeyonder().getMarionetteEntities().contains(m))
+                    continue;
+
+                if(pathway.getBeyonder().getBeyonderMarionetteEntities().contains(m))
                     continue;
             }
 
