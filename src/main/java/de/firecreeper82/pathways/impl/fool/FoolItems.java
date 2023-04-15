@@ -73,7 +73,7 @@ public class FoolItems extends Items {
         String[] s3 = formatAbilityInfo(pathway.getStringColor(), "3: " + names.get(3),
                 "§5Fog of History: §7Get any item you have ever held out of the Fog of History",
                     "§5Hiding in the Fog of History: §7Hide inside the Fog of History to escape pursuers",
-                    "§5Air Bullet is now adjustable by using §7Right-Click"
+                    "§5Air Bullet is now adjustable by using §7Left-Click"
         );
         abilityInfo.put(3, s3);
 
@@ -84,7 +84,11 @@ public class FoolItems extends Items {
         abilityInfo.put(2, s2);
 
         String[] s1 = formatAbilityInfo(pathway.getStringColor(), "1: " + names.get(1),
-                "§cNo new Abilities yet!"
+                "§5Grafting: §7Graft together various physical objects and concepts to create various effects.",
+                    "§5Change the selected use-case using §7Left-Click",
+                    "§5Realm of Mysteries: §7Create a concealed environment where nothing fromn outside can enter or affect you",
+                    "§7and nothing inside can leak out (e.g. conversations)",
+                    "§5Adjust the radius using §7Left-Click"
         );
         abilityInfo.put(1, s1);
     }
