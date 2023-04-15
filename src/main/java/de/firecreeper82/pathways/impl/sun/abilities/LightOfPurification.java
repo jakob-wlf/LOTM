@@ -14,6 +14,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 public class LightOfPurification extends Ability {
@@ -42,7 +43,7 @@ public class LightOfPurification extends Ability {
                 for(int j = 0; j < 30 * radius; j++) {
                     double x = radius * Math.cos(j);
                     double z = radius * Math.sin(j);
-                    loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX() + x, loc.getY(), loc.getZ() + z, 5, 0.2, 1, 0.2, 0, dustRipple);
+                    Objects.requireNonNull(loc.getWorld()).spawnParticle(Particle.REDSTONE, loc.getX() + x, loc.getY(), loc.getZ() + z, 5, 0.2, 1, 0.2, 0, dustRipple);
                     Random rand = new Random();
                     if(j % (rand.nextInt(8) + 1) == 0)
                         loc.getWorld().spawnParticle(Particle.END_ROD, loc.getX() + x, loc.getY(), loc.getZ() + z, 1, 0.2, 1, 0.2, 0);
@@ -66,6 +67,6 @@ public class LightOfPurification extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.GLOWSTONE, "Light of Purification", "50", identifier, 5, Bukkit.getPlayer(pathway.getUuid()).getName());
+        return SunItems.createItem(Material.GLOWSTONE, "Light of Purification", "120", identifier, 5, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
     }
 }

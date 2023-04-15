@@ -52,14 +52,14 @@ public class LightOfHoliness extends Ability {
 
                 //Particles
                 Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(0, 215, 255), 1f);
-                Objects.requireNonNull(loc.getWorld()).spawnParticle(Particle.REDSTONE, loc.getX() + 3.8, loc.getY(), loc.getZ(), 20, 0.15, 0, 0.15, 0, dust);
-                loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX() - 3.8, loc.getY(), loc.getZ(), 20, 0.15, 0, 0.15, 0, dust);
-                loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX(), loc.getY(), loc.getZ() + 3.8, 20, 0.15, 0, 0.15, 0, dust);
-                loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX(), loc.getY(), loc.getZ() - 3.8, 20, 0.15, 0, 0.15, 0, dust);
-                loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX() + 3, loc.getY(), loc.getZ() + 3, 20, 0.15, 0, 0.15, 0, dust);
-                loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX() - 3, loc.getY(), loc.getZ() - 3, 20, 0.15, 0, 0.15, 0, dust);
-                loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX() - 3, loc.getY(), loc.getZ() + 3, 20, 0.15, 0, 0.15, 0, dust);
-                loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX() + 3, loc.getY(), loc.getZ() - 3, 20, 0.15, 0, 0.15, 0, dust);
+                Objects.requireNonNull(loc.getWorld()).spawnParticle(Particle.REDSTONE, loc.getX() + 3.8, loc.getY(), loc.getZ(), 15, 0.15, 0, 0.15, 0, dust);
+                loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX() - 3.8, loc.getY(), loc.getZ(), 15, 0.15, 0, 0.15, 0, dust);
+                loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX(), loc.getY(), loc.getZ() + 3.8, 15, 0.15, 0, 0.15, 0, dust);
+                loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX(), loc.getY(), loc.getZ() - 3.8, 15, 0.15, 0, 0.15, 0, dust);
+                loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX() + 3, loc.getY(), loc.getZ() + 3, 15, 0.15, 0, 0.15, 0, dust);
+                loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX() - 3, loc.getY(), loc.getZ() - 3, 15, 0.15, 0, 0.15, 0, dust);
+                loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX() - 3, loc.getY(), loc.getZ() + 3, 15, 0.15, 0, 0.15, 0, dust);
+                loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX() + 3, loc.getY(), loc.getZ() - 3, 15, 0.15, 0, 0.15, 0, dust);
 
 
                 for(double i = 0; i < 3.8; i+=0.4) {
@@ -146,8 +146,7 @@ public class LightOfHoliness extends Ability {
                     //damage nearby entities
                     ArrayList<Entity> nearbyEntities = (ArrayList<Entity>) loc.getWorld().getNearbyEntities(loc, 15, 15, 15);
                     for(Entity entity : nearbyEntities) {
-                        if(entity instanceof LivingEntity) {
-                            LivingEntity livingEntity = (LivingEntity) entity;
+                        if(entity instanceof LivingEntity livingEntity) {
                             if (livingEntity.getCategory() == EntityCategory.UNDEAD) {
                                 ((Damageable) entity).damage(32 * multiplier, p);
                                 entity.setFireTicks(100);
@@ -207,6 +206,6 @@ public class LightOfHoliness extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.RAW_GOLD, "Light of Holiness", "100", identifier, 5, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
+        return SunItems.createItem(Material.RAW_GOLD, "Light of Holiness", "275", identifier, 5, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
     }
 }

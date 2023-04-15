@@ -101,11 +101,11 @@ public class FlaringSun extends MobUsableAbility {
                 for(Entity entity : nearbyEntities) {
                     if(entity instanceof LivingEntity livingEntity) {
                         if (livingEntity.getCategory() == EntityCategory.UNDEAD) {
-                            ((Damageable) entity).damage(12 * multiplier, user);
-                            livingEntity.setFireTicks(50 * 20);
+                            ((Damageable) entity).damage(7 * multiplier, user);
+                            livingEntity.setFireTicks(20 * 20);
                         } else if(entity != user) {
-                            livingEntity.setFireTicks(50 * 20);
-                            ((Damageable) entity).damage(5, user);
+                            livingEntity.setFireTicks(10 * 20);
+                            ((Damageable) entity).damage(3, user);
                         }
                     }
                 }
@@ -146,6 +146,6 @@ public class FlaringSun extends MobUsableAbility {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.SUNFLOWER, "Flaring Sun", "200", identifier, 4, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
+        return SunItems.createItem(Material.SUNFLOWER, "Flaring Sun", "800", identifier, 4, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
     }
 }

@@ -35,12 +35,12 @@ public class OceanOfLight extends Ability {
         ArrayList<Block> blocks = new ArrayList<>();
 
         int radius = 65;
-        for(int i = 12; i > -12; i--) {
+        for(int i = 22; i > -22; i--) {
             for (int x = -radius; x <= radius; x++) {
                 for (int z = -radius; z <= radius; z++) {
                     if( (x*x) + (z*z) <= Math.pow(radius, 2)) {
                         Block block = p.getWorld().getBlockAt((int) loc.getX() + x, (int) loc.getY() + i, (int) loc.getZ() + z);
-                        if(block.getType() == Material.AIR) {
+                        if(block.getType() == Material.AIR && block.getLocation().clone().subtract(0, 1, 0).getBlock().getType().isSolid()) {
                             block.setType(Material.LIGHT);
                             blocks.add(block);
                         }
@@ -56,8 +56,8 @@ public class OceanOfLight extends Ability {
                 counter++;
 
                 Particle.DustOptions dustSphere = new Particle.DustOptions(Color.fromBGR(0, 215, 255), 3.5f);
-                Objects.requireNonNull(loc.getWorld()).spawnParticle(Particle.REDSTONE, loc, 1000, 50, 50, 50, 0, dustSphere);
-                loc.getWorld().spawnParticle(Particle.END_ROD, loc, 500, 50, 50, 50, 0.01);
+                Objects.requireNonNull(loc.getWorld()).spawnParticle(Particle.REDSTONE, loc, 250, 50, 50, 50, 0, dustSphere);
+                loc.getWorld().spawnParticle(Particle.END_ROD, loc, 120, 50, 50, 50, 0.01);
 
                 for(Entity entity : loc.getWorld().getNearbyEntities(loc, 55, 55, 55)) {
                     if(entity instanceof LivingEntity) {
@@ -82,6 +82,6 @@ public class OceanOfLight extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.GOLD_BLOCK, "Ocean of Light", "800", identifier, 2, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
+        return SunItems.createItem(Material.GOLD_BLOCK, "Ocean of Light", "2000", identifier, 2, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
     }
 }

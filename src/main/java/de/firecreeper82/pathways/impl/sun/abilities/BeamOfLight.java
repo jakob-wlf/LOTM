@@ -28,6 +28,8 @@ public class BeamOfLight extends Ability {
         p = pathway.getBeyonder().getPlayer();
         double multiplier = getMultiplier();
 
+        pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
+
         Location loc = p.getEyeLocation();
         Vector direction = loc.getDirection().normalize().multiply(.5);
         World world = p.getWorld();
@@ -116,8 +118,10 @@ public class BeamOfLight extends Ability {
 
                 radius += .25;
 
-                if(radius > 1.75)
+                if(radius > 1.75) {
                     cancel();
+                    pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
+                }
             }
         }.runTaskTimer(Plugin.instance, 25, 0);
 
@@ -173,6 +177,6 @@ public class BeamOfLight extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.GOLDEN_HOE, "Beam of Light", "1000", identifier, 3, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
+        return SunItems.createItem(Material.GOLDEN_HOE, "Beam of Light", "2000", identifier, 3, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
     }
 }

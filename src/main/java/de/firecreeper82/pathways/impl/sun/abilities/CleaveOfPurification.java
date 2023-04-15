@@ -48,8 +48,7 @@ public class CleaveOfPurification extends Ability {
                 if(entity.getUniqueId() == pathway.getUuid())
                     continue;
                 Location entLoc = entity.getLocation();
-                if(entity instanceof LivingEntity) {
-                    LivingEntity livingEntity = (LivingEntity) entity;
+                if(entity instanceof LivingEntity livingEntity) {
                     if (livingEntity.getCategory() == EntityCategory.UNDEAD) {
                         ((Damageable) entity).damage(28 * multiplier, p);
                     } else {
@@ -64,6 +63,6 @@ public class CleaveOfPurification extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.HONEYCOMB, "Cleave of Purification", "20", identifier, 7, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
+        return SunItems.createItem(Material.HONEYCOMB, "Cleave of Purification", "50", identifier, 7, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
     }
 }

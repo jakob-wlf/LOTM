@@ -50,6 +50,6 @@ public class HolySong extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.MUSIC_DISC_PIGSTEP, "Holy Song", "5", identifier, 9, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
+        return SunItems.createItem(Material.MUSIC_DISC_PIGSTEP, "Holy Song", "30", identifier, 9, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
     }
 }

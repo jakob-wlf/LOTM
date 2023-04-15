@@ -10,14 +10,11 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BlockIterator;
 
-import java.util.ArrayList;
+import java.util.Objects;
 
 public class Illuminate extends Ability {
     public Illuminate(int identifier, Pathway pathway, int sequence, Items items) {
@@ -57,7 +54,7 @@ public class Illuminate extends Ability {
                 double x = Math.cos(counter);
                 double z = Math.sin(counter);
                 double y = Math.sin(counter);
-                loc.getWorld().spawnParticle(Particle.FLAME, loc.getX() + x, loc.getY(), loc.getZ() + z, 1, 0, 0, 0, 0);
+                Objects.requireNonNull(loc.getWorld()).spawnParticle(Particle.FLAME, loc.getX() + x, loc.getY(), loc.getZ() + z, 1, 0, 0, 0, 0);
                 loc.getWorld().spawnParticle(Particle.FLAME, loc.getX() + x, loc.getY() + y, loc.getZ(), 1, 0, 0, 0, 0);
                 y = Math.cos(counter);
                 loc.getWorld().spawnParticle(Particle.FLAME, loc.getX(), loc.getY() + y, loc.getZ() + z, 1, 0, 0, 0, 0);
@@ -78,6 +75,6 @@ public class Illuminate extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.GOLD_NUGGET, "Illuminate", "10", identifier, 8, Bukkit.getPlayer(pathway.getUuid()).getName());
+        return SunItems.createItem(Material.GOLD_NUGGET, "Illuminate", "20", identifier, 8, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
     }
 }

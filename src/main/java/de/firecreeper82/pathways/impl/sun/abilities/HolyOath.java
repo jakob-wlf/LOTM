@@ -49,16 +49,16 @@ public class HolyOath extends Ability {
         new BukkitRunnable() {
             @Override
             public void run() {
-                p.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 40, 3, false, false, false));
+                p.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 40, 2, false, false, false));
                 p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 40, 2, false, false, false));
                 p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 40, 2, false, false, false));
 
-                pathway.getBeyonder().setSpirituality(pathway.getBeyonder().getSpirituality() - 5);
-
-                if(pathway.getBeyonder().getSpirituality() <= 5 || !pathway.getBeyonder().online) {
+                if(pathway.getBeyonder().getSpirituality() <= 45 || !pathway.getBeyonder().online) {
                     pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                     cancel();
                 }
+
+                pathway.getBeyonder().setSpirituality(pathway.getBeyonder().getSpirituality() - 45);
 
                 if(!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
                     cancel();
@@ -110,6 +110,6 @@ public class HolyOath extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.PAPER, "Holy Oath", "75/s", identifier, 7, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
+        return SunItems.createItem(Material.PAPER, "Holy Oath", "45/s", identifier, 7, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
     }
 }

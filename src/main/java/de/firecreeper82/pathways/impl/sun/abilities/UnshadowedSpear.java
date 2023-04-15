@@ -267,6 +267,6 @@ public class UnshadowedSpear extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.SPECTRAL_ARROW, "Unshadowed Spear", "200", identifier, 4, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
+        return SunItems.createItem(Material.SPECTRAL_ARROW, "Unshadowed Spear", "1300", identifier, 4, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
     }
 }

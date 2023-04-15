@@ -78,12 +78,18 @@ public class Beyonder implements Listener {
 
         resurrections = 0;
 
+        pathway.init();
+
         if(getPlayer() == null || !Bukkit.getOnlinePlayers().contains(getPlayer()))
             return;
 
         initializedOnce = true;
 
-        pathway.init();
+        //acting initializing
+        digested = false;
+        actingNeeded = Math.pow((float) (100 / pathway.getSequence().getCurrentSequence()), 2);
+        actingProgress = 0;
+
         pathway.initItems();
         start();
 
@@ -100,8 +106,8 @@ public class Beyonder implements Listener {
         pathway.setBeyonder(this);
 
         if(!initializedOnce) {
-            pathway.init();
             pathway.initItems();
+            initializedOnce = true;
         }
         start();
     }
@@ -130,7 +136,7 @@ public class Beyonder implements Listener {
             return;
 
 
-        if(pathway instanceof FoolPathway && pathway.getSequence().getCurrentSequence() <= 2 && resurrections < 5) {
+        if(pathway instanceof FoolPathway && pathway.getSequence().getCurrentSequence() <= 2 && resurrections < 5 && !loosingControl) {
             new BukkitRunnable() {
                 @Override
                 public void run() {
@@ -199,10 +205,12 @@ public class Beyonder implements Listener {
         team.setAllowFriendlyFire(false);
         team.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.ALWAYS);
 
-        //acting initializing
-        digested = false;
-        actingNeeded = Math.pow((float) (100 / pathway.getSequence().getCurrentSequence()), 2);
-        actingProgress = 0;
+        if(!initializedOnce) {
+            //acting initializing
+            digested = false;
+            actingNeeded = Math.pow((float) (100 / pathway.getSequence().getCurrentSequence()), 2);
+            actingProgress = 0;
+        }
 
         updateSpirituality();
         board = new FastBoard(getPlayer());
@@ -318,12 +326,12 @@ public class Beyonder implements Listener {
     }
 
     public void updateActing() {
+        actingNeeded = Math.pow((100f / pathway.getSequence().getCurrentSequence()), 2);
         if(actingProgress >= actingNeeded && !digested) {
             digested = true;
             getPlayer().sendMessage("§6You have digested the potion!");
             getPlayer().spawnParticle(Particle.END_ROD, pathway.getBeyonder().getPlayer().getLocation(), 50, 1, 1, 1, 0);
         }
-        actingNeeded = Math.pow((100f / pathway.getSequence().getCurrentSequence()), 2);
     }
 
     public void acting(int sequence) {
@@ -350,6 +358,12 @@ public class Beyonder implements Listener {
             int counter = 0;
             @Override
             public void run() {
+                if(!online || !beyonder || getPlayer() == null) {
+                    loosingControl = false;
+                    cancel();
+                    return;
+                }
+
                 if(random.nextInt(25) + 1 == 5 && getPlayer().getHealth() > 2)
                     getPlayer().damage(2);
 
