@@ -109,6 +109,8 @@ public class DoorItems extends Items {
         addAbility(new ElectricShock(6, pathway, 8, this));
         addAbility(new Divine(7, pathway, 7, this));
         addAbility(new Record(8, pathway, 6, this));
+        addAbility(new Blink(9, pathway, 5, this));
+        addAbility(new TravelersDoor(10, pathway, 5, this));
     }
 
     public void addAbility(Ability ability) {
