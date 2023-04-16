@@ -7,7 +7,6 @@ import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.Recordable;
 import de.firecreeper82.pathways.impl.door.DoorItems;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -74,17 +73,27 @@ public class Record extends Ability {
 
         Beyonder beyonder = target;
         new BukkitRunnable() {
+            int counter = 0;
             @Override
             public void run() {
 
                 p.spawnParticle(Particle.SPELL_WITCH, beyonder.getPlayer().getEyeLocation().subtract(0, .5, 0), 20, .5, 1, .5, 0);
+
+                if(counter >= 20) {
+                    pathway.getSequence().removeSpirituality(15);
+                    counter = 0;
+                }
+
+                if(pathway.getBeyonder().getSpirituality() <= 15)
+                    recording = false;
+
+                counter++;
 
                 if(beyonder.getPlayer().getLocation().distance(p.getLocation()) > 50) {
                     pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                     recording = false;
                     cancel();
                     beyonder.removeRecording(instance);
-                    Bukkit.broadcastMessage("test");
                     return;
                 }
 
@@ -93,7 +102,6 @@ public class Record extends Ability {
                     recording = false;
                     cancel();
                     beyonder.removeRecording(instance);
-                    Bukkit.broadcastMessage("test1");
                     return;
                 }
 
@@ -101,7 +109,6 @@ public class Record extends Ability {
                     beyonder.removeRecording(instance);
                     cancel();
                     recording = false;
-                    Bukkit.broadcastMessage("test2");
                 }
             }
         }.runTaskTimer(Plugin.instance, 0, 0);

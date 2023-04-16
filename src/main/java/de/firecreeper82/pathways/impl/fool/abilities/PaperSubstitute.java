@@ -1,11 +1,13 @@
 package de.firecreeper82.pathways.impl.fool.abilities;
 
 import com.mojang.authlib.properties.Property;
+import de.firecreeper82.lotm.Beyonder;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.NPC;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
+import de.firecreeper82.pathways.Recordable;
 import de.firecreeper82.pathways.impl.fool.FoolItems;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -21,7 +23,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Random;
 
-public class PaperSubstitute extends Ability {
+public class PaperSubstitute extends Recordable {
 
     public PaperSubstitute(int identifier, Pathway pathway, int sequence, Items items) {
         super(identifier, pathway, sequence, items);
@@ -30,8 +32,9 @@ public class PaperSubstitute extends Ability {
     }
 
     @Override
-    public void useAbility() {
-        Player p = pathway.getBeyonder().getPlayer();
+    public void useAbility(Player p, double multiplier, Beyonder beyonder, boolean recorded) {
+        destroy(beyonder, recorded);
+
         Location loc = p.getLocation();
 
         //Check if Player has paper in inv

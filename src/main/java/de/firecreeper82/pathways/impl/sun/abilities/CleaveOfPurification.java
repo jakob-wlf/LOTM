@@ -1,8 +1,9 @@
 package de.firecreeper82.pathways.impl.sun.abilities;
 
-import de.firecreeper82.pathways.Ability;
+import de.firecreeper82.lotm.Beyonder;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
+import de.firecreeper82.pathways.Recordable;
 import de.firecreeper82.pathways.impl.sun.SunItems;
 import org.bukkit.*;
 import org.bukkit.entity.*;
@@ -11,17 +12,16 @@ import org.bukkit.util.Vector;
 
 import java.util.Objects;
 
-public class CleaveOfPurification extends Ability {
+public class CleaveOfPurification extends Recordable {
     public CleaveOfPurification(int identifier, Pathway pathway, int sequence, Items items) {
         super(identifier, pathway, sequence, items);
         items.addToSequenceItems(identifier - 1, sequence);
     }
 
     @Override
-    public void useAbility() {
-        double multiplier = getMultiplier();
+    public void useAbility(Player p, double multiplier, Beyonder beyonder, boolean recorded) {
+        destroy(beyonder, recorded);
 
-        p = pathway.getBeyonder().getPlayer();
         Location loc = p.getLocation().add(0, 1, 0);
         Vector vector = loc.getDirection();
 

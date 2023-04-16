@@ -1,20 +1,23 @@
 package de.firecreeper82.pathways.impl.fool.abilities;
 
+import de.firecreeper82.lotm.Beyonder;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
+import de.firecreeper82.pathways.Recordable;
 import de.firecreeper82.pathways.impl.fool.FoolItems;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-public class FlameControlling extends Ability {
+public class FlameControlling extends Recordable {
 
     public FlameControlling(int identifier, Pathway pathway, int sequence, Items items) {
         super(identifier, pathway, sequence, items);
@@ -22,9 +25,8 @@ public class FlameControlling extends Ability {
     }
 
     @Override
-    public void useAbility() {
-        double multiplier = getMultiplier();
-        p = pathway.getBeyonder().getPlayer();
+    public void useAbility(Player p, double multiplier, Beyonder beyonder, boolean recorded) {
+        destroy(beyonder, recorded);
 
         if(pathway.getSequence().getCurrentSequence() == 7) {
             if(!p.getInventory().contains(Material.COAL) && !p.getInventory().contains(Material.CHARCOAL)) {

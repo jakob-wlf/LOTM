@@ -36,7 +36,7 @@ public abstract class Sequence {
         if(checkValid(item) == 1) {
             for(Recordable recordable : recordables) {
                 if(recordable.getItem().isSimilar(item))
-                    recordable.useAbility();
+                    recordable.useAbility(pathway.getBeyonder().getPlayer(), pathway.getSequence().getSequenceMultiplier().get(pathway.getSequence().getCurrentSequence()), pathway.getBeyonder(), true);
             }
             return;
         }
@@ -104,13 +104,6 @@ public abstract class Sequence {
     }
 
     public abstract List<Integer> getIds();
-
-    /*
-    TODO: CLEAN THIS CODE!!!!!!
-    TODO: REMOVE CLASS, MAKE BOOLEAN
-    TODO: SEPARATE FUNCTION FOR CHECKING IF RECORDABLE
-    */
-
 
     public int checkValid(ItemStack item) {
         if(item == null)
@@ -185,5 +178,9 @@ public abstract class Sequence {
     }
     public HashMap<Integer, Double> getSequenceMultiplier() {
         return sequenceMultiplier;
+    }
+
+    public ArrayList<Recordable> getRecordables() {
+        return recordables;
     }
 }

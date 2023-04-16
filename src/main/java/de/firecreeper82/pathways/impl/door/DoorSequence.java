@@ -1,11 +1,9 @@
 package de.firecreeper82.pathways.impl.door;
 
 import de.firecreeper82.pathways.Pathway;
-import de.firecreeper82.pathways.Recordable;
 import de.firecreeper82.pathways.Sequence;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,6 +36,10 @@ public class DoorSequence extends Sequence {
         initEffects();
 
         sequenceMultiplier = new HashMap<>();
+        sequenceMultiplier.put(9, 1.0);
+        sequenceMultiplier.put(8, 1.0);
+        sequenceMultiplier.put(7, 1.0);
+        sequenceMultiplier.put(6, 1.0);
         sequenceMultiplier.put(5, 1.5);
         sequenceMultiplier.put(4, 2.0);
         sequenceMultiplier.put(3, 2.25);

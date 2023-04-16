@@ -1,14 +1,16 @@
-package de.firecreeper82.pathways.impl.sun.abilities;
+package de.firecreeper82.handlers.mobs.abilities;
 
-import de.firecreeper82.lotm.Beyonder;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.pathways.Items;
+import de.firecreeper82.pathways.MobUsableAbility;
 import de.firecreeper82.pathways.Pathway;
-import de.firecreeper82.pathways.Recordable;
 import de.firecreeper82.pathways.impl.sun.SunItems;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Damageable;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityCategory;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BlockIterator;
@@ -16,30 +18,14 @@ import org.bukkit.util.BlockIterator;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class HolyLightSummoning extends Recordable {
-    public HolyLightSummoning(int identifier, Pathway pathway, int sequence, Items items) {
-        super(identifier, pathway, sequence, items);
-        items.addToSequenceItems(identifier - 1, sequence);
+public class HolyLightSummoning extends MobUsableAbility {
+
+    public HolyLightSummoning(int frequency) {
+        super(frequency);
     }
 
     @Override
-    public void useAbility(Player p, double multiplier, Beyonder beyonder, boolean recorded) {
-        if(!recorded)
-            pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
-
-        destroy(beyonder, recorded);
-
-        //get block player is looking at
-        BlockIterator iter = new BlockIterator(p, 22);
-        Block lastBlock = iter.next();
-        while (iter.hasNext()) {
-            lastBlock = iter.next();
-            if (!lastBlock.getType().isSolid()) {
-                continue;
-            }
-            break;
-        }
-        Location loc = lastBlock.getLocation();
+    public void useAbility(Location startLoc, Location loc, double multiplier, Entity caster, Entity target) {
         loc.add(0, 14, 0);
 
         //Runnable
@@ -72,7 +58,7 @@ public class HolyLightSummoning extends Recordable {
 
                 Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(0, 215, 255), 1.25f);
                 for(double i = 0; i < 3.2; i+=0.8) {
-                    for(int j = 0; j < 100; j++) {
+                    for(int j = 0; j < 80; j++) {
                         double x = i * Math.cos(j);
                         double z = i * Math.sin(j);
                         loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX() + x, loc.getY(), loc.getZ() + z, 2, dust);
@@ -130,10 +116,10 @@ public class HolyLightSummoning extends Recordable {
                     for(Entity entity : nearbyEntities) {
                         if(entity instanceof LivingEntity livingEntity) {
                             if (livingEntity.getCategory() == EntityCategory.UNDEAD) {
-                                ((Damageable) entity).damage(22 * multiplier, p);
+                                ((Damageable) entity).damage(22 * multiplier, caster);
                             } else {
-                                if(entity != p)
-                                    ((Damageable) entity).damage(12 * multiplier, p);
+                                if(entity != caster)
+                                    ((Damageable) entity).damage(12 * multiplier, caster);
                             }
                         }
                     }
@@ -158,7 +144,8 @@ public class HolyLightSummoning extends Recordable {
 
                             if(radius >= 9) {
                                 cancel();
-                                pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
+                                if(pathway != null)
+                                    pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                             }
                         }
                     }.runTaskTimer(Plugin.instance, 0, 1);
@@ -168,7 +155,31 @@ public class HolyLightSummoning extends Recordable {
     }
 
     @Override
+    public void useAbility() {
+        if(pathway == null || items == null)
+            return;
+        double multiplier = getMultiplier();
+
+        p = pathway.getBeyonder().getPlayer();
+        pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
+
+        //get block player is looking at
+        BlockIterator iter = new BlockIterator(p, 22);
+        Block lastBlock = iter.next();
+        while (iter.hasNext()) {
+            lastBlock = iter.next();
+            if (!lastBlock.getType().isSolid()) {
+                continue;
+            }
+            break;
+        }
+        Location loc = lastBlock.getLocation();
+
+        useAbility(p.getLocation(), loc.clone(), multiplier, p, null);
+    }
+
+    @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.BLAZE_ROD, "Holy Light Summoning", "30", identifier, 7, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
+        return SunItems.createItem(Material.BLAZE_ROD, "Holy Light Summoning", "75", identifier, 7, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
     }
 }

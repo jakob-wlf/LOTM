@@ -1,14 +1,9 @@
 package de.firecreeper82.handlers.mobs;
 
-import de.firecreeper82.handlers.mobs.abilities.BaneAbility;
-import de.firecreeper82.handlers.mobs.abilities.PlundererAbility;
-import de.firecreeper82.handlers.mobs.abilities.RoosterAbility;
-import de.firecreeper82.handlers.mobs.abilities.SpawnVex;
+import de.firecreeper82.handlers.mobs.abilities.*;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.BeyonderItems;
 import de.firecreeper82.pathways.MobUsableAbility;
-import de.firecreeper82.pathways.impl.sun.abilities.FlaringSun;
-import de.firecreeper82.pathways.impl.sun.abilities.HolyLightSummoning;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;

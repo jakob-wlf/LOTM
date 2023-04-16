@@ -27,6 +27,8 @@ public class HolyLight extends Recordable {
         if(!recorded)
             pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
+        destroy(beyonder, recorded);
+
         //get block player is looking at
         BlockIterator iter = new BlockIterator(p, 15);
         Block lastBlock = iter.next();
