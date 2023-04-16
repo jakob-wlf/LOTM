@@ -62,6 +62,6 @@ public class Wind extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return DoorItems.createItem(Material.FEATHER, "Wind", "815/s", identifier, 8, pathway.getBeyonder().getPlayer().getName());
+        return DoorItems.createItem(Material.FEATHER, "Wind", "8/s", identifier, 8, pathway.getBeyonder().getPlayer().getName());
     }
 }

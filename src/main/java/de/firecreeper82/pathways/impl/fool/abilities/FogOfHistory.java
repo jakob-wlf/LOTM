@@ -98,7 +98,7 @@ public class FogOfHistory extends Ability implements Listener {
 
         items.removeAll(Collections.singleton(null));
 
-        items.removeIf(item -> pathway.getSequence().checkValid(item));
+        items.removeIf(item -> (pathway.getSequence().checkValid(item) == 0));
 
 
         for(ItemStack item : items) {
@@ -143,7 +143,7 @@ public class FogOfHistory extends Ability implements Listener {
 
         items.removeAll(Collections.singleton(null));
 
-        items.removeIf(item -> pathway.getSequence().checkValid(item));
+        items.removeIf(item -> (pathway.getSequence().checkValid(item) == 0));
         items.removeIf(item -> UtilItems.returnAllItems().contains(item));
 
         double pageCount = Math.ceil((float) items.size() / 52);

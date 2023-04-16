@@ -24,13 +24,23 @@ public abstract class Sequence {
 
     protected HashMap<Integer, Double> sequenceMultiplier;
 
+    protected ArrayList<Recordable> recordables;
+
     public Sequence(Pathway pathway, int optionalSequence) {
         this.pathway = pathway;
         this.currentSequence = optionalSequence;
     }
 
     public void useAbility(ItemStack item, PlayerInteractEvent e) {
-        if(!checkValid(item))
+
+        if(checkValid(item) == 1) {
+            for(Recordable recordable : recordables) {
+                if(recordable.getItem().isSimilar(item))
+                    recordable.useAbility();
+            }
+            return;
+        }
+        if(checkValid(item) == 2)
             return;
 
         e.setCancelled(true);
@@ -57,6 +67,10 @@ public abstract class Sequence {
             if(itemStack.isSimilar(item))
                 e.getItemDrop().remove();
         }
+    }
+
+    public void addRecordable(Recordable recordable) {
+        recordables.add(recordable);
     }
 
     public void useAbility(int ability, ItemStack item) {
@@ -91,12 +105,31 @@ public abstract class Sequence {
 
     public abstract List<Integer> getIds();
 
-    public boolean checkValid(ItemStack item) {
+    /*
+    TODO: CLEAN THIS CODE!!!!!!
+    TODO: REMOVE CLASS, MAKE BOOLEAN
+    TODO: SEPARATE FUNCTION FOR CHECKING IF RECORDABLE
+    */
+
+
+    public int checkValid(ItemStack item) {
         if(item == null)
-            return false;
+            return 2;
         ItemStack checkItem = item.clone();
         checkItem.setAmount(1);
-        return pathway.getItems().returnItemsFromSequence(currentSequence).contains(checkItem);
+
+        ArrayList<ItemStack> recordedItems = new ArrayList<>();
+
+        for(Recordable recordable : recordables) {
+            recordedItems.add(recordable.getItem());
+        }
+
+        if(pathway.getItems().returnItemsFromSequence(currentSequence).contains(checkItem))
+            return 0;
+        if(recordedItems.contains(checkItem))
+            return 1;
+
+        return 2;
     }
 
     public void removeSpirituality(double remove) {
@@ -104,7 +137,7 @@ public abstract class Sequence {
     }
 
     public void onHold(ItemStack item) {
-        if(!checkValid(item))
+        if(checkValid(item) == 2)
             return;
 
         int id = Objects.requireNonNull(item.getItemMeta()).getEnchantLevel(Enchantment.CHANNELING);

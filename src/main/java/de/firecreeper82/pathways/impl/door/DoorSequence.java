@@ -1,9 +1,11 @@
 package de.firecreeper82.pathways.impl.door;
 
 import de.firecreeper82.pathways.Pathway;
+import de.firecreeper82.pathways.Recordable;
 import de.firecreeper82.pathways.Sequence;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,7 +21,7 @@ public class DoorSequence extends Sequence {
 
     @Override
     public List<Integer> getIds() {
-        Integer[] ids = {2, 3};
+        Integer[] ids = {2, 3, 8};
         return Arrays.asList(ids);
     }
 
@@ -28,6 +30,7 @@ public class DoorSequence extends Sequence {
         Arrays.fill(usesAbilities, false);
 
         abilities = new ArrayList<>();
+        recordables = new ArrayList<>();
 
         sequenceEffects = new HashMap<>();
         sequenceResistances = new HashMap<>();

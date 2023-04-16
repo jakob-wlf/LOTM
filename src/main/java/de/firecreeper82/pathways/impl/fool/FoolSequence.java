@@ -41,6 +41,7 @@ public class FoolSequence extends Sequence implements Listener {
         Arrays.fill(usesAbilities, false);
 
         abilities = new ArrayList<>();
+        recordables = new ArrayList<>();
 
         sequenceEffects = new HashMap<>();
         sequenceResistances = new HashMap<>();

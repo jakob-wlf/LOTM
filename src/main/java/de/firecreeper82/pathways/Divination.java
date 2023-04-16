@@ -2,6 +2,7 @@ package de.firecreeper82.pathways;
 
 import de.firecreeper82.lotm.Beyonder;
 import de.firecreeper82.lotm.Plugin;
+import de.firecreeper82.lotm.util.Util;
 import de.firecreeper82.lotm.util.UtilItems;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -141,7 +142,7 @@ public class Divination implements Listener {
         }
 
         if(entityType == null) {
-            p.sendMessage("§c" + chatMsg + " is not a valid entity! If you want to cancel the divination, type \"cancel\"");
+            p.sendMessage("§c" + Util.capitalize(chatMsg) + " is not a valid entity! If you want to cancel the divination, type \"cancel\"");
             return;
         }
 
@@ -157,7 +158,7 @@ public class Divination implements Listener {
         }
 
         if(entity == null) {
-            p.sendMessage("§cThere is no " + entityType.name() + " nearby!");
+            p.sendMessage("§cThere is no " + Util.capitalize(entityType.name()) + " nearby!");
             animalDowsing.remove(Plugin.beyonders.get(p.getUniqueId()));
             return;
         }

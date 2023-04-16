@@ -4,6 +4,7 @@ import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.door.abilities.*;
+import de.firecreeper82.pathways.impl.door.abilities.Record;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
@@ -106,6 +107,8 @@ public class DoorItems extends Items {
         addAbility(new Flash(4, pathway, 8, this));
         addAbility(new Freezing(5, pathway, 8, this));
         addAbility(new ElectricShock(6, pathway, 8, this));
+        addAbility(new Divine(7, pathway, 7, this));
+        addAbility(new Record(8, pathway, 6, this));
     }
 
     public void addAbility(Ability ability) {

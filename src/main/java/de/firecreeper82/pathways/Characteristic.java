@@ -28,6 +28,7 @@ public class Characteristic {
         uuid = Plugin.randomUUID;
         blocksForPathway.put("fool", new URL("http://textures.minecraft.net/texture/855af6c5ff21eb55631a25221d753cdc9a0f679d5cacf555b350ba0e3521e092"));
         blocksForPathway.put("sun", new URL("http://textures.minecraft.net/texture/8a03a8a877de7a4d6b167633a96ae3983998fd9d9a4c5e3fa817d138e81e4499"));
+        blocksForPathway.put("door", new URL("http://textures.minecraft.net/texture/5f1e18cd9f9d3822196f0ccf1a8e071d87bb32ab50df4d6cfed93a1a948835ca"));
     }
 
 

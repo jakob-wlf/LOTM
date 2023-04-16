@@ -1,9 +1,10 @@
 package de.firecreeper82.pathways.impl.sun.abilities;
 
+import de.firecreeper82.lotm.Beyonder;
 import de.firecreeper82.lotm.Plugin;
-import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
+import de.firecreeper82.pathways.Recordable;
 import de.firecreeper82.pathways.impl.sun.SunItems;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -15,18 +16,16 @@ import org.bukkit.util.BlockIterator;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class HolyLight extends Ability {
+public class HolyLight extends Recordable {
 
     public HolyLight(int identifier, Pathway pathway, int sequence, Items items) {
         super(identifier, pathway, sequence, items);
         items.addToSequenceItems(identifier - 1, sequence);
     }
     @Override
-    public void useAbility() {
-        double multiplier = getMultiplier();
-
-        p = pathway.getBeyonder().getPlayer();
-        pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
+    public void useAbility(Player p, double multiplier, Beyonder beyonder, boolean recorded) {
+        if(!recorded)
+            pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
         //get block player is looking at
         BlockIterator iter = new BlockIterator(p, 15);
@@ -67,7 +66,8 @@ public class HolyLight extends Ability {
                     loc.getBlock().setType(lastMaterial[0]);
                     counter = 0;
                     cancel();
-                    pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
+                    if(!recorded)
+                        pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
 
                     //damage nearby entities
                     ArrayList<Entity> nearbyEntities = (ArrayList<Entity>) loc.getWorld().getNearbyEntities(loc.subtract(5, 0, 5), 10, 10, 10);
@@ -84,6 +84,16 @@ public class HolyLight extends Ability {
                 }
             }
         }.runTaskTimer(Plugin.instance, 0, 1);
+    }
+
+    @Override
+    public void useAbility() {
+        double multiplier = getMultiplier();
+
+        record();
+
+        p = pathway.getBeyonder().getPlayer();
+        useAbility(p, multiplier, pathway.getBeyonder(), false);
     }
 
     @Override
