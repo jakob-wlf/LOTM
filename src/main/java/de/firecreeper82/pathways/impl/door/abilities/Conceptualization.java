@@ -39,13 +39,14 @@ public class Conceptualization extends Ability {
         new BukkitRunnable() {
             @Override
             public void run() {
-                p.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, p.getEyeLocation(), 300, .5, .5, .5, 0);
+                p.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, p.getEyeLocation(), 300, 1.1, 1.1, 1.1, 0);
 
                 for(Player player : Bukkit.getOnlinePlayers()) {
                     player.hidePlayer(Plugin.instance, p);
                 }
 
                 p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 5, 1, false, false, false));
+                p.setFireTicks(0);
 
                 if(!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
                     for(Player player : Bukkit.getOnlinePlayers()) {

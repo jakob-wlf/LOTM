@@ -20,13 +20,13 @@ import java.util.Random;
 public class SpaceConcealment extends Ability {
 
     ArrayList<Entity> concealedEntities;
-    private int radius;
+    private int radiusAdjust;
 
     public SpaceConcealment(int identifier, Pathway pathway, int sequence, Items items) {
         super(identifier, pathway, sequence, items);
         items.addToSequenceItems(identifier - 1, sequence);
 
-        radius = 10;
+        radiusAdjust = 10;
     }
 
     @Override
@@ -42,11 +42,13 @@ public class SpaceConcealment extends Ability {
         doorLoc.setPitch(0);
         doorLoc.setYaw(random.nextInt(4) * 90);
 
-        concealedEntities = new ArrayList<>(p.getNearbyEntities(radius, radius, radius));
+        concealedEntities = new ArrayList<>(p.getNearbyEntities(radiusAdjust, radiusAdjust, radiusAdjust));
         concealedEntities.add(p);
 
         if(loc.getWorld() == null)
             return;
+
+        int radius = radiusAdjust;
 
         new BukkitRunnable() {
             boolean doorInit = false;
@@ -88,9 +90,9 @@ public class SpaceConcealment extends Ability {
 
                 if(!doorInit) {
                     for(int i = 0; i < 200; i++) {
-                        doorLoc.setX(random.nextDouble(loc.getX() - radius, loc.getX() + radius));
+                        doorLoc.setX(random.nextDouble(loc.getX() - radius + 1, loc.getX() + radius - 1));
                         doorLoc.setY(loc.getY());
-                        doorLoc.setZ(random.nextDouble(loc.getZ() - radius, loc.getZ() + radius));
+                        doorLoc.setZ(random.nextDouble(loc.getZ() - radius + 1, loc.getZ() + radius - 1));
 
                         if(!doorLoc.getBlock().getType().isSolid())
                             break;
@@ -117,7 +119,7 @@ public class SpaceConcealment extends Ability {
                 if(doorLoc.getWorld() == null)
                     return;
 
-                for(Entity entity : doorLoc.getWorld().getNearbyEntities(doorLoc, 2, 2, 2)) {
+                for(Entity entity : doorLoc.getWorld().getNearbyEntities(doorLoc, 1, 1, 1)) {
 
                     int x2 = 0;
                     int z2 = 0;
@@ -148,7 +150,7 @@ public class SpaceConcealment extends Ability {
                 }
 
                 if(!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
-                    drawSquare(loc, Material.AIR, 10, p);
+                    drawSquare(loc, Material.AIR, radius, p);
                     cancel();
                 }
             }
@@ -164,12 +166,12 @@ public class SpaceConcealment extends Ability {
     public void leftClick() {
         p = pathway.getBeyonder().getPlayer();
 
-        radius++;
+        radiusAdjust++;
 
-        if(radius >= 20)
-            radius = 5;
+        if(radiusAdjust > 15)
+            radiusAdjust = 4;
 
-        p.sendMessage("§5Set the radius to " + radius);
+        p.sendMessage("§5Set the radius to " + radiusAdjust);
     }
 
     int o = 0;
