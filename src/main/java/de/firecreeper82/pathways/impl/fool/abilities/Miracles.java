@@ -16,8 +16,6 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
-import org.bukkit.block.structure.Mirror;
-import org.bukkit.block.structure.StructureRotation;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
@@ -25,7 +23,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.generator.structure.StructureType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -35,7 +32,6 @@ import org.bukkit.util.BlockIterator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.Random;
 
 public class Miracles extends Ability implements Listener {
 
@@ -342,8 +338,8 @@ public class Miracles extends Ability implements Listener {
         Summoning("Summon Mob", 250),
         Teleportation("Teleportation", 500),
         Change_Biome("Change the Biome", 400),
-        Change_Weather("Change the Weather", 400),
-        Structure("Spawn Structure", 600);
+        Change_Weather("Change the Weather", 400);
+        //Structure("Spawn Structure", 600);
 
         private final String name;
         private final int spirituality;
