@@ -69,7 +69,7 @@ public class Util {
         }
     }
 
-    public static ArrayList<Block> getBlocks(Block start, int radius){
+    public static ArrayList<Block> getBlocksInCircleRadius(Block start, int radius, boolean ignoreAir){
 
         Location loc = start.getLocation();
 
@@ -80,9 +80,48 @@ public class Util {
                 for (int z = -radius; z <= radius; z++) {
                     if( (x*x) + (z*z) <= Math.pow(radius, 2)) {
                         Block block = start.getWorld().getBlockAt((int) loc.getX() + x, (int) loc.getY() + i, (int) loc.getZ() + z);
+                        if(block.getType() != Material.AIR && block.getType() != Material.CAVE_AIR || !ignoreAir)
+                            blocks.add(block);
+                    }
+                }
+            }
+        }
+        return blocks;
+    }
+
+    public static ArrayList<Block> getNearbyBlocksInSphere(Location location, int radius, boolean empty) {
+        ArrayList<Block> blocks = new ArrayList<>();
+
+        int bx = location.getBlockX();
+        int by = location.getBlockY();
+        int bz = location.getBlockZ();
+
+        for (int x = bx - radius; x <= bx + radius; x++) {
+            for (int y = by - radius; y <= by + radius; y++) {
+                for (int z = bz - radius; z <= bz + radius; z++) {
+                    double distance = ((bx - x) * (bx - x) + (bz - z) * (bz - z) + (by - y) * (by - y));
+                    if (distance < radius * radius && (!empty && distance < (radius - 1) * (radius - 1))) {
+                        Block block = new Location(location.getWorld(), x, y, z).getBlock();
                         if(block.getType() != Material.AIR && block.getType() != Material.CAVE_AIR)
                             blocks.add(block);
                     }
+                }
+            }
+        }
+
+        return blocks;
+    }
+
+    public static ArrayList<Block> getBlocksInSquare(Block start, int radius){
+        if (radius < 0) {
+            return new ArrayList<>(0);
+        }
+        int iterations = (radius * 2) + 1;
+        ArrayList<Block> blocks = new ArrayList<>(iterations * iterations * iterations);
+        for (int x = -radius; x <= radius; x++) {
+            for (int y = -radius; y <= radius; y++) {
+                for (int z = -radius; z <= radius; z++) {
+                    blocks.add(start.getRelative(x, y, z));
                 }
             }
         }

@@ -118,6 +118,7 @@ public class DoorItems extends Items {
         addAbility(new Conceptualization(15, pathway, 3, this));
         addAbility(new Conceptualize(16, pathway, 3, this));
         addAbility(new BlackHole(17, pathway, 2, this));
+        addAbility(new SpaceSwapping(18, pathway, 2, this));
     }
 
     public void addAbility(Ability ability) {

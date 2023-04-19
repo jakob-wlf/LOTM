@@ -54,7 +54,7 @@ public class BlackHole extends Ability {
         Random random = new Random();
 
         new BukkitRunnable() {
-            ArrayList<Block> blocks = Util.getBlocks(loc.getBlock(), 25);
+            ArrayList<Block> blocks = Util.getNearbyBlocksInSphere(loc.getBlock().getLocation(), 32, false);
 
             int counter = 0;
             @Override
@@ -70,10 +70,10 @@ public class BlackHole extends Ability {
 
                 if(counter >= 3 * 20) {
                     counter = 0;
-                    blocks = Util.getBlocks(loc.getBlock(), 25);
+                    blocks = Util.getNearbyBlocksInSphere(loc.getBlock().getLocation(), 32, false);
                 }
 
-                for(int i = 0; i < 3; i++) {
+                for(int i = 0; i < 5; i++) {
                     if(blocks.isEmpty())
                         continue;
                     Block b = blocks.get(random.nextInt(blocks.size()));
