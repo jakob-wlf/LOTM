@@ -116,6 +116,8 @@ public class DoorItems extends Items {
         addAbility(new DimensionalPocket(13, pathway, 4, this));
         addAbility(new Wandering(14, pathway, 3, this));
         addAbility(new Conceptualization(15, pathway, 3, this));
+        addAbility(new Conceptualize(16, pathway, 3, this));
+        addAbility(new BlackHole(17, pathway, 2, this));
     }
 
     public void addAbility(Ability ability) {

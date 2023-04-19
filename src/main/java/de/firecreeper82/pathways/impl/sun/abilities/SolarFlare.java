@@ -66,7 +66,7 @@ public class SolarFlare extends Ability {
             @Override
             public void run() {
                 Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(255, 251, 0), 50f);
-                Util.drawCircle(loc, (int) Math.round((i * power * 1.25)), 60, dust, null);
+                Util.drawSphere(loc, (int) Math.round((i * power * 1.25)), 60, dust, null);
 
                 i+= tempPower * 1.25;
                 if(i >= (tempPower * 1.25 * 10)) {

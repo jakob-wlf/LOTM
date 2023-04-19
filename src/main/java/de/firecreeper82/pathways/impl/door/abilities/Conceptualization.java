@@ -29,12 +29,6 @@ public class Conceptualization extends Ability {
 
         boolean couldFly = p.getAllowFlight();
         boolean invulnerable = p.isInvulnerable();
-        float flySpeed = p.getFlySpeed();
-
-        p.setAllowFlight(true);
-        p.setFlying(true);
-        p.setFlySpeed(p.getFlySpeed() * 2);
-        p.setInvulnerable(true);
 
         new BukkitRunnable() {
             @Override
@@ -45,6 +39,10 @@ public class Conceptualization extends Ability {
                     player.hidePlayer(Plugin.instance, p);
                 }
 
+                p.setAllowFlight(true);
+                p.setFlying(true);
+                p.setInvulnerable(true);
+
                 p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 5, 1, false, false, false));
                 p.setFireTicks(0);
 
@@ -53,7 +51,6 @@ public class Conceptualization extends Ability {
                         player.showPlayer(Plugin.instance, p);
                     }
                     p.setAllowFlight(couldFly);
-                    p.setFlySpeed(flySpeed);
                     p.setInvulnerable(invulnerable);
                     p.setFireTicks(0);
                     cancel();
@@ -64,6 +61,6 @@ public class Conceptualization extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return DoorItems.createItem(Material.NETHER_STAR, "Conceptualization", "1100", identifier, 3, pathway.getBeyonder().getPlayer().getName());
+        return DoorItems.createItem(Material.NETHER_STAR, "Conceptualization", "1100", identifier, sequence, pathway.getBeyonder().getPlayer().getName());
     }
 }

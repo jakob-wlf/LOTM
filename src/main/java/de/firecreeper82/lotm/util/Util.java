@@ -4,7 +4,9 @@ import jline.internal.Nullable;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
+import org.bukkit.block.Block;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 
@@ -47,7 +49,7 @@ public class Util {
         return i + min;
     }
 
-    public static void drawCircle(Location loc, int sphereRadius, int detail, Particle.DustOptions dust, @Nullable Material material) {
+    public static void drawSphere(Location loc, int sphereRadius, int detail, Particle.DustOptions dust, @Nullable Material material) {
         //Spawn particles
         for (double i = 0; i <= Math.PI; i += Math.PI / detail) {
             double radius = Math.sin(i) * sphereRadius;
@@ -65,5 +67,25 @@ public class Util {
                 loc.subtract(x, y, z);
             }
         }
+    }
+
+    public static ArrayList<Block> getBlocks(Block start, int radius){
+
+        Location loc = start.getLocation();
+
+        ArrayList<Block> blocks = new ArrayList<>();
+
+        for(int i = radius; i > -radius; i--) {
+            for (int x = -radius; x <= radius; x++) {
+                for (int z = -radius; z <= radius; z++) {
+                    if( (x*x) + (z*z) <= Math.pow(radius, 2)) {
+                        Block block = start.getWorld().getBlockAt((int) loc.getX() + x, (int) loc.getY() + i, (int) loc.getZ() + z);
+                        if(block.getType() != Material.AIR && block.getType() != Material.CAVE_AIR)
+                            blocks.add(block);
+                    }
+                }
+            }
+        }
+        return blocks;
     }
 }

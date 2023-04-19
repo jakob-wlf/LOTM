@@ -19,7 +19,7 @@ public class DoorSequence extends Sequence {
 
     @Override
     public List<Integer> getIds() {
-        Integer[] ids = {2, 3, 8, 10, 11, 12, 15};
+        Integer[] ids = {2, 3, 8, 10, 11, 12, 15, 16, 17};
         return Arrays.asList(ids);
     }
 
