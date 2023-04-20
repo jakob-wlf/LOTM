@@ -28,6 +28,9 @@ public class Conceptualization extends Ability {
         pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
         boolean couldFly = p.getAllowFlight();
+        float flySpeed = p.getFlySpeed();
+
+        p.setFlySpeed(flySpeed * 2);
 
         new BukkitRunnable() {
             @Override
@@ -49,6 +52,7 @@ public class Conceptualization extends Ability {
                         player.showPlayer(Plugin.instance, p);
                     }
                     p.setAllowFlight(couldFly);
+                    p.setFlySpeed(flySpeed);
                     p.setFireTicks(0);
                     cancel();
                 }

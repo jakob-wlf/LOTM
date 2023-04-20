@@ -40,7 +40,7 @@ public class SpaceSwapping extends Ability implements Listener {
 
         Plugin.instance.getServer().getPluginManager().registerEvents(this, Plugin.instance);
 
-        radius = 16;
+        radius = 30;
         isSwapping = false;
 
         useCases = usages.values();
