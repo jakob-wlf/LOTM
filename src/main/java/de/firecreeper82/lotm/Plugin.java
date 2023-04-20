@@ -5,6 +5,7 @@ import de.firecreeper82.handlers.blocks.BlockHandler;
 import de.firecreeper82.listeners.*;
 import de.firecreeper82.handlers.mobs.BeyonderMobsHandler;
 import de.firecreeper82.pathways.*;
+import de.firecreeper82.pathways.impl.door.DoorPotions;
 import de.firecreeper82.pathways.impl.fool.FoolPotions;
 import de.firecreeper82.pathways.impl.fool.abilities.FogOfHistory;
 import de.firecreeper82.pathways.impl.sun.SunPotions;
@@ -125,6 +126,7 @@ public final class Plugin extends JavaPlugin{
         potions = new ArrayList<>();
         potions.add(new SunPotions());
         potions.add(new FoolPotions());
+        potions.add(new DoorPotions());
     }
 
     @Override

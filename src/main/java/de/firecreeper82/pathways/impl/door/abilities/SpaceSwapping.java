@@ -148,12 +148,12 @@ public class SpaceSwapping extends Ability implements Listener {
     public void onShift(PlayerToggleSneakEvent e) {
         p = pathway.getBeyonder().getPlayer();
 
-        if(e.getPlayer() != p || e.getPlayer().isSneaking() || !p.getInventory().getItemInMainHand().isSimilar(getItem()))
+        if(e.getPlayer() != p || e.getPlayer().isSneaking() || !p.getInventory().getItemInMainHand().isSimilar(getItem()) || isSwapping)
             return;
 
         radius++;
 
-        if(radius >= 36)
+        if(radius >= 43)
             radius = 5;
 
         p.sendMessage("§bSet the radius to " + radius);

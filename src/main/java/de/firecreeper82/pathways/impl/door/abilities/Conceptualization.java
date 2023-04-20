@@ -28,7 +28,6 @@ public class Conceptualization extends Ability {
         pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
         boolean couldFly = p.getAllowFlight();
-        boolean invulnerable = p.isInvulnerable();
 
         new BukkitRunnable() {
             @Override
@@ -41,7 +40,6 @@ public class Conceptualization extends Ability {
 
                 p.setAllowFlight(true);
                 p.setFlying(true);
-                p.setInvulnerable(true);
 
                 p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 5, 1, false, false, false));
                 p.setFireTicks(0);
@@ -51,7 +49,6 @@ public class Conceptualization extends Ability {
                         player.showPlayer(Plugin.instance, p);
                     }
                     p.setAllowFlight(couldFly);
-                    p.setInvulnerable(invulnerable);
                     p.setFireTicks(0);
                     cancel();
                 }
