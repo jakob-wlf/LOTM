@@ -73,7 +73,7 @@ public class RealmOfMysteries extends Ability implements Listener {
             final long max = Math.max(20, Math.min(55, Math.round(currentRadius * 2.5)));
             @Override
             public void run() {
-                Util.drawSphere(loc, currentRadius, (int) max, dust, Material.BARRIER);
+                Util.drawSphere(loc, currentRadius, (int) max, dust, Material.BARRIER, .2);
 
                 if(loc.getWorld() == null)
                     return;
@@ -97,7 +97,7 @@ public class RealmOfMysteries extends Ability implements Listener {
                 }
 
                 if(!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
-                    Util.drawSphere(loc, currentRadius, (int) max, dust, Material.AIR);
+                    Util.drawSphere(loc, currentRadius, (int) max, dust, Material.AIR, .2);
                     for(Entity entity : concealedEntities) {
                         if(!(entity instanceof Player player))
                             continue;

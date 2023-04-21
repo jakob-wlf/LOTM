@@ -45,7 +45,7 @@ public class Exile extends Ability {
             return;
 
         Random random = new Random();
-        Location[] locations = new Location[15];
+        Location[] locations = new Location[12];
 
         for(int i = 0; i < locations.length; i++) {
             locations[i] = loc.clone().add(random.nextInt(-4, 4), random.nextInt(-4, 4), random.nextInt(-4, 4));

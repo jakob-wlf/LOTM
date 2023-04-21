@@ -64,7 +64,7 @@ public class BlackHole extends Ability {
                     return;
                 }
 
-                Util.drawSphere(loc, 1, 20, dust, null);
+                Util.drawSphere(loc, 1, 20, dust, null, 0);
 
                 counter++;
 
@@ -81,9 +81,17 @@ public class BlackHole extends Ability {
                     Material blockMaterial = b.getType();
                     b.setType(Material.AIR);
 
+                    if(blockMaterial == Material.WATER || blockMaterial == Material.LAVA)
+                        continue;
+
                     FallingBlock fallingBlock = b.getWorld().spawnFallingBlock(b.getLocation().clone().add(0, 1, 0), blockMaterial.createBlockData());
                     fallingBlock.setGravity(false);
                     fallingBlock.setDropItem(false);
+
+                    if(fallingBlock.getBlockData().getMaterial() == Material.WATER) {
+                        fallingBlock.remove();
+                        continue;
+                    }
 
                     Vector dir = loc.clone().toVector().subtract(fallingBlock.getLocation().toVector()).normalize().multiply(.55);
                     fallingBlock.setVelocity(dir);
@@ -99,7 +107,7 @@ public class BlackHole extends Ability {
 
                             life--;
 
-                            if(life <= 0) {
+                            if(life <= 0 || fallingBlock.getBlockData().getMaterial() == Material.WATER) {
                                 fallingBlock.remove();
                                 cancel();
                                 return;

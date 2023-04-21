@@ -132,7 +132,9 @@ public class SpaceSwapping extends Ability implements Listener {
     @Override
     public void leftClick() {
         if(isSwapping) {
-            p.sendMessage("§cYou are currently swapping spaces");
+            p.sendMessage("§cYou are currently swapping spaces!", "§cCancelling swapping!");
+            isSwapping = false;
+            swappedBlocks = null;
             return;
         }
         selected++;

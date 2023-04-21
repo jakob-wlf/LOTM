@@ -49,7 +49,7 @@ public class Util {
         return i + min;
     }
 
-    public static void drawSphere(Location loc, int sphereRadius, int detail, Particle.DustOptions dust, @Nullable Material material) {
+    public static void drawSphere(Location loc, int sphereRadius, int detail, Particle.DustOptions dust, @Nullable Material material, double offset) {
         //Spawn particles
         for (double i = 0; i <= Math.PI; i += Math.PI / detail) {
             double radius = Math.sin(i) * sphereRadius;
@@ -60,7 +60,7 @@ public class Util {
                 loc.add(x, y, z);
                 if(loc.getWorld() == null)
                     return;
-                loc.getWorld().spawnParticle(Particle.REDSTONE, loc, 1, .2, .2, .2, 0, dust);
+                loc.getWorld().spawnParticle(Particle.REDSTONE, loc, 1, offset, offset, offset, 0, dust);
                 if(material != null && (loc.getBlock().getType().getHardness() >= 0 || loc.getBlock().getType() == Material.BARRIER) && (!loc.getBlock().getType().isSolid() || loc.getBlock().getType() == Material.BARRIER)) {
                     loc.getBlock().setType(material);
                 }

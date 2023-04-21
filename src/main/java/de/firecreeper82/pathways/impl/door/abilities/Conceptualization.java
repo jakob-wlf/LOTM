@@ -33,6 +33,7 @@ public class Conceptualization extends Ability {
         p.setFlySpeed(flySpeed * 2);
 
         new BukkitRunnable() {
+            int counter = 20;
             @Override
             public void run() {
                 p.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, p.getEyeLocation(), 300, 1.1, 1.1, 1.1, 0);
@@ -47,7 +48,7 @@ public class Conceptualization extends Ability {
                 p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 5, 1, false, false, false));
                 p.setFireTicks(0);
 
-                if(!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
+                if(!pathway.getSequence().getUsesAbilities()[identifier - 1] || pathway.getBeyonder().getSpirituality() <= 220) {
                     for(Player player : Bukkit.getOnlinePlayers()) {
                         player.showPlayer(Plugin.instance, p);
                     }
@@ -55,6 +56,14 @@ public class Conceptualization extends Ability {
                     p.setFlySpeed(flySpeed);
                     p.setFireTicks(0);
                     cancel();
+                    return;
+                }
+
+                counter--;
+
+                if(counter <= 0) {
+                    counter = 20;
+                    pathway.getSequence().removeSpirituality(420);
                 }
             }
         }.runTaskTimer(Plugin.instance, 0, 0);
@@ -62,6 +71,6 @@ public class Conceptualization extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return DoorItems.createItem(Material.NETHER_STAR, "Conceptualization", "1100", identifier, sequence, pathway.getBeyonder().getPlayer().getName());
+        return DoorItems.createItem(Material.NETHER_STAR, "Conceptualization", "420/s", identifier, sequence, pathway.getBeyonder().getPlayer().getName());
     }
 }

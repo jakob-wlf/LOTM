@@ -230,7 +230,8 @@ public class SpaceConcealment extends Ability {
                     Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(255, 251, 0), .4f);
                     if(j == 1)
                         dust = new Particle.DustOptions(Color.fromBGR(150, 12, 171), .55f);
-                    player.spawnParticle(Particle.REDSTONE, loc, 3, .05, .05, .05, dust);
+                    if(p.getInventory().getItemInMainHand().isSimilar(getItem()))
+                        player.spawnParticle(Particle.REDSTONE, loc, 3, .05, .05, .05, dust);
 
                     loc.subtract(v2);
                     loc.subtract(v);
@@ -251,7 +252,8 @@ public class SpaceConcealment extends Ability {
                         Block block = location.clone().add(x, y, z).getBlock();
                         if(!block.getType().isSolid() || block.getType() == Material.BARRIER) {
                             block.setType(material);
-                            p.spawnParticle(Particle.SPELL_WITCH, block.getLocation(), 2, 0, 0, 0, 0);
+                            if(p.getInventory().getItemInMainHand().isSimilar(getItem()))
+                                p.spawnParticle(Particle.SPELL_WITCH, block.getLocation(), 2, 0, 0, 0, 0);
                         }
                     }
                 }

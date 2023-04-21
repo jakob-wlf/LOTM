@@ -9,6 +9,8 @@ import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
+import org.bukkit.entity.Damageable;
+import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -66,7 +68,15 @@ public class StarFall extends Ability {
                     startLoc.add(fallDir);
 
                     if(startLoc.getBlock().getType().isSolid()) {
-                        startLoc.getWorld().createExplosion(startLoc, 30f);
+
+                        for(Entity entity : startLoc.getWorld().getNearbyEntities(startLoc, 10, 10, 10)) {
+                            if(entity == p)
+                                continue;
+                            if(entity instanceof Damageable d)
+                                d.damage(50, p);
+                        }
+
+                        startLoc.getWorld().createExplosion(startLoc, 15f);
                         cancel();
                     }
                 }
