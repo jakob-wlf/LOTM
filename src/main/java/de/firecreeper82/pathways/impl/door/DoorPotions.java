@@ -21,20 +21,20 @@ public class DoorPotions extends Potion {
 
         putMainIntoHashMap(9, BeyonderItems.getSunflower(), BeyonderItems.getSirenRock());
         putMainIntoHashMap(8, BeyonderItems.getMagmaHeart());
-        putMainIntoHashMap(7, BeyonderItems.getLavosSquidBlood(), BeyonderItems.getSpiritTreeFruit());
-        putMainIntoHashMap(6, BeyonderItems.getCrystallizedRoot(), BeyonderItems.getBirdFeather());
+        putMainIntoHashMap(7, BeyonderItems.getLavosSquidBlood(), BeyonderItems.getMeteoriteCrystal());
+        putMainIntoHashMap(6, BeyonderItems.getWraithDust(), BeyonderItems.getBirdFeather());
         putMainIntoHashMap(5, BeyonderItems.getRedRoosterComb(), BeyonderItems.getWhiteBrillianceRock());
-        putMainIntoHashMap(4, BeyonderItems.getTailFeather(), BeyonderItems.getHolyBrillianceRock());
+        putMainIntoHashMap(4, Plugin.instance.getCharacteristic().getCharacteristic(3, "door", stringColor));
         putMainIntoHashMap(3, Plugin.instance.getCharacteristic().getCharacteristic(3, "door", stringColor));
         putMainIntoHashMap(2, Plugin.instance.getCharacteristic().getCharacteristic(2, "door", stringColor));
         putMainIntoHashMap(1, Plugin.instance.getCharacteristic().getCharacteristic(1, "door", stringColor));
 
-        putSupplIntoHashMap(9, new ItemStack(Material.GRASS), new ItemStack(Material.SUNFLOWER));
-        putSupplIntoHashMap(8, new ItemStack(Material.SUNFLOWER), new ItemStack(Material.SWEET_BERRIES));
-        putSupplIntoHashMap(7, new ItemStack(Material.OBSIDIAN), new ItemStack(Material.LAVA_BUCKET), new ItemStack(Material.FEATHER));
+        putSupplIntoHashMap(9, new ItemStack(Material.WATER_BUCKET), new ItemStack(Material.OAK_DOOR));
+        putSupplIntoHashMap(8, new ItemStack(Material.BIRCH_DOOR), new ItemStack(Material.GUNPOWDER));
+        putSupplIntoHashMap(7, new ItemStack(Material.BEEF), new ItemStack(Material.DIAMOND), new ItemStack(Material.STICK));
         putSupplIntoHashMap(6, BeyonderItems.getSunflower(), new ItemStack(Material.FERN), new ItemStack(Material.GLOW_BERRIES));
         putSupplIntoHashMap(5, new ItemStack(Material.MAGMA_CREAM), new ItemStack(Material.SUNFLOWER));
-        putSupplIntoHashMap(4, BeyonderItems.getRedRoosterComb(), BeyonderItems.getWhiteBrillianceRock());
+        putSupplIntoHashMap(4);
         putSupplIntoHashMap(3);
         putSupplIntoHashMap(2);
         putSupplIntoHashMap(1);

@@ -48,7 +48,7 @@ public class StarFall extends Ability {
         Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(255, 251, 0), 5f);
 
         for(int i = 0; i < random.nextInt(40, 80); i++) {
-            Location starLoc = loc.clone().add(random.nextInt(-45, 45), 0, random.nextInt(-45, 45));
+            Location starLoc = (i == 0) ? loc.clone() : loc.clone().add(random.nextInt(-45, 45), 0, random.nextInt(-45, 45));
 
             float angle = p.getEyeLocation().getYaw() / 60;
             Location startLoc = starLoc.clone().add(-Math.cos(angle) * 15, random.nextInt(40, 80), -Math.sin(angle) * 15);

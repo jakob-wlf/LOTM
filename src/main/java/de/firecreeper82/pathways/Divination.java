@@ -5,12 +5,10 @@ import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.Util;
 import de.firecreeper82.lotm.util.UtilItems;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.Particle;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -18,22 +16,23 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.profile.PlayerProfile;
-import org.bukkit.profile.PlayerTextures;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.*;
 
 public class Divination implements Listener {
 
     private final HashMap<Beyonder, Inventory> openInv;
     private final HashMap<Beyonder, Collection<Entity>> animalDowsing;
+    private final ArrayList<Beyonder> dreamDivination;
 
     private final ItemStack magentaPane;
     private final ItemStack stick;
+    private final ItemStack danger;
+    private final ItemStack dream;
 
     private final ItemStack cowHead;
     private final ItemStack grassHead;
@@ -42,9 +41,13 @@ public class Divination implements Listener {
     public Divination() {
         openInv = new HashMap<>();
         animalDowsing = new HashMap<>();
+        dreamDivination = new ArrayList<>();
 
         magentaPane = UtilItems.getMagentaPane();
         stick = UtilItems.getDowsingRod();
+        danger = UtilItems.getDangerPremonition();
+        dream = UtilItems.getDreamDivination();
+
         cowHead = UtilItems.getCowHead();
         grassHead = UtilItems.getGrassHead();
         playerHead = UtilItems.getDivinationHead();
@@ -73,6 +76,8 @@ public class Divination implements Listener {
 
     private Inventory startInv(Inventory inv) {
         inv.setItem(10, stick);
+        inv.setItem(11, danger);
+        inv.setItem(12, dream);
         return inv;
     }
 
@@ -99,14 +104,41 @@ public class Divination implements Listener {
             openInv.put(beyonder, inv);
         }
 
+        if(danger.isSimilar(e.getCurrentItem())) {
+            beyonder.getPlayer().closeInventory();
+
+            for(Entity entity : beyonder.getPlayer().getNearbyEntities(50, 50, 50)) {
+                if(!(entity instanceof Player) && !(entity instanceof Monster))
+                    continue;
+
+                ((LivingEntity) entity).addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 60, 1, false, false, false));
+            }
+
+            openInv.remove(beyonder);
+        }
+
+        if(dream.isSimilar(e.getCurrentItem())) {
+            Player p = beyonder.getPlayer();
+            p.sendMessage("§5Which Player do you want to divine?");
+            p.closeInventory();
+            openInv.remove(beyonder);
+            remove(beyonder);
+            dreamDivination.add(beyonder);
+        }
+
         if(Objects.equals(e.getCurrentItem(), cowHead)) {
             openInv.remove(beyonder);
             Player p = (Player) e.getWhoClicked();
             p.closeInventory();
             p.sendMessage("§5Write the entity you want to locate");
-            animalDowsing.remove(beyonder);
+            remove(beyonder);
             animalDowsing.put(beyonder, p.getNearbyEntities(1500, 500, 1500));
         }
+    }
+
+    private void remove(Beyonder beyonder) {
+        animalDowsing.remove(beyonder);
+        dreamDivination.remove(beyonder);
     }
 
     @EventHandler
@@ -117,7 +149,75 @@ public class Divination implements Listener {
     }
 
     @EventHandler
-    public void onChat(AsyncPlayerChatEvent e) {
+    public void onDreamChat(AsyncPlayerChatEvent e) {
+        if(!Plugin.beyonders.containsKey(e.getPlayer().getUniqueId()) || !dreamDivination.contains(Plugin.beyonders.get(e.getPlayer().getUniqueId())))
+            return;
+
+        e.setCancelled(true);
+
+        e.setCancelled(true);
+        Player p = e.getPlayer();
+
+        String chatMsg = e.getMessage();
+
+        Player target = null;
+
+        Beyonder beyonder = null;
+
+        for(Beyonder b : dreamDivination) {
+            if(b.getPlayer() == p) {
+                beyonder = b;
+                break;
+            }
+        }
+
+        if(beyonder == null) {
+            p.sendMessage("§cSomething went wrong");
+            return;
+        }
+
+        remove(beyonder);
+
+        if(chatMsg.equalsIgnoreCase("cancel")) {
+            p.sendMessage("§cStopping Dowsing Rod Divination");
+            return;
+        }
+
+        for(Player player : Bukkit.getOnlinePlayers()) {
+            if(player == p)
+                continue;
+
+            if(player.getName().equals(chatMsg)) {
+                target = player;
+                break;
+            }
+        }
+
+        if(target == null) {
+            p.sendMessage("§cCouldn't find the player "+ chatMsg);
+            return;
+        }
+
+        GameMode prevGameMode = p.getGameMode();
+        Location prevLoc = p.getLocation().clone();
+
+        p.setGameMode(GameMode.SPECTATOR);
+        p.setSpectatorTarget(target);
+
+
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                p.setSpectatorTarget(null);
+                p.setGameMode(prevGameMode);
+                p.teleport(prevLoc);
+            }
+        }.runTaskLater(Plugin.instance, 20 * 5);
+    }
+
+    @EventHandler
+    public void onDowsingChat(AsyncPlayerChatEvent e) {
         if(!Plugin.beyonders.containsKey(e.getPlayer().getUniqueId()) || !animalDowsing.containsKey(Plugin.beyonders.get(e.getPlayer().getUniqueId())))
             return;
 

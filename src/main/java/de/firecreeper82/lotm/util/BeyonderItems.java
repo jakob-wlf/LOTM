@@ -50,6 +50,18 @@ public class BeyonderItems {
         return item;
     }
 
+    public static ItemStack getMeteoriteCrystal() {
+        final ItemStack item = new ItemStack(Material.AMETHYST_SHARD);
+        ItemMeta itemMeta = item.getItemMeta();
+        assert itemMeta != null;
+        itemMeta.setDisplayName("§4Meteorite Crystal");
+        item.setItemMeta(itemMeta);
+
+        list.add(item);
+
+        return item;
+    }
+
     public static ItemStack getGoatHorn() {
         final ItemStack item = new ItemStack(Material.GOAT_HORN);
         ItemMeta itemMeta = item.getItemMeta();

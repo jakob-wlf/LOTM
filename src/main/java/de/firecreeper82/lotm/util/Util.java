@@ -69,6 +69,7 @@ public class Util {
         }
     }
 
+    @SuppressWarnings("unused")
     public static ArrayList<Block> getBlocksInCircleRadius(Block start, int radius, boolean ignoreAir){
 
         Location loc = start.getLocation();

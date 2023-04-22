@@ -98,6 +98,34 @@ public class UtilItems {
         return dowsingStick;
     }
 
+    public static ItemStack getDangerPremonition() {
+        final ItemStack item = new ItemStack(Material.DIAMOND_SWORD);
+        ItemMeta itemStack = item.getItemMeta();
+        assert itemStack != null;
+        itemStack.setDisplayName("§5Danger Premonition");
+        itemStack.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        itemStack.addEnchant(Enchantment.CHANNELING, 1, true);
+        item.setItemMeta(itemStack);
+
+        list.add(item);
+
+        return item;
+    }
+
+    public static ItemStack getDreamDivination() {
+        final ItemStack item = new ItemStack(Material.RED_BED);
+        ItemMeta itemStack = item.getItemMeta();
+        assert itemStack != null;
+        itemStack.setDisplayName("§5Dream Divination");
+        itemStack.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        itemStack.addEnchant(Enchantment.CHANNELING, 1, true);
+        item.setItemMeta(itemStack);
+
+        list.add(item);
+
+        return item;
+    }
+
     public static ItemStack getCowHead() {
         final ItemStack cowHead = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta cowMeta = (SkullMeta) cowHead.getItemMeta();
@@ -145,7 +173,7 @@ public class UtilItems {
         SkullMeta playerMeta = (SkullMeta) playerHead.getItemMeta();
         assert playerMeta != null;
         playerMeta.setDisplayName("§6Biomes");
-        String[] playerLore = {"§5Divine the location of biomes"};
+        String[] playerLore = {"§5Divine the location of players"};
         playerMeta.setLore(Arrays.asList(playerLore));
         PlayerProfile playerProfile = Bukkit.createPlayerProfile(Plugin.randomUUID);
         PlayerTextures playerTextures = playerProfile.getTextures();
