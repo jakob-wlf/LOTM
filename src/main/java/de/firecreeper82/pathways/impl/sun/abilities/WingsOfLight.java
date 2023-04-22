@@ -131,7 +131,7 @@ public class WingsOfLight extends Ability{
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.FEATHER, "Wings of Light", "none", identifier, 3, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
+        return SunItems.createItem(Material.FEATHER, "Wings of Light", "none", identifier, sequence, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
     }
 
     private void drawParticles(Location loc) {

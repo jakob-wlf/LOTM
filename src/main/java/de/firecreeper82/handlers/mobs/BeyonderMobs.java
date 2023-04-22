@@ -1,6 +1,5 @@
 package de.firecreeper82.handlers.mobs;
 
-import de.firecreeper82.handlers.mobs.abilities.PassiveAbilities;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.pathways.MobUsableAbility;
 import org.bukkit.entity.*;

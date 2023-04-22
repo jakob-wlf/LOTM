@@ -32,34 +32,35 @@ public class DoorItems extends Items {
     public void initializeAbilityInfos() {
         HashMap<Integer, String> names = Objects.requireNonNull(Pathway.getNamesForPathway(pathway.getNameNormalized()));
         String[] s9 = formatAbilityInfo(pathway.getStringColor(), "9: " + names.get(9),
-                "§6Use: §7/items §6to get the abilities for your Sequence",
-                    "§6Holy Song: §7Imbue strength and agility through singing a song"
+                "§bUse: §7/items §bto get the abilities for your Sequence",
+                    "§bDoor Opening: §7Lets you pass through solid blocks"
         );
         abilityInfo.put(9, s9);
 
         String[] s8 = formatAbilityInfo(pathway.getStringColor(), "8: " + names.get(8),
-                "§6Holy Light: §7Summon a fiery beam of light from the sky. Especially effective against the undead",
-                    "§6Illuminate: §7Summon light to illuminate the darkness"
+                "§bFog: §7Create fog to hide yourself",
+                    "§bWind: §7Create Wind to push away entities",
+                    "§bFlash: §7Create light",
+                    "§bFreeze: §7Freeze the target for a few seconds",
+                    "§bElectric Shock: §7Attack your target with a small electric shock"
         );
         abilityInfo.put(8, s8);
 
         String[] s7 = formatAbilityInfo(pathway.getStringColor(), "7: " + names.get(7),
-                "§6Fire of Light: §7Summon a holy fire that burns and damages mobs",
-                    "§6Holy Light Summoning: §7An upgraded version of Holy Light",
-                    "§6Holy Oath: §7Temporarily strengthen one’s strength and agility",
-                    "§6Cleave of Purification: §7 A purifying blow particularly effective against the undead",
-                    "§6Immunity against horror and poison effects"
+                "§bDivination: §7Divine the location of entities, biomes or structures"
         );
         abilityInfo.put(7, s7);
 
         String[] s6 = formatAbilityInfo(pathway.getStringColor(), "6: " + names.get(6),
-                "§cNo new Abilities yet!"
+                "§bRecord: §7Record beyonder abilities from other players",
+                    "§bRecorded abilities can only be used once",
+                    "§bThe higher the abilities Sequence is to yours, the less likely it is for the Recording to succed"
         );
         abilityInfo.put(6, s6);
 
         String[] s5 = formatAbilityInfo(pathway.getStringColor(), "5: " + names.get(5),
-                "§6Light of Holiness: §7Upgraded version of Holy Light Summoning",
-                    "§6Light of Purification: §7Produces a halo-like effect, purifying all undead and foul creatures within a certain range"
+                "§bBlink: §7Short distance teleportation",
+                    "§bTravelers Door: §7Teleport yourself and other entities"
         );
         abilityInfo.put(5, s5);
 

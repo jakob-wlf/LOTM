@@ -112,6 +112,7 @@ public final class Plugin extends JavaPlugin{
         Objects.requireNonNull(this.getCommand("potions")).setExecutor(new PotionsCmd());
         Objects.requireNonNull(this.getCommand("test")).setExecutor(new TestCmd());
         Objects.requireNonNull(this.getCommand("spawn")).setExecutor(new SpawnCmd());
+        Objects.requireNonNull(this.getCommand("ability-info")).setExecutor(new AbilityInfoCmd());
     }
 
     private void registerEvents(Listener... listeners) {

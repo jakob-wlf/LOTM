@@ -66,23 +66,26 @@ public class SunItems extends Items {
                 "§6Unshadowed Spear: §7Throw a spear made of pure condensed light that explodes on impact into brilliant light",
                     "§6Flaring Sun: §7Summon a miniature sun to burn all enemies that come near it",
                     "§6Unshadowed Domain: §7Lighten up the entire area and reveal any entity in the area",
-                    "§6Armor of Light: §7Summon a Holy-Armour to grant you extra protection"
+                    "§6Armor of Light: §7Summon a Holy Armour to grant you extra protection"
         );
         abilityInfo.put(4, s4);
 
         String[] s3 = formatAbilityInfo(pathway.getStringColor(), "3: " + names.get(3),
-                "§6Wings of Light: §7Summon Wings made out of Light that allow you to fly"
+                "§6Beam of Light: §7Create a powerful beam from condensed light"
         );
         abilityInfo.put(3, s3);
 
         String[] s2 = formatAbilityInfo(pathway.getStringColor(), "2: " + names.get(2),
                 "§6Spear of Light: §7An upgraded version of the Unshadowed Spear",
-                    "§6Ocean of Light: §7An upgraded version of the Unshadowed Domain. Purify all undead creatures in the area"
+                    "§6Ocean of Light: §7An upgraded version of the Unshadowed Domain. Purify all undead creatures in the area",
+                    "§6Wings of Light: §7Float in the air using wings made of light"
         );
         abilityInfo.put(2, s2);
 
         String[] s1 = formatAbilityInfo(pathway.getStringColor(), "1: " + names.get(1),
-                "§6Day and Night: §7Freely fast forward the time to make it night or day"
+                "§6Day and Night: §7Freely fast forward the time to make it night or day",
+                    "§6Solar Flare: §7Create a powerful Solar Flare",
+                    "§6Adjust the strength of the Solar Flare using §7left click§6!"
         );
         abilityInfo.put(1, s1);
     }

@@ -1,4 +1,4 @@
-package de.firecreeper82.handlers.mobs.abilities;
+package de.firecreeper82.handlers.mobs;
 
 
 import de.firecreeper82.lotm.Plugin;

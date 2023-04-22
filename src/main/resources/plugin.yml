@@ -32,4 +32,7 @@ commands:
   spawn:
     description: Spawn a custom entity
     usage: /<cmd>
+  ability-info:
+    description: Get the infos about your abilities
+    usage: /<cmd>
 

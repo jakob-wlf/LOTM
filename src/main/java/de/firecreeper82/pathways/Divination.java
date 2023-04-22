@@ -201,8 +201,14 @@ public class Divination implements Listener {
         GameMode prevGameMode = p.getGameMode();
         Location prevLoc = p.getLocation().clone();
 
-        p.setGameMode(GameMode.SPECTATOR);
-        p.setSpectatorTarget(target);
+        Player finalTarget = target;
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                p.setGameMode(GameMode.SPECTATOR);
+                p.setSpectatorTarget(finalTarget);
+            }
+        }.runTaskLater(Plugin.instance, 0);
 
 
 
