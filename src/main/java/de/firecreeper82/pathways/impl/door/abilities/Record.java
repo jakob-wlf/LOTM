@@ -116,7 +116,7 @@ public class Record extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return DoorItems.createItem(Material.PAPER, "Record", "15/s", identifier, 8, pathway.getBeyonder().getPlayer().getName());
+        return DoorItems.createItem(Material.BOOK, "Record", "15/s", identifier, 8, pathway.getBeyonder().getPlayer().getName());
     }
 
     public void addAbility(Recordable recordable) {

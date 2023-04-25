@@ -45,6 +45,8 @@ public class BeyonderMobsHandler implements Listener {
         spawnEntity("§6Dawn Rooster", "rooster", 85, BeyonderItems.getRedRoosterComb(), EntityType.CHICKEN, 60, beyonderMobs, null, "rooster", true, new RoosterAbility(60));
         spawnEntity("§6Divine Bird", "divine-bird", 185, BeyonderItems.getTailFeather(), EntityType.COW, 85, beyonderMobs, EntityType.PARROT, "divine-bird", true, new HolyLightSummoning(90), new FlaringSun(350));
 
+        spawnEntity("§bSpirit Eater", "eater", 120, BeyonderItems.getSpiritPouch(), EntityType.ZOMBIFIED_PIGLIN, 30, beyonderMobs, EntityType.ALLAY, "eater", true);
+
     }
 
     private void spawnEntity(String name, String id, int rarity, ItemStack drop, EntityType entityType, Integer health, BeyonderMobs beyonderMobs, EntityType spawnType, String particle, boolean repeatingParticles, MobUsableAbility... abilities) {

@@ -28,7 +28,13 @@ public class MobParticleEffects {
             case "fog-wolf" -> fogWolf(entity);
             case "rooster" -> rooster(entity);
             case "divine-bird" -> bird(entity);
+            case "eater" -> eater(entity);
         }
+    }
+
+    private static void eater(Entity entity) {
+        Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(220, 20, 255), 2f);
+        entity.getWorld().spawnParticle(Particle.REDSTONE, entity.getLocation(), 30, 1, 1, 1, dust);
     }
 
     private static void rooster(Entity entity) {

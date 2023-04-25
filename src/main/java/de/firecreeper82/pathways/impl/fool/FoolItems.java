@@ -82,7 +82,7 @@ public class FoolItems extends Items {
 
         String[] s2 = formatAbilityInfo(pathway.getStringColor(), "2: " + names.get(2),
                 "§5Miracles: §7Create various miracles including natural disaster, summoning mobs and changing the biome",
-                    "§5Change the selected Miracle using §7Right-Click"
+                    "§5Change the selected Miracle using §7Left-Click"
         );
         abilityInfo.put(2, s2);
 

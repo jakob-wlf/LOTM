@@ -75,16 +75,24 @@ public class Divination implements Listener {
     }
 
     private Inventory startInv(Inventory inv) {
-        inv.setItem(10, stick);
-        inv.setItem(11, danger);
-        inv.setItem(12, dream);
+        inv.setItem(10, magentaPane);
+        inv.setItem(11, stick);
+        inv.setItem(12, magentaPane);
+        inv.setItem(13, danger);
+        inv.setItem(14, magentaPane);
+        inv.setItem(15, dream);
+        inv.setItem(16, magentaPane);
         return inv;
     }
 
     private Inventory dowsingRodInv(Inventory inv) {
-        inv.setItem(10, cowHead);
-        inv.setItem(11, grassHead);
-        inv.setItem(12, playerHead);
+        inv.setItem(10, magentaPane);
+        inv.setItem(11, cowHead);
+        inv.setItem(12, magentaPane);
+        inv.setItem(13, grassHead);
+        inv.setItem(14, magentaPane);
+        inv.setItem(15, playerHead);
+        inv.setItem(16, magentaPane);
         return inv;
     }
 

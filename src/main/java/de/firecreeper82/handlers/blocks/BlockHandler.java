@@ -26,6 +26,8 @@ public class BlockHandler implements Listener {
         initBlock(Material.MANGROVE_LOG, BeyonderItems.getCrystallizedRoot(), 70, "crystallized-root");
         initBlock(Material.AMETHYST_BLOCK, BeyonderItems.getWhiteBrillianceRock(), 120, "white-rock");
         initBlock(Material.NETHER_QUARTZ_ORE, BeyonderItems.getHolyBrillianceRock(), 150, "holy-rock");
+        initBlock(Material.OBSIDIAN, BeyonderItems.getMeteoriteCrystal(), 30, "meteorite");
+        initBlock(Material.OAK_DOOR, BeyonderItems.getMutatedDoor(), 40, "door");
     }
 
     private void initBlock(Material material, ItemStack drop, int rarity, String id) {

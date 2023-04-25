@@ -65,26 +65,30 @@ public class DoorItems extends Items {
         abilityInfo.put(5, s5);
 
         String[] s4 = formatAbilityInfo(pathway.getStringColor(), "4: " + names.get(4),
-                "§6Unshadowed Spear: §7Throw a spear made of pure condensed light that explodes on impact into brilliant light",
-                    "§6Flaring Sun: §7Summon a miniature sun to burn all enemies that come near it",
-                    "§6Unshadowed Domain: §7Lighten up the entire area and reveal any entity in the area",
-                    "§6Armor of Light: §7Summon a Holy-Armour to grant you extra protection"
+                "§bExile: §7Create multiple overlapping doors to temporarily exile entities within range",
+                    "§bSpace Concealment: §7Conceal a space. To enter/exit you have to find the corresponding door.",
+                    "§bYou can see the door and the concealed space while holding the item",
+                    "§bChange the radius with §7Left-click§b!",
+                    "§bDimensional Pocket: §7Open a dimensional pocket to store items"
         );
         abilityInfo.put(4, s4);
 
         String[] s3 = formatAbilityInfo(pathway.getStringColor(), "3: " + names.get(3),
-                "§6Wings of Light: §7Summon Wings made out of Light that allow you to fly"
+                "§bWandering: §7Wander through the different dimensions",
+                    "§bConceptualization: §7Turn into symbols to travel the different dimensions",
+                    "§bConceptualize: §7Attack the enemy using symbols"
         );
         abilityInfo.put(3, s3);
 
         String[] s2 = formatAbilityInfo(pathway.getStringColor(), "2: " + names.get(2),
-                "§6Spear of Light: §7An upgraded version of the Unshadowed Spear",
-                    "§6Ocean of Light: §7An upgraded version of the Unshadowed Domain. Purify all undead creatures in the area"
+                "§bBlack Hole: Create a miniature black hole to suck in blocks and entities",
+                    "§bSpace Swapping: §7Swap places/Copy a place somewhere else/Move a place somewhere else",
+                    "§bUse §7Left-click §bto change the selected use case and §7Shift §bto change the radius"
         );
         abilityInfo.put(2, s2);
 
         String[] s1 = formatAbilityInfo(pathway.getStringColor(), "1: " + names.get(1),
-                "§6Day and Night: §7Freely fast forward the time to make it night or day"
+                "§bStarfall: §7Summon multiple star fragments to hit the earth"
         );
         abilityInfo.put(1, s1);
     }

@@ -38,6 +38,42 @@ public class BeyonderItems {
         return item;
     }
 
+    public static ItemStack getMarlinBlood() {
+        final ItemStack item = new ItemStack(Material.REDSTONE);
+        ItemMeta magentaPaneMeta = item.getItemMeta();
+        assert magentaPaneMeta != null;
+        magentaPaneMeta.setDisplayName("§4Deep Sea Marlin Blood");
+        item.setItemMeta(magentaPaneMeta);
+
+        list.add(item);
+
+        return item;
+    }
+
+    public static ItemStack getMutatedDoor() {
+        final ItemStack item = new ItemStack(Material.IRON_DOOR);
+        ItemMeta magentaPaneMeta = item.getItemMeta();
+        assert magentaPaneMeta != null;
+        magentaPaneMeta.setDisplayName("§bMutated Door");
+        item.setItemMeta(magentaPaneMeta);
+
+        list.add(item);
+
+        return item;
+    }
+
+    public static ItemStack getSpiritPouch() {
+        final ItemStack item = new ItemStack(Material.GHAST_TEAR);
+        ItemMeta magentaPaneMeta = item.getItemMeta();
+        assert magentaPaneMeta != null;
+        magentaPaneMeta.setDisplayName("§bStomach Pouch of Spirit Eater");
+        item.setItemMeta(magentaPaneMeta);
+
+        list.add(item);
+
+        return item;
+    }
+
     public static ItemStack getStellarAquaCrystal() {
         final ItemStack item = new ItemStack(Material.PRISMARINE_CRYSTALS);
         ItemMeta itemMeta = item.getItemMeta();
