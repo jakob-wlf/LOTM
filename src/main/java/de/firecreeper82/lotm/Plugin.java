@@ -2,6 +2,7 @@ package de.firecreeper82.lotm;
 
 import de.firecreeper82.cmds.*;
 import de.firecreeper82.handlers.blocks.BlockHandler;
+import de.firecreeper82.handlers.spirits.SpiritHandler;
 import de.firecreeper82.listeners.*;
 import de.firecreeper82.handlers.mobs.BeyonderMobsHandler;
 import de.firecreeper82.pathways.*;
@@ -70,6 +71,8 @@ public final class Plugin extends JavaPlugin{
         recipe = new Recipe();
 
         concealedEntities = new ArrayList<>();
+
+        new SpiritHandler();
 
         Bukkit.getConsoleSender().sendMessage(prefix + "§aEnabled Plugin");
 
