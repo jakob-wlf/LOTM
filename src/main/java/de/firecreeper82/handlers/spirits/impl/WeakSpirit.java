@@ -4,19 +4,20 @@ import de.firecreeper82.handlers.spirits.Spirit;
 import org.bukkit.Color;
 import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class WeakSpirit extends Spirit {
 
-    public WeakSpirit(LivingEntity entity, double health, float particleOffset, int spawnRate, boolean hostile, boolean visible, int spawnCount, ItemStack drop) {
-        super(entity, health, particleOffset, spawnRate, hostile, visible, spawnCount, drop);
+    public WeakSpirit(LivingEntity entity, double health, float particleOffset, int spawnRate, EntityType entityType, boolean visible, int spawnCount, ItemStack drop) {
+        super(entity, health, particleOffset, spawnRate, entityType, visible, spawnCount, drop);
     }
 
     @Override
     public Spirit initNew(LivingEntity entity) {
-        return new WeakSpirit(entity, health, particleOffset, spawnRate, hostile, visible, spawnCount, drop);
+        return new WeakSpirit(entity, health, particleOffset, spawnRate, entityType, visible, spawnCount, drop);
     }
 
     private Particle.DustOptions dust;
