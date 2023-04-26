@@ -1,7 +1,9 @@
 package de.firecreeper82.handlers.spirits;
 
 import de.firecreeper82.handlers.spirits.impl.FriendlySpirit;
+import de.firecreeper82.handlers.spirits.impl.WeakSpirit;
 import de.firecreeper82.lotm.Plugin;
+import de.firecreeper82.lotm.util.BeyonderItems;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
@@ -38,7 +40,8 @@ public class SpiritHandler implements Listener {
     }
 
     private void init() {
-        spirits.add(new FriendlySpirit(null, 15, .5f, 1, false, false));
+        spirits.add(new FriendlySpirit(null, 15, .5f, 1, false, false, 2, null));
+        spirits.add(new WeakSpirit(null, 22, .25f, 5, true, false, 1, BeyonderItems.getSpiritRemains()));
     }
 
     @EventHandler
@@ -50,19 +53,26 @@ public class SpiritHandler implements Listener {
 
         for(Spirit spirit : spirits) {
             if(random.nextInt(spirit.getSpawnRate()) == 0) {
-                LivingEntity entity = (LivingEntity) ((spirit.isHostile()) ?  e.getEntity().getWorld().spawnEntity(e.getLocation(), EntityType.VEX) : e.getEntity().getWorld().spawnEntity(e.getLocation(), EntityType.ALLAY));
+                for(int i = 0; i < spirit.getSpawnCount(); i++) {
+                    LivingEntity entity = (LivingEntity) ((spirit.isHostile()) ?  e.getEntity().getWorld().spawnEntity(e.getLocation(), EntityType.VEX) : e.getEntity().getWorld().spawnEntity(e.getLocation(), EntityType.ALLAY));
 
-                entity.setInvisible(!spirit.isVisible());
+                    entity.setInvisible(!spirit.isVisible());
 
-                Spirit newSpirit = spirit.initNew(entity);
+                    Spirit newSpirit = spirit.initNew(entity);
 
-                newSpirit.start();
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        newSpirit.tick();
-                    }
-                }.runTaskTimer(Plugin.instance, 0, 0);
+                    newSpirit.start();
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            if(!entity.isValid()) {
+                                cancel();
+                                return;
+                            }
+
+                            newSpirit.tick();
+                        }
+                    }.runTaskTimer(Plugin.instance, 0, 0);
+                }
             }
         }
     }

@@ -50,6 +50,18 @@ public class BeyonderItems {
         return item;
     }
 
+    public static ItemStack getSpiritRemains() {
+        final ItemStack item = new ItemStack(Material.GLOWSTONE_DUST);
+        ItemMeta itemMeta = item.getItemMeta();
+        assert itemMeta != null;
+        itemMeta.setDisplayName("§5Spirit Remains");
+        item.setItemMeta(itemMeta);
+
+        list.add(item);
+
+        return item;
+    }
+
     public static ItemStack getMutatedDoor() {
         final ItemStack item = new ItemStack(Material.IRON_DOOR);
         ItemMeta magentaPaneMeta = item.getItemMeta();

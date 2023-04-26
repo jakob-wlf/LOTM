@@ -1,7 +1,6 @@
 package de.firecreeper82.handlers.spirits.impl;
 
 import de.firecreeper82.handlers.spirits.Spirit;
-import jline.internal.Nullable;
 import org.bukkit.Color;
 import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
@@ -9,25 +8,22 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Random;
+public class WeakSpirit extends Spirit {
 
-public class FriendlySpirit extends Spirit {
-
-    public FriendlySpirit(LivingEntity entity, double health, float particleOffset, int spawnRate, boolean hostile, boolean visible, int spawnCount, @Nullable ItemStack drop) {
+    public WeakSpirit(LivingEntity entity, double health, float particleOffset, int spawnRate, boolean hostile, boolean visible, int spawnCount, ItemStack drop) {
         super(entity, health, particleOffset, spawnRate, hostile, visible, spawnCount, drop);
     }
 
     @Override
     public Spirit initNew(LivingEntity entity) {
-        return new FriendlySpirit(entity, health, particleOffset, spawnRate, hostile, visible, spawnCount, drop);
+        return new WeakSpirit(entity, health, particleOffset, spawnRate, hostile, visible, spawnCount, drop);
     }
 
     private Particle.DustOptions dust;
 
     @Override
     public void start() {
-        Random random = new Random();
-        dust = new Particle.DustOptions(Color.fromRGB(random.nextInt(255), random.nextInt(255), random.nextInt(255)), 2);
+        dust = new Particle.DustOptions(Color.fromRGB(196, 21, 14), 2);
     }
 
     @Override
