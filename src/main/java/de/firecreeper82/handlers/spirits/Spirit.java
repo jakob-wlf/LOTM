@@ -1,83 +1,42 @@
 package de.firecreeper82.handlers.spirits;
 
-import de.firecreeper82.lotm.Plugin;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntitySpawnEvent;
-import org.bukkit.scheduler.BukkitRunnable;
-
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Random;
 
 public abstract class Spirit implements Listener {
 
     protected int spawnRate;
-    protected LivingEntity entity;
     protected boolean hostile;
-    protected double health;
     protected boolean visible;
+
+    protected double health;
     protected float particleOffset;
+    protected LivingEntity entity;
 
-    protected boolean canceled;
-
-    public Spirit(int spawnRate, boolean hostile, double health, boolean visible, float particleOffset) {
-        this.spawnRate = spawnRate;
-        this.hostile = hostile;
+    public Spirit(LivingEntity entity, double health, float particleOffset, int spawnRate, boolean hostile, boolean visible) {
+        this.entity = entity;
         this.health = health;
-        this.visible = visible;
         this.particleOffset = particleOffset;
 
-        canceled = false;
-
-        Plugin.instance.getServer().getPluginManager().registerEvents(this, Plugin.instance);
+        this.spawnRate = spawnRate;
+        this.hostile = hostile;
+        this.visible = visible;
     }
 
-    protected abstract void start();
+    public abstract Spirit initNew(LivingEntity entity);
 
-    protected abstract void tick();
+    public abstract void start();
+    public abstract void tick();
 
-    @EventHandler
-    public void onSpawn(EntitySpawnEvent e) {
-        EntityType[] spawnTypes = new EntityType[] {
-                EntityType.ZOMBIFIED_PIGLIN,
-                EntityType.PIGLIN,
-                EntityType.MAGMA_CUBE,
-                EntityType.HOGLIN,
-                EntityType.PIGLIN,
-                EntityType.STRIDER,
-                EntityType.GHAST
-        };
-        if(!Arrays.asList(spawnTypes).contains(e.getEntity().getType()))
-            return;
+    public int getSpawnRate() {
+        return spawnRate;
+    }
 
-        Random random = new Random();
+    public boolean isHostile() {
+        return hostile;
+    }
 
-        if(random.nextInt(spawnRate) != 0)
-            return;
-
-        entity = (LivingEntity) ((hostile) ?  e.getEntity().getWorld().spawnEntity(e.getLocation(), EntityType.VEX) : e.getEntity().getWorld().spawnEntity(e.getLocation(), EntityType.ALLAY));
-        Objects.requireNonNull(entity.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(health);
-        entity.setHealth(health);
-
-        entity.setInvisible(!visible);
-
-        start();
-
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if(!entity.isValid())
-                    canceled = true;
-
-                if(canceled)
-                    cancel();
-
-                tick();
-            }
-        }.runTaskTimer(Plugin.instance, 0, 0);
+    public boolean isVisible() {
+        return visible;
     }
 }

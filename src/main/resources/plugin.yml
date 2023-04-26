@@ -35,4 +35,7 @@ commands:
   ability-info:
     description: Get the infos about your abilities
     usage: /<cmd>
+  spirit:
+    description: Spawn a spirit
+    usage: /<cm>
 
