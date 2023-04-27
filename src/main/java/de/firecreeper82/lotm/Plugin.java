@@ -6,6 +6,7 @@ import de.firecreeper82.handlers.spirits.SpiritHandler;
 import de.firecreeper82.listeners.*;
 import de.firecreeper82.handlers.mobs.BeyonderMobsHandler;
 import de.firecreeper82.pathways.*;
+import de.firecreeper82.pathways.impl.demoness.DemonessPotions;
 import de.firecreeper82.pathways.impl.door.DoorPotions;
 import de.firecreeper82.pathways.impl.fool.FoolPotions;
 import de.firecreeper82.pathways.impl.fool.abilities.FogOfHistory;
@@ -131,6 +132,7 @@ public final class Plugin extends JavaPlugin{
         potions.add(new SunPotions());
         potions.add(new FoolPotions());
         potions.add(new DoorPotions());
+        potions.add(new DemonessPotions());
     }
 
     @Override

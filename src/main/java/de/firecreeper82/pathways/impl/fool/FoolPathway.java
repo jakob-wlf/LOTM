@@ -18,7 +18,6 @@ public class FoolPathway extends Pathway {
         sequence = new FoolSequence(this, optionalSequence);
         name = "§5Fool";
         nameNormalized = "fool";
-        pathwayColor = Color.orange;
         stringColor = "§5";
     }
 

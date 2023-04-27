@@ -17,7 +17,6 @@ public class SunPathway extends Pathway {
         sequence = new SunSequence(this, optionalSequence);
         name = "§6Sun";
         nameNormalized = "sun";
-        pathwayColor = Color.orange;
         stringColor = "§6";
     }
 

@@ -88,7 +88,8 @@ public class DoorItems extends Items {
         abilityInfo.put(2, s2);
 
         String[] s1 = formatAbilityInfo(pathway.getStringColor(), "1: " + names.get(1),
-                "§bStarfall: §7Summon multiple star fragments to hit the earth"
+                "§bStarfall: §7Summon multiple star fragments to hit the earth",
+                    "§bFind Player: §7Teleport to a player"
         );
         abilityInfo.put(1, s1);
     }
