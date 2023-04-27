@@ -24,7 +24,7 @@ public class DoorSequence extends Sequence {
     }
 
     public void init() {
-        usesAbilities = new boolean[19];
+        usesAbilities = new boolean[30];
         Arrays.fill(usesAbilities, false);
 
         abilities = new ArrayList<>();

@@ -30,7 +30,7 @@ public class Conceptualization extends Ability {
         boolean couldFly = p.getAllowFlight();
         float flySpeed = p.getFlySpeed();
 
-        p.setFlySpeed(flySpeed * 2);
+        p.setFlySpeed(Math.min(flySpeed * 2, 1));
 
         new BukkitRunnable() {
             int counter = 20;

@@ -14,13 +14,13 @@ import java.util.Random;
 
 public class FriendlySpirit extends Spirit {
 
-    public FriendlySpirit(LivingEntity entity, double health, float particleOffset, int spawnRate, EntityType entityType, boolean visible, int spawnCount, @Nullable ItemStack drop) {
-        super(entity, health, particleOffset, spawnRate, entityType, visible, spawnCount, drop);
+    public FriendlySpirit(LivingEntity entity, double health, float particleOffset, int spawnRate, EntityType entityType, boolean visible, int spawnCount, @Nullable ItemStack drop, boolean undead, String name) {
+        super(entity, health, particleOffset, spawnRate, entityType, visible, spawnCount, drop, undead, name);
     }
 
     @Override
     public Spirit initNew(LivingEntity entity) {
-        return new FriendlySpirit(entity, health, particleOffset, spawnRate, entityType, visible, spawnCount, drop);
+        return new FriendlySpirit(entity, health, particleOffset, spawnRate, entityType, visible, spawnCount, drop, undead, name);
     }
 
     private Particle.DustOptions dust;

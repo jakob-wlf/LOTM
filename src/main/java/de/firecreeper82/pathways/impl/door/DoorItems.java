@@ -125,6 +125,7 @@ public class DoorItems extends Items {
         addAbility(new BlackHole(17, pathway, 2, this));
         addAbility(new SpaceSwapping(18, pathway, 2, this));
         addAbility(new StarFall(19, pathway, 1, this));
+        addAbility(new FindPlayer(20, pathway, 1, this));
     }
 
     public void addAbility(Ability ability) {
