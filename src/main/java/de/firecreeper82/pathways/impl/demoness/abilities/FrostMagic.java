@@ -34,16 +34,18 @@ public class FrostMagic extends Ability {
         items.addToSequenceItems(identifier - 1, sequence);
 
         convertMaterials = new Material[] {
-          Material.GRASS_BLOCK,
-          Material.DIRT_PATH,
-          Material.DIRT,
-          Material.ROOTED_DIRT,
-          Material.MYCELIUM,
-          Material.PODZOL,
-          Material.STONE,
-          Material.GRANITE,
-          Material.DIORITE,
-          Material.ANDESITE
+                Material.GRASS_BLOCK,
+                Material.DIRT_PATH,
+                Material.DIRT,
+                Material.ROOTED_DIRT,
+                Material.MYCELIUM,
+                Material.PODZOL,
+                Material.STONE,
+                Material.GRANITE,
+                Material.DIORITE,
+                Material.ANDESITE,
+                Material.GRAVEL,
+                Material.SAND
         };
     }
 

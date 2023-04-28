@@ -3,11 +3,7 @@ package de.firecreeper82.pathways.impl.demoness;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
-import de.firecreeper82.pathways.impl.demoness.abilities.DarkFlames;
-import de.firecreeper82.pathways.impl.demoness.abilities.FrostMagic;
-import de.firecreeper82.pathways.impl.demoness.abilities.FrostSpear;
-import de.firecreeper82.pathways.impl.demoness.abilities.Invisibility;
-import de.firecreeper82.pathways.impl.sun.abilities.*;
+import de.firecreeper82.pathways.impl.demoness.abilities.*;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
@@ -110,7 +106,10 @@ public class DemonessItems extends Items {
         addAbility(new Invisibility(1, pathway, 7, this));
         addAbility(new DarkFlames(2, pathway, 7, this));
         addAbility(new FrostMagic(3, pathway, 7, this));
-        addAbility(new FrostSpear(4, pathway, 6, this));
+        addAbility(new ColdWind(4, pathway, 7, this));
+        addAbility(new FrostSpear(5, pathway, 6, this));
+        addAbility(new ThreadManipulation(6, pathway, 6, this));
+        addAbility(new Epidemic(7, pathway, 5, this));
     }
 
     public void addAbility(Ability ability) {

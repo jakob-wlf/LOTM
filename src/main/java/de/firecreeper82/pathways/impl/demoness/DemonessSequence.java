@@ -22,7 +22,7 @@ public class DemonessSequence extends Sequence implements Listener {
 
     @Override
     public List<Integer> getIds() {
-        Integer[] ids = {1};
+        Integer[] ids = {1, 4, 7};
         return Arrays.asList(ids);
     }
 

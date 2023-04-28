@@ -44,7 +44,9 @@ public class FrostSpear extends Recordable {
                 Material.STONE,
                 Material.GRANITE,
                 Material.DIORITE,
-                Material.ANDESITE
+                Material.ANDESITE,
+                Material.GRAVEL,
+                Material.SAND
         };
     }
 
