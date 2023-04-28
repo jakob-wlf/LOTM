@@ -24,7 +24,7 @@ public class DarkFlames extends Ability {
     public void useAbility() {
         p = pathway.getBeyonder().getPlayer();
 
-        Vector vector = p.getLocation().getDirection().normalize();
+        Vector vector = p.getLocation().getDirection().normalize().multiply(.5);
         Location loc = p.getEyeLocation().clone();
         if(loc.getWorld() == null)
             return;
@@ -46,7 +46,7 @@ public class DarkFlames extends Ability {
             for(Entity entity : world.getNearbyEntities(loc, 1, 1, 1)) {
                 if(!(entity instanceof LivingEntity livingEntity) || entity == p)
                     continue;
-               livingEntity.damage(17, p);
+               livingEntity.damage(15, p);
                livingEntity.setFireTicks(20 * 20);
                cancelled = true;
             }
