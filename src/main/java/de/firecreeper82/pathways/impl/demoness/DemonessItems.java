@@ -3,6 +3,8 @@ package de.firecreeper82.pathways.impl.demoness;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
+import de.firecreeper82.pathways.impl.demoness.abilities.DarkFlames;
+import de.firecreeper82.pathways.impl.demoness.abilities.Invisibility;
 import de.firecreeper82.pathways.impl.sun.abilities.*;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -103,6 +105,8 @@ public class DemonessItems extends Items {
 
     @Override
     public void createItems() {
+        addAbility(new Invisibility(1, pathway, 7, this));
+        addAbility(new DarkFlames(2, pathway, 7, this));
     }
 
     public void addAbility(Ability ability) {
