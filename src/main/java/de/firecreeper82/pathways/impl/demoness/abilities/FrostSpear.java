@@ -138,7 +138,7 @@ public class FrostSpear extends Recordable {
                         block.setType(Material.PACKED_ICE);
                     }
 
-                    p.getWorld().spawnParticle(Particle.SNOWFLAKE, p.getEyeLocation(), 70, 5, 5, 5, 0);
+                    p.getWorld().spawnParticle(Particle.SNOWFLAKE, freezeLoc, 70, 5, 5, 5, 0);
 
                     for(Entity entity : p.getNearbyEntities(8, 8, 8)) {
                         if(!(entity instanceof LivingEntity livingEntity))
