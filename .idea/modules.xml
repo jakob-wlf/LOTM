@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Bukkit/bukkit.iml" filepath="$PROJECT_DIR$/Bukkit/bukkit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CraftBukkit/craftbukkit.iml" filepath="$PROJECT_DIR$/CraftBukkit/craftbukkit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/lotm ez.iml" filepath="$PROJECT_DIR$/.idea/lotm ez.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Spigot/Spigot-Server/spigot.iml" filepath="$PROJECT_DIR$/Spigot/Spigot-Server/spigot.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Spigot/Spigot-API/spigot-api.iml" filepath="$PROJECT_DIR$/Spigot/Spigot-API/spigot-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Spigot/spigot-parent.iml" filepath="$PROJECT_DIR$/Spigot/spigot-parent.iml" />
+    </modules>
+  </component>
+</project>

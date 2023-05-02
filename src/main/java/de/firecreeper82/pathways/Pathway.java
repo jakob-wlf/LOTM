@@ -2,10 +2,10 @@ package de.firecreeper82.pathways;
 
 import de.firecreeper82.lotm.Beyonder;
 import de.firecreeper82.lotm.Plugin;
-import de.firecreeper82.pathways.impl.demoness.DemonessPathway;
 import de.firecreeper82.pathways.impl.door.DoorPathway;
 import de.firecreeper82.pathways.impl.fool.FoolPathway;
 import de.firecreeper82.pathways.impl.sun.SunPathway;
+import java.awt.*;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
@@ -17,6 +17,7 @@ public abstract class Pathway {
     protected String name;
     protected Beyonder beyonder;
     protected int optionalSequence;
+    protected Color pathwayColor;
     protected String stringColor;
     protected String nameNormalized;
 
@@ -114,13 +115,6 @@ public abstract class Pathway {
                 Plugin.instance.getServer().getPluginManager().registerEvents(beyonder, Plugin.instance);
                 return pathwayObject;
             }
-            case "demoness" -> {
-                pathwayObject = new DemonessPathway(uuid, sequence);
-                Beyonder beyonder = new Beyonder(uuid, pathwayObject);
-                Plugin.beyonders.put(uuid, beyonder);
-                Plugin.instance.getServer().getPluginManager().registerEvents(beyonder, Plugin.instance);
-                return pathwayObject;
-            }
             default -> {
                 return null;
             }
@@ -140,9 +134,6 @@ public abstract class Pathway {
             }
             case "door" -> {
                 return DoorPathway.getNames();
-            }
-            case "demoness" -> {
-                return DemonessPathway.getNames();
             }
             default -> {return null;}
         }

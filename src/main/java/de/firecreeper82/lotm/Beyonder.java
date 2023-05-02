@@ -290,7 +290,7 @@ public class Beyonder implements Listener {
                     }
                 }
                 else {
-                    for(int i = pathway.getSequence().getCurrentSequence(); i < 10; i++) {
+                    for(int i = pathway.getSequence().getCurrentSequence(); i < 9; i++) {
                         if(pathway.getSequence().getSequenceEffects().containsKey(i)) {
                             for(PotionEffect effect : pathway.getSequence().getSequenceEffects().get(i)) {
                                 p.addPotionEffect(effect);

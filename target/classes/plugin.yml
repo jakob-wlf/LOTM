@@ -1,0 +1,41 @@
+name: LOTM
+version: '1.0-SNAPSHOT'
+main: de.firecreeper82.lotm.Plugin
+api-version: 1.19
+authors: [ FireCreeper82 ]
+description: A Fan made Lord of the Mysteries plugin
+commands:
+  beyonder:
+    description: Make yourself a Beyonder
+    usage: /<cmd>
+  items:
+    description: Give yourself the items from your pathway
+    usage: /<cmd>
+  disable-threads:
+    description: Choose the Spirit Body Threads you want to see
+    usage: /<cmd>
+  exclude-entities:
+    description: Choose the Spirit Body Threads of the entities you don't want to see
+    usage: /<cmd>
+  thread-length:
+    description: Choose the max distance for the Spirit Body Threads you want to see
+    usage: /<cmd>
+  configure-threads:
+    description: Configure the Spirit Body Threads you want to see
+    usage: /<cmd>
+  potions:
+    description: Give yourself all the Potions of a Pathway
+    usage: /<cmd>
+  test:
+    description: Used for testing various things
+    usage: /<cmd>
+  spawn:
+    description: Spawn a custom entity
+    usage: /<cmd>
+  ability-info:
+    description: Get the infos about your abilities
+    usage: /<cmd>
+  spirit:
+    description: Spawn a spirit
+    usage: /<cm>
+

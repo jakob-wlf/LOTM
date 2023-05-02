@@ -90,7 +90,7 @@ public class Util {
         return blocks;
     }
 
-    public static ArrayList<Block> getNearbyBlocksInSphere(Location location, int radius, boolean empty, boolean ignoreAir) {
+    public static ArrayList<Block> getNearbyBlocksInSphere(Location location, int radius, boolean empty) {
         ArrayList<Block> blocks = new ArrayList<>();
 
         int bx = location.getBlockX();
@@ -103,7 +103,7 @@ public class Util {
                     double distance = ((bx - x) * (bx - x) + (bz - z) * (bz - z) + (by - y) * (by - y));
                     if (distance < radius * radius && (!empty && distance < (radius - 1) * (radius - 1))) {
                         Block block = new Location(location.getWorld(), x, y, z).getBlock();
-                        if((block.getType() != Material.AIR && block.getType() != Material.CAVE_AIR) || !ignoreAir)
+                        if(block.getType() != Material.AIR && block.getType() != Material.CAVE_AIR)
                             blocks.add(block);
                     }
                 }

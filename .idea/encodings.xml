@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/Bukkit/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Bukkit/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/CraftBukkit/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/CraftBukkit/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Spigot/Spigot-API/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Spigot/Spigot-API/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Spigot/Spigot-Server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Spigot/Spigot-Server/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Spigot/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Spigot/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/untitled/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/untitled/src/main/resources" charset="UTF-8" />
+  </component>
+</project>

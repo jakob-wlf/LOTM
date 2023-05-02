@@ -19,6 +19,7 @@ public class DoorPathway extends Pathway {
         sequence = new DoorSequence(this, optionalSequence);
         name = "§bDoor";
         nameNormalized = "door";
+        pathwayColor = Color.orange;
         stringColor = "§b";
     }
 

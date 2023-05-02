@@ -6,11 +6,11 @@ import de.firecreeper82.handlers.spirits.SpiritHandler;
 import de.firecreeper82.listeners.*;
 import de.firecreeper82.handlers.mobs.BeyonderMobsHandler;
 import de.firecreeper82.pathways.*;
-import de.firecreeper82.pathways.impl.demoness.DemonessPotions;
 import de.firecreeper82.pathways.impl.door.DoorPotions;
 import de.firecreeper82.pathways.impl.fool.FoolPotions;
 import de.firecreeper82.pathways.impl.fool.abilities.FogOfHistory;
 import de.firecreeper82.pathways.impl.sun.SunPotions;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
@@ -19,6 +19,7 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
@@ -55,6 +56,7 @@ public final class Plugin extends JavaPlugin{
     private Divination divination;
 
     public static UUID randomUUID;
+    public static HashMap<Beyonder, String> honorific_name = new HashMap<>();
 
     @Override
     public void onEnable() {
@@ -117,6 +119,8 @@ public final class Plugin extends JavaPlugin{
         Objects.requireNonNull(this.getCommand("test")).setExecutor(new TestCmd());
         Objects.requireNonNull(this.getCommand("spawn")).setExecutor(new SpawnCmd());
         Objects.requireNonNull(this.getCommand("ability-info")).setExecutor(new AbilityInfoCmd());
+        Objects.requireNonNull(this.getCommand("sethonorificname")).setExecutor(new HonorificNameCmd());
+//        Objects.requireNonNull(this.getCommand("hermes")).setExecutor(new HermesCmd());
     }
 
     private void registerEvents(Listener... listeners) {
@@ -132,7 +136,6 @@ public final class Plugin extends JavaPlugin{
         potions.add(new SunPotions());
         potions.add(new FoolPotions());
         potions.add(new DoorPotions());
-        potions.add(new DemonessPotions());
     }
 
     @Override
@@ -303,6 +306,13 @@ public final class Plugin extends JavaPlugin{
             }
         }
     }
+    public static void setHonorific_Name(Player player, String string){
+        player.sendMessage("Set your honorific name to:");
+        honorific_name.put(beyonders.get(player.getUniqueId()), string);
+    }
+    public static String getHonorific_name(Player player){
+        return honorific_name.get(beyonders.get(player.getUniqueId()));
+    }
 
     public ArrayList<Potion> getPotions() {
         return potions;
@@ -311,6 +321,8 @@ public final class Plugin extends JavaPlugin{
     public Divination getDivination() {
         return divination;
     }
+
+
 
     public Characteristic getCharacteristic() {
         return characteristic;
