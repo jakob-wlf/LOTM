@@ -6,8 +6,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.checkerframework.checker.nullness.qual.NonNull;
-
 import java.util.Arrays;
+import java.util.UUID;
 
 public class HonorificNameCmd implements CommandExecutor {
     @Override
@@ -20,6 +20,9 @@ public class HonorificNameCmd implements CommandExecutor {
         if(!Plugin.beyonders.containsKey(p.getUniqueId())) {
             s.sendMessage("§cYou have to be a Beyonder to use this command!");
             return true;
+        }
+        else{
+             Plugin.beyonders.get(p.getUniqueId());
         }
         String new_name = Arrays.toString(args);
         //then check if the player is a beyonder. If not, stop the command.
