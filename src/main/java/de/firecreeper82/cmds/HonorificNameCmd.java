@@ -7,11 +7,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import java.util.Arrays;
-import java.util.UUID;
 
 public class HonorificNameCmd implements CommandExecutor {
     @Override
-    public boolean onCommand(@NonNull CommandSender s, @NonNull Command cmd, @NonNull String label, @NonNull String[] @NonNull args) {
+    public boolean onCommand(@NonNull CommandSender s, @NonNull Command cmd, @NonNull String label, @NonNull String[] args) {
         if(!(s instanceof Player p)) {
             s.sendMessage("§cYou have to be a player to use this command!");
             return true;
@@ -21,9 +20,7 @@ public class HonorificNameCmd implements CommandExecutor {
             s.sendMessage("§cYou have to be a Beyonder to use this command!");
             return true;
         }
-        else{
-             Plugin.beyonders.get(p.getUniqueId());
-        }
+// the "CheckAngel" function will be created soon? Anyway, for now, everryone's got an Honorific Name ;) enjoy it while it lasts~
         String new_name = Arrays.toString(args);
         //then check if the player is a beyonder. If not, stop the command.
         if (new_name.equals("change")){
