@@ -16,11 +16,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 
-public class Epidemic extends Ability {
+public class Pestilence extends Ability {
 
     private final ArrayList<Entity> infected;
 
-    public Epidemic(int identifier, Pathway pathway, int sequence, Items items) {
+    public Pestilence(int identifier, Pathway pathway, int sequence, Items items) {
         super(identifier, pathway, sequence, items);
 
         items.addToSequenceItems(identifier - 1, sequence);
@@ -37,9 +37,9 @@ public class Epidemic extends Ability {
             int drainer = 0;
             @Override
             public void run() {
-                p.getWorld().spawnParticle(Particle.SMOKE_NORMAL, p.getEyeLocation(), 500, 40, 40, 40, 0);
+                p.getWorld().spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, p.getEyeLocation(), 500, 250, 60, 250, 0);
 
-                if(pathway.getBeyonder().getSpirituality() <= 10) {
+                if(pathway.getBeyonder().getSpirituality() <= 50) {
                     cancel();
                     return;
                 }
@@ -47,10 +47,10 @@ public class Epidemic extends Ability {
                 drainer++;
                 if(drainer >= 20) {
                     drainer = 0;
-                    pathway.getSequence().removeSpirituality(10);
+                    pathway.getSequence().removeSpirituality(50);
                 }
 
-                for(Entity entity : p.getNearbyEntities(50, 50, 50)) {
+                for(Entity entity : p.getNearbyEntities(250, 60, 250)) {
                     if(infected.contains(entity))
                         continue;
 
@@ -67,13 +67,13 @@ public class Epidemic extends Ability {
                                 if(counter < 8 * 20)
                                     livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 200, 0));
                                 else if(counter <= 18 * 20) {
-                                    livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 200, 1));
+                                    livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 200, 2));
                                     livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 200, 4));
                                 }
                                 else {
                                     livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 200, 4));
-                                    livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 200, 3));
-                                    livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 200, 1));
+                                    livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 200, 4));
+                                    livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 200, 2));
                                 }
                             }
 
@@ -85,7 +85,7 @@ public class Epidemic extends Ability {
                             if(!pathway.getSequence().getUsesAbilities()[identifier - 1])
                                 infected.remove(entity);
 
-                            if(!p.getNearbyEntities(50, 50, 50).contains(entity)) {
+                            if(!p.getNearbyEntities(250, 60, 250).contains(entity)) {
                                 infected.remove(entity);
                             }
 
@@ -109,6 +109,6 @@ public class Epidemic extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return DemonessItems.createItem(Material.GUNPOWDER, "Epidemic", "10/s", identifier, sequence, pathway.getBeyonder().getPlayer().getName());
+        return DemonessItems.createItem(Material.BONE, "Pestilence", "50/s", identifier, sequence, pathway.getBeyonder().getPlayer().getName());
     }
 }

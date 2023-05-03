@@ -138,18 +138,18 @@ public class FrostSpear extends Recordable {
                         block.setType(Material.PACKED_ICE);
                     }
 
-                    p.getWorld().spawnParticle(Particle.SNOWFLAKE, freezeLoc, 70, 5, 5, 5, 0);
+                    p.getWorld().spawnParticle(Particle.SNOWFLAKE, freezeLoc, 200, 5, 5, 5, 0);
 
-                    for(Entity entity : p.getNearbyEntities(8, 8, 8)) {
+                    for(Entity entity : p.getNearbyEntities(10, 10, 10)) {
                         if(!(entity instanceof LivingEntity livingEntity))
                             continue;
 
-                        livingEntity.damage(4, p);
+                        livingEntity.damage(8, p);
                         livingEntity.setFreezeTicks(20 * 6);
                     }
                     cancel();
                 }
-                if(counter >= 100) {
+                if(counter >= 160) {
                     pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                     cancel();
                     return;
@@ -162,7 +162,7 @@ public class FrostSpear extends Recordable {
             public void run () {
                 pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
             }
-        }.runTaskLater(Plugin.instance, 20 * 2);
+        }.runTaskLater(Plugin.instance, 20);
     }
 
     public void buildSpear(Location loc, Vector direc) {

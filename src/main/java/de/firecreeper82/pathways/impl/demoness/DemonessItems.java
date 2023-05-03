@@ -110,6 +110,8 @@ public class DemonessItems extends Items {
         addAbility(new FrostSpear(5, pathway, 6, this));
         addAbility(new ThreadManipulation(6, pathway, 6, this));
         addAbility(new Epidemic(7, pathway, 5, this));
+        addAbility(new MirrorWorldTraversal(8, pathway, 5, this));
+        addAbility(new Pestilence(9, pathway, 4, this));
     }
 
     public void addAbility(Ability ability) {
