@@ -112,6 +112,7 @@ public class DemonessItems extends Items {
         addAbility(new Epidemic(7, pathway, 5, this));
         addAbility(new MirrorWorldTraversal(8, pathway, 5, this));
         addAbility(new Pestilence(9, pathway, 4, this));
+        addAbility(new Petrification(10, pathway, 3, this));
     }
 
     public void addAbility(Ability ability) {

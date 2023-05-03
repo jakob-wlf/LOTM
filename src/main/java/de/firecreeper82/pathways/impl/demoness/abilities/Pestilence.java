@@ -39,6 +39,7 @@ public class Pestilence extends Ability {
             public void run() {
                 p.getWorld().spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, p.getEyeLocation(), 500, 250, 60, 250, 0);
 
+
                 if(pathway.getBeyonder().getSpirituality() <= 50) {
                     cancel();
                     return;
