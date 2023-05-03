@@ -108,7 +108,7 @@ public class TravelersDoor extends Ability implements Listener {
                         public void run() {
                             if(!isTeleporting)
                                 cancel();
-                            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§bRight Click on block to travel here"));
+                            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§bLeft Click to travel here"));
 
                             for(Player teleportedPlayer : teleportedPlayers.keySet()) {
                                 teleportedPlayer.teleport(p.getLocation());
