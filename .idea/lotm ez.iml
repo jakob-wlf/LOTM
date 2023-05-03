@@ -25,7 +25,28 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/.build tools/work/mapped.8b4db36a.jar!/" />
+          <root url="file://$MODULE_DIR$/../.build tools" />
+          <root url="file://$MODULE_DIR$/../.build tools" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/../.build tools/Bukkit/src/main/java" />
+          <root url="file://$MODULE_DIR$/../.build tools/Bukkit/src/test/java" />
+          <root url="file://$MODULE_DIR$/../.build tools/CraftBukkit/src/main/java" />
+          <root url="file://$MODULE_DIR$/../.build tools/CraftBukkit/src/test/java" />
+          <root url="file://$MODULE_DIR$/../.build tools/Spigot/Spigot-API/src/main/java" />
+          <root url="file://$MODULE_DIR$/../.build tools/Spigot/Spigot-API/src/test/java" />
+          <root url="file://$MODULE_DIR$/../.build tools/Spigot/Spigot-Server/src/main/java" />
+          <root url="file://$MODULE_DIR$/../.build tools/Spigot/Spigot-Server/src/test/java" />
+          <root url="file://$MODULE_DIR$/../.build tools/work/decompile-8b4db36a" />
+        </SOURCES>
+        <jarDirectory url="file://$MODULE_DIR$/../.build tools" recursive="false" />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../.build tools/work/mapped.8b4db36a.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
