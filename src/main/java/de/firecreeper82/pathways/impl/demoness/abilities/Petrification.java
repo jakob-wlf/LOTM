@@ -83,12 +83,6 @@ public class Petrification extends Ability {
 
             @Override
             public void run() {
-                for(Map.Entry<Block, Material> entry : blocks.entrySet()) {
-                    entry.getKey().setType(entry.getValue());
-                }
-
-                blocks.clear();
-
                 counter--;
 
                 if(counter <= 0) {
@@ -115,6 +109,12 @@ public class Petrification extends Ability {
                     return;
                 }
 
+                for(Map.Entry<Block, Material> entry : blocks.entrySet()) {
+                    entry.getKey().setType(entry.getValue());
+                }
+
+                blocks.clear();
+
                 finalTarget.setVelocity(new Vector(0, 0, 0));
 
                 if(counter % 10 == 0) {
@@ -123,7 +123,7 @@ public class Petrification extends Ability {
                 }
 
                 if(counter % 20 == 0) {
-                    finalTarget.damage(15, p);
+                    finalTarget.damage(25, p);
                 }
 
                 finalTarget.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 120, 120));
