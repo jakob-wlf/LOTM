@@ -41,6 +41,7 @@
           <root url="file://$MODULE_DIR$/../.build tools/work/decompile-8b4db36a" />
         </SOURCES>
         <jarDirectory url="file://$MODULE_DIR$/../.build tools" recursive="false" />
+        <jarDirectory url="file://$MODULE_DIR$/../.build tools" recursive="false" />
       </library>
     </orderEntry>
     <orderEntry type="module-library">

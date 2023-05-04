@@ -1,4 +1,4 @@
-package de.firecreeper82.lotm.util;
+/*package de.firecreeper82.lotm.util;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
@@ -89,4 +89,4 @@ public class NPC extends ServerPlayer {
         }.runTaskLater(Plugin.instance, 5);
         entityPlayer.getEntityData().set(net.minecraft.world.entity.player.Player.DATA_PLAYER_MODE_CUSTOMISATION,(byte) 0xFF);
     }
-}
+}*/

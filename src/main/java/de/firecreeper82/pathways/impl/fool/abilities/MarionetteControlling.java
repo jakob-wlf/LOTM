@@ -1,40 +1,40 @@
-package de.firecreeper82.pathways.impl.fool.abilities;
+//package de.firecreeper82.pathways.impl.fool.abilities;
+//
+//import com.mojang.authlib.properties.Property;
+//import de.firecreeper82.lotm.Plugin;
+//import de.firecreeper82.lotm.util.NPC;
+//import de.firecreeper82.lotm.util.UtilItems;
+//import de.firecreeper82.pathways.Ability;
+//import de.firecreeper82.pathways.Items;
+//import de.firecreeper82.pathways.Pathway;
+//import de.firecreeper82.pathways.impl.fool.FoolItems;
+//import de.firecreeper82.pathways.impl.fool.marionettes.Marionette;
+//import net.md_5.bungee.api.ChatMessageType;
+//import net.md_5.bungee.api.chat.TextComponent;
+//import net.minecraft.server.level.ServerLevel;
+//import net.minecraft.server.level.ServerPlayer;
+//import org.bukkit.*;
+//import org.bukkit.craftbukkit.v1_19_R1.CraftWorld;
+//import org.bukkit.craftbukkit.v1_19_R1.entity.CraftPlayer;
+//import org.bukkit.entity.*;
+//import org.bukkit.event.EventHandler;
+//import org.bukkit.event.Listener;
+//import org.bukkit.event.entity.EntityDamageByEntityEvent;
+//import org.bukkit.event.entity.EntityDamageEvent;
+//import org.bukkit.event.inventory.InventoryType;
+//import org.bukkit.event.player.PlayerInteractEvent;
+//import org.bukkit.inventory.Inventory;
+//import org.bukkit.inventory.ItemStack;
+//import org.bukkit.inventory.meta.PotionMeta;
+//import org.bukkit.potion.PotionEffect;
+//import org.bukkit.potion.PotionEffectType;
+//import org.bukkit.scheduler.BukkitRunnable;
+//import org.bukkit.util.Vector;
 
-import com.mojang.authlib.properties.Property;
-import de.firecreeper82.lotm.Plugin;
-import de.firecreeper82.lotm.util.NPC;
-import de.firecreeper82.lotm.util.UtilItems;
-import de.firecreeper82.pathways.Ability;
-import de.firecreeper82.pathways.Items;
-import de.firecreeper82.pathways.Pathway;
-import de.firecreeper82.pathways.impl.fool.FoolItems;
-import de.firecreeper82.pathways.impl.fool.marionettes.Marionette;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import org.bukkit.*;
-import org.bukkit.craftbukkit.v1_19_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_19_R1.entity.CraftPlayer;
-import org.bukkit.entity.*;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.Vector;
+//import java.util.ArrayList;
+//import java.util.Arrays;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-public class MarionetteControlling extends Ability implements Listener {
+/*public class MarionetteControlling extends Ability implements Listener {
 
     private int currentIndex;
     private boolean controlling;
@@ -136,12 +136,12 @@ public class MarionetteControlling extends Ability implements Listener {
 
             for(ArrayList<Entity> list : Plugin.instance.getConcealedEntities()) {
                 if(!list.contains(p))
-                    continue;
-                 list.add(npc.getBukkitEntity());
-            }
+            continue;
+                list.add(npc.getBukkitEntity());
+                }
 
             fakePlayer = npc;
-        }
+            }
         else
             npc = null;
 
@@ -511,4 +511,4 @@ public class MarionetteControlling extends Ability implements Listener {
     public boolean isControlling() {
         return controlling;
     }
-}
+}*/
