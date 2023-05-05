@@ -9,6 +9,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.FallingBlock;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -96,6 +97,10 @@ public class Tornado extends Disaster{
                 for(Entity e : world.getNearbyEntities(location, 9.5, 20, 9.5)) {
                     if(e == p)
                         continue;
+
+                    if(e instanceof LivingEntity livingEntity)
+                        livingEntity.damage(4, p);
+
                     Location pLoc = e.getLocation().clone();
                     pLoc.setY(location.getY());
                     if(pLoc.distance(location) > 8.5) {

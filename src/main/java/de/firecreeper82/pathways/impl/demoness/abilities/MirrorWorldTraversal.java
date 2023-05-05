@@ -84,7 +84,7 @@ public class MirrorWorldTraversal extends Ability implements Listener {
         if(onCooldown)
             return;
 
-        ArrayList<Block> nearBlocks = Util.getBlocksInSquare(p.getEyeLocation().getBlock(), 4);
+        ArrayList<Block> nearBlocks = Util.getBlocksInSquare(p.getEyeLocation().getBlock(), 4, false);
 
         boolean valid = false;
         for(Block block : nearBlocks) {
@@ -122,7 +122,7 @@ public class MirrorWorldTraversal extends Ability implements Listener {
         if(!traversing || e.getPlayer() != p)
             return;
 
-        ArrayList<Block> nearBlocks = Util.getBlocksInSquare(p.getEyeLocation().getBlock(), 4);
+        ArrayList<Block> nearBlocks = Util.getBlocksInSquare(p.getEyeLocation().getBlock(), 4, false);
 
         boolean valid = false;
         for(Block block : nearBlocks) {

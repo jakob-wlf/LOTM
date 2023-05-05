@@ -79,7 +79,7 @@ public class SpaceSwapping extends Ability implements Listener {
         if(!isSwapping) {
             isSwapping = true;
 
-            swappedBlocks = Util.getBlocksInSquare(loc.getBlock(), radius);
+            swappedBlocks = Util.getBlocksInSquare(loc.getBlock(), radius, false);
 
             originLoc = loc.clone();
 
@@ -102,7 +102,7 @@ public class SpaceSwapping extends Ability implements Listener {
 
         Vector subtract = loc.clone().toVector().subtract(originLoc.clone().toVector());
 
-        ArrayList<Block> newBlocks = Util.getBlocksInSquare(loc.getBlock(), radius);
+        ArrayList<Block> newBlocks = Util.getBlocksInSquare(loc.getBlock(), radius, false);
         HashMap<Block, Material> materials = new HashMap<>();
         HashMap<Block, BlockData> blockDatas = new HashMap<>();
 

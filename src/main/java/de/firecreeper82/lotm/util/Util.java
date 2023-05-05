@@ -113,7 +113,7 @@ public class Util {
         return blocks;
     }
 
-    public static ArrayList<Block> getBlocksInSquare(Block start, int radius){
+    public static ArrayList<Block> getBlocksInSquare(Block start, int radius, boolean ignoreAir){
         if (radius < 0) {
             return new ArrayList<>(0);
         }
@@ -122,7 +122,8 @@ public class Util {
         for (int x = -radius; x <= radius; x++) {
             for (int y = -radius; y <= radius; y++) {
                 for (int z = -radius; z <= radius; z++) {
-                    blocks.add(start.getRelative(x, y, z));
+                    if((start.getRelative(x, y, z).getType() != Material.AIR && start.getRelative(x, y, z).getType() != Material.CAVE_AIR) || !ignoreAir)
+                        blocks.add(start.getRelative(x, y, z));
                 }
             }
         }

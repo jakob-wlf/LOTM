@@ -4,14 +4,24 @@ import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.UtilItems;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class Tsunami extends Disaster{
+    private final HashMap<Integer, Integer> blockedSides;
+    private final ArrayList<Integer> skipped;
+
     public Tsunami(Player p) {
         super(p);
+        blockedSides = new HashMap<>();
+        skipped = new ArrayList<>();
     }
 
     @Override
@@ -31,6 +41,9 @@ public class Tsunami extends Disaster{
 
         eyeLoc.setYaw(eyeLoc.getYaw() - 90);
 
+        if(startLoc.getWorld() == null)
+            return;
+
         new BukkitRunnable() {
             int counter = 0;
             @Override
@@ -43,15 +56,30 @@ public class Tsunami extends Disaster{
 
                 for(int i = -10; i < Math.min(Math.sqrt(counter), 20); i++) {
                     for(int j = -64; j < 65; j++) {
+                        if((blockedSides.containsKey(j) && blockedSides.get(j) >= i -3)) {
+                            skipped.add(j);
+                            continue;
+                        }
+                        if(skipped.contains(j))
+                            continue;
                         Location tempLoc = startLoc.clone();
                         tempLoc.add(0, i, 0);
                         tempLoc.add(dirRight.clone().multiply(j));
                         if(!tempLoc.getBlock().getType().isSolid())
                             tempLoc.getBlock().setType(Material.WATER);
+                        else {
+                            blockedSides.put(j, i);
+                        }
                     }
                 }
 
                 startLoc.subtract(dir);
+                for(Entity entity : startLoc.getWorld().getNearbyEntities(startLoc, 8, 8, 8)) {
+                    if(!(entity instanceof LivingEntity livingEntity) || entity == p)
+                        continue;
+
+                    livingEntity.damage(7, p);
+                }
             }
         }.runTaskTimer(Plugin.instance, 0, 2);
     }
