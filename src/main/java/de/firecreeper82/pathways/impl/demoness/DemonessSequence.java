@@ -22,7 +22,7 @@ public class DemonessSequence extends Sequence implements Listener {
 
     @Override
     public List<Integer> getIds() {
-        Integer[] ids = {1, 4, 7};
+        Integer[] ids = {1, 4, 7, 9};
         return Arrays.asList(ids);
     }
 
@@ -62,8 +62,17 @@ public class DemonessSequence extends Sequence implements Listener {
                 new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60, 0, false, false, false),
                 new PotionEffect(PotionEffectType.SPEED, 60, 1, false, false, true),
                 new PotionEffect(PotionEffectType.JUMP, 60, 1, false, false, true),
-                new PotionEffect(PotionEffectType.NIGHT_VISION, 120, 1, false, false, true)
+                new PotionEffect(PotionEffectType.NIGHT_VISION, 620, 1, false, false, true)
         };
         sequenceEffects.put(9, effects9);
+
+        PotionEffect[] effects2 = {
+                new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60, 1, false, false, false),
+                new PotionEffect(PotionEffectType.SPEED, 60, 1, false, false, true),
+                new PotionEffect(PotionEffectType.JUMP, 60, 1, false, false, true),
+                new PotionEffect(PotionEffectType.NIGHT_VISION, 620, 1, false, false, true),
+                new PotionEffect(PotionEffectType.SATURATION, 120, 10, false, false, true)
+        };
+        sequenceEffects.put(2, effects2);
     }
 }
