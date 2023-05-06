@@ -63,6 +63,8 @@ public class Beyonder implements Listener {
     private int resurrections;
 
     private final ArrayList<Record> records;
+    public boolean isDistorted;
+    public boolean isBribed;
 
     public Beyonder(UUID uuid, Pathway pathway) {
         this.pathway = pathway;

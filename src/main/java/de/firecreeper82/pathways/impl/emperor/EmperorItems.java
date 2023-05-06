@@ -3,7 +3,7 @@ package de.firecreeper82.pathways.impl.emperor;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
-import de.firecreeper82.pathways.impl.demoness.abilities.*;
+import de.firecreeper82.pathways.impl.emperor.abilities.*;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
@@ -28,6 +28,18 @@ public class EmperorItems extends Items{
     @Override
     public void initializeAbilityInfos() {
         HashMap<Integer, String> names = Objects.requireNonNull(Pathway.getNamesForPathway(pathway.getNameNormalized()));
+        String[] s9 = formatAbilityInfo(pathway.getStringColor(), "9: " + names.get(9),
+                "§0Use: §7/items§0 to get the abilities for your Sequence",
+                "§0BrainWash: Make the target's strikes against you weaker !");
+        abilityInfo.put(9,s9);
+        String[] s8 = formatAbilityInfo(pathway.getStringColor(),"8",names.get(8),
+                "§0Brute: Problems that cannot be solved by the law will be solved by force.",
+                "§0Physical Enhancement: They will receive physical enhancements, strength, and a constitution that breaks the rules.",
+                "§0Mental Resistance: The Beyonders at this sequence have a high resistance to psychological influences");
+        abilityInfo.put(8,s8);
+        String[] s7 = formatAbilityInfo(pathway.getStringColor(),"8",names.get(8),
+                "§0Bribe: bribe your target, granting them an array of various effects");
+        abilityInfo.put(7,s7);
     }
 
 
@@ -49,17 +61,10 @@ public class EmperorItems extends Items{
     }
 
     @Override
-    public void createItems(){} /*{
-        addAbility(new Invisibility(1, pathway, 7, this));
-        addAbility(new DarkFlames(2, pathway, 7, this));
-        addAbility(new FrostMagic(3, pathway, 7, this));
-        addAbility(new ColdWind(4, pathway, 7, this));
-        addAbility(new FrostSpear(5, pathway, 6, this));
-        addAbility(new ThreadManipulation(6, pathway, 6, this));
-        addAbility(new Epidemic(7, pathway, 5, this));
-        addAbility(new MirrorWorldTraversal(8, pathway, 5, this));
-        addAbility(new Pestilence(9, pathway, 4, this));
-    }*/
+    public void createItems(){
+        addAbility(new BrainWash(1, pathway, 9, this));
+        addAbility(new Bribe(1,pathway, 7, this));
+    }
 
     public void addAbility(Ability ability) {
         pathway.getSequence().getAbilities().add(ability);

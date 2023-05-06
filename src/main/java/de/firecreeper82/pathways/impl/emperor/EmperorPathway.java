@@ -16,7 +16,7 @@ public class EmperorPathway extends Pathway {
 
     @Override
     public void init() {
-        sequence = new DemonessSequence(this, optionalSequence);
+        sequence = new EmperorSequence(this, optionalSequence);
         name = "§0Black Emperor";
         nameNormalized = "emperor";
         stringColor = "§0";
