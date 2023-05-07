@@ -110,6 +110,9 @@ public class FrostMagic extends Ability {
         Random random = new Random();
 
         for(Block block : blocks) {
+            if(block.getType() == Material.WATER)
+                block.setType(Material.PACKED_ICE);
+
             if(!Arrays.asList(convertMaterials).contains(block.getType()))
                 continue;
 

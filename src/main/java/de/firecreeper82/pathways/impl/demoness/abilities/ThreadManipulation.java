@@ -28,7 +28,6 @@ public class ThreadManipulation extends Ability {
     @Override
     public void useAbility() {
         p = pathway.getBeyonder().getPlayer();
-
         placeThreads();
     }
 
