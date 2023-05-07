@@ -2,9 +2,11 @@ package de.firecreeper82.pathways;
 
 import de.firecreeper82.lotm.Beyonder;
 import de.firecreeper82.lotm.Plugin;
+import de.firecreeper82.pathways.impl.demoness.DemonessPathway;
 import de.firecreeper82.pathways.impl.door.DoorPathway;
 import de.firecreeper82.pathways.impl.fool.FoolPathway;
 import de.firecreeper82.pathways.impl.sun.SunPathway;
+import de.firecreeper82.pathways.impl.emperor.EmperorPathway;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -117,6 +119,20 @@ public abstract class Pathway {
                 Plugin.instance.getServer().getPluginManager().registerEvents(beyonder, Plugin.instance);
                 return pathwayObject;
             }
+            case "demoness" -> {
+                pathwayObject = new DemonessPathway(uuid, sequence);
+                Beyonder beyonder = new Beyonder(uuid, pathwayObject);
+                Plugin.beyonders.put(uuid, beyonder);
+                Plugin.instance.getServer().getPluginManager().registerEvents(beyonder, Plugin.instance);
+                return pathwayObject;
+            }
+            case "emperor" -> {
+                pathwayObject = new EmperorPathway(uuid, sequence);
+                Beyonder beyonder = new Beyonder(uuid, pathwayObject);
+                Plugin.beyonders.put(uuid, beyonder);
+                Plugin.instance.getServer().getPluginManager().registerEvents(beyonder, Plugin.instance);
+                return pathwayObject;
+            }
             default -> {
                 return null;
             }
@@ -136,6 +152,12 @@ public abstract class Pathway {
             }
             case "door" -> {
                 return DoorPathway.getNames();
+            }
+            case "demoness" -> {
+                return DemonessPathway.getNames();
+            }
+            case "emperor" -> {
+                return EmperorPathway.getNames();
             }
             default -> {return null;}
         }

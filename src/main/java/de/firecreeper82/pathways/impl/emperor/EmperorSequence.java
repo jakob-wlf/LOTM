@@ -13,50 +13,59 @@ import java.util.List;
 
 public class EmperorSequence extends Sequence implements Listener {
 
-        public EmperorSequence(Pathway pathway, int optionalSequence) {
-                super(pathway, optionalSequence);
-                init();
-        }
+    public EmperorSequence(Pathway pathway, int optionalSequence) {
+        super(pathway, optionalSequence);
+        init();
+    }
 
-        @Override
-        public List<Integer> getIds() {
-                Integer[] ids = {1, 4, 7};
-                return Arrays.asList(ids);
-        }
+    @Override
+    public List<Integer> getIds() {
+        Integer[] ids = {1, 4, 7};
+        return Arrays.asList(ids);
+    }
 
-        public void init() {
-                usesAbilities = new boolean[19];
-                Arrays.fill(usesAbilities, false);
+    public void init() {
+        usesAbilities = new boolean[19];
+        Arrays.fill(usesAbilities, false);
 
-                abilities = new ArrayList<>();
-                recordables = new ArrayList<>();
+        abilities = new ArrayList<>();
+        recordables = new ArrayList<>();
 
-                sequenceEffects = new HashMap<>();
-                sequenceResistances = new HashMap<>();
+        sequenceEffects = new HashMap<>();
+        sequenceResistances = new HashMap<>();
 
-                initEffects();
+        initEffects();
 
-                sequenceMultiplier = new HashMap<>();
-                sequenceMultiplier.put(5, 1.5);
-                sequenceMultiplier.put(4, 2.0);
-                sequenceMultiplier.put(3, 2.25);
-                sequenceMultiplier.put(2, 3.5);
-                sequenceMultiplier.put(1, 5.0);
-        }
+        sequenceMultiplier = new HashMap<>();
+        sequenceMultiplier.put(5, 1.5);
+        sequenceMultiplier.put(4, 2.0);
+        sequenceMultiplier.put(3, 2.25);
+        sequenceMultiplier.put(2, 3.5);
+        sequenceMultiplier.put(1, 5.0);
+    }
 
 
-        //Passive effects
-        public void initEffects() {
-                PotionEffect[] effects9 = {
-                        new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60, 1, false, false, false),
-                        new PotionEffect(PotionEffectType.SPEED, 60, 1, false, false, true),
-                };
-                sequenceEffects.put(8, effects9);
-                PotionEffect[] effects8 = {
-                        new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60, 2, false, false, false),
-                        new PotionEffect(PotionEffectType.SPEED, 60, 2, false, false, true),
-                        new PotionEffect(PotionEffectType.JUMP,60,2,false,false,true)
-                };
-                sequenceEffects.put(8,effects8);
-        }
+    //Passive effects
+    public void initEffects() {
+        PotionEffect[] effects9 = {
+                new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60, 1, false, false, false),
+                new PotionEffect(PotionEffectType.SPEED, 60, 1, false, false, true),
+        };
+        sequenceEffects.put(8, effects9);
+        PotionEffect[] effects8 = {
+                new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60, 2, false, false, false),
+                new PotionEffect(PotionEffectType.SPEED, 60, 1, false, false, true),
+                new PotionEffect(PotionEffectType.JUMP, 60, 1, false, false, true),
+                new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60, 1, false, false, false),
+        };
+        sequenceEffects.put(8, effects8);
+        PotionEffect[] effects7 = {
+                new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60, 2, false, false, false),
+                new PotionEffect(PotionEffectType.SPEED, 60, 2, false, false, true),
+                new PotionEffect(PotionEffectType.JUMP, 60, 2, false, false, true),
+                new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60, 1, false, false, false),
+                new PotionEffect(PotionEffectType.HEALTH_BOOST, 60, 1,false,false,false)
+        };
+        sequenceEffects.put(7, effects7);
+    }
 }

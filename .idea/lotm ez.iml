@@ -53,6 +53,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" scope="PROVIDED" name="Maven: net.citizensnpcs:citizens-main:2.0.30-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.spigotmc:spigot:remapped-mojang:1.19.2-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.spigotmc:spigot-api:1.19.2-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.guava:guava:31.0.1-jre" level="project" />

@@ -63,7 +63,11 @@ public class EmperorItems extends Items{
     @Override
     public void createItems(){
         addAbility(new BrainWash(1, pathway, 9, this));
-        addAbility(new Bribe(1,pathway, 7, this));
+        addAbility(new Bribe(2,pathway, 7, this));
+        addAbility(new Distortion(3,pathway,6, this));
+        addAbility(new EmperorFloat(4,pathway,6,this));
+        addAbility(new Domineer(5,pathway,4,this));
+        addAbility(new MagnifyDamage(6,pathway,4,this));
     }
 
     public void addAbility(Ability ability) {

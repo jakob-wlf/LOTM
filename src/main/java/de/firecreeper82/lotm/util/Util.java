@@ -5,8 +5,12 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 
@@ -17,8 +21,7 @@ public class Util {
         try {
             Integer.parseInt(s);
             return true;
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             return false;
         }
     }
@@ -26,8 +29,7 @@ public class Util {
     public static Integer parseInt(String s) {
         try {
             return Integer.parseInt(s);
-        }
-        catch (NumberFormatException exception) {
+        } catch (NumberFormatException exception) {
             throw new NumberFormatException();
         }
     }
@@ -58,10 +60,10 @@ public class Util {
                 double x = Math.cos(a) * radius;
                 double z = Math.sin(a) * radius;
                 loc.add(x, y, z);
-                if(loc.getWorld() == null)
+                if (loc.getWorld() == null)
                     return;
                 loc.getWorld().spawnParticle(Particle.REDSTONE, loc, 1, offset, offset, offset, 0, dust);
-                if(material != null && (loc.getBlock().getType().getHardness() >= 0 || loc.getBlock().getType() == Material.BARRIER) && (!loc.getBlock().getType().isSolid() || loc.getBlock().getType() == Material.BARRIER)) {
+                if (material != null && (loc.getBlock().getType().getHardness() >= 0 || loc.getBlock().getType() == Material.BARRIER) && (!loc.getBlock().getType().isSolid() || loc.getBlock().getType() == Material.BARRIER)) {
                     loc.getBlock().setType(material);
                 }
                 loc.subtract(x, y, z);
@@ -70,18 +72,18 @@ public class Util {
     }
 
     @SuppressWarnings("unused")
-    public static ArrayList<Block> getBlocksInCircleRadius(Block start, int radius, boolean ignoreAir){
+    public static ArrayList<Block> getBlocksInCircleRadius(Block start, int radius, boolean ignoreAir) {
 
         Location loc = start.getLocation();
 
         ArrayList<Block> blocks = new ArrayList<>();
 
-        for(int i = radius; i > -radius; i--) {
+        for (int i = radius; i > -radius; i--) {
             for (int x = -radius; x <= radius; x++) {
                 for (int z = -radius; z <= radius; z++) {
-                    if( (x*x) + (z*z) <= Math.pow(radius, 2)) {
+                    if ((x * x) + (z * z) <= Math.pow(radius, 2)) {
                         Block block = start.getWorld().getBlockAt((int) loc.getX() + x, (int) loc.getY() + i, (int) loc.getZ() + z);
-                        if(block.getType() != Material.AIR && block.getType() != Material.CAVE_AIR || !ignoreAir)
+                        if (block.getType() != Material.AIR && block.getType() != Material.CAVE_AIR || !ignoreAir)
                             blocks.add(block);
                     }
                 }
@@ -103,7 +105,7 @@ public class Util {
                     double distance = ((bx - x) * (bx - x) + (bz - z) * (bz - z) + (by - y) * (by - y));
                     if (distance < radius * radius && (!empty && distance < (radius - 1) * (radius - 1))) {
                         Block block = new Location(location.getWorld(), x, y, z).getBlock();
-                        if((block.getType() != Material.AIR && block.getType() != Material.CAVE_AIR) || !ignoreAir)
+                        if ((block.getType() != Material.AIR && block.getType() != Material.CAVE_AIR) || !ignoreAir)
                             blocks.add(block);
                     }
                 }
@@ -113,7 +115,7 @@ public class Util {
         return blocks;
     }
 
-    public static ArrayList<Block> getBlocksInSquare(Block start, int radius){
+    public static ArrayList<Block> getBlocksInSquare(Block start, int radius) {
         if (radius < 0) {
             return new ArrayList<>(0);
         }
@@ -127,5 +129,23 @@ public class Util {
             }
         }
         return blocks;
+    }
+    public static List<Entity> getEntitiesInRadius(Player player, double radius) {
+        List<Entity> nearbyEntities = new ArrayList<>();
+        Location playerLocation = player.getLocation();
+
+        for (Entity entity : playerLocation.getWorld().getEntities()) {
+            Location entityLocation = entity.getLocation();
+
+            // Calculate the distance between the player and the entity
+            double distance = entityLocation.distance(playerLocation);
+
+            // Check if the entity is within the specified radius
+            if (distance <= radius) {
+                nearbyEntities.add(entity);
+            }
+        }
+
+        return nearbyEntities;
     }
 }

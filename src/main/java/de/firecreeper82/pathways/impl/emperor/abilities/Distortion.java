@@ -4,7 +4,6 @@ import de.firecreeper82.lotm.Beyonder;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
-import de.firecreeper82.pathways.Potion;
 import de.firecreeper82.pathways.Recordable;
 import de.firecreeper82.pathways.impl.emperor.EmperorItems;
 import org.bukkit.Location;
@@ -57,33 +56,33 @@ public class Distortion extends Recordable {
                 }
             }*/
 
-        Vector dir = p.getEyeLocation().getDirection().normalize();
-        Location loc = p.getEyeLocation();
-        if (loc.getWorld() == null) return;
 
-        LivingEntity target = null;
-
-        outerloop:
-        for (int i = 0; i < 15; i++) {
-            for (Entity entity : loc.getWorld().getNearbyEntities(loc, 1, 1, 1)) {
-                if (!(entity instanceof LivingEntity e) || entity == p) continue;
-                target = e;
-                break outerloop;
-            }
-
-            loc.add(dir);
-        }
-
-        if (target == null) {
-            p.sendMessage("§cCouldn't find the target!");
-            return;
-        }
-
-        LivingEntity finalTarget = target;
         new BukkitRunnable() {
             @Override
             public void run() {
                 if (!distortEnv) {
+                    Vector dir = p.getEyeLocation().getDirection().normalize();
+                    Location loc = p.getEyeLocation();
+                    if (loc.getWorld() == null) return;
+
+                    LivingEntity target = null;
+
+                    outerloop:
+                    for (int i = 0; i < 15; i++) {
+                        for (Entity entity : loc.getWorld().getNearbyEntities(loc, 1, 1, 1)) {
+                            if (!(entity instanceof LivingEntity e) || entity == p) continue;
+                            target = e;
+                            break outerloop;
+                        }
+
+                        loc.add(dir);
+                    }
+
+                    if (target == null) {
+                        return;
+                    }
+
+                    LivingEntity finalTarget = target;
                     if (!finalTarget.isValid() || !pathway.getSequence().getUsesAbilities()[identifier - 1]) {
                         pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                         cancel();
@@ -110,13 +109,13 @@ public class Distortion extends Recordable {
                         if (weakness != null) {
                             finalTarget.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, weakness.getDuration() + 80, weakness.getAmplifier() + 1, false, false, false));
                         } else {
-                            finalTarget.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 80, 1, false, false, false));
+                            finalTarget.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 80, 0, false, false, false));
                         }
                         //adds slowness to the target
                         if (slowness != null) {
-                            finalTarget.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, slowness.getDuration() + 80, slowness.getAmplifier() + 1, false, false, false));
+                            finalTarget.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, slowness.getDuration() + 80, slowness.getAmplifier() +1, false, false, false));
                         } else {
-                            finalTarget.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 80, 1, false, false, false));
+                            finalTarget.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 80, 0, false, false, false));
                         }
                         //adds res to the lawyer beyonder
                         if (resistance != null) {
@@ -139,7 +138,9 @@ public class Distortion extends Recordable {
                             }
                         }
                         for (Player player: nearbyPlayer){
-                            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 800, 1));
+                            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 800, 4));
+                            player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 800, 4));
+                            player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 400, 0));
                         }
 
                     }

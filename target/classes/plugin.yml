@@ -1,5 +1,5 @@
 name: LOTM
-version: '1.0-SNAPSHOT'
+version: '1.2-SNAPSHOT'
 main: de.firecreeper82.lotm.Plugin
 api-version: 1.19
 authors: [ FireCreeper82 ]

@@ -3,6 +3,7 @@ package de.firecreeper82.lotm;
 import de.firecreeper82.cmds.*;
 import de.firecreeper82.cmds.HermesCmd;
 import de.firecreeper82.handlers.blocks.BlockHandler;
+import de.firecreeper82.handlers.mobs.abilities.MagnifyDamageBoost;
 import de.firecreeper82.handlers.spirits.SpiritHandler;
 import de.firecreeper82.listeners.*;
 import de.firecreeper82.handlers.mobs.BeyonderMobsHandler;
@@ -41,9 +42,9 @@ public final class Plugin extends JavaPlugin {
     private BeyonderMobsHandler beyonderMobsHandler;
 
     public static HashMap<UUID, Beyonder> beyonders;
-
+    public static HashMap<UUID,Integer> emperorMagnifyDamage;
+    public static HashMap<UUID,Integer> emperorMagnifyDamageDown;
     public static HashMap<UUID, ServerPlayer> fakePlayers = new HashMap<>();
-
     public static HashMap<UUID, FogOfHistory> fogOfHistories = new HashMap<>();
     public static HashMap<UUID, String> honorific_name = new HashMap<>();
     public static HashMap<UUID, String> lastPrayed = new HashMap<>();
@@ -112,7 +113,8 @@ public final class Plugin extends JavaPlugin {
                 divination,
                 beyonderMobsHandler,
                 new BlockHandler(),
-                new GenerationListener()
+                new GenerationListener(),
+                new MagnifyDamageBoost()
         );
 
         Objects.requireNonNull(this.getCommand("beyonder")).setExecutor(new BeyonderCmd());

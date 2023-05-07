@@ -6,7 +6,6 @@ de\firecreeper82\lotm\Beyonder$3.class
 de\firecreeper82\pathways\impl\sun\abilities\OceanOfLight.class
 de\firecreeper82\pathways\impl\fool\marionettes\BeyonderMarionette.class
 de\firecreeper82\pathways\Recordable.class
-de\firecreeper82\lotm\util\NPC.class
 de\firecreeper82\pathways\impl\door\abilities\Record$1.class
 de\firecreeper82\handlers\mobs\CustomEntity.class
 de\firecreeper82\pathways\impl\fool\marionettes\Marionette$1.class
@@ -21,11 +20,10 @@ de\firecreeper82\lotm\Beyonder$4.class
 de\firecreeper82\pathways\impl\demoness\abilities\Pestilence$1.class
 de\firecreeper82\lotm\Beyonder$1.class
 de\firecreeper82\handlers\mobs\BeyonderMobs$1.class
-de\firecreeper82\lotm\util\NPC$1.class
-de\firecreeper82\lotm\util\TutNetHandler.class
 de\firecreeper82\pathways\Sequence.class
 de\firecreeper82\handlers\mobs\BeyonderMobs.class
 de\firecreeper82\pathways\impl\demoness\abilities\Pestilence$1$1.class
 de\firecreeper82\pathways\impl\demoness\abilities\Pestilence.class
 de\firecreeper82\pathways\Items.class
 de\firecreeper82\pathways\MobUsableAbility.class
+de\firecreeper82\pathways\impl\emperor\abilities\EmperorFloat$1.class

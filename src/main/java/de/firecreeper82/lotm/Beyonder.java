@@ -59,12 +59,12 @@ public class Beyonder implements Listener {
     private final ArrayList<BeyonderMarionette> beyonderMarionettes;
     private final ArrayList<Mob> beyonderMarionetteEntities;
     private final ArrayList<Mob> marionetteEntities;
-
+    public boolean isBribed;
+    public boolean isDistorted;
+    public boolean isMagnified;
     private int resurrections;
 
     private final ArrayList<Record> records;
-    public boolean isDistorted;
-    public boolean isBribed;
 
     public Beyonder(UUID uuid, Pathway pathway) {
         this.pathway = pathway;
@@ -75,7 +75,9 @@ public class Beyonder implements Listener {
         beyonder = true;
         online = false;
         initializedOnce = false;
-
+        isMagnified = false;
+        isBribed = false;
+        isDistorted = false;
         marionettes = new ArrayList<>();
         beyonderMarionettes = new ArrayList<>();
         beyonderMarionetteEntities = new ArrayList<>();
@@ -452,7 +454,9 @@ public class Beyonder implements Listener {
     public UUID getUuid() {
         return uuid;
     }
-
+    public boolean getDistorted(){return isDistorted;}
+    public boolean getBribed(){return isBribed;}
+    public boolean getMagnified(){return isMagnified;}
     public double getSpirituality() {
         return spirituality;
     }

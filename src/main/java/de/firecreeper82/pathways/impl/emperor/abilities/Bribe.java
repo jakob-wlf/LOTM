@@ -1,7 +1,6 @@
 package de.firecreeper82.pathways.impl.emperor.abilities;
 
 import de.firecreeper82.lotm.Beyonder;
-import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.Recordable;
@@ -15,13 +14,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.HashMap;
 
 public class Bribe extends Recordable {
-    private HashMap<Integer, String> bribeMode = new HashMap<>();
+    private final HashMap<Integer, String> bribeMode = new HashMap<>();
 
     private int bribeselected = 0;
 
@@ -81,19 +79,16 @@ public class Bribe extends Recordable {
         }
 
         LivingEntity finalTarget = target;
-        new BukkitRunnable() {
-            @Override
-            public void run() {
+
                 if (!finalTarget.isValid() || !pathway.getSequence().getUsesAbilities()[identifier - 1]) {
                     pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
-                    cancel();
+
                     return;
                 }
 
 
                 if (!finalTarget.isValid() || !pathway.getSequence().getUsesAbilities()[identifier - 1]) {
                     pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
-                    cancel();
                     return;
                 }
 
@@ -128,9 +123,6 @@ public class Bribe extends Recordable {
 
                 }
             }
-
-        }.runTaskTimer(Plugin.instance, 0, 0);
-    }
 
     @Override
     public ItemStack getItem() {
