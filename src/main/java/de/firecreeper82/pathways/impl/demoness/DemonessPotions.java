@@ -19,22 +19,22 @@ public class DemonessPotions extends Potion {
         mainIngredients = new HashMap<>();
         supplementaryIngredients = new HashMap<>();
 
-        putMainIntoHashMap(9, BeyonderItems.getSunflower(), BeyonderItems.getSirenRock());
-        putMainIntoHashMap(8, BeyonderItems.getMagmaHeart());
-        putMainIntoHashMap(7, BeyonderItems.getRoosterComb(), BeyonderItems.getSpiritTreeFruit());
-        putMainIntoHashMap(6, BeyonderItems.getCrystallizedRoot(), BeyonderItems.getBirdFeather());
-        putMainIntoHashMap(5, BeyonderItems.getRedRoosterComb(), BeyonderItems.getWhiteBrillianceRock());
-        putMainIntoHashMap(4, BeyonderItems.getTailFeather(), BeyonderItems.getHolyBrillianceRock());
-        putMainIntoHashMap(3, Plugin.instance.getCharacteristic().getCharacteristic(3, "sun", stringColor));
-        putMainIntoHashMap(2, Plugin.instance.getCharacteristic().getCharacteristic(2, "sun", stringColor));
-        putMainIntoHashMap(1, Plugin.instance.getCharacteristic().getCharacteristic(1, "sun", stringColor));
+        putMainIntoHashMap(9, Plugin.instance.getCharacteristic().getCharacteristic(9, "demoness", stringColor));
+        putMainIntoHashMap(8, Plugin.instance.getCharacteristic().getCharacteristic(8, "demoness", stringColor));
+        putMainIntoHashMap(7, Plugin.instance.getCharacteristic().getCharacteristic(7, "demoness", stringColor));
+        putMainIntoHashMap(6, Plugin.instance.getCharacteristic().getCharacteristic(6, "demoness", stringColor));
+        putMainIntoHashMap(5, Plugin.instance.getCharacteristic().getCharacteristic(5, "demoness", stringColor));
+        putMainIntoHashMap(4, Plugin.instance.getCharacteristic().getCharacteristic(4, "demoness", stringColor));
+        putMainIntoHashMap(3, Plugin.instance.getCharacteristic().getCharacteristic(3, "demoness", stringColor));
+        putMainIntoHashMap(2, Plugin.instance.getCharacteristic().getCharacteristic(2, "demoness", stringColor));
+        putMainIntoHashMap(1, Plugin.instance.getCharacteristic().getCharacteristic(1, "demoness", stringColor));
 
-        putSupplIntoHashMap(9, new ItemStack(Material.GRASS), new ItemStack(Material.SUNFLOWER));
-        putSupplIntoHashMap(8, new ItemStack(Material.SUNFLOWER), new ItemStack(Material.SWEET_BERRIES));
-        putSupplIntoHashMap(7, new ItemStack(Material.OBSIDIAN), new ItemStack(Material.LAVA_BUCKET), new ItemStack(Material.FEATHER));
-        putSupplIntoHashMap(6, BeyonderItems.getSunflower(), new ItemStack(Material.FERN), new ItemStack(Material.GLOW_BERRIES));
-        putSupplIntoHashMap(5, new ItemStack(Material.MAGMA_CREAM), new ItemStack(Material.SUNFLOWER));
-        putSupplIntoHashMap(4, BeyonderItems.getRedRoosterComb(), BeyonderItems.getWhiteBrillianceRock());
+        putSupplIntoHashMap(9);
+        putSupplIntoHashMap(8);
+        putSupplIntoHashMap(7);
+        putSupplIntoHashMap(6);
+        putSupplIntoHashMap(5);
+        putSupplIntoHashMap(4);
         putSupplIntoHashMap(3);
         putSupplIntoHashMap(2);
         putSupplIntoHashMap(1);

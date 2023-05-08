@@ -66,7 +66,7 @@ public class Tsunami extends Disaster{
                         Location tempLoc = startLoc.clone();
                         tempLoc.add(0, i, 0);
                         tempLoc.add(dirRight.clone().multiply(j));
-                        if(!tempLoc.getBlock().getType().isSolid())
+                        if(!tempLoc.getBlock().getType().isSolid() || counter < 35)
                             tempLoc.getBlock().setType(Material.WATER);
                         else {
                             if(i == Math.min(Math.sqrt(counter), 20) - 1)
