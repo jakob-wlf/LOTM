@@ -6,6 +6,7 @@ import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.Recordable;
 import de.firecreeper82.pathways.impl.emperor.EmperorItems;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -14,7 +15,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class EmperorFloat extends Recordable {
-    boolean floating = false;
+    boolean floating;
 
     public EmperorFloat(int identifier, Pathway pathway, int sequence, Items items) {
         super(identifier, pathway, sequence, items);
@@ -38,9 +39,15 @@ public class EmperorFloat extends Recordable {
                             p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 80, 10, false, false, false));
                         }
                         pathway.getBeyonder().setSpirituality(pathway.getBeyonder().getSpirituality() - 100);
+                        Location location = p.getLocation();
+                        double x = location.getX();
+                        double y = location.getY();
+                        double z = location.getZ();
+
                     } else {
                         cancel();
                     }
+                    floating = true;
                 }
             }.runTaskTimer(Plugin.instance, 0, 20);
         } else if (floating) {

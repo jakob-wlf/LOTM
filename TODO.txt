@@ -17,6 +17,7 @@ Mental resistance
 		-Connect: damage deal to you will be redirected to all connected persons
 6:
 	Distorsion:
+	PARTICLES
 		Distort enemy:
 			-Enemy damage down!
 			-Enemy speed down!

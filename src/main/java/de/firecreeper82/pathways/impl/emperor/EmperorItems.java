@@ -1,5 +1,6 @@
 package de.firecreeper82.pathways.impl.emperor;
 
+import de.firecreeper82.handlers.mobs.abilities.Disorder;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
@@ -65,9 +66,12 @@ public class EmperorItems extends Items{
         addAbility(new BrainWash(1, pathway, 9, this));
         addAbility(new Bribe(2,pathway, 7, this));
         addAbility(new Distortion(3,pathway,6, this));
-        addAbility(new EmperorFloat(4,pathway,6,this));
-        addAbility(new Domineer(5,pathway,4,this));
-        addAbility(new MagnifyDamage(6,pathway,4,this));
+        addAbility(new Disorder(4,pathway,6,this));
+        addAbility(new EmperorFloat(5,pathway,5,this));
+        addAbility(new Domineer(6,pathway,5,this));
+        addAbility(new MagnifyDamage(7,pathway,4,this));
+        addAbility(new MagnifyReach(8,pathway,4,this));
+        addAbility(new MagnifySelf(8,pathway,4,this));
     }
 
     public void addAbility(Ability ability) {

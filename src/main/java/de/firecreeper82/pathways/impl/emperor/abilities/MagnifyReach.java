@@ -98,19 +98,12 @@ public class MagnifyReach extends Ability implements Listener {
         }
     }
 
-    @EventHandler
-    public void onPlayerInteract(PlayerInteractEvent event) {
-        if (event.getAction().toString().contains("LEFT_CLICK") && Plugin.beyonders.containsKey(event.getPlayer().getUniqueId()) && Plugin.beyonders.get(event.getPlayer().getUniqueId()).isMagnifyingReach) {
-            double playerDamage = Util.calculatePlayerDamage(p);
-            assert Plugin.beyonders.get(event.getPlayer().getUniqueId()).targetedEntity != null;
-            pathway.getBeyonder().targetedEntity.damage(playerDamage);
-        }
-    }
+
 
 
     @Override
     public ItemStack getItem() {
-        return EmperorItems.createItem(Material.RED_STAINED_GLASS_PANE, "Magnify Reach", "500/s", identifier, sequence, pathway.getBeyonder().getPlayer().getName());
+        return EmperorItems.createItem(Material.GOLDEN_SWORD, "Magnify Reach", "500/s", identifier, sequence, pathway.getBeyonder().getPlayer().getName());
 
     }
 }

@@ -108,17 +108,19 @@ public class Bribe extends Recordable {
                             //bribe charm
                             finalTarget.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 100, 1, false, false, false));
                             entityLoc.getWorld().spawnParticle(Particle.HEART, entityLoc.getX(), entityLoc.getY(), entityLoc.getZ(), 1, 0, 0, 0, 0);
-
+                            break;
                         case 2:
                             //bribe arrogance
                             finalTarget.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 200, 1, false, false, false));
                             entityLoc.getWorld().spawnParticle(Particle.SMOKE_NORMAL, entityLoc.getX(), entityLoc.getY(), entityLoc.getZ(), 1, 0, 0, 0, 0);
-
+                            break;
                         case 3:
                             //bribe Connect
                             finalTarget.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 2000, 1, false, false, false));
                             entityLoc.getWorld().spawnParticle(Particle.VILLAGER_ANGRY, entityLoc.getX(), entityLoc.getY(), entityLoc.getZ(), 1, 0, 0, 0, 0);
-
+                        break;
+                        default:
+                            bribeselected = 1;
                     }
 
                 }

@@ -33,4 +33,13 @@ public class InteractListener implements Listener {
             return;
         Plugin.beyonders.get(p.getUniqueId()).getPathway().getSequence().destroyItem(e.getItemDrop().getItemStack(), e);
     }
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent event) {
+        if (event.getAction().toString().contains("LEFT_CLICK") && Plugin.beyonders.containsKey(event.getPlayer().getUniqueId()) && Plugin.beyonders.get(event.getPlayer().getUniqueId()).isMagnifyingReach) {
+            Player p = Plugin.beyonders.get(event.getPlayer().getUniqueId()).getPlayer();
+            double playerDamage = Util.calculatePlayerDamage(p);
+            assert Plugin.beyonders.get(event.getPlayer().getUniqueId()).targetedEntity != null;
+            Plugin.beyonders.get(p.getUniqueId()).getPathway().getBeyonder().targetedEntity.damage(playerDamage);
+        }
+    }
 }

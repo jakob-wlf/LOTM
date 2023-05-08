@@ -1,7 +1,6 @@
 package de.firecreeper82.pathways.impl.emperor.abilities;
 
 import de.firecreeper82.lotm.Beyonder;
-import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.Recordable;
@@ -15,7 +14,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 public class BrainWash extends Recordable {
@@ -37,7 +35,7 @@ public class BrainWash extends Recordable {
         LivingEntity target = null;
 
         outerloop:
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 13; i++) {
             for (Entity entity : loc.getWorld().getNearbyEntities(loc, 1, 1, 1)) {
                 if (!(entity instanceof LivingEntity e) || entity == p) continue;
                 target = e;
@@ -53,34 +51,19 @@ public class BrainWash extends Recordable {
         }
 
         LivingEntity finalTarget = target;
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (!finalTarget.isValid() || !pathway.getSequence().getUsesAbilities()[identifier - 1]) {
-                    pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
-                    cancel();
-                    return;
-                }
-
-
-                if (!finalTarget.isValid() || !pathway.getSequence().getUsesAbilities()[identifier - 1]) {
-                    pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
-                    cancel();
-                    return;
-                }
-
-                Location entityLoc = finalTarget.getLocation().clone();
-                entityLoc.add(0, 0.75, 0);
-
-                if (entityLoc.getWorld() != null) {
-                    entityLoc.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, entityLoc.getX(), entityLoc.getY(), entityLoc.getZ(), 1, 0, 0, 0, 0);
-                    finalTarget.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 140, 1, false, false, false));
-
-                }
+        Location entityLoc = finalTarget.getLocation().clone();
+        entityLoc.add(0, 0.75, 0);
+        if (entityLoc.getWorld() != null) {
+            entityLoc.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, entityLoc.getX(), entityLoc.getY(), entityLoc.getZ(), 1, 0, 0, 0, 0);
+            if (!finalTarget.isValid() || !pathway.getSequence().getUsesAbilities()[identifier - 1]) {
+                pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
+                return;
             }
-
-        }.runTaskTimer(Plugin.instance, 0, 0);
+            finalTarget.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 140, 1, false, false, false));
+            pathway.getBeyonder().setSpirituality(pathway.getBeyonder().getSpirituality() - 40);
+        }
     }
+
 
     @Override
     public ItemStack getItem() {

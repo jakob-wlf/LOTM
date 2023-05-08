@@ -66,6 +66,6 @@ public class MagnifyDamage extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return EmperorItems.createItem(Material.GOLDEN_SWORD, "Magnify", "Varying", identifier, sequence, pathway.getBeyonder().getPlayer().getName());
+        return EmperorItems.createItem(Material.DIAMOND_SWORD, "Magnify", "Varying", identifier, sequence, pathway.getBeyonder().getPlayer().getName());
     }
 }
