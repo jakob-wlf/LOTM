@@ -48,12 +48,12 @@ public class EmperorSequence extends Sequence implements Listener {
     //Passive effects
     public void initEffects() {
         PotionEffect[] effects9 = {
-                new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60, 1, false, false, false),
-                new PotionEffect(PotionEffectType.SPEED, 60, 1, false, false, true),
+                new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60, 0, false, false, false),
+                new PotionEffect(PotionEffectType.SPEED, 60, 0, false, false, true),
         };
         sequenceEffects.put(8, effects9);
         PotionEffect[] effects8 = {
-                new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60, 2, false, false, false),
+                new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60, 1, false, false, false),
                 new PotionEffect(PotionEffectType.SPEED, 60, 1, false, false, true),
                 new PotionEffect(PotionEffectType.JUMP, 60, 1, false, false, true),
                 new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60, 1, false, false, false),
@@ -64,8 +64,16 @@ public class EmperorSequence extends Sequence implements Listener {
                 new PotionEffect(PotionEffectType.SPEED, 60, 2, false, false, true),
                 new PotionEffect(PotionEffectType.JUMP, 60, 2, false, false, true),
                 new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60, 1, false, false, false),
-                new PotionEffect(PotionEffectType.HEALTH_BOOST, 60, 1,false,false,false)
+                new PotionEffect(PotionEffectType.HEALTH_BOOST, 60, 0,false,false,false)
         };
         sequenceEffects.put(7, effects7);
+        PotionEffect[] effects4 = {
+                new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60, 3, false, false, false),
+                new PotionEffect(PotionEffectType.SPEED, 60, 3, false, false, true),
+                new PotionEffect(PotionEffectType.JUMP, 60, 3, false, false, true),
+                new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60, 2, false, false, false),
+                new PotionEffect(PotionEffectType.HEALTH_BOOST, 60, 2,false,false,false)
+        };
+        sequenceEffects.put(4,effects4);
     }
 }

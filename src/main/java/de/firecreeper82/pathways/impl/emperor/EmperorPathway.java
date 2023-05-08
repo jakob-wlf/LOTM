@@ -1,9 +1,8 @@
 package de.firecreeper82.pathways.impl.emperor;
 
 import de.firecreeper82.pathways.Pathway;
-import de.firecreeper82.pathways.impl.demoness.DemonessItems;
-import de.firecreeper82.pathways.impl.demoness.DemonessSequence;
-
+import de.firecreeper82.pathways.impl.emperor.EmperorItems;
+import de.firecreeper82.pathways.impl.emperor.EmperorSequence;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.UUID;
@@ -17,9 +16,9 @@ public class EmperorPathway extends Pathway {
     @Override
     public void init() {
         sequence = new EmperorSequence(this, optionalSequence);
-        name = "§0Black Emperor";
+        name = "§fBlack Emperor";
         nameNormalized = "emperor";
-        stringColor = "§0";
+        stringColor = "§f";
     }
 
     @Override
@@ -41,5 +40,4 @@ public class EmperorPathway extends Pathway {
         names.put(1, "Prince of Abolition");
         return names;
     }
-
 }

@@ -61,7 +61,8 @@ public class Beyonder implements Listener {
     private final ArrayList<Mob> marionetteEntities;
     public boolean isBribed;
     public boolean isDistorted;
-    public boolean isMagnified;
+    public boolean damageMagnified;
+    public boolean damageMagnifiedDown;
     public boolean isMagnifyingReach;
     public LivingEntity targetedEntity;
     private int resurrections;
@@ -77,7 +78,8 @@ public class Beyonder implements Listener {
         beyonder = true;
         online = false;
         initializedOnce = false;
-        isMagnified = false;
+        damageMagnified = false;
+        damageMagnifiedDown = false;
         isBribed = false;
         isDistorted = false;
         marionettes = new ArrayList<>();
@@ -458,7 +460,7 @@ public class Beyonder implements Listener {
     }
     public boolean getDistorted(){return isDistorted;}
     public boolean getBribed(){return isBribed;}
-    public boolean getMagnified(){return isMagnified;}
+    public boolean getDamageMagnified(){return damageMagnified;}
     public double getSpirituality() {
         return spirituality;
     }

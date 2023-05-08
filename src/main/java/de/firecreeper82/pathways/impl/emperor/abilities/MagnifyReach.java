@@ -1,7 +1,6 @@
 package de.firecreeper82.pathways.impl.emperor.abilities;
 
 import de.firecreeper82.lotm.Plugin;
-import de.firecreeper82.lotm.util.Util;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
@@ -10,9 +9,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -66,12 +63,16 @@ public class MagnifyReach extends Ability implements Listener {
     @Override
     public void useAbility() {
         double maxDistance = 12.0 * Reach;
-        if (!isMagnifyingReach) {
-            p.sendMessage(pathway.getStringColor() + "You are now magnifying your reach by a total of " + maxDistance + " blocks.");
-            new BukkitRunnable() {
+        p.sendMessage(pathway.getStringColor() + "You are now magnifying your reach by a total of " + maxDistance + " blocks.");
+        new BukkitRunnable() {
+            int timer = 600;
 
-                @Override
-                public void run() {
+            @Override
+            public void run() {
+                if (timer-- != 0) {
+                    pathway.getBeyonder().targetedEntity = null;
+                    cancel();
+
                     Vector dir = p.getEyeLocation().getDirection().normalize();
                     Location loc = p.getEyeLocation();
                     if (loc.getWorld() == null) return;
@@ -90,20 +91,21 @@ public class MagnifyReach extends Ability implements Listener {
                     }
                     pathway.getBeyonder().targetedEntity = target;
                     pathway.getBeyonder().isMagnifyingReach = true;
+                    timer--;
 
+                    pathway.getBeyonder().setSpirituality(pathway.getBeyonder().getSpirituality() - 1024);
+                } else {
+                    cancel();
                 }
-            }.runTaskTimer(Plugin.instance, 0, 0);
-        } else {
-            pathway.getBeyonder().isMagnifyingReach = false;
-        }
+            }
+
+
+        }.runTaskTimer(Plugin.instance, 0,0);
     }
-
-
-
 
     @Override
     public ItemStack getItem() {
-        return EmperorItems.createItem(Material.GOLDEN_SWORD, "Magnify Reach", "500/s", identifier, sequence, pathway.getBeyonder().getPlayer().getName());
+        return EmperorItems.createItem(Material.GOLDEN_SWORD, "Magnify Reach", "125/s", identifier, sequence, pathway.getBeyonder().getPlayer().getName());
 
     }
 }

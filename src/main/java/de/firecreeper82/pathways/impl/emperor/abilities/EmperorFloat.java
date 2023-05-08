@@ -26,10 +26,12 @@ public class EmperorFloat extends Recordable {
     public void useAbility(Player p, double multiplier, Beyonder beyonder, boolean recorded) {
         if (!recorded) pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
         destroy(beyonder, recorded);
-        if (!floating) {
+        {
             new BukkitRunnable() {
+                int counter = 10;
                 @Override
                 public void run() {
+
                     if (pathway.getBeyonder().getSpirituality() >= 100) {
                         if (p.isSneaking()) {
                             p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 80, 10, false, false, false));
@@ -47,11 +49,13 @@ public class EmperorFloat extends Recordable {
                     } else {
                         cancel();
                     }
-                    floating = true;
+
+                    counter--;
+                    if (counter == 0) {
+                        cancel();
+                    }
                 }
             }.runTaskTimer(Plugin.instance, 0, 20);
-        } else if (floating) {
-            floating = false;
         }
     }
 

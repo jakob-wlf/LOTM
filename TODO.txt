@@ -10,13 +10,13 @@ Brainwash: make enemies deal less damage
 Physical boost: All pots at level 2
 Mental resistance
 7:
-	Bribe:
+	Bribe: IMPLEMENTED
 		-Weaken: enemies deal less damage 20%, physical res decreased by 10% per sequence over.
 		-Charm:
 		-Arrogance:
 		-Connect: damage deal to you will be redirected to all connected persons
 6:
-	Distorsion:
+	Distorsion: IMPLEMENTED
 	PARTICLES
 		Distort enemy:
 			-Enemy damage down!
@@ -26,10 +26,10 @@ Mental resistance
 			-Env damage down!
 			-Allows the user to "step", teleporting them on the block they are looking at. It is limited by their sequence.
 5:
-	Disorder:
+	Disorder: IMPLEMENTED
 		Disorder env:
 			-Enemy puppets will be disabled!
-	Domineer:
+	Domineer: IMPLEMENTED
 		-Enemy damage *= -(self.seq * 0.1)
 
 4:
@@ -38,10 +38,10 @@ Mental resistance
 			0.3*(10-seq_enemy)/(seq-self)
 		Nausea:
 		Poison:
-	Exploit:
+	Exploit: DONE
 		-Fall speed down!
 		-Damage received up!
-	Magnify:
+	Magnify: IMPLEMENTED
 		-Damage from all sources up! strength +1
 		-Speed up! speed +1
 		-Fall speed down! slow falling +1

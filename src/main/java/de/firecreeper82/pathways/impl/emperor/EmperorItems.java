@@ -71,7 +71,9 @@ public class EmperorItems extends Items{
         addAbility(new Domineer(6,pathway,5,this));
         addAbility(new MagnifyDamage(7,pathway,4,this));
         addAbility(new MagnifyReach(8,pathway,4,this));
-        addAbility(new MagnifySelf(8,pathway,4,this));
+        addAbility(new MagnifySelf(9,pathway,4,this));
+        addAbility(new ExploitFlight(10,pathway,4,this));
+        addAbility(new Bestowment(11,pathway,4,this));
     }
 
     public void addAbility(Ability ability) {

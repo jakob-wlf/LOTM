@@ -35,7 +35,7 @@ public class Bribe extends Recordable {
     @Override
     public void leftClick() {
         p = pathway.getBeyonder().getPlayer();
-        if (!(p.isSneaking())){
+        if (!(p.isSneaking())) {
             if (bribeselected != 3) {
                 bribeselected++;
             } else {
@@ -77,54 +77,48 @@ public class Bribe extends Recordable {
             p.sendMessage("§cCouldn't find the target!");
             return;
         }
-
         LivingEntity finalTarget = target;
 
-                if (!finalTarget.isValid() || !pathway.getSequence().getUsesAbilities()[identifier - 1]) {
-                    pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
+        if (!finalTarget.isValid() || !pathway.getSequence().getUsesAbilities()[identifier - 1]) {
+            pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
 
-                    return;
+            return;
+        }
+        Location entityLoc = finalTarget.getLocation().clone();
+        entityLoc.add(0, 0.75, 0);
+
+        if (entityLoc.getWorld() != null) {
+            entityLoc.getWorld().spawnParticle(Particle.VILLAGER_ANGRY, entityLoc.getX(), entityLoc.getY(), entityLoc.getZ(), 1, 0, 0, 0, 0);
+
+            switch (bribeselected) {
+                case 0 -> {
+                    //bribe weaken
+                    finalTarget.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 1200, 2, false, false, false));
+                    entityLoc.getWorld().spawnParticle(Particle.CRIT, entityLoc.getX(), entityLoc.getY(), entityLoc.getZ(), 1, 0, 0, 0, 0);
                 }
-
-
-                if (!finalTarget.isValid() || !pathway.getSequence().getUsesAbilities()[identifier - 1]) {
-                    pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
-                    return;
+                case 1 -> {
+                    //bribe charm
+                    finalTarget.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 100, 1, false, false, false));
+                    entityLoc.getWorld().spawnParticle(Particle.HEART, entityLoc.getX(), entityLoc.getY(), entityLoc.getZ(), 1, 0, 0, 0, 0);
                 }
-
-                Location entityLoc = finalTarget.getLocation().clone();
-                entityLoc.add(0, 0.75, 0);
-
-                if (entityLoc.getWorld() != null) {
+                case 2 -> {
+                    //bribe arrogance
+                    finalTarget.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 200, 1, false, false, false));
+                    entityLoc.getWorld().spawnParticle(Particle.SMOKE_NORMAL, entityLoc.getX(), entityLoc.getY(), entityLoc.getZ(), 1, 0, 0, 0, 0);
+                }
+                case 3 -> {
+                    //bribe Connect
+                    finalTarget.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 2000, 1, false, false, false));
                     entityLoc.getWorld().spawnParticle(Particle.VILLAGER_ANGRY, entityLoc.getX(), entityLoc.getY(), entityLoc.getZ(), 1, 0, 0, 0, 0);
-
-                    switch (bribeselected) {
-                        case 0:
-                            //bribe weaken
-                            finalTarget.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 1200, 2, false, false, false));
-                            entityLoc.getWorld().spawnParticle(Particle.CRIT, entityLoc.getX(), entityLoc.getY(), entityLoc.getZ(), 1, 0, 0, 0, 0);
-                            break;
-                        case 1:
-                            //bribe charm
-                            finalTarget.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 100, 1, false, false, false));
-                            entityLoc.getWorld().spawnParticle(Particle.HEART, entityLoc.getX(), entityLoc.getY(), entityLoc.getZ(), 1, 0, 0, 0, 0);
-                            break;
-                        case 2:
-                            //bribe arrogance
-                            finalTarget.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 200, 1, false, false, false));
-                            entityLoc.getWorld().spawnParticle(Particle.SMOKE_NORMAL, entityLoc.getX(), entityLoc.getY(), entityLoc.getZ(), 1, 0, 0, 0, 0);
-                            break;
-                        case 3:
-                            //bribe Connect
-                            finalTarget.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 2000, 1, false, false, false));
-                            entityLoc.getWorld().spawnParticle(Particle.VILLAGER_ANGRY, entityLoc.getX(), entityLoc.getY(), entityLoc.getZ(), 1, 0, 0, 0, 0);
-                        break;
-                        default:
-                            bribeselected = 1;
-                    }
-
+                }
+                default -> {
+                    //in case bribeSelected is null;
+                    bribeselected = 0;
+                    useAbility();
                 }
             }
+        }
+    }
 
     @Override
     public ItemStack getItem() {

@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="5e51e173-50ab-47c2-8c3e-014409d02947" name="Changes" comment="Started Black emperor Seq1.&#10;Finished the code for cards of blasphemy. However they still need to be implemented.">
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/discord.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_oshi_oshi_core_5_8_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_code_findbugs_jsr305_3_0_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_code_gson_gson_2_8_9.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_errorprone_error_prone_annotations_2_7_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_guava_failureaccess_1_0_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_guava_guava_31_0_1_jre.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_guava_listenablefuture_9999_0_empty_to_avoid_conflict_with_guava.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_j2objc_j2objc_annotations_1_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_protobuf_protobuf_java_3_19_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_googlecode_json_simple_json_simple_1_1_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_mojang_authlib_3_11_49.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_mojang_brigadier_1_0_18.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_mojang_datafixerupper_5_0_28.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_mojang_javabridge_1_2_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_mojang_logging_1_0_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_codec_commons_codec_1_11.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_io_commons_io_2_11_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_lang_commons_lang_2_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__fr_mrmicky_fastboard_1_2_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_buffer_4_1_77_Final.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_codec_4_1_77_Final.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_common_4_1_77_Final.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_handler_4_1_77_Final.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_resolver_4_1_77_Final.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_transport_4_1_77_Final.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_transport_classes_epoll_4_1_77_Final.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_transport_native_epoll_linux_aarch_64_4_1_77_Final.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_transport_native_epoll_linux_x86_64_4_1_77_Final.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_transport_native_unix_common_4_1_77_Final.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__it_unimi_dsi_fastutil_8_5_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_inject_javax_inject_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__jline_jline_2_12_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_4_10.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__mysql_mysql_connector_java_8_0_29.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_citizensnpcs_citizens_main_2_0_30_SNAPSHOT.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_java_dev_jna_jna_5_10_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_java_dev_jna_jna_platform_5_10_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_md_5_bungeecord_chat_1_16_R0_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_sf_jopt_simple_jopt_simple_5_0_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_lang3_3_12_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpclient_4_5_13.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpcore_4_4_14.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_logging_log4j_log4j_api_2_17_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_logging_log4j_log4j_core_2_17_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_logging_log4j_log4j_iostreams_2_17_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_logging_log4j_log4j_slf4j18_impl_2_17_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_maven_artifact_3_8_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_maven_builder_support_3_8_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_maven_model_3_8_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_maven_model_builder_3_8_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_maven_repository_metadata_3_8_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_maven_resolver_provider_3_8_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_resolver_maven_resolver_api_1_6_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_resolver_maven_resolver_connector_basic_1_7_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_resolver_maven_resolver_impl_1_6_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_resolver_maven_resolver_spi_1_6_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_resolver_maven_resolver_transport_http_1_7_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_resolver_maven_resolver_util_1_6_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_checkerframework_checker_qual_3_12_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_plexus_plexus_interpolation_1_26.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_plexus_plexus_utils_3_3_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_sisu_org_eclipse_sisu_inject_0_3_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_hamcrest_hamcrest_core_1_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_ow2_asm_asm_9_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_jcl_over_slf4j_1_7_32.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_api_1_8_0_beta4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_spigotmc_spigot_api_1_19_2_R0_1_SNAPSHOT.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_spigotmc_spigot_remapped_mojang_1_19_2_R0_1_SNAPSHOT.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_xerial_sqlite_jdbc_3_36_0_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_yaml_snakeyaml_1_33.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LOTM.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/de/firecreeper82/pathways/impl/emperor/abilities/Bestowment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/de/firecreeper82/pathways/impl/emperor/abilities/ExploitFlight.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/de/firecreeper82/pathways/impl/emperor/abilities/MagnifyDefense.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TODO.txt" beforeDir="false" afterPath="$PROJECT_DIR$/TODO.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/firecreeper82/handlers/mobs/abilities/MagnifyDamageBoost.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/firecreeper82/handlers/mobs/abilities/MagnifyDamageBoost.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/firecreeper82/lotm/Beyonder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/firecreeper82/lotm/Beyonder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/firecreeper82/pathways/impl/emperor/EmperorItems.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/firecreeper82/pathways/impl/emperor/EmperorItems.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/firecreeper82/pathways/impl/emperor/EmperorPathway.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/firecreeper82/pathways/impl/emperor/EmperorPathway.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/firecreeper82/pathways/impl/emperor/EmperorSequence.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/firecreeper82/pathways/impl/emperor/EmperorSequence.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/firecreeper82/pathways/impl/emperor/abilities/Bribe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/firecreeper82/pathways/impl/emperor/abilities/Bribe.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/firecreeper82/pathways/impl/emperor/abilities/Distortion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/firecreeper82/pathways/impl/emperor/abilities/Distortion.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/firecreeper82/pathways/impl/emperor/abilities/Domineer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/firecreeper82/pathways/impl/emperor/abilities/Domineer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/firecreeper82/pathways/impl/emperor/abilities/EmperorFloat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/firecreeper82/pathways/impl/emperor/abilities/EmperorFloat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/firecreeper82/pathways/impl/emperor/abilities/MagnifyDamage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/firecreeper82/pathways/impl/emperor/abilities/MagnifyDamage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/firecreeper82/pathways/impl/emperor/abilities/MagnifyReach.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/firecreeper82/pathways/impl/emperor/abilities/MagnifyReach.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/firecreeper82/pathways/impl/emperor/abilities/MagnifySelf.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/firecreeper82/pathways/impl/emperor/abilities/MagnifySelf.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/firecreeper82/listeners/InteractListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/firecreeper82/listeners/InteractListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/firecreeper82/lotm/Beyonder$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/firecreeper82/lotm/Beyonder$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/firecreeper82/lotm/Beyonder$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/firecreeper82/lotm/Beyonder$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/firecreeper82/lotm/Beyonder$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/firecreeper82/lotm/Beyonder$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/firecreeper82/lotm/Beyonder$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/firecreeper82/lotm/Beyonder$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/firecreeper82/lotm/Beyonder$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/firecreeper82/lotm/Beyonder$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/firecreeper82/lotm/Beyonder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/firecreeper82/lotm/Beyonder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/firecreeper82/lotm/Plugin.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/firecreeper82/lotm/Plugin.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/firecreeper82/lotm/util/Util.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/firecreeper82/lotm/util/Util.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/firecreeper82/pathways/Pathway.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/firecreeper82/pathways/Pathway.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/firecreeper82/pathways/impl/emperor/EmperorItems.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/firecreeper82/pathways/impl/emperor/EmperorItems.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/firecreeper82/pathways/impl/emperor/EmperorPathway.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/firecreeper82/pathways/impl/emperor/EmperorPathway.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/firecreeper82/pathways/impl/emperor/EmperorSequence.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/firecreeper82/pathways/impl/emperor/EmperorSequence.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/firecreeper82/pathways/impl/emperor/abilities/BrainWash.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/firecreeper82/pathways/impl/emperor/abilities/BrainWash.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/firecreeper82/pathways/impl/emperor/abilities/Bribe.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/firecreeper82/pathways/impl/emperor/abilities/Bribe.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/firecreeper82/pathways/impl/emperor/abilities/Distortion.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/firecreeper82/pathways/impl/emperor/abilities/Distortion.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/firecreeper82/pathways/impl/emperor/abilities/EmperorFloat.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/firecreeper82/pathways/impl/emperor/abilities/EmperorFloat.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+    </list>
+    <list id="f75e9ef6-56a8-44f5-9c6c-2c73d65f16e6" name="Changes by Jakob" comment="Changes by Jakob" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="$PROJECT_DIR$/../apache-maven-3.6.0" />
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectId" id="2P6UBxhLwHAa1q1U9pUwqfIa6tE" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_opened_file_path": "C:/Users/cleme/Downloads/LOTM-master/LOTM-master",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
+  },
+  "keyToStringList": {
+    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "GitIgnore"
+    ]
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="de.firecreeper82.pathways.impl.emperor.abilities" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="20*70" />
+    </option>
+  </component>
+  <component name="RunManager" selected="Maven.lotm ez [compile]">
+    <configuration name="minecraft_server.1.19.2.jar" type="JarApplication" temporary="true">
+      <option name="JAR_PATH" value="$PROJECT_DIR$/work/minecraft_server.1.19.2.jar" />
+      <method v="2" />
+    </configuration>
+    <configuration name="server-1.19.2.jar" type="JarApplication" temporary="true">
+      <option name="JAR_PATH" value="$PROJECT_DIR$/work/server-1.19.2.jar" />
+      <method v="2" />
+    </configuration>
+    <configuration name="lotm ez [compile]" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings">
+          <MavenGeneralSettings>
+            <option name="alwaysUpdateSnapshots" value="false" />
+            <option name="checksumPolicy" value="NOT_SET" />
+            <option name="failureBehavior" value="NOT_SET" />
+            <option name="localRepository" value="" />
+            <option name="mavenHome" value="$PROJECT_DIR$/../apache-maven-3.6.0" />
+            <option name="nonRecursive" value="false" />
+            <option name="outputLevel" value="INFO" />
+            <option name="pluginUpdatePolicy" value="DEFAULT" />
+            <option name="printErrorStackTraces" value="false" />
+            <option name="showDialogWithAdvancedSettings" value="false" />
+            <option name="threads" />
+            <option name="useMavenConfig" value="true" />
+            <option name="usePluginRegistry" value="false" />
+            <option name="userSettingsFile" value="$USER_HOME$/.m2/settings.xml" />
+            <option name="workOffline" value="false" />
+          </MavenGeneralSettings>
+        </option>
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="compile" />
+              </list>
+            </option>
+            <option name="pomFileName" value="pom.xml" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JAR Application.server-1.19.2.jar" />
+        <item itemvalue="JAR Application.minecraft_server.1.19.2.jar" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5e51e173-50ab-47c2-8c3e-014409d02947" name="Changes" comment="" />
+      <created>1682776893013</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1682776893013</updated>
+    </task>
+    <task id="LOCAL-00001" summary="HermesCmd.java created&#10;HonorificNameCmd.java implemented into in-game commands.&#10;&#10;TODO:&#10;High priority:&#10;- Add the sequence requirements to /HonorificName&#10;Medium priority:&#10;- Finish HermesCmd.java&#10;- Implement HermesCmd.java&#10;- Add PrayCmd.java&#10;Low priority:&#10;Fix NPC.java: Line 25 &amp;&amp; Line 89&#10;Fix TutNetHandler.java: Line 9&#10;&#10;Note: this concludes the hermes b0.1.&#10;Hermes b0.1 will include a more stable and efficient code, as well as the /pray command.&#10;/hermes command will be published on hermes b0.3.">
+      <created>1683113697393</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1683113697393</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Started working on black emperor pathway">
+      <created>1683217618908</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1683217618908</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Black emperor Seq6">
+      <created>1683383001146</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1683383001146</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Started Black emperor Seq1.&#10;Finished the code for cards of blasphemy. However they still need to be implemented.">
+      <created>1683481180478</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1683481180478</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Started Black emperor Seq1.&#10;Finished the code for cards of blasphemy. However they still need to be implemented.">
+      <created>1683545385620</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1683545385620</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Started Black emperor Seq1.&#10;Finished the code for cards of blasphemy. However they still need to be implemented.">
+      <created>1683548197428</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1683548197428</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Started Black emperor Seq1.&#10;Finished the code for cards of blasphemy. However they still need to be implemented.">
+      <created>1683548392171</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1683548392171</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
+    <servers />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="dependencySupport" implementationName="java:com.google.protobuf:protobuf-java" />
+    <option featureType="dependencySupport" implementationName="java:org.spigotmc:spigot-api" />
+    <option featureType="dependencySupport" implementationName="java:org.bukkit:bukkit" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="true" />
+                </map>
+              </option>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="upstream/HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="HermesCmd.java created&#10;HonorificNameCmd.java implemented into in-game commands.&#10;&#10;TODO:&#10;High priority:&#10;- Add the sequence requirements to /HonorificName&#10;Medium priority:&#10;- Finish HermesCmd.java&#10;- Implement HermesCmd.java&#10;- Add PrayCmd.java&#10;Low priority:&#10;Fix NPC.java: Line 25 &amp;&amp; Line 89&#10;Fix TutNetHandler.java: Line 9&#10;&#10;Note: this concludes the hermes b0.1.&#10;Hermes b0.1 will include a more stable and efficient code, as well as the /pray command.&#10;/hermes command will be published on hermes b0.3." />
+    <MESSAGE value="The /hermes command has been updated. Now, it contains all the functions necessary to pray/talk/deliver messages. It *should* be stable, however the code is still a bit janky.&#10;TODO:&#10;- The /hermes setname command needs to be updated to have the `angel = true` req.&#10;- Code optimization&#10;- Adding the used functions to Plugin.java.&#10;TLDR:&#10;The hermes update is almost finished, the next version will be the last.&#10;Contact me on discord if you find any bugs concerning the /hermes function.&#10;&#10;This fork will soon be deleted ;)" />
+    <MESSAGE value="Started working on black emperor pathway" />
+    <MESSAGE value="Black emperor Seq6" />
+    <MESSAGE value="Started Black emperor Seq5.&#10;Finished the code for cards of blasphemy. They still need to be implemented however." />
+    <MESSAGE value="Started Black emperor Seq1.&#10;Finished the code for cards of blasphemy. However they still need to be implemented." />
+    <option name="LAST_COMMIT_MESSAGE" value="Started Black emperor Seq1.&#10;Finished the code for cards of blasphemy. However they still need to be implemented." />
+  </component>
+</project>

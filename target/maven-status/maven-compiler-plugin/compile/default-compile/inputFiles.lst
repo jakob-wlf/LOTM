@@ -7,9 +7,11 @@ C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathwa
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\door\DoorSequence.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\Divination.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\disasters\Lightning.java
+C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\emperor\abilities\MagnifySelf.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\demoness\DemonessItems.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\lotm\util\BeyonderItems.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\fool\abilities\MarionetteControlling.java
+C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\handlers\mobs\abilities\Disorder.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\door\abilities\TravelersDoor.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\door\abilities\Wind.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\door\abilities\BlackHole.java
@@ -25,11 +27,13 @@ C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathwa
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\sun\abilities\FlaringSun.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\sun\abilities\LightOfPurification.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\handlers\mobs\abilities\BaneAbility.java
+C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\emperor\abilities\MagnifyDamage.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\lotm\util\Util.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\door\DoorPathway.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\cmds\DisableThreadsCmd.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\listeners\PotionListener.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\handlers\spirits\impl\SkeletonHorse.java
+C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\handlers\mobs\abilities\MagnifyDamageBoost.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\listeners\PotionHandler.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\handlers\mobs\BeyonderMobs.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\disasters\Tsunami.java
@@ -39,6 +43,7 @@ C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathwa
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\door\abilities\DimensionalPocket.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\fool\abilities\FlameControlling.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\handlers\spirits\impl\MediumSpirit.java
+C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\emperor\abilities\MagnifyReach.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\fool\abilities\grafting\BlockToEntity.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\fool\abilities\grafting\HealthSynchronization.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\Potion.java
@@ -71,8 +76,8 @@ C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\handle
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\cmds\ConfigureThreadsCmd.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\cmds\AbilityInfoCmd.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\cmds\ExcludeEntityCmd.java
+C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\emperor\abilities\Bestowment.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\door\DoorItems.java
-C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\emperor\abilities\ignoreDomineer.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\cmds\TestCmd.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\lotm\Plugin.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\lotm\util\NPC.java
@@ -122,6 +127,7 @@ C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathwa
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\handlers\mobs\BeyonderMobsHandler.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\demoness\abilities\CalamityManipulation.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\door\abilities\DoorOpening.java
+C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\emperor\abilities\MagnifyDefense.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\handlers\spirits\impl\TallSkeleton.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\handlers\spirits\impl\UndeadHorse.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\Recipe.java
@@ -130,9 +136,9 @@ C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathwa
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\fool\abilities\Hiding.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\listeners\DeathListener.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\fool\abilities\PaperSubstitute.java
-C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\emperor\abilities\DamageBoostDomineer.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\demoness\abilities\Epidemic.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\demoness\abilities\Invisibility.java
+C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\emperor\abilities\ExploitFlight.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\disasters\Disaster.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\handlers\mobs\abilities\HolyLightSummoning.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\door\abilities\Exile.java

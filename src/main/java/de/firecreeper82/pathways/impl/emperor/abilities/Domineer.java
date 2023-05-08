@@ -6,18 +6,17 @@ import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.emperor.EmperorItems;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Domineer extends Ability {
-    public static int radius = 5;
-    List<Player> affectedPlayers = new ArrayList<>();
+    private static int radius;
     Player p = pathway.getBeyonder().getPlayer();
 
     public Domineer(int identifier, Pathway pathway, int sequence, Items items) {
@@ -34,12 +33,14 @@ public class Domineer extends Ability {
             } else {
                 radius = 5;
             }
+            p.sendMessage(pathway.getStringColor()+"Radius : "+radius);
         } else {
             if (radius != 5) {
                 radius--;
             } else {
                 radius = 25;
             }
+            p.sendMessage(pathway.getStringColor()+"Radius : "+radius);
         }
     }
 
@@ -50,11 +51,17 @@ public class Domineer extends Ability {
             if (entity.getLocation().distance(p.getLocation()) <= radius && entity instanceof Player) {
                 Beyonder checkSeq = Plugin.beyonders.get(entity.getUniqueId());
                 if (checkSeq.getPathway().getSequence().getCurrentSequence() + 2 >= pathway.getSequence().getCurrentSequence()) {
-                    affectedPlayers.add((Player) entity);
-                    ((Player) entity).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 2000, 10, false, false, false));
-                    ((Player) entity).addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 2000, 3, false, false, false));
-                    ((Player) entity).addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 2000, 3, false, false, false));
-                    ((Player) entity).addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 2000,1,false,false,false));
+                    ((Player) entity).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 2000, 4, false, false, false));
+                    ((Player) entity).addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 2000, 2, false, false, false));
+                    ((Player) entity).addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 2000, 2, false, false, false));
+                    ((Player) entity).addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 2000, 2, false, false, false));
+                    Location entityLoc = entity.getLocation().clone();
+                    entityLoc.add(0, 1.5, 0);
+
+                    if (entityLoc.getWorld() != null) {
+                        entityLoc.getWorld().spawnParticle(Particle.SCULK_SOUL, entityLoc.getX(), entityLoc.getY(), entityLoc.getZ(), 1, 0, 0, 0, 0);
+
+                    }
                 }
             }
         }
