@@ -145,7 +145,7 @@ public class Petrification extends Ability {
 
     private void petrifyLoc(Location loc) {
 
-        ArrayList<Block> blocks = Util.getNearbyBlocksInSphere(loc, 6, false, true);
+        ArrayList<Block> blocks = Util.getNearbyBlocksInSphere(loc, 6, false, true, true);
         for(Block block : blocks) {
             if(block.getType().getHardness() < 0 || !block.getType().isSolid())
                 continue;

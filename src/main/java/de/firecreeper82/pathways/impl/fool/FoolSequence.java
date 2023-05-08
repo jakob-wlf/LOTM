@@ -120,7 +120,8 @@ public class FoolSequence extends Sequence implements Listener {
         if(e.getEntity() != getPathway().getBeyonder().getPlayer() || e.getCause() != EntityDamageEvent.DamageCause.FALL)
             return;
 
-        e.setCancelled(true);
+        if(currentSequence < 9)
+            e.setCancelled(true);
     }
 
     //Passive effects

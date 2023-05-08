@@ -51,7 +51,7 @@ public class ThreadManipulation extends Ability {
 
         Random random = new Random();
 
-        ArrayList<Block> blocks = Util.getNearbyBlocksInSphere(loc, 7, false, false);
+        ArrayList<Block> blocks = Util.getNearbyBlocksInSphere(loc, 7, false, false, true);
 
         HashMap<Block, Material> materials = new HashMap<>();
 

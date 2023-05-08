@@ -115,6 +115,7 @@ public class DemonessItems extends Items {
         addAbility(new Petrification(10, pathway, 3, this));
         addAbility(new CalamityManipulation(11, pathway, 2, this));
         addAbility(new MeteorShower(12, pathway, 1, this));
+        addAbility(new IceAge(13, pathway, 1, this));
     }
 
     public void addAbility(Ability ability) {
