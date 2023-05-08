@@ -1,4 +1,4 @@
-package de.firecreeper82.handlers.mobs.abilities;
+package de.firecreeper82.pathways.impl.emperor.abilities;
 
 import de.firecreeper82.lotm.Beyonder;
 import de.firecreeper82.pathways.Ability;
@@ -32,6 +32,6 @@ public class Disorder extends Ability {
     }
     @Override
     public ItemStack getItem() {
-        return EmperorItems.createItem(Material.BARRIER,"","800",identifier, sequence, pathway.getBeyonder().getPlayer().getName());
+        return EmperorItems.createItem(Material.BARRIER,"Disorder","800",identifier, sequence, pathway.getBeyonder().getPlayer().getName());
     }
 }

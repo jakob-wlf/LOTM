@@ -1,6 +1,6 @@
 package de.firecreeper82.pathways.impl.emperor;
 
-import de.firecreeper82.handlers.mobs.abilities.Disorder;
+import de.firecreeper82.pathways.impl.emperor.abilities.Disorder;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
@@ -63,17 +63,18 @@ public class EmperorItems extends Items{
 
     @Override
     public void createItems(){
+        addAbility(new Bestowment(11,pathway,4,this));
         addAbility(new BrainWash(1, pathway, 9, this));
         addAbility(new Bribe(2,pathway, 7, this));
         addAbility(new Distortion(3,pathway,6, this));
         addAbility(new Disorder(4,pathway,6,this));
-        addAbility(new EmperorFloat(5,pathway,5,this));
         addAbility(new Domineer(6,pathway,5,this));
+        addAbility(new EmperorFloat(5,pathway,5,this));
+        addAbility(new ExploitFlight(10,pathway,4,this));
         addAbility(new MagnifyDamage(7,pathway,4,this));
+        addAbility(new MagnifyDefense(12,pathway,4,this));
         addAbility(new MagnifyReach(8,pathway,4,this));
         addAbility(new MagnifySelf(9,pathway,4,this));
-        addAbility(new ExploitFlight(10,pathway,4,this));
-        addAbility(new Bestowment(11,pathway,4,this));
     }
 
     public void addAbility(Ability ability) {
@@ -85,7 +86,7 @@ public class EmperorItems extends Items{
         ItemStack currentItem = new ItemStack(item);
         ItemMeta itemMeta = currentItem.getItemMeta();
         assert itemMeta != null;
-        itemMeta.setDisplayName("§0" + name);
+        itemMeta.setDisplayName("§f" + name);
         itemMeta.addEnchant(Enchantment.CHANNELING, id, true);
         itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         itemMeta.addItemFlags(ItemFlag.values());
@@ -93,7 +94,7 @@ public class EmperorItems extends Items{
         lore.add("§5Click to use");
         lore.add("§5Spirituality: §7" + spirituality);
         lore.add("§8§l-----------------");
-        lore.add("§0Black Emperor - Pathway (" + sequence + ")");
+        lore.add("§fBlack Emperor - Pathway (" + sequence + ")");
         lore.add("§8" + player);
         itemMeta.setLore(lore);
         currentItem.setItemMeta(itemMeta);

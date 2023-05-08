@@ -50,7 +50,7 @@ public class Domineer extends Ability {
 
             if (entity.getLocation().distance(p.getLocation()) <= radius && entity instanceof Player) {
                 Beyonder checkSeq = Plugin.beyonders.get(entity.getUniqueId());
-                if (checkSeq.getPathway().getSequence().getCurrentSequence() + 2 >= pathway.getSequence().getCurrentSequence()) {
+                if (checkSeq.getPathway().getSequence().getCurrentSequence() + 2 >= pathway.getSequence().getCurrentSequence() && checkSeq.getUuid() != p.getUniqueId()) {
                     ((Player) entity).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 2000, 4, false, false, false));
                     ((Player) entity).addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 2000, 2, false, false, false));
                     ((Player) entity).addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 2000, 2, false, false, false));

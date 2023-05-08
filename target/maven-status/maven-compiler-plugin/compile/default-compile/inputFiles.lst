@@ -11,7 +11,6 @@ C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathwa
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\demoness\DemonessItems.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\lotm\util\BeyonderItems.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\fool\abilities\MarionetteControlling.java
-C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\handlers\mobs\abilities\Disorder.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\door\abilities\TravelersDoor.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\door\abilities\Wind.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\door\abilities\BlackHole.java
@@ -90,6 +89,7 @@ C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathwa
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\handlers\mobs\CustomEntity.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\lotm\util\TutNetHandler.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\Characteristic.java
+C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\emperor\abilities\Disorder.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\emperor\abilities\Domineer.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\handlers\spirits\Spirit.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\lotm\Beyonder.java

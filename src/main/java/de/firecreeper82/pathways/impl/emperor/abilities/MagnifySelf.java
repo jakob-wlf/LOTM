@@ -61,6 +61,7 @@ public class MagnifySelf extends Ability {
                         @Override
                         public void run() {
                             if (pathway.getBeyonder().getSpirituality() >= 200 && timer != 0) {
+                                p.removePotionEffect(PotionEffectType.SPEED);
                                 p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 0, 10, false, false, false));
                                 pathway.getBeyonder().setSpirituality(pathway.getBeyonder().getSpirituality() - 200);
                             } else {
@@ -77,6 +78,7 @@ public class MagnifySelf extends Ability {
                         @Override
                         public void run() {
                             if (pathway.getBeyonder().getSpirituality() >= 200 && timer != 0) {
+                                p.removePotionEffect(PotionEffectType.JUMP);
                                 p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 0, 10, false, false, false));
                                 pathway.getBeyonder().setSpirituality(pathway.getBeyonder().getSpirituality() - 200);
                             } else {
@@ -94,6 +96,6 @@ public class MagnifySelf extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return EmperorItems.createItem(Material.BLACK_STAINED_GLASS_PANE, "Magnify", "Varying", identifier, sequence, pathway.getBeyonder().getPlayer().getName());
+        return EmperorItems.createItem(Material.GLASS_PANE, "Magnify", "Varying", identifier, sequence, pathway.getBeyonder().getPlayer().getName());
     }
 }

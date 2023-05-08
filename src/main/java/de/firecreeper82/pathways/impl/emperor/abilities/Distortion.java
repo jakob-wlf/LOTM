@@ -18,8 +18,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class Distortion extends Recordable {
@@ -146,6 +144,6 @@ public class Distortion extends Recordable {
 
     @Override
     public ItemStack getItem() {
-        return EmperorItems.createItem(Material.LANTERN, "Distortion", "Varying", identifier, sequence, pathway.getBeyonder().getPlayer().getName());
+        return EmperorItems.createItem(Material.AMETHYST_SHARD, "Distortion", "Varying", identifier, sequence, pathway.getBeyonder().getPlayer().getName());
     }
 }

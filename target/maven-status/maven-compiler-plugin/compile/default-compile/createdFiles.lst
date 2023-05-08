@@ -8,8 +8,8 @@ de\firecreeper82\pathways\impl\emperor\abilities\Bestowment.class
 de\firecreeper82\pathways\impl\sun\abilities\OceanOfLight.class
 de\firecreeper82\pathways\impl\fool\marionettes\BeyonderMarionette.class
 de\firecreeper82\pathways\Recordable.class
+de\firecreeper82\pathways\impl\emperor\abilities\Disorder.class
 de\firecreeper82\pathways\impl\emperor\abilities\MagnifySelf$1.class
-de\firecreeper82\handlers\mobs\abilities\Disorder.class
 de\firecreeper82\pathways\impl\door\abilities\Record$1.class
 de\firecreeper82\handlers\mobs\CustomEntity.class
 de\firecreeper82\pathways\impl\fool\marionettes\Marionette$1.class
