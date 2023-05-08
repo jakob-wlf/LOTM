@@ -62,6 +62,8 @@ public class Beyonder implements Listener {
     public boolean isBribed;
     public boolean isDistorted;
     public boolean isMagnified;
+    public boolean isMagnifyingReach;
+    public LivingEntity targetedEntity;
     private int resurrections;
 
     private final ArrayList<Record> records;

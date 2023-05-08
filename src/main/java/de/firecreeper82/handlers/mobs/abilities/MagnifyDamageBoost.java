@@ -1,11 +1,18 @@
 package de.firecreeper82.handlers.mobs.abilities;
 
+import de.firecreeper82.lotm.util.Util;
+import de.firecreeper82.pathways.Pathway;
+import de.firecreeper82.lotm.Beyonder;
+import org.bukkit.Location;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import de.firecreeper82.lotm.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 public class MagnifyDamageBoost implements Listener {
 

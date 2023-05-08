@@ -27,7 +27,8 @@ public abstract class Pathway {
             "sun",
             "fool",
             "demoness",
-            "door"
+            "door",
+            "emperor"
     };
 
     public Items items;

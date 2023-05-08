@@ -1,11 +1,11 @@
 package de.firecreeper82.listeners;
 
 import de.firecreeper82.lotm.Plugin;
+import de.firecreeper82.lotm.util.Util;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 

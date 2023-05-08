@@ -4,14 +4,19 @@ import jline.internal.Nullable;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 
 public class Util {
@@ -130,11 +135,12 @@ public class Util {
         }
         return blocks;
     }
+
     public static List<Entity> getEntitiesInRadius(Player player, double radius) {
         List<Entity> nearbyEntities = new ArrayList<>();
         Location playerLocation = player.getLocation();
 
-        for (Entity entity : playerLocation.getWorld().getEntities()) {
+        for (Entity entity : Objects.requireNonNull(playerLocation.getWorld()).getEntities()) {
             Location entityLocation = entity.getLocation();
 
             // Calculate the distance between the player and the entity
@@ -147,5 +153,66 @@ public class Util {
         }
 
         return nearbyEntities;
+    }
+
+    public static double getEquipmentBonus(Player player) {
+        ItemStack itemStack = player.getInventory().getItem(EquipmentSlot.HAND);
+        if (itemStack != null && itemStack.getType() != Material.AIR) {
+            ItemMeta itemMeta = itemStack.getItemMeta();
+
+            if (itemMeta instanceof Damageable damageable) {
+
+                int maxDurability = itemStack.getType().getMaxDurability();
+                int currentDamage = damageable.getDamage();
+                if (maxDurability > 0 && currentDamage >= 0 && currentDamage <= maxDurability) {
+                    return (double) (maxDurability - currentDamage) / maxDurability;
+                }
+            }
+        }
+        return 0.0;
+    }
+
+    public static int getEnchantmentBonus(Player player) {
+        ItemStack itemStack = player.getInventory().getItem(EquipmentSlot.HAND);
+
+        if (itemStack != null) {
+            ItemMeta itemMeta = itemStack.getItemMeta();
+
+            if (itemMeta != null) {
+
+                return itemMeta.getEnchantLevel(Enchantment.DAMAGE_ALL);
+            }
+        }
+        return 0;
+    }
+
+    public static HashMap<PotionEffectType, Integer> getPotionCombatFormula(Player player) {
+        HashMap<PotionEffectType, Integer> potions = new HashMap<>();
+
+        PotionEffect increaseDamageEffect = player.getPotionEffect(PotionEffectType.INCREASE_DAMAGE);
+        PotionEffect weaknessEffect = player.getPotionEffect(PotionEffectType.WEAKNESS);
+
+        if (increaseDamageEffect != null) {
+            potions.put(PotionEffectType.INCREASE_DAMAGE, increaseDamageEffect.getAmplifier());
+        } else {
+            potions.put(PotionEffectType.INCREASE_DAMAGE, 0);
+        }
+
+        if (weaknessEffect != null) {
+            potions.put(PotionEffectType.WEAKNESS, weaknessEffect.getAmplifier());
+        } else {
+            potions.put(PotionEffectType.WEAKNESS, 0);
+        }
+        return potions;
+    }
+
+    public static double calculatePlayerDamage(Player player) {
+        // Retrieve player's attack damage attribute
+        var attackDamage = Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)).getValue();
+        var equipmentBonus = getEquipmentBonus(player);
+        var baseDamagePlayer = equipmentBonus + attackDamage;
+        var potionEffectBonus = getPotionCombatFormula(player);
+        double enchantmentBonus = getEnchantmentBonus(player);
+        return (baseDamagePlayer + enchantmentBonus) * (1 + potionEffectBonus.get(PotionEffectType.INCREASE_DAMAGE)) * (1 + potionEffectBonus.get(PotionEffectType.WEAKNESS));
     }
 }
