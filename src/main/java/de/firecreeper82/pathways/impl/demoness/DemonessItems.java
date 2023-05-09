@@ -43,49 +43,44 @@ public class DemonessItems extends Items {
         abilityInfo.put(8, s8);
 
         String[] s7 = formatAbilityInfo(pathway.getStringColor(), "7: " + names.get(7),
-                "§6Fire of Light: §7Summon a holy fire that burns and damages mobs",
-                    "§6Holy Light Summoning: §7An upgraded version of Holy Light",
-                    "§6Holy Oath: §7Temporarily strengthen one’s strength and agility",
-                    "§6Cleave of Purification: §7 A purifying blow particularly effective against the undead",
-                    "§6Immunity against horror and poison effects"
+                "§dInvisibility: §7Hide yourself from entities and players",
+                    "§dBlack Flames: §7Create black flames",
+                    "§dFrost Magic: §7Freeze entities or blocks",
+                    "§dCold Wind: §7Create a cold wind"
         );
         abilityInfo.put(7, s7);
 
         String[] s6 = formatAbilityInfo(pathway.getStringColor(), "6: " + names.get(6),
-                "§cNo new Abilities yet!"
+                "§dThread Manipulation: §7Create Threads and cobwebs to trap your opponents",
+                    "§dFrost Spear: §7Throw a spear made of ice to attack your enemies"
         );
         abilityInfo.put(6, s6);
 
         String[] s5 = formatAbilityInfo(pathway.getStringColor(), "5: " + names.get(5),
-                "§6Light of Holiness: §7Upgraded version of Holy Light Summoning",
-                    "§6Light of Purification: §7Produces a halo-like effect, purifying all undead and foul creatures within a certain range"
+                "§dEpidemic: §7Spread a disease to kill all entities in your vicinity",
+                    "§Mirror World Traversal: §7You can travel through the mirror world"
         );
         abilityInfo.put(5, s5);
 
         String[] s4 = formatAbilityInfo(pathway.getStringColor(), "4: " + names.get(4),
-                "§6Unshadowed Spear: §7Throw a spear made of pure condensed light that explodes on impact into brilliant light",
-                    "§6Flaring Sun: §7Summon a miniature sun to burn all enemies that come near it",
-                    "§6Unshadowed Domain: §7Lighten up the entire area and reveal any entity in the area",
-                    "§6Armor of Light: §7Summon a Holy Armour to grant you extra protection"
+                "§dPestilence: §7Spread the Epidemic over a far greater area and make it more deadly"
         );
         abilityInfo.put(4, s4);
 
         String[] s3 = formatAbilityInfo(pathway.getStringColor(), "3: " + names.get(3),
-                "§6Beam of Light: §7Create a powerful beam from condensed light"
+                "§dPetrification: §7Petrify entities or blocks"
         );
         abilityInfo.put(3, s3);
 
         String[] s2 = formatAbilityInfo(pathway.getStringColor(), "2: " + names.get(2),
-                "§6Spear of Light: §7An upgraded version of the Unshadowed Spear",
-                    "§6Ocean of Light: §7An upgraded version of the Unshadowed Domain. Purify all undead creatures in the area",
-                    "§6Wings of Light: §7Float in the air using wings made of light"
+                "§dCalamity Manipulation: §7Create several disasters like blizzards or tornados",
+                    "§dSwitch through the calamities using §7Left Click"
         );
         abilityInfo.put(2, s2);
 
         String[] s1 = formatAbilityInfo(pathway.getStringColor(), "1: " + names.get(1),
-                "§6Day and Night: §7Freely fast forward the time to make it night or day",
-                    "§6Solar Flare: §7Create a powerful Solar Flare",
-                    "§6Adjust the strength of the Solar Flare using §7left click§6!"
+                "§dMeteor Shower: §7Summon a meteor shower",
+                    "§dIce Age: §7Freeze a large area"
         );
         abilityInfo.put(1, s1);
     }
