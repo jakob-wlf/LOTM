@@ -1,21 +1,17 @@
 package de.firecreeper82.pathways.impl.fool.abilities;
 
-import com.mojang.authlib.properties.Property;
 import de.firecreeper82.lotm.Plugin;
-import de.firecreeper82.lotm.util.NPC;
 import de.firecreeper82.lotm.util.UtilItems;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.fool.FoolItems;
 import de.firecreeper82.pathways.impl.fool.marionettes.Marionette;
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.npc.NPC;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.*;
-import org.bukkit.craftbukkit.v1_19_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_19_R1.entity.CraftPlayer;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -31,7 +27,6 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MarionetteControlling extends Ability implements Listener {
@@ -47,7 +42,7 @@ public class MarionetteControlling extends Ability implements Listener {
     private final EntityType[] rangedEntities;
     private final EntityType[] flyingEntities;
 
-    private ServerPlayer fakePlayer;
+    private NPC currentNpc = null;
 
     public MarionetteControlling(int identifier, Pathway pathway, int sequence, Items items) {
         super(identifier, pathway, sequence, items);
@@ -106,7 +101,6 @@ public class MarionetteControlling extends Ability implements Listener {
         if(!controlling)
             return;
 
-        Location loc = p.getLocation();
 
         //Create the inventory that holds the items of the player
         playerInv = Bukkit.createInventory(p, InventoryType.PLAYER);
@@ -122,28 +116,13 @@ public class MarionetteControlling extends Ability implements Listener {
             }
         }
 
-        ServerPlayer npc;
+        NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, p.getName());
         if(!hiding) {
-            ServerPlayer player = ((CraftPlayer) p).getHandle();
-            Property property = player.getGameProfile().getProperties().get("textures").iterator().next();
-            String[] skin = {
-                    property.getValue(),
-                    property.getSignature()
-            };
-            npc = NPC.create(loc, p.getName(), skin, false);
-            npc.setHealth((float) p.getHealth());
-            npc.setNoGravity(false);
-
-            for(ArrayList<Entity> list : Plugin.instance.getConcealedEntities()) {
-                if(!list.contains(p))
-                    continue;
-                list.add(npc.getBukkitEntity());
-            }
-
-            fakePlayer = npc;
+            npc.spawn(p.getLocation());
+            npc.setProtected(false);
         }
-        else
-            npc = null;
+
+        currentNpc = npc;
 
         //teleporting the player to the location of the entity
         p.teleport(marionette.getEntity().getLocation());
@@ -248,23 +227,15 @@ public class MarionetteControlling extends Ability implements Listener {
                 if(controlling)
                     return;
 
-                if(npc != null) {
-                    if(!Plugin.fakePlayers.containsKey(npc.getBukkitEntity().getUniqueId())) {
-                        cancel();
-                        return;
-                    }
-
-                    ServerLevel nmsWorld = ((CraftWorld) npc.getBukkitEntity().getWorld()).getHandle();
-                    nmsWorld.removePlayerImmediately(Plugin.fakePlayers.get(npc.getBukkitEntity().getUniqueId()), net.minecraft.world.entity.Entity.RemovalReason.DISCARDED);
-                    p.teleport(npc.getBukkitEntity().getLocation());
-                }
-
                 p.getInventory().remove(UtilItems.getAttack());
                 p.getInventory().setContents(playerInv.getContents());
                 p.setInvisible(false);
                 p.setInvulnerable(false);
 
-                fakePlayer = null;
+                p.teleport(npc.getEntity().getLocation());
+
+                npc.destroy();
+                currentNpc = null;
 
                 for(Player hidePlayer : Bukkit.getOnlinePlayers()) {
                     hidePlayer.showPlayer(Plugin.instance, p);
@@ -293,11 +264,11 @@ public class MarionetteControlling extends Ability implements Listener {
 
     @EventHandler
     public void onPlayerDamage(EntityDamageEvent e) {
-        if(fakePlayer == null)
+        if(currentNpc == null || !currentNpc.isSpawned())
             return;
-        if(e.getEntity() == fakePlayer.getBukkitEntity().getPlayer()) {
+
+        if(e.getEntity() == currentNpc.getEntity())
             controlling = false;
-        }
     }
 
     @EventHandler

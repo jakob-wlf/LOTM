@@ -54,7 +54,7 @@ public class Tsunami extends Disaster{
                     return;
                 }
 
-                for(int i = -10; i < Math.min(Math.sqrt(counter), 20); i++) {
+                for(int i = -10; i < Math.min(Math.sqrt(counter) * 1.5, 3020); i++) {
                     for(int j = -64; j < 65; j++) {
                         if((blockedSides.containsKey(j))) {
                             if(blockedSides.get(j) >= i) {
@@ -66,7 +66,7 @@ public class Tsunami extends Disaster{
                         Location tempLoc = startLoc.clone();
                         tempLoc.add(0, i, 0);
                         tempLoc.add(dirRight.clone().multiply(j));
-                        if(!tempLoc.getBlock().getType().isSolid() || counter < 35)
+                        if(!tempLoc.getBlock().getType().isSolid() || counter < 65)
                             tempLoc.getBlock().setType(Material.WATER);
                         else {
                             if(i == Math.min(Math.sqrt(counter), 20) - 1)

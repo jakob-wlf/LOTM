@@ -1,22 +1,18 @@
 package de.firecreeper82.pathways.impl.fool.abilities;
 
-import com.mojang.authlib.properties.Property;
 import de.firecreeper82.lotm.Beyonder;
 import de.firecreeper82.lotm.Plugin;
-import de.firecreeper82.lotm.util.NPC;
-import de.firecreeper82.pathways.Ability;
+import de.firecreeper82.lotm.util.npc.RemoveOnDamageTrait;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.Recordable;
 import de.firecreeper82.pathways.impl.fool.FoolItems;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
-import org.bukkit.craftbukkit.v1_19_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_19_R1.entity.CraftPlayer;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -37,6 +33,9 @@ public class PaperSubstitute extends Recordable {
 
         Location loc = p.getLocation();
 
+        if(loc.getWorld() == null)
+            return;
+
         //Check if Player has paper in inv
         if(!p.getInventory().contains(Material.PAPER))
             return;
@@ -53,13 +52,10 @@ public class PaperSubstitute extends Recordable {
             }
         }
 
-        ServerPlayer player = ((CraftPlayer) p).getHandle();
-        Property property = player.getGameProfile().getProperties().get("textures").iterator().next();
-        String[] skin = {
-                property.getValue(),
-                property.getSignature()
-        };
-        ServerPlayer npc = NPC.create(loc, p.getName(), skin, true);
+        NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, p.getName());
+        npc.addTrait(new RemoveOnDamageTrait());
+        npc.spawn(loc);
+        npc.setProtected(false);
 
         Random random = new Random();
         Location newLoc = loc.clone().add((random.nextInt(50) - 25), random.nextInt(25) - 12.5, random.nextInt(50) - 25);
@@ -74,13 +70,8 @@ public class PaperSubstitute extends Recordable {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if(!Plugin.fakePlayers.containsKey(npc.getBukkitEntity().getUniqueId()))
-                    return;
-                Location loc = npc.getBukkitEntity().getLocation();
-                if(loc.getWorld() != null)
-                    loc.getWorld().spawnParticle(Particle.CLOUD, loc.clone().subtract(0, 0.25, 0), 100, 0.35, 1, 0.35, 0);
-                ServerLevel nmsWorld = ((CraftWorld) npc.getBukkitEntity().getWorld()).getHandle();
-                nmsWorld.removePlayerImmediately(Plugin.fakePlayers.get(npc.getBukkitEntity().getUniqueId()), Entity.RemovalReason.DISCARDED);
+                loc.getWorld().spawnParticle(Particle.CLOUD, loc.clone().subtract(0, 0.25, 0), 100, 0.35, 1, 0.35, 0);
+                npc.destroy();
             }
         }.runTaskLater(Plugin.instance, 60);
     }
