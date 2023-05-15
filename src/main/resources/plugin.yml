@@ -37,5 +37,7 @@ commands:
     usage: /<cmd>
   spirit:
     description: Spawn a spirit
-    usage: /<cm>
-
+    usage: /<cmd>
+  hermes:
+    description: Use the hermes language.
+    usage: /<cmd> <mode> <string>
