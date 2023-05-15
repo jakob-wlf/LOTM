@@ -18,7 +18,7 @@ public class SpiritWorld {
                 for(Player p : Bukkit.getOnlinePlayers()) {
                     if(!p.getWorld().getName().equalsIgnoreCase("world_nether"))
                         continue;
-                    p.spawnParticle(Particle.REDSTONE, p.getEyeLocation(), 250, 20, 20, 20, new Particle.DustOptions(Color.fromRGB(random.nextInt(255), random.nextInt(255), random.nextInt(255)), random.nextFloat(.8f, 2.5f)));
+                    p.spawnParticle(Particle.REDSTONE, p.getEyeLocation(), 50, 20, 20, 20, new Particle.DustOptions(Color.fromRGB(random.nextInt(255), random.nextInt(255), random.nextInt(255)), random.nextFloat(.8f, 2.5f)));
                 }
             }
         }.runTaskTimer(Plugin.instance, 0, 0);
