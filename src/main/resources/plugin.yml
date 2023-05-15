@@ -40,4 +40,4 @@ commands:
     usage: /<cmd>
   hermes:
     description: Use the hermes language.
-    usage: /<cmd> <mode> <string>
+    usage: /<cmd> [help|set_name|pray_to|reset_prayed_to|send_prayer|get_all_names] <args>
