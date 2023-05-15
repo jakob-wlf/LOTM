@@ -298,7 +298,8 @@ public class SpiritBodyThreads extends Ability implements Listener {
             if(selectedEntity == null && e.getLocation().clone().add(0, 0.75, 0).distance(p.getEyeLocation()) <= maxDistanceControl) {
                 selectedEntity = e;
             }
-            if(selectedEntity != null && selectedEntity.getLocation().distance(p.getLocation()) > maxDistanceControl) {
+
+            if(selectedEntity != null &&(selectedEntity.getWorld() != p.getWorld() || selectedEntity.getLocation().distance(p.getLocation()) > maxDistanceControl)) {
                 selectedEntity = null;
             }
 
