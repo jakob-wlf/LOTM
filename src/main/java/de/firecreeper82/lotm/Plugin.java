@@ -2,6 +2,7 @@ package de.firecreeper82.lotm;
 
 import de.firecreeper82.cmds.*;
 import de.firecreeper82.handlers.blocks.BlockHandler;
+import de.firecreeper82.handlers.mobs.beyonders.RogueBeyonders;
 import de.firecreeper82.handlers.spirits.SpiritHandler;
 import de.firecreeper82.handlers.spirits.SpiritWorld;
 import de.firecreeper82.listeners.*;
@@ -39,12 +40,12 @@ public final class Plugin extends JavaPlugin{
     private BeyonderMobsHandler beyonderMobsHandler;
 
     public static HashMap<UUID, Beyonder> beyonders;
-
     public static HashMap<UUID, ServerPlayer> fakePlayers = new HashMap<>();
-
     public static HashMap<UUID, FogOfHistory> fogOfHistories = new HashMap<>();
 
     private ArrayList<ArrayList<Entity>> concealedEntities;
+
+    public static final ArrayList<Integer> temp = new ArrayList<>();
 
     private File configSaveFile;
     private FileConfiguration configSave;
@@ -65,6 +66,10 @@ public final class Plugin extends JavaPlugin{
         beyonders = new HashMap<>();
         fakePlayers = new HashMap<>();
 
+        for(int i = 0; i < 4; i++) {
+            temp.add(i);
+        }
+
         randomUUID = UUID.fromString("1af36f3a-d8a3-11ed-afa1-0242ac120002");
 
         try { characteristic = new Characteristic(); }
@@ -76,6 +81,7 @@ public final class Plugin extends JavaPlugin{
 
         new SpiritHandler();
         new SpiritWorld();
+        new RogueBeyonders();
 
         Bukkit.getConsoleSender().sendMessage(prefix + "§aEnabled Plugin");
 
