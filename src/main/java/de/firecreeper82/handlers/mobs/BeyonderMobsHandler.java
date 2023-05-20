@@ -1,6 +1,8 @@
 package de.firecreeper82.handlers.mobs;
 
 import de.firecreeper82.handlers.mobs.abilities.*;
+import de.firecreeper82.handlers.mobs.abilities.sun.FlaringSun;
+import de.firecreeper82.handlers.mobs.abilities.sun.HolyLightSummoning;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.BeyonderItems;
 import de.firecreeper82.pathways.MobUsableAbility;

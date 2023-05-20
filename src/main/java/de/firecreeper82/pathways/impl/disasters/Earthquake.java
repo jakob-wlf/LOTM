@@ -48,7 +48,7 @@ public class Earthquake extends Disaster implements Listener {
                     return;
                 }
 
-                for(Entity entity : world.getNearbyEntities(startLoc, 20, 20, 20)) {
+                for(Entity entity : world.getNearbyEntities(startLoc, 60, 60, 60)) {
                     if(entity == p || !(entity instanceof LivingEntity livingEntity))
                         continue;
 
@@ -60,9 +60,9 @@ public class Earthquake extends Disaster implements Listener {
                         livingEntity.setVelocity(new Vector(random.nextDouble(-1, 1), 0, random.nextDouble(-1, 1)));
                 }
 
-                for(int j = 0; j < 10; j++) {
+                for(int j = 0; j < 12; j++) {
                     Block b = startLoc.clone().add(random.nextInt(-35, 35), random.nextInt(-5, 15), random.nextInt(-35, 35)).getBlock();
-                    for(int i = 0; i < 35; i++) {
+                    for(int i = 0; i < 55; i++) {
                         Material m = b.getType();
 
                         if(m == Material.AIR)

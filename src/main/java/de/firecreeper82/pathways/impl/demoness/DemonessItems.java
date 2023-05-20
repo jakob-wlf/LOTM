@@ -98,19 +98,20 @@ public class DemonessItems extends Items {
 
     @Override
     public void createItems() {
-        addAbility(new Invisibility(1, pathway, 7, this));
-        addAbility(new DarkFlames(2, pathway, 7, this));
-        addAbility(new FrostMagic(3, pathway, 7, this));
-        addAbility(new ColdWind(4, pathway, 7, this));
-        addAbility(new FrostSpear(5, pathway, 6, this));
-        addAbility(new ThreadManipulation(6, pathway, 6, this));
-        addAbility(new Epidemic(7, pathway, 5, this));
-        addAbility(new MirrorWorldTraversal(8, pathway, 5, this));
-        addAbility(new Pestilence(9, pathway, 4, this));
-        addAbility(new Petrification(10, pathway, 3, this));
-        addAbility(new CalamityManipulation(11, pathway, 2, this));
-        addAbility(new MeteorShower(12, pathway, 1, this));
-        addAbility(new IceAge(13, pathway, 1, this));
+        addAbility(new Instigate(1, pathway, 8, this));
+        addAbility(new Invisibility(2, pathway, 7, this));
+        addAbility(new DarkFlames(3, pathway, 7, this));
+        addAbility(new FrostMagic(4, pathway, 7, this));
+        addAbility(new ColdWind(5, pathway, 7, this));
+        addAbility(new FrostSpear(6, pathway, 6, this));
+        addAbility(new ThreadManipulation(7, pathway, 6, this));
+        addAbility(new Epidemic(8, pathway, 5, this));
+        addAbility(new MirrorWorldTraversal(9, pathway, 5, this));
+        addAbility(new Pestilence(10, pathway, 4, this));
+        addAbility(new Petrification(11, pathway, 3, this));
+        addAbility(new CalamityManipulation(12, pathway, 2, this));
+        addAbility(new MeteorShower(13, pathway, 1, this));
+        addAbility(new IceAge(14, pathway, 1, this));
     }
 
     public void addAbility(Ability ability) {
