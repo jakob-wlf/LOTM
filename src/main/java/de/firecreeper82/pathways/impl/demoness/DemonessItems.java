@@ -32,8 +32,8 @@ public class DemonessItems extends Items {
         HashMap<Integer, String> names = Objects.requireNonNull(Pathway.getNamesForPathway(pathway.getNameNormalized()));
         String[] s9 = formatAbilityInfo(pathway.getStringColor(), "9: " + names.get(9),
                 "§dPhysical Enhancements: §7Enhanced agility and speed",
-                    "§dNight vision",
-                    "§dYou will no longer take fall damage"
+                "§dNight vision",
+                "§dYou will no longer take fall damage"
         );
         abilityInfo.put(9, s9);
 
@@ -44,21 +44,21 @@ public class DemonessItems extends Items {
 
         String[] s7 = formatAbilityInfo(pathway.getStringColor(), "7: " + names.get(7),
                 "§dInvisibility: §7Hide yourself from entities and players",
-                    "§dBlack Flames: §7Create black flames",
-                    "§dFrost Magic: §7Freeze entities or blocks",
-                    "§dCold Wind: §7Create a cold wind"
+                "§dBlack Flames: §7Create black flames",
+                "§dFrost Magic: §7Freeze entities or blocks",
+                "§dCold Wind: §7Create a cold wind"
         );
         abilityInfo.put(7, s7);
 
         String[] s6 = formatAbilityInfo(pathway.getStringColor(), "6: " + names.get(6),
                 "§dThread Manipulation: §7Create Threads and cobwebs to trap your opponents",
-                    "§dFrost Spear: §7Throw a spear made of ice to attack your enemies"
+                "§dFrost Spear: §7Throw a spear made of ice to attack your enemies"
         );
         abilityInfo.put(6, s6);
 
         String[] s5 = formatAbilityInfo(pathway.getStringColor(), "5: " + names.get(5),
                 "§dEpidemic: §7Spread a disease to kill all entities in your vicinity",
-                    "§Mirror World Traversal: §7You can travel through the mirror world"
+                "§Mirror World Traversal: §7You can travel through the mirror world"
         );
         abilityInfo.put(5, s5);
 
@@ -74,13 +74,13 @@ public class DemonessItems extends Items {
 
         String[] s2 = formatAbilityInfo(pathway.getStringColor(), "2: " + names.get(2),
                 "§dCalamity Manipulation: §7Create several disasters like blizzards or tornados",
-                    "§dSwitch through the calamities using §7Left Click"
+                "§dSwitch through the calamities using §7Left Click"
         );
         abilityInfo.put(2, s2);
 
         String[] s1 = formatAbilityInfo(pathway.getStringColor(), "1: " + names.get(1),
                 "§dMeteor Shower: §7Summon a meteor shower",
-                    "§dIce Age: §7Freeze a large area"
+                "§dIce Age: §7Freeze a large area"
         );
         abilityInfo.put(1, s1);
     }
@@ -88,8 +88,8 @@ public class DemonessItems extends Items {
     @Override
     public ArrayList<ItemStack> returnItemsFromSequence(int sequence) {
         ArrayList<ItemStack> itemsForSequence = new ArrayList<>();
-        for(Map.Entry<Integer, Integer> entry : sequenceItems.entrySet()) {
-            if(entry.getValue() >= sequence) {
+        for (Map.Entry<Integer, Integer> entry : sequenceItems.entrySet()) {
+            if (entry.getValue() >= sequence) {
                 itemsForSequence.add(items.get(entry.getKey()));
             }
         }

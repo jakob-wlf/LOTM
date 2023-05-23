@@ -9,7 +9,10 @@ import de.firecreeper82.pathways.impl.fool.marionettes.BeyonderMarionette;
 import de.firecreeper82.pathways.impl.fool.marionettes.Marionette;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.*;
+import org.bukkit.Color;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,7 +23,10 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
 public class SpiritBodyThreads extends Ability implements Listener {
 
@@ -114,7 +120,7 @@ public class SpiritBodyThreads extends Ability implements Listener {
     @EventHandler
     //Check if turning process was interrupted by damage
     public void onDamage(EntityDamageEvent e) {
-        if(turning && e.getEntity() == selectedEntity)
+        if (turning && e.getEntity() == selectedEntity)
             turning = false;
     }
 
@@ -124,10 +130,10 @@ public class SpiritBodyThreads extends Ability implements Listener {
     // else -> stops the turning process
     public void useAbility() {
 
-        if(selectedEntity == null)
+        if (selectedEntity == null)
             return;
 
-        if(!turning) {
+        if (!turning) {
             turnIntoMarionette(selectedEntity);
             return;
         }
@@ -136,7 +142,7 @@ public class SpiritBodyThreads extends Ability implements Listener {
     }
 
     public void turnIntoMarionette(Entity e) {
-        if(!(e instanceof LivingEntity)) {
+        if (!(e instanceof LivingEntity)) {
             turning = false;
             return;
         }
@@ -154,9 +160,10 @@ public class SpiritBodyThreads extends Ability implements Listener {
         //At the end of the time if entity is still being turned, removes entity
         new BukkitRunnable() {
             long counter = 2L * convertTimeSeconds * beyonderMultiplier;
+
             @Override
             public void run() {
-                if(!turning) {
+                if (!turning) {
                     cancel();
                     return;
                 }
@@ -164,7 +171,7 @@ public class SpiritBodyThreads extends Ability implements Listener {
                 //Check if entity is too far away
                 Location entityLoc = e.getLocation().clone();
                 entityLoc.add(0, 0.75, 0);
-                if(entityLoc.distance(p.getEyeLocation()) > maxDistanceControl) {
+                if (entityLoc.distance(p.getEyeLocation()) > maxDistanceControl) {
                     turning = false;
                     cancel();
                     return;
@@ -177,18 +184,17 @@ public class SpiritBodyThreads extends Ability implements Listener {
                 ((LivingEntity) e).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 60, 4));
                 ((LivingEntity) e).addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 60, 1));
 
-                if(!turning)
+                if (!turning)
                     cancel();
-                if(counter <= 0) {
+                if (counter <= 0) {
                     turning = false;
 
                     //Marionette is a Player
-                    if(e instanceof Player) {
+                    if (e instanceof Player) {
                         ((Player) e).setHealth(0);
                         return;
-                    }
-                    else {
-                        if(selectedEntity.getMetadata("customEntityId").isEmpty())
+                    } else {
+                        if (selectedEntity.getMetadata("customEntityId").isEmpty())
                             new Marionette(selectedEntity.getType(), selectedEntity.getLocation(), pathway);
                         else
                             new BeyonderMarionette((String) selectedEntity.getMetadata("customEntityId").get(0).value(), selectedEntity.getLocation(), pathway);
@@ -209,6 +215,7 @@ public class SpiritBodyThreads extends Ability implements Listener {
             double height = 0;
             double spiralX;
             double spiralZ;
+
             @Override
             public void run() {
                 Location entityLoc = e.getLocation().clone();
@@ -218,18 +225,18 @@ public class SpiritBodyThreads extends Ability implements Listener {
                 spiralZ = spiralRadius * Math.sin(spiral);
                 spiral += 0.25;
                 height += .05;
-                if(height >= 2.5)
+                if (height >= 2.5)
                     height = 0;
                 Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(154, 0, 194), 1.25f);
-                if(entityLoc.getWorld() != null)
+                if (entityLoc.getWorld() != null)
                     entityLoc.getWorld().spawnParticle(Particle.REDSTONE, spiralX + entityLoc.getX(), height + entityLoc.getY(), spiralZ + entityLoc.getZ(), 5, dust);
 
                 counter--;
                 spiralRadius -= (1.5 / (10L * convertTimeSeconds));
 
-                if(!turning)
+                if (!turning)
                     cancel();
-                if(counter <= 0) {
+                if (counter <= 0) {
                     cancel();
                 }
 
@@ -248,8 +255,8 @@ public class SpiritBodyThreads extends Ability implements Listener {
         Player p = pathway.getBeyonder().getPlayer();
 
         //Check if sequence has updated and adjust values accordingly
-        if(sequence != pathway.getSequence().getCurrentSequence()) {
-            if(pathway.getSequence().getCurrentSequence() > 5)
+        if (sequence != pathway.getSequence().getCurrentSequence()) {
+            if (pathway.getSequence().getCurrentSequence() > 5)
                 return;
             sequence = pathway.getSequence().getCurrentSequence();
             maxDistance = sequenceConversions.get(sequence)[0];
@@ -262,59 +269,60 @@ public class SpiritBodyThreads extends Ability implements Listener {
 
         //Loop through hall entities and check their respective color and "draw" the Thread
         //Indicate selected entity on the actionbar
-        outerloop: for(Entity e : p.getNearbyEntities(preferredDistance, preferredDistance, preferredDistance)) {
-            if(e == p || !(e instanceof LivingEntity))
+        outerloop:
+        for (Entity e : p.getNearbyEntities(preferredDistance, preferredDistance, preferredDistance)) {
+            if (e == p || !(e instanceof LivingEntity))
                 continue;
 
             //Check if Thread is disabled via disable-thread command
-            if(e instanceof Player && disabledCategories.contains("player"))
-                continue ;
+            if (e instanceof Player && disabledCategories.contains("player"))
+                continue;
             EntityCategory entityCategory = normalizeCategory(((LivingEntity) e).getCategory());
-            for(String s : disabledCategories) {
-                if(s.equals("player"))
+            for (String s : disabledCategories) {
+                if (s.equals("player"))
                     continue;
-                if(entityCategory == stringToCategory.get(s) && !(e instanceof Player))
+                if (entityCategory == stringToCategory.get(s) && !(e instanceof Player))
                     continue outerloop;
             }
 
             //Check if entity is in the excludedEntities and if the mode is set to excluded
-            if(excludedEntities.contains(e.getType()) && excluded)
+            if (excludedEntities.contains(e.getType()) && excluded)
                 continue;
 
             //Check if entity is in the includedEntities and if the mode is set to !excluded
-            if(!includedEntities.contains(e.getType()) && !excluded)
+            if (!includedEntities.contains(e.getType()) && !excluded)
                 continue;
 
             //Check if entity is already a Marionette
-            if(e instanceof Mob m) {
+            if (e instanceof Mob m) {
                 if (pathway.getBeyonder().getMarionetteEntities().contains(m))
                     continue;
 
-                if(pathway.getBeyonder().getBeyonderMarionetteEntities().contains(m))
+                if (pathway.getBeyonder().getBeyonderMarionetteEntities().contains(m))
                     continue;
             }
 
             //Randomly sets the selected entity to an entity in the control range
-            if(selectedEntity == null && e.getLocation().clone().add(0, 0.75, 0).distance(p.getEyeLocation()) <= maxDistanceControl) {
+            if (selectedEntity == null && e.getLocation().clone().add(0, 0.75, 0).distance(p.getEyeLocation()) <= maxDistanceControl) {
                 selectedEntity = e;
             }
 
-            if(selectedEntity != null &&(selectedEntity.getWorld() != p.getWorld() || selectedEntity.getLocation().distance(p.getLocation()) > maxDistanceControl)) {
+            if (selectedEntity != null && (selectedEntity.getWorld() != p.getWorld() || selectedEntity.getLocation().distance(p.getLocation()) > maxDistanceControl)) {
                 selectedEntity = null;
             }
 
             //Getting the colors
             int[] colors;
-            if(e == selectedEntity)
+            if (e == selectedEntity)
                 colors = new int[]{255, 255, 255};
-            else if(e instanceof Player)
+            else if (e instanceof Player)
                 colors = mobColors.get(0);
             else
                 colors = mobColors.get(categoryToInt.get(((LivingEntity) e).getCategory()));
 
             //Check if currently turning Entity into Marionette
-            if(turning) {
-                if(e != selectedEntity)
+            if (turning) {
+                if (e != selectedEntity)
                     continue;
                 colors = new int[]{145, 0, 194};
             }
@@ -326,7 +334,7 @@ public class SpiritBodyThreads extends Ability implements Listener {
             Vector dir = entityLoc.toVector().subtract(playerLoc.toVector()).normalize().multiply(.65);
 
             int counter = 0;
-            while(playerLoc.distance(entityLoc) > .5 && counter < 150) {
+            while (playerLoc.distance(entityLoc) > .5 && counter < 150) {
                 Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(colors[0], colors[1], colors[2]), .75f);
                 p.spawnParticle(Particle.REDSTONE, playerLoc, 1, .05, 0, .05, dust);
                 playerLoc.add(dir);
@@ -335,7 +343,7 @@ public class SpiritBodyThreads extends Ability implements Listener {
 
             //Displaying the actionbar
             String entityName;
-            if(selectedEntity == null)
+            if (selectedEntity == null)
                 entityName = "None";
             else
                 entityName = selectedEntity.getType().name().substring(0, 1).toUpperCase() + selectedEntity.getType().name().substring(1).toLowerCase();
@@ -351,7 +359,8 @@ public class SpiritBodyThreads extends Ability implements Listener {
         //Indicate selected entity on the actionbar
         List<Entity> entities = p.getNearbyEntities(preferredDistance, preferredDistance, preferredDistance);
         Collections.shuffle(entities);
-        outerloop: for(Entity e : entities) {
+        outerloop:
+        for (Entity e : entities) {
             if (e == p || !(e instanceof LivingEntity) || e == selectedEntity)
                 continue;
 
@@ -367,15 +376,15 @@ public class SpiritBodyThreads extends Ability implements Listener {
             }
 
             //Check if entity is in the excludedEntities and if the mode is set to excluded
-            if(excludedEntities.contains(e.getType()) && excluded)
+            if (excludedEntities.contains(e.getType()) && excluded)
                 continue;
 
             //Check if entity is in the includedEntities and if the mode is set to !excluded
-            if(!includedEntities.contains(e.getType()) && !excluded)
+            if (!includedEntities.contains(e.getType()) && !excluded)
                 continue;
 
             //Check if entity is already a Marionette
-            if(e instanceof Mob m) {
+            if (e instanceof Mob m) {
                 if (pathway.getBeyonder().getMarionetteEntities().contains(m))
                     continue;
             }
@@ -392,11 +401,10 @@ public class SpiritBodyThreads extends Ability implements Listener {
     //Disable / Enable a specific EntityCategory for the Threads
     //Return true if disabling and false if enabling
     public boolean disableCategory(String category) {
-        if(!disabledCategories.contains(category.toLowerCase())) {
+        if (!disabledCategories.contains(category.toLowerCase())) {
             disabledCategories.add(category.toLowerCase());
             return true;
-        }
-        else {
+        } else {
             disabledCategories.remove(category.toLowerCase());
             return false;
         }
@@ -405,11 +413,10 @@ public class SpiritBodyThreads extends Ability implements Listener {
     //Disable / Enable a specific Entity for the Threads
     //Return true if disabling and false if enabling
     public boolean addExcludedEntity(EntityType entityType) {
-        if(!excludedEntities.contains(entityType)) {
+        if (!excludedEntities.contains(entityType)) {
             excludedEntities.add(entityType);
             return true;
-        }
-        else {
+        } else {
             excludedEntities.remove(entityType);
             return false;
         }
@@ -418,11 +425,10 @@ public class SpiritBodyThreads extends Ability implements Listener {
     //Disable / Enable a specific Entity for the Threads
     //Return true if enabling and false if disabling
     public boolean addIncludedEntity(EntityType entityType) {
-        if(!includedEntities.contains(entityType)) {
+        if (!includedEntities.contains(entityType)) {
             includedEntities.add(entityType);
             return true;
-        }
-        else {
+        } else {
             includedEntities.remove(entityType);
             return false;
         }
@@ -446,7 +452,7 @@ public class SpiritBodyThreads extends Ability implements Listener {
 
     //If given EntityCategory.WATER returns EntityCategory.NONE
     public EntityCategory normalizeCategory(EntityCategory entityCategory) {
-        if(entityCategory == EntityCategory.WATER)
+        if (entityCategory == EntityCategory.WATER)
             return EntityCategory.NONE;
 
         return entityCategory;

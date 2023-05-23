@@ -48,15 +48,14 @@ public class Grafting extends Ability implements Listener {
         damageTransfers = new ArrayList<>();
 
 
-
         new BukkitRunnable() {
             @Override
             public void run() {
-                for(Map.Entry<Location[], Integer> entry : graftedLocations.entrySet()) {
-                    if(entry.getKey()[0].getWorld() == null || entry.getKey()[1].getWorld() == null)
+                for (Map.Entry<Location[], Integer> entry : graftedLocations.entrySet()) {
+                    if (entry.getKey()[0].getWorld() == null || entry.getKey()[1].getWorld() == null)
                         return;
 
-                    for(Entity entity : entry.getKey()[0].getWorld().getNearbyEntities(entry.getKey()[0], entry.getValue(), entry.getValue(), entry.getValue())) {
+                    for (Entity entity : entry.getKey()[0].getWorld().getNearbyEntities(entry.getKey()[0], entry.getValue(), entry.getValue(), entry.getValue())) {
                         entity.teleport(entry.getKey()[1]);
                     }
                 }
@@ -81,11 +80,11 @@ public class Grafting extends Ability implements Listener {
 
     @EventHandler
     public void onSneak(PlayerToggleSneakEvent e) {
-        if(!e.isSneaking() || e.getPlayer() != p || !p.getInventory().getItemInMainHand().isSimilar(getItem()) || selectedCategory != Category.Location)
+        if (!e.isSneaking() || e.getPlayer() != p || !p.getInventory().getItemInMainHand().isSimilar(getItem()) || selectedCategory != Category.Location)
             return;
 
         radius++;
-        if(radius > 6)
+        if (radius > 6)
             radius = 1;
 
         p.sendMessage("§5Set the radius to " + radius);
@@ -111,15 +110,15 @@ public class Grafting extends Ability implements Listener {
         //Get entity player is looking at
         LivingEntity entity = null;
 
-        for(int i = 0; i < 500; i++) {
+        for (int i = 0; i < 500; i++) {
             playerLookEntity.add(vectorEntity);
 
-            if(p.getWorld().getNearbyEntities(playerLookEntity, 1, 1, 1).isEmpty())
+            if (p.getWorld().getNearbyEntities(playerLookEntity, 1, 1, 1).isEmpty())
                 continue;
 
             Entity e = p.getWorld().getNearbyEntities(playerLookEntity, 1, 1, 1).iterator().next();
 
-            if(e == p || !(e instanceof LivingEntity))
+            if (e == p || !(e instanceof LivingEntity))
                 continue;
 
             entity = (LivingEntity) e;
@@ -128,8 +127,8 @@ public class Grafting extends Ability implements Listener {
         //Get block player is looking at
         Location playerLook = p.getEyeLocation();
         Vector vector = playerLook.getDirection().normalize().multiply(.5);
-        for(int i = 0; i < 300; i++) {
-            if(playerLook.getBlock().getType().isSolid())
+        for (int i = 0; i < 300; i++) {
+            if (playerLook.getBlock().getType().isSolid())
                 break;
             playerLook.add(vector);
         }
@@ -138,30 +137,28 @@ public class Grafting extends Ability implements Listener {
 
             case Location -> {
                 playerLook.add(0, .5, 0);
-                if(!grafting) {
+                if (!grafting) {
                     loc1 = playerLook;
-                }
-                else {
+                } else {
                     loc2 = playerLook;
 
                     graftedLocations.put(new Location[]{loc1, loc2}, radius);
                 }
 
-                p.spawnParticle(Particle.SPELL_WITCH, playerLook, 400, radius / 2f, .1525,radius / 2f, 0);
+                p.spawnParticle(Particle.SPELL_WITCH, playerLook, 400, radius / 2f, .1525, radius / 2f, 0);
 
                 grafting = !grafting;
             }
             case Block -> {
-                if(!grafting) {
-                    if(entity == null) {
+                if (!grafting) {
+                    if (entity == null) {
                         p.sendMessage("§cCouldn't find the entity");
                         return;
                     }
 
                     p.spawnParticle(Particle.SPELL_WITCH, entity.getLocation(), 50, .5, .5, .5, 0);
                     tempEnt = entity;
-                }
-                else {
+                } else {
                     graftMaterial = playerLook.getBlock().getType();
                     playerLook.add(0, .5, 0);
                     p.spawnParticle(Particle.SPELL_WITCH, playerLook, 80, .25, .25, .25, 0);
@@ -172,14 +169,14 @@ public class Grafting extends Ability implements Listener {
                 grafting = !grafting;
             }
             case Entity -> {
-                if(!grafting) {
-                    if(entity == null) {
+                if (!grafting) {
+                    if (entity == null) {
                         p.sendMessage("§cCouldn't find the entity");
                         return;
                     }
 
-                    for(EntityToEntity entityToEntity : entityToEntities) {
-                        if(entityToEntity.getEntity() == entity) {
+                    for (EntityToEntity entityToEntity : entityToEntities) {
+                        if (entityToEntity.getEntity() == entity) {
                             p.sendMessage("§cRemoving Grafting");
                             entityToEntity.stop();
                             entityToEntities.remove(entityToEntity);
@@ -189,9 +186,8 @@ public class Grafting extends Ability implements Listener {
 
                     p.spawnParticle(Particle.SPELL_WITCH, entity.getLocation(), 50, .5, .5, .5, 0);
                     tempEnt = entity;
-                }
-                else {
-                    if(entity == null) {
+                } else {
+                    if (entity == null) {
                         entity = p;
                     }
 
@@ -203,14 +199,14 @@ public class Grafting extends Ability implements Listener {
                 grafting = !grafting;
             }
             case Stuck -> {
-                if(!grafting) {
-                    if(entity == null) {
+                if (!grafting) {
+                    if (entity == null) {
                         p.sendMessage("§cCouldn't find the entity");
                         return;
                     }
 
-                    for(EntityToLocation entityToLocation : stuckEntities) {
-                        if(entityToLocation.getEntity() == entity) {
+                    for (EntityToLocation entityToLocation : stuckEntities) {
+                        if (entityToLocation.getEntity() == entity) {
                             p.sendMessage("§cRemoving Grafting");
                             entityToLocation.stop();
                             stuckEntities.remove(entityToLocation);
@@ -220,8 +216,7 @@ public class Grafting extends Ability implements Listener {
 
                     p.spawnParticle(Particle.SPELL_WITCH, entity.getLocation(), 50, .5, .5, .5, 0);
                     tempEnt = entity;
-                }
-                else {
+                } else {
                     p.spawnParticle(Particle.SPELL_WITCH, playerLook, 80, .25, .25, .25, 0);
                     stuckEntities.add(new EntityToLocation(tempEnt, playerLook.clone()));
                     reset();
@@ -230,24 +225,24 @@ public class Grafting extends Ability implements Listener {
             }
             case Health -> {
 
-                if(entity == null) {
+                if (entity == null) {
                     entity = p;
                 }
 
                 try {
-                    for(HealthSynchronization healthSynchronization : healthSynchros) {
-                        if(healthSynchronization.getEntity1() == entity || healthSynchronization.getEntity2() == entity) {
+                    for (HealthSynchronization healthSynchronization : healthSynchros) {
+                        if (healthSynchronization.getEntity1() == entity || healthSynchronization.getEntity2() == entity) {
                             healthSynchronization.stop();
                             healthSynchros.remove(healthSynchronization);
                             p.sendMessage("§cRemoving Grafting");
                         }
                     }
+                } catch (ConcurrentModificationException ignored) {
                 }
-                catch (ConcurrentModificationException ignored) {}
 
                 p.spawnParticle(Particle.SPELL_WITCH, entity.getLocation(), 50, .5, .5, .5, 0);
 
-                if(!grafting)
+                if (!grafting)
                     tempEnt = entity;
                 else {
                     healthSynchros.add(new HealthSynchronization(tempEnt, entity));
@@ -256,28 +251,27 @@ public class Grafting extends Ability implements Listener {
                 grafting = !grafting;
             }
             case Target -> {
-                if(!grafting) {
-                    if(entity == null) {
+                if (!grafting) {
+                    if (entity == null) {
                         entity = p;
                     }
 
                     p.spawnParticle(Particle.SPELL_WITCH, entity.getLocation(), 50, .5, .5, .5, 0);
                     tempEnt = entity;
-                }
-                else {
-                    if(entity == null) {
+                } else {
+                    if (entity == null) {
                         p.sendMessage("§cCouldn't find the entity");
                         return;
                     }
 
                     p.spawnParticle(Particle.SPELL_WITCH, entity.getLocation(), 50, .5, .5, .5, 0);
-                    if(tempEnt == entity) {
+                    if (tempEnt == entity) {
                         reset();
                         return;
                     }
 
-                    for(DamageTransfer damageTransfer : damageTransfers) {
-                        if(tempEnt == damageTransfer.getReceive()) {
+                    for (DamageTransfer damageTransfer : damageTransfers) {
+                        if (tempEnt == damageTransfer.getReceive()) {
                             reset();
                             return;
                         }
@@ -294,16 +288,16 @@ public class Grafting extends Ability implements Listener {
     @Override
     //Display selected category
     public void onHold() {
-        if(p == null)
+        if (p == null)
             p = pathway.getBeyonder().getPlayer();
         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§5Selected Use-case: §f" + selectedCategory.name));
 
-        for(Map.Entry<Location[], Integer> entry : graftedLocations.entrySet()) {
+        for (Map.Entry<Location[], Integer> entry : graftedLocations.entrySet()) {
             if (entry.getKey()[0].getWorld() == null || entry.getKey()[1].getWorld() == null)
                 return;
 
-            p.spawnParticle(Particle.SPELL_WITCH, entry.getKey()[0], 75, entry.getValue() / 2f, .15,entry.getValue() / 2f, 0);
-            p.spawnParticle(Particle.SPELL_WITCH, entry.getKey()[1], 75, entry.getValue() / 2f, .15,entry.getValue() / 2f, 0);
+            p.spawnParticle(Particle.SPELL_WITCH, entry.getKey()[0], 75, entry.getValue() / 2f, .15, entry.getValue() / 2f, 0);
+            p.spawnParticle(Particle.SPELL_WITCH, entry.getKey()[1], 75, entry.getValue() / 2f, .15, entry.getValue() / 2f, 0);
         }
     }
 
@@ -313,7 +307,7 @@ public class Grafting extends Ability implements Listener {
         grafting = false;
         reset();
         selected++;
-        if(selected >= categories.length)
+        if (selected >= categories.length)
             selected = 0;
         selectedCategory = categories[selected];
     }

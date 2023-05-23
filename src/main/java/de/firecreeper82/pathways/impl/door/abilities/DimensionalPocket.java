@@ -52,8 +52,8 @@ public class DimensionalPocket extends Ability {
         PlayerTextures textures = profile.getTextures();
         try {
             textures.setSkin(new URL("http://textures.minecraft.net/texture/ddcc189633c789cb6d5e78d13a5043b26e7b40cdb7cfc4e23aa2279574967b4"));
+        } catch (MalformedURLException ignored) {
         }
-        catch (MalformedURLException ignored) {}
 
         itemMeta.setOwnerProfile(profile);
         currentItem.setItemMeta(itemMeta);

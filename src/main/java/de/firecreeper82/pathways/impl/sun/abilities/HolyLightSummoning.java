@@ -24,7 +24,7 @@ public class HolyLightSummoning extends Recordable {
 
     @Override
     public void useAbility(Player p, double multiplier, Beyonder beyonder, boolean recorded) {
-        if(!recorded)
+        if (!recorded)
             pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
         destroy(beyonder, recorded);
@@ -46,6 +46,7 @@ public class HolyLightSummoning extends Recordable {
         final Material[] lastMaterial = {loc.getBlock().getType()};
         new BukkitRunnable() {
             int counter = 0;
+
             @Override
             public void run() {
                 counter++;
@@ -71,12 +72,12 @@ public class HolyLightSummoning extends Recordable {
 
 
                 Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(0, 215, 255), 1.25f);
-                for(double i = 0; i < 3.2; i+=0.8) {
-                    for(int j = 0; j < 100; j++) {
+                for (double i = 0; i < 3.2; i += 0.8) {
+                    for (int j = 0; j < 100; j++) {
                         double x = i * Math.cos(j);
                         double z = i * Math.sin(j);
                         loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX() + x, loc.getY(), loc.getZ() + z, 2, dust);
-                        if(j % 2 == 0)
+                        if (j % 2 == 0)
                             loc.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, loc.getX() + x, loc.getY() + 1, loc.getZ() + z, 1, 0, 0, 0, 0);
                     }
                 }
@@ -87,7 +88,7 @@ public class HolyLightSummoning extends Recordable {
                 lastMaterial[0] = loc.getBlock().getType();
                 loc.getBlock().setType(Material.LIGHT);
 
-                if((lastMaterial[0].isSolid() && counter >= 12) || counter >= 200) {
+                if ((lastMaterial[0].isSolid() && counter >= 12) || counter >= 200) {
                     loc.getBlock().setType(lastMaterial[0]);
                     counter = 0;
                     cancel();
@@ -110,14 +111,14 @@ public class HolyLightSummoning extends Recordable {
                             lightLoc.add(0, 0, -2).getBlock()
                     };
 
-                    for(Block b : lightBlock) {
+                    for (Block b : lightBlock) {
                         b.setType(Material.LIGHT);
                     }
 
                     new BukkitRunnable() {
                         @Override
                         public void run() {
-                            for(int i = 0; i < lightBlock.length; i++) {
+                            for (int i = 0; i < lightBlock.length; i++) {
                                 Block b = lightBlock[i];
                                 b.setType(lightMaterial[i]);
                             }
@@ -127,12 +128,12 @@ public class HolyLightSummoning extends Recordable {
 
                     //damage nearby entities
                     ArrayList<Entity> nearbyEntities = (ArrayList<Entity>) loc.getWorld().getNearbyEntities(loc, 15, 15, 15);
-                    for(Entity entity : nearbyEntities) {
-                        if(entity instanceof LivingEntity livingEntity) {
+                    for (Entity entity : nearbyEntities) {
+                        if (entity instanceof LivingEntity livingEntity) {
                             if (livingEntity.getCategory() == EntityCategory.UNDEAD) {
                                 ((Damageable) entity).damage(22 * multiplier, p);
                             } else {
-                                if(entity != p)
+                                if (entity != p)
                                     ((Damageable) entity).damage(12 * multiplier, p);
                             }
                         }
@@ -144,10 +145,11 @@ public class HolyLightSummoning extends Recordable {
                     new BukkitRunnable() {
                         double radius = 1.8;
                         int factor = 0;
+
                         @Override
                         public void run() {
                             radius = radius + 0.75;
-                            for(int i = 0; i < 100; i++) {
+                            for (int i = 0; i < 100; i++) {
                                 factor++;
                                 double x = radius * Math.cos(factor);
                                 double z = radius * Math.sin(factor);
@@ -156,7 +158,7 @@ public class HolyLightSummoning extends Recordable {
                                 loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX() + x + 0.2, loc.getY(), loc.getZ() + z + 0.2, 3, dustRipple);
                             }
 
-                            if(radius >= 9) {
+                            if (radius >= 9) {
                                 cancel();
                                 pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                             }

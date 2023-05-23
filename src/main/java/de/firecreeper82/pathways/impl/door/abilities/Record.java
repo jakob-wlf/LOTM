@@ -35,22 +35,23 @@ public class Record extends Ability {
 
         Vector dir = p.getEyeLocation().getDirection().normalize();
         Location loc = p.getEyeLocation();
-        if(loc.getWorld() == null)
+        if (loc.getWorld() == null)
             return;
 
         Beyonder target = null;
 
-        outerloop: for(int i = 0; i < 25; i++) {
-            for(Entity entity : loc.getWorld().getNearbyEntities(loc, 1, 1, 1)) {
-                if(!(entity instanceof Player player) || entity == p)
+        outerloop:
+        for (int i = 0; i < 25; i++) {
+            for (Entity entity : loc.getWorld().getNearbyEntities(loc, 1, 1, 1)) {
+                if (!(entity instanceof Player player) || entity == p)
                     continue;
 
-                if(!Plugin.beyonders.containsKey(player.getUniqueId()))
+                if (!Plugin.beyonders.containsKey(player.getUniqueId()))
                     continue;
 
                 target = Plugin.beyonders.get(player.getUniqueId());
 
-                if(target == null)
+                if (target == null)
                     continue;
 
 
@@ -60,7 +61,7 @@ public class Record extends Ability {
             loc.add(dir);
         }
 
-        if(target == null) {
+        if (target == null) {
             p.sendMessage("§cCouldn't find the target");
             return;
         }
@@ -74,22 +75,23 @@ public class Record extends Ability {
         Beyonder beyonder = target;
         new BukkitRunnable() {
             int counter = 0;
+
             @Override
             public void run() {
 
                 p.spawnParticle(Particle.SPELL_WITCH, beyonder.getPlayer().getEyeLocation().subtract(0, .5, 0), 20, .5, 1, .5, 0);
 
-                if(counter >= 20) {
+                if (counter >= 20) {
                     pathway.getSequence().removeSpirituality(15);
                     counter = 0;
                 }
 
-                if(pathway.getBeyonder().getSpirituality() <= 15)
+                if (pathway.getBeyonder().getSpirituality() <= 15)
                     recording = false;
 
                 counter++;
 
-                if(beyonder.getPlayer().getLocation().distance(p.getLocation()) > 50) {
+                if (beyonder.getPlayer().getLocation().distance(p.getLocation()) > 50) {
                     pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                     recording = false;
                     cancel();
@@ -97,7 +99,7 @@ public class Record extends Ability {
                     return;
                 }
 
-                if(!recording) {
+                if (!recording) {
                     pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                     recording = false;
                     cancel();
@@ -105,7 +107,7 @@ public class Record extends Ability {
                     return;
                 }
 
-                if(!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
+                if (!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
                     beyonder.removeRecording(instance);
                     cancel();
                     recording = false;

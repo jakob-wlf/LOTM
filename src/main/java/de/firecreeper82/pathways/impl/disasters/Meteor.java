@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Random;
 
 
-public class Meteor extends Disaster{
+public class Meteor extends Disaster {
 
     public Meteor(Player p) {
         super(p);
@@ -33,7 +33,7 @@ public class Meteor extends Disaster{
         Vector vector = loc.toVector().subtract(startLoc.toVector()).normalize().multiply(.6);
 
         World world = startLoc.getWorld();
-        if(world == null)
+        if (world == null)
             return;
 
         new BukkitRunnable() {
@@ -47,8 +47,8 @@ public class Meteor extends Disaster{
                 world.spawnParticle(Particle.LAVA, startLoc, 35, 1, 1, 1, 0);
                 world.spawnParticle(Particle.SMOKE_LARGE, startLoc, 35, 2, 2, 2, 0);
 
-                if(startLoc.getBlock().getType().isSolid()) {
-                    for(FallingBlock block : currentBlock) {
+                if (startLoc.getBlock().getType().isSolid()) {
+                    for (FallingBlock block : currentBlock) {
                         block.setGravity(true);
                         Random random = new Random();
                         block.setVelocity(new Vector(random.nextInt(3), random.nextInt(3), random.nextInt(3)));
@@ -68,13 +68,13 @@ public class Meteor extends Disaster{
 
     public void spawnFallingBlocks(Location loc) {
 
-        for(FallingBlock block : currentBlock) {
+        for (FallingBlock block : currentBlock) {
             block.remove();
         }
 
         Location startLoc = loc.clone();
         World world = startLoc.getWorld();
-        if(world == null)
+        if (world == null)
             return;
 
         final int[][] meteorBlocks = {
@@ -107,9 +107,9 @@ public class Meteor extends Disaster{
 
         };
 
-        for(int[] i : meteorBlocks) {
+        for (int[] i : meteorBlocks) {
             Material mat;
-            if(i[3] == 1)
+            if (i[3] == 1)
                 mat = Material.OBSIDIAN;
             else
                 mat = Material.MAGMA_BLOCK;

@@ -2,7 +2,6 @@ package de.firecreeper82.pathways.impl.sun.abilities;
 
 import de.firecreeper82.lotm.Beyonder;
 import de.firecreeper82.lotm.Plugin;
-import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.Recordable;
@@ -28,7 +27,7 @@ public class FlaringSun extends Recordable {
 
     @Override
     public void useAbility(Player p, double multiplier, Beyonder beyonder, boolean recorded) {
-        if(!recorded)
+        if (!recorded)
             pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
         destroy(beyonder, recorded);
@@ -49,24 +48,24 @@ public class FlaringSun extends Recordable {
         Location loc = lastBlock.getLocation().add(0, 1, 0);
 
         int burnRadius = 10;
-        for(int i = 3; i > -8; i--) {
+        for (int i = 3; i > -8; i--) {
             for (int x = -burnRadius; x <= burnRadius; x++) {
                 for (int z = -burnRadius; z <= burnRadius; z++) {
-                    if( (x*x) + (z*z) <= Math.pow(burnRadius, 2)) {
+                    if ((x * x) + (z * z) <= Math.pow(burnRadius, 2)) {
                         Block block = p.getWorld().getBlockAt((int) loc.getX() + x, (int) loc.getY() + i, (int) loc.getZ() + z);
-                        if(block.getType() == Material.DIRT || block.getType() == Material.DIRT_PATH || block.getType() == Material.COARSE_DIRT || block.getType() == Material.ROOTED_DIRT || block.getType() == Material.GRASS_BLOCK)
+                        if (block.getType() == Material.DIRT || block.getType() == Material.DIRT_PATH || block.getType() == Material.COARSE_DIRT || block.getType() == Material.ROOTED_DIRT || block.getType() == Material.GRASS_BLOCK)
                             block.setType(Material.NETHERRACK);
-                        if(block.getType() == Material.STONE || block.getType() == Material.COBBLESTONE || block.getType() == Material.DIORITE || block.getType() == Material.ANDESITE || block.getType() == Material.GRANITE || block.getType() == Material.DEEPSLATE || block.getType() == Material.TUFF || block.getType() == Material.CALCITE || block.getType() == Material.GRAVEL)
+                        if (block.getType() == Material.STONE || block.getType() == Material.COBBLESTONE || block.getType() == Material.DIORITE || block.getType() == Material.ANDESITE || block.getType() == Material.GRANITE || block.getType() == Material.DEEPSLATE || block.getType() == Material.TUFF || block.getType() == Material.CALCITE || block.getType() == Material.GRAVEL)
                             block.setType(Material.BASALT);
-                        if(block.getType() == Material.WATER)
+                        if (block.getType() == Material.WATER)
                             block.setType(Material.AIR);
-                        if(block.getType() == Material.AIR || block.getType() == Material.CAVE_AIR) {
+                        if (block.getType() == Material.AIR || block.getType() == Material.CAVE_AIR) {
                             Random rand = new Random();
-                            if(rand.nextInt(4) == 0) {
+                            if (rand.nextInt(4) == 0) {
                                 block.setType(Material.FIRE);
                             }
                         }
-                        if(block.getType() == Material.SAND || block.getType() == Material.RED_SAND)
+                        if (block.getType() == Material.SAND || block.getType() == Material.RED_SAND)
                             block.setType(Material.GLASS);
                     }
                 }
@@ -77,6 +76,7 @@ public class FlaringSun extends Recordable {
         new BukkitRunnable() {
             int counter = 0;
             public final double sphereRadius = 5;
+
             @Override
             public void run() {
                 counter++;
@@ -94,7 +94,7 @@ public class FlaringSun extends Recordable {
                         Particle.DustOptions dustSphere = new Particle.DustOptions(Color.fromBGR(0, 215, 255), 1f);
                         Objects.requireNonNull(sphereLoc.getWorld()).spawnParticle(Particle.REDSTONE, sphereLoc, 1, 0.25, 0.25, 0.25, 0, dustSphere);
                         sphereLoc.getWorld().spawnParticle(Particle.FLAME, sphereLoc, 1, 0.25, 0.25, 0.25, 0);
-                        if(counter == 1 && !sphereLoc.getBlock().getType().isSolid()) {
+                        if (counter == 1 && !sphereLoc.getBlock().getType().isSolid()) {
                             airBlocks.add(sphereLoc.getBlock());
                             sphereLoc.getBlock().setType(Material.LIGHT);
                         }
@@ -104,20 +104,20 @@ public class FlaringSun extends Recordable {
 
                 //damage nearby entities
                 ArrayList<Entity> nearbyEntities = (ArrayList<Entity>) loc.getWorld().getNearbyEntities(loc, 10, 10, 10);
-                for(Entity entity : nearbyEntities) {
-                    if(entity instanceof LivingEntity livingEntity) {
+                for (Entity entity : nearbyEntities) {
+                    if (entity instanceof LivingEntity livingEntity) {
                         if (livingEntity.getCategory() == EntityCategory.UNDEAD) {
                             ((Damageable) entity).damage(7 * multiplier, p);
                             livingEntity.setFireTicks(50 * 20);
-                        } else if(entity != p) {
+                        } else if (entity != p) {
                             livingEntity.setFireTicks(50 * 20);
                             ((Damageable) entity).damage(3 * multiplier, p);
                         }
                     }
                 }
 
-                if(counter >= 20 * 20) {
-                    for(Block b : airBlocks) {
+                if (counter >= 20 * 20) {
+                    for (Block b : airBlocks) {
                         b.setType(Material.AIR);
                     }
                     cancel();

@@ -36,16 +36,16 @@ public class ThreadManipulation extends Ability {
         Vector dir = p.getEyeLocation().getDirection().normalize();
         World world = loc.getWorld();
 
-        if(world == null)
+        if (world == null)
             return;
 
-        for(int i = 0; i < 30; i++) {
+        for (int i = 0; i < 30; i++) {
             loc.add(dir);
 
-            if(loc.getBlock().getType().isSolid())
+            if (loc.getBlock().getType().isSolid())
                 break;
 
-            if(!world.getNearbyEntities(loc, 1.2, 1.2, 1.2).isEmpty() && !world.getNearbyEntities(loc, 1.2, 1.2, 1.2).contains(p))
+            if (!world.getNearbyEntities(loc, 1.2, 1.2, 1.2).isEmpty() && !world.getNearbyEntities(loc, 1.2, 1.2, 1.2).contains(p))
                 break;
         }
 
@@ -55,11 +55,11 @@ public class ThreadManipulation extends Ability {
 
         HashMap<Block, Material> materials = new HashMap<>();
 
-        for(Block block : blocks) {
-            if(block.getType().isSolid())
+        for (Block block : blocks) {
+            if (block.getType().isSolid())
                 continue;
 
-            if(random.nextInt(3) != 0)
+            if (random.nextInt(3) != 0)
                 continue;
 
             materials.put(block, block.getType());

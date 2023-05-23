@@ -9,7 +9,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 
 public abstract class Sequence {
 
@@ -33,25 +36,25 @@ public abstract class Sequence {
 
     public void useAbility(ItemStack item, PlayerInteractEvent e) {
 
-        if(checkValid(item) == 1) {
-            for(Recordable recordable : recordables) {
-                if(recordable.getItem().isSimilar(item))
+        if (checkValid(item) == 1) {
+            for (Recordable recordable : recordables) {
+                if (recordable.getItem().isSimilar(item))
                     recordable.useAbility(pathway.getBeyonder().getPlayer(), pathway.getSequence().getSequenceMultiplier().get(pathway.getSequence().getCurrentSequence()), pathway.getBeyonder(), true);
             }
             return;
         }
-        if(checkValid(item) == 2)
+        if (checkValid(item) == 2)
             return;
 
         e.setCancelled(true);
-        if(e.getAction() != Action.LEFT_CLICK_AIR && e.getAction() != Action.LEFT_CLICK_BLOCK) {
+        if (e.getAction() != Action.LEFT_CLICK_AIR && e.getAction() != Action.LEFT_CLICK_BLOCK) {
             useAbility(Objects.requireNonNull(item.getItemMeta()).getEnchantLevel(Enchantment.CHANNELING), item);
             return;
         }
 
         int id = Objects.requireNonNull(item.getItemMeta()).getEnchantLevel(Enchantment.CHANNELING);
-        for(Ability a : abilities) {
-            if(a.getIdentifier() == id) {
+        for (Ability a : abilities) {
+            if (a.getIdentifier() == id) {
                 a.leftClick();
                 break;
             }
@@ -59,12 +62,12 @@ public abstract class Sequence {
     }
 
     public void destroyItem(ItemStack item, PlayerDropItemEvent e) {
-        if(pathway.getItems().getItems().contains(item)) {
+        if (pathway.getItems().getItems().contains(item)) {
             e.getItemDrop().remove();
         }
 
-        for(ItemStack itemStack : UtilItems.returnAllItems()) {
-            if(itemStack.isSimilar(item))
+        for (ItemStack itemStack : UtilItems.returnAllItems()) {
+            if (itemStack.isSimilar(item))
                 e.getItemDrop().remove();
         }
     }
@@ -79,14 +82,14 @@ public abstract class Sequence {
         try {
             String line = Objects.requireNonNull(Objects.requireNonNull(item.getItemMeta()).getLore()).get(1);
             spiritualityDrainage = Integer.parseInt(line.substring(18));
+        } catch (Exception ignored) {
         }
-        catch (Exception ignored) {}
 
-        if(spiritualityDrainage > pathway.getBeyonder().getSpirituality())
+        if (spiritualityDrainage > pathway.getBeyonder().getSpirituality())
             return;
 
-        if(usesAbilities[ability - 1]) {
-            if(getIds().contains(ability))
+        if (usesAbilities[ability - 1]) {
+            if (getIds().contains(ability))
                 usesAbilities[ability - 1] = false;
             return;
         }
@@ -94,8 +97,8 @@ public abstract class Sequence {
         //remove spirituality
         removeSpirituality(spiritualityDrainage);
 
-        for(Ability a : abilities) {
-            if(a.getIdentifier() == ability) {
+        for (Ability a : abilities) {
+            if (a.getIdentifier() == ability) {
                 a.useAbility();
                 pathway.getBeyonder().acting(pathway.getItems().getSequenceOfAbility(a));
                 break;
@@ -106,20 +109,20 @@ public abstract class Sequence {
     public abstract List<Integer> getIds();
 
     public int checkValid(ItemStack item) {
-        if(item == null)
+        if (item == null)
             return 2;
         ItemStack checkItem = item.clone();
         checkItem.setAmount(1);
 
         ArrayList<ItemStack> recordedItems = new ArrayList<>();
 
-        for(Recordable recordable : recordables) {
+        for (Recordable recordable : recordables) {
             recordedItems.add(recordable.getItem());
         }
 
-        if(pathway.getItems().returnItemsFromSequence(currentSequence).contains(checkItem))
+        if (pathway.getItems().returnItemsFromSequence(currentSequence).contains(checkItem))
             return 0;
-        if(recordedItems.contains(checkItem))
+        if (recordedItems.contains(checkItem))
             return 1;
 
         return 2;
@@ -130,17 +133,18 @@ public abstract class Sequence {
     }
 
     public void onHold(ItemStack item) {
-        if(checkValid(item) == 2)
+        if (checkValid(item) == 2)
             return;
 
         int id = Objects.requireNonNull(item.getItemMeta()).getEnchantLevel(Enchantment.CHANNELING);
-        for(Ability a : abilities) {
-            if(a.getIdentifier() == id) {
+        for (Ability a : abilities) {
+            if (a.getIdentifier() == id) {
                 a.onHold();
                 break;
             }
         }
     }
+
     public int getCurrentSequence() {
         return currentSequence;
     }
@@ -176,6 +180,7 @@ public abstract class Sequence {
     public HashMap<Integer, PotionEffectType[]> getSequenceResistances() {
         return sequenceResistances;
     }
+
     public HashMap<Integer, Double> getSequenceMultiplier() {
         return sequenceMultiplier;
     }

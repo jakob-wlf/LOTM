@@ -2,7 +2,6 @@ package de.firecreeper82.pathways.impl.fool.abilities;
 
 import de.firecreeper82.lotm.Beyonder;
 import de.firecreeper82.lotm.Plugin;
-import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.Recordable;
@@ -28,21 +27,21 @@ public class FlameControlling extends Recordable {
     public void useAbility(Player p, double multiplier, Beyonder beyonder, boolean recorded) {
         destroy(beyonder, recorded);
 
-        if(pathway.getSequence().getCurrentSequence() == 7) {
-            if(!p.getInventory().contains(Material.COAL) && !p.getInventory().contains(Material.CHARCOAL)) {
+        if (pathway.getSequence().getCurrentSequence() == 7) {
+            if (!p.getInventory().contains(Material.COAL) && !p.getInventory().contains(Material.CHARCOAL)) {
                 Location noFuelLoc = p.getEyeLocation().add(p.getEyeLocation().getDirection().normalize());
-                if(noFuelLoc.getWorld() == null)
+                if (noFuelLoc.getWorld() == null)
                     return;
                 noFuelLoc.getWorld().spawnParticle(Particle.SMOKE_NORMAL, noFuelLoc, 25, 0.05, 0.05, 0.05, 0.15);
                 return;
             }
 
             ItemStack item;
-            for(int i = 0; i < p.getInventory().getContents().length; i++) {
+            for (int i = 0; i < p.getInventory().getContents().length; i++) {
                 item = p.getInventory().getItem(i);
-                if(item == null)
+                if (item == null)
                     continue;
-                if(item.getType() == Material.COAL || item.getType() == Material.CHARCOAL) {
+                if (item.getType() == Material.COAL || item.getType() == Material.CHARCOAL) {
                     item.setAmount(item.getAmount() - 1);
                     p.getInventory().setItem(i, item);
                     break;
@@ -56,20 +55,21 @@ public class FlameControlling extends Recordable {
 
         new BukkitRunnable() {
             int counter = 0;
+
             @Override
             public void run() {
                 counter++;
 
                 loc.add(direction);
-                if(loc.getWorld() == null) {
+                if (loc.getWorld() == null) {
                     cancel();
                     return;
                 }
-                loc.getWorld().spawnParticle(Particle.FLAME,  loc, 15, 0.12, 0.12, 0.12, 0.025);
-                loc.getWorld().spawnParticle(Particle.SMOKE_NORMAL,  loc.clone().add(0, 0.12, 0), 6, 0.01, 0.01, 0.01, 0);
+                loc.getWorld().spawnParticle(Particle.FLAME, loc, 15, 0.12, 0.12, 0.12, 0.025);
+                loc.getWorld().spawnParticle(Particle.SMOKE_NORMAL, loc.clone().add(0, 0.12, 0), 6, 0.01, 0.01, 0.01, 0);
 
-                if(!loc.getWorld().getNearbyEntities(loc, 5, 5, 5).isEmpty()) {
-                    for(Entity entity : loc.getWorld().getNearbyEntities(loc, 5, 5, 5)) {
+                if (!loc.getWorld().getNearbyEntities(loc, 5, 5, 5).isEmpty()) {
+                    for (Entity entity : loc.getWorld().getNearbyEntities(loc, 5, 5, 5)) {
                         Vector v1 = new Vector(
                                 loc.getX() + 0.25,
                                 loc.getY() + 0.25,
@@ -80,7 +80,7 @@ public class FlameControlling extends Recordable {
                                 loc.getY() - 0.25,
                                 loc.getZ() - 0.25
                         );
-                        if(entity.getBoundingBox().overlaps(v1, v2) && entity instanceof Damageable && entity != p) {
+                        if (entity.getBoundingBox().overlaps(v1, v2) && entity instanceof Damageable && entity != p) {
                             ((Damageable) entity).damage(8 * multiplier, p);
                             entity.setFireTicks(250);
                             cancel();
@@ -89,8 +89,8 @@ public class FlameControlling extends Recordable {
                     }
                 }
 
-                if(loc.getBlock().getType().isSolid() || counter >= 100) {
-                    if(loc.getBlock().getType().isSolid() && !loc.clone().add(0, 1, 0).getBlock().getType().isSolid())
+                if (loc.getBlock().getType().isSolid() || counter >= 100) {
+                    if (loc.getBlock().getType().isSolid() && !loc.clone().add(0, 1, 0).getBlock().getType().isSolid())
                         loc.clone().add(0, 1, 0).getBlock().setType(Material.FIRE);
                     cancel();
                 }

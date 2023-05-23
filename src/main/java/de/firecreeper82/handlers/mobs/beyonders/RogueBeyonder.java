@@ -61,11 +61,11 @@ public class RogueBeyonder implements Listener {
     }
 
     private void run() {
-        if(beyonder == null || !beyonder.isSpawned())
+        if (beyonder == null || !beyonder.isSpawned())
             return;
 
-        if(state == STATE.WANDER) {
-            if(isWandering) {
+        if (state == STATE.WANDER) {
+            if (isWandering) {
                 return;
             }
             isWandering = true;
@@ -81,10 +81,10 @@ public class RogueBeyonder implements Listener {
 
     @EventHandler
     public void onDeath(EntityDeathEvent e) {
-        if(!beyonder.isSpawned())
+        if (!beyonder.isSpawned())
             return;
 
-        if(e.getEntity() == beyonder.getEntity())
+        if (e.getEntity() == beyonder.getEntity())
             beyonder.destroy();
     }
 

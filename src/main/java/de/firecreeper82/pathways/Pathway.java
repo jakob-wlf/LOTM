@@ -6,6 +6,7 @@ import de.firecreeper82.pathways.impl.demoness.DemonessPathway;
 import de.firecreeper82.pathways.impl.door.DoorPathway;
 import de.firecreeper82.pathways.impl.fool.FoolPathway;
 import de.firecreeper82.pathways.impl.sun.SunPathway;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
@@ -90,7 +91,7 @@ public abstract class Pathway {
     //Called from BeyonderCmd, Plugin and PotionListener
     public static Pathway initializeNew(String pathway, UUID uuid, int sequence) {
         Pathway pathwayObject;
-        if(Plugin.beyonders.containsKey(uuid))
+        if (Plugin.beyonders.containsKey(uuid))
             return null;
         switch (pathway) {
             case "sun" -> {
@@ -144,7 +145,9 @@ public abstract class Pathway {
             case "demoness" -> {
                 return DemonessPathway.getNames();
             }
-            default -> {return null;}
+            default -> {
+                return null;
+            }
         }
     }
 

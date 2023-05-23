@@ -17,7 +17,7 @@ import org.bukkit.util.Vector;
 
 import java.util.Random;
 
-public class Tornado extends Disaster{
+public class Tornado extends Disaster {
 
     public Tornado(Player p) {
         super(p);
@@ -28,7 +28,7 @@ public class Tornado extends Disaster{
         Location location = loc.clone();
         World world = location.getWorld();
 
-        if(world == null)
+        if (world == null)
             return;
 
         //Particles
@@ -57,7 +57,7 @@ public class Tornado extends Disaster{
                 double spiralZ;
 
                 //Tornado rendering
-                while(height < 22) {
+                while (height < 22) {
                     spiralX = spiralRadius * Math.cos(spiral);
                     spiralZ = spiralRadius * Math.sin(spiral);
                     spiral += .25;
@@ -65,7 +65,7 @@ public class Tornado extends Disaster{
 
                     world.spawnParticle(Particle.CLOUD, location.getX() + spiralX, location.getY() + height, location.getZ() + spiralZ, 2, 1.25, 1.75, 1.25, 0);
 
-                    if(height >= 22) {
+                    if (height >= 22) {
                         break;
                     }
 
@@ -85,7 +85,7 @@ public class Tornado extends Disaster{
                 }
                 location.setY(tempLoc.getY() + 1);
 
-                if(random.nextInt(30) == 0)
+                if (random.nextInt(30) == 0)
                     currentDirection = new Vector(random.nextDouble(3) - 1.5, 0, random.nextDouble(3) - 1.5).normalize().multiply(.2);
 
                 //Entity movement
@@ -94,19 +94,18 @@ public class Tornado extends Disaster{
                 spiralVel += .25;
 
                 //Apply velocity to entities
-                for(Entity e : world.getNearbyEntities(location, 9.5, 20, 9.5)) {
-                    if(e == p)
+                for (Entity e : world.getNearbyEntities(location, 9.5, 20, 9.5)) {
+                    if (e == p)
                         continue;
 
-                    if(e instanceof LivingEntity livingEntity)
+                    if (e instanceof LivingEntity livingEntity)
                         livingEntity.damage(4, p);
 
                     Location pLoc = e.getLocation().clone();
                     pLoc.setY(location.getY());
-                    if(pLoc.distance(location) > 8.5) {
+                    if (pLoc.distance(location) > 8.5) {
                         e.setVelocity(location.clone().toVector().subtract(pLoc.toVector()).normalize().multiply(.35));
-                    }
-                    else {
+                    } else {
                         e.setVelocity(new Vector(spiralXVel, .25, spiralZVel));
                     }
                 }
@@ -121,7 +120,7 @@ public class Tornado extends Disaster{
                 block.setType(Material.AIR);
 
                 counter++;
-                if(counter >= 500) {
+                if (counter >= 500) {
                     cancel();
                 }
 

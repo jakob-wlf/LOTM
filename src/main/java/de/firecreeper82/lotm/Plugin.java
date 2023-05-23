@@ -2,11 +2,11 @@ package de.firecreeper82.lotm;
 
 import de.firecreeper82.cmds.*;
 import de.firecreeper82.handlers.blocks.BlockHandler;
+import de.firecreeper82.handlers.mobs.BeyonderMobsHandler;
 import de.firecreeper82.handlers.mobs.beyonders.RogueBeyonders;
 import de.firecreeper82.handlers.spirits.SpiritHandler;
 import de.firecreeper82.handlers.spirits.SpiritWorld;
 import de.firecreeper82.listeners.*;
-import de.firecreeper82.handlers.mobs.BeyonderMobsHandler;
 import de.firecreeper82.pathways.*;
 import de.firecreeper82.pathways.impl.demoness.DemonessPotions;
 import de.firecreeper82.pathways.impl.door.DoorPotions;
@@ -26,11 +26,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.util.*;
 
-public final class Plugin extends JavaPlugin{
+public final class Plugin extends JavaPlugin {
 
     public static Plugin instance;
     public static String prefix;
@@ -70,14 +73,16 @@ public final class Plugin extends JavaPlugin{
 
         names = new ArrayList<>();
 
-        for(int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++) {
             temp.add(i);
         }
 
         randomUUID = UUID.fromString("1af36f3a-d8a3-11ed-afa1-0242ac120002");
 
-        try { characteristic = new Characteristic(); }
-        catch (MalformedURLException ignored) {}
+        try {
+            characteristic = new Characteristic();
+        } catch (MalformedURLException ignored) {
+        }
 
         recipe = new Recipe();
 
@@ -101,7 +106,7 @@ public final class Plugin extends JavaPlugin{
 
         createSaveConfigFoH();
 
-        for(World world : Bukkit.getWorlds()) {
+        for (World world : Bukkit.getWorlds()) {
             world.setGameRule(GameRule.DO_IMMEDIATE_RESPAWN, true);
         }
     }
@@ -138,7 +143,7 @@ public final class Plugin extends JavaPlugin{
 
     private void registerEvents(Listener... listeners) {
         PluginManager pl = this.getServer().getPluginManager();
-        for(Listener listener : listeners) {
+        for (Listener listener : listeners) {
             pl.registerEvents(listener, this);
         }
     }
@@ -157,7 +162,7 @@ public final class Plugin extends JavaPlugin{
         FileConfiguration configNames = new YamlConfiguration();
 
 
-        if(!namesFile.exists()) {
+        if (!namesFile.exists()) {
             saveResource("names.yml", true);
         }
 
@@ -182,7 +187,7 @@ public final class Plugin extends JavaPlugin{
 
         saveResource("fools.yml", true);
 
-        for(FogOfHistory foh : fogOfHistories.values()) {
+        for (FogOfHistory foh : fogOfHistories.values()) {
             try {
                 saveFoH(foh);
                 configSaveFoh.save(configSaveFileFoh);
@@ -202,7 +207,7 @@ public final class Plugin extends JavaPlugin{
     private void saveFoH(FogOfHistory foh) throws IOException {
         Bukkit.getConsoleSender().sendMessage(prefix + "§aSaving Fog of History Inventories");
 
-        for(int i = 0; i < foh.getItems().size(); i++) {
+        for (int i = 0; i < foh.getItems().size(); i++) {
             configSaveFoh.set("fools." + foh.getPathway().getBeyonder().getUuid() + ("." + i), foh.getItems().get(i));
         }
     }
@@ -210,8 +215,8 @@ public final class Plugin extends JavaPlugin{
     //create the config file if it doesn't exist and then load the config
     public void createSaveConfig() throws InterruptedException {
         configSaveFile = new File(getDataFolder(), "beyonders.yml");
-        if(!configSaveFile.exists()) {
-            if(configSaveFile.getParentFile().mkdirs())
+        if (!configSaveFile.exists()) {
+            if (configSaveFile.getParentFile().mkdirs())
                 saveResource("beyonders.yml", false);
 
             else
@@ -223,8 +228,7 @@ public final class Plugin extends JavaPlugin{
         configSave = new YamlConfiguration();
         try {
             configSave.load(configSaveFile);
-        }
-        catch (InvalidConfigurationException | IOException exc) {
+        } catch (InvalidConfigurationException | IOException exc) {
             Bukkit.getConsoleSender().sendMessage(exc.getLocalizedMessage());
         }
         load();
@@ -233,7 +237,7 @@ public final class Plugin extends JavaPlugin{
     //create the config foh file if it doesn't exist and then load the config foh
     private void createSaveConfigFoH() {
         configSaveFileFoh = new File(getDataFolder(), "fools.yml");
-        if(!configSaveFileFoh.exists()) {
+        if (!configSaveFileFoh.exists()) {
             saveResource("fools.yml", true);
         }
 
@@ -241,8 +245,7 @@ public final class Plugin extends JavaPlugin{
 
         try {
             configSaveFoh.load(configSaveFileFoh);
-        }
-        catch (InvalidConfigurationException | IOException exc) {
+        } catch (InvalidConfigurationException | IOException exc) {
             Bukkit.getConsoleSender().sendMessage(exc.getLocalizedMessage());
         }
 
@@ -255,8 +258,7 @@ public final class Plugin extends JavaPlugin{
         configSave.set("beyonders." + uuid, null);
         try {
             configSave.save(configSaveFile);
-        }
-        catch(IOException exc) {
+        } catch (IOException exc) {
             Bukkit.getConsoleSender().sendMessage(exc.getLocalizedMessage());
         }
     }
@@ -269,7 +271,7 @@ public final class Plugin extends JavaPlugin{
     public void save() throws IOException {
         Bukkit.getConsoleSender().sendMessage(prefix + "§aSaving Beyonders");
 
-        for(Map.Entry<UUID, Beyonder> entry : beyonders.entrySet()) {
+        for (Map.Entry<UUID, Beyonder> entry : beyonders.entrySet()) {
             configSave.set("beyonders." + entry.getKey() + ".pathway", entry.getValue().getPathway().getNameNormalized());
             configSave.set("beyonders." + entry.getKey() + ".sequence", entry.getValue().getPathway().getSequence().getCurrentSequence());
         }
@@ -278,26 +280,26 @@ public final class Plugin extends JavaPlugin{
 
 
     public void loadFoh() {
-        if(configSaveFoh.getConfigurationSection("fools") == null)
+        if (configSaveFoh.getConfigurationSection("fools") == null)
             return;
 
-        for(String s : Objects.requireNonNull(configSaveFoh.getConfigurationSection("fools")).getKeys(false)) {
-            if(fogOfHistories.get(UUID.fromString(s)) == null)
+        for (String s : Objects.requireNonNull(configSaveFoh.getConfigurationSection("fools")).getKeys(false)) {
+            if (fogOfHistories.get(UUID.fromString(s)) == null)
                 return;
 
-            if(configSaveFoh.get("fools." + s) == null)
+            if (configSaveFoh.get("fools." + s) == null)
                 return;
 
-            for(String t : Objects.requireNonNull(configSaveFoh.getConfigurationSection("fools." + s)).getKeys(false)) {
+            for (String t : Objects.requireNonNull(configSaveFoh.getConfigurationSection("fools." + s)).getKeys(false)) {
                 int i = parseInt(t);
-                if(i == -1)
+                if (i == -1)
                     return;
 
                 ItemStack item = configSaveFoh.getItemStack("fools." + s + "." + i);
-                if(item == null)
+                if (item == null)
                     continue;
-                for(FogOfHistory fogOfHistory : fogOfHistories.values()) {
-                    if(fogOfHistory.getPathway().getBeyonder().getUuid().equals(UUID.fromString(s))) {
+                for (FogOfHistory fogOfHistory : fogOfHistories.values()) {
+                    if (fogOfHistory.getPathway().getBeyonder().getUuid().equals(UUID.fromString(s))) {
                         fogOfHistory.addItem(item);
                     }
                 }
@@ -309,29 +311,27 @@ public final class Plugin extends JavaPlugin{
     public Integer parseInt(String s) {
         try {
             return Integer.parseInt(s);
-        }
-        catch (NumberFormatException exception) {
+        } catch (NumberFormatException exception) {
             return -1;
         }
     }
 
     //load all the beyonders from beyonders.yml and initialize their pathways
     public void load() {
-        if(configSave.getConfigurationSection("beyonders") == null) {
+        if (configSave.getConfigurationSection("beyonders") == null) {
             configSave.set("beyonders.uuid.pathway", "pathway-name");
             configSave.set("beyonders.uuid.sequence", "sequence");
         }
-        for(String s : Objects.requireNonNull(configSave.getConfigurationSection("beyonders")).getKeys(false)) {
-            if(s.equals("uuid"))
+        for (String s : Objects.requireNonNull(configSave.getConfigurationSection("beyonders")).getKeys(false)) {
+            if (s.equals("uuid"))
                 continue;
             try {
-                if(!configSave.contains("beyonders." + s + ".sequence") || !(configSave.get("beyonders." + s + ".sequence") instanceof Integer sequence))
+                if (!configSave.contains("beyonders." + s + ".sequence") || !(configSave.get("beyonders." + s + ".sequence") instanceof Integer sequence))
                     return;
 
                 int primitiveSequence = sequence;
                 Pathway.initializeNew((String) Objects.requireNonNull(configSave.get("beyonders." + s + ".pathway")), UUID.fromString(s), primitiveSequence);
-            }
-            catch (Exception exception) {
+            } catch (Exception exception) {
                 Bukkit.getConsoleSender().sendMessage("Failed to initialize " + s);
 
                 //Error message

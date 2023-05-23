@@ -2,7 +2,6 @@ package de.firecreeper82.pathways.impl.sun.abilities;
 
 import de.firecreeper82.lotm.Beyonder;
 import de.firecreeper82.lotm.Plugin;
-import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.Recordable;
@@ -27,7 +26,7 @@ public class Illuminate extends Recordable {
 
     @Override
     public void useAbility(Player p, double multiplier, Beyonder beyonder, boolean recorded) {
-        if(!recorded)
+        if (!recorded)
             pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
         destroy(beyonder, recorded);
@@ -39,7 +38,7 @@ public class Illuminate extends Recordable {
         while (iter.hasNext()) {
             previousBlock = lastBlock;
             lastBlock = iter.next();
-            if(lastBlock.getType().isSolid()) {
+            if (lastBlock.getType().isSolid()) {
                 lastBlock = previousBlock;
                 break;
             }
@@ -53,6 +52,7 @@ public class Illuminate extends Recordable {
 
         new BukkitRunnable() {
             int counter = 0;
+
             @Override
             public void run() {
                 counter++;
@@ -66,11 +66,11 @@ public class Illuminate extends Recordable {
 
                 loc.getWorld().spawnParticle(Particle.END_ROD, loc, 5, 0.25, 0.25, 0.25, 0);
 
-                if(counter == 2 * 20) {
+                if (counter == 2 * 20) {
                     pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                 }
 
-                if(counter >= 15 * 20) {
+                if (counter >= 15 * 20) {
                     loc.getBlock().setType(Material.AIR);
                     cancel();
                 }

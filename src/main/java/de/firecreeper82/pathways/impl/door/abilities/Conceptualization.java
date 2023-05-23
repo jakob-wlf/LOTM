@@ -34,11 +34,12 @@ public class Conceptualization extends Ability {
 
         new BukkitRunnable() {
             int counter = 20;
+
             @Override
             public void run() {
                 p.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, p.getEyeLocation(), 300, 1.1, 1.1, 1.1, 0);
 
-                for(Player player : Bukkit.getOnlinePlayers()) {
+                for (Player player : Bukkit.getOnlinePlayers()) {
                     player.hidePlayer(Plugin.instance, p);
                 }
 
@@ -48,8 +49,8 @@ public class Conceptualization extends Ability {
                 p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 5, 1, false, false, false));
                 p.setFireTicks(0);
 
-                if(!pathway.getSequence().getUsesAbilities()[identifier - 1] || pathway.getBeyonder().getSpirituality() <= 220) {
-                    for(Player player : Bukkit.getOnlinePlayers()) {
+                if (!pathway.getSequence().getUsesAbilities()[identifier - 1] || pathway.getBeyonder().getSpirituality() <= 220) {
+                    for (Player player : Bukkit.getOnlinePlayers()) {
                         player.showPlayer(Plugin.instance, p);
                     }
                     p.setAllowFlight(couldFly);
@@ -61,7 +62,7 @@ public class Conceptualization extends Ability {
 
                 counter--;
 
-                if(counter <= 0) {
+                if (counter <= 0) {
                     counter = 20;
                     pathway.getSequence().removeSpirituality(420);
                 }

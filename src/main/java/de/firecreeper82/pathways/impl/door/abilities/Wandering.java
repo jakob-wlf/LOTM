@@ -34,8 +34,8 @@ public class Wandering extends Ability implements Listener {
 
         loc.setWorld(Bukkit.getWorld(dimension.id));
 
-        for(int i = 0; i < 200; i++) {
-            if(!loc.getBlock().getType().isSolid())
+        for (int i = 0; i < 200; i++) {
+            if (!loc.getBlock().getType().isSolid())
                 break;
 
             loc.add(0, 1, 0);
@@ -68,7 +68,7 @@ public class Wandering extends Ability implements Listener {
     public void leftClick() {
         selected++;
 
-        if(selected >= dimensions.length)
+        if (selected >= dimensions.length)
             selected = 0;
 
         dimension = dimensions[selected];

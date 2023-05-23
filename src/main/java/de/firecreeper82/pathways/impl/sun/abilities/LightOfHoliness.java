@@ -2,7 +2,6 @@ package de.firecreeper82.pathways.impl.sun.abilities;
 
 import de.firecreeper82.lotm.Beyonder;
 import de.firecreeper82.lotm.Plugin;
-import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.Recordable;
@@ -26,7 +25,7 @@ public class LightOfHoliness extends Recordable {
 
     @Override
     public void useAbility(Player p, double multiplier, Beyonder beyonder, boolean recorded) {
-        if(!recorded)
+        if (!recorded)
             pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
         destroy(beyonder, recorded);
@@ -48,6 +47,7 @@ public class LightOfHoliness extends Recordable {
         final Material[] lastMaterial = {loc.getBlock().getType()};
         new BukkitRunnable() {
             int counter = 0;
+
             @Override
             public void run() {
                 counter++;
@@ -64,12 +64,12 @@ public class LightOfHoliness extends Recordable {
                 loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX() + 3, loc.getY(), loc.getZ() - 3, 15, 0.15, 0, 0.15, 0, dust);
 
 
-                for(double i = 0; i < 3.8; i+=0.4) {
-                    for(int j = 0; j < 40; j++) {
+                for (double i = 0; i < 3.8; i += 0.4) {
+                    for (int j = 0; j < 40; j++) {
                         double x = i * Math.cos(j);
                         double z = i * Math.sin(j);
                         loc.getWorld().spawnParticle(Particle.END_ROD, loc.getX() + x, loc.getY(), loc.getZ() + z, 2, 0.1, 0.2, 0.1, 0);
-                        if((int) loc.getY() % 2 == 0)
+                        if ((int) loc.getY() % 2 == 0)
                             loc.getWorld().spawnParticle(Particle.FLAME, loc.getX() + x, loc.getY() + 0.25, loc.getZ() + z, 1, 0.2, 0, 0.2, 0);
                     }
                 }
@@ -81,7 +81,7 @@ public class LightOfHoliness extends Recordable {
                 loc.getBlock().setType(Material.LIGHT);
 
                 //Reached ground
-                if((lastMaterial[0].isSolid() && counter >= 17) || counter >= 200) {
+                if ((lastMaterial[0].isSolid() && counter >= 17) || counter >= 200) {
                     loc.getBlock().setType(lastMaterial[0]);
                     counter = 0;
                     cancel();
@@ -104,14 +104,14 @@ public class LightOfHoliness extends Recordable {
                             lightLoc.add(0, 0, -2).getBlock()
                     };
 
-                    for(Block b : lightBlock) {
+                    for (Block b : lightBlock) {
                         b.setType(Material.LIGHT);
                     }
 
                     new BukkitRunnable() {
                         @Override
                         public void run() {
-                            for(int i = 0; i < lightBlock.length; i++) {
+                            for (int i = 0; i < lightBlock.length; i++) {
                                 Block b = lightBlock[i];
                                 b.setType(lightMaterial[i]);
                             }
@@ -120,40 +120,40 @@ public class LightOfHoliness extends Recordable {
 
                     //Replace the ground with burned stuff
                     int burnRadius = 8;
-                    for(int i = 2; i > -4; i--) {
+                    for (int i = 2; i > -4; i--) {
                         for (int x = -burnRadius; x <= burnRadius; x++) {
                             for (int z = -burnRadius; z <= burnRadius; z++) {
-                                if( (x*x) + (z*z) <= Math.pow(burnRadius, 2)) {
+                                if ((x * x) + (z * z) <= Math.pow(burnRadius, 2)) {
                                     Block block = p.getWorld().getBlockAt((int) loc.getX() + x, (int) loc.getY() + i, (int) loc.getZ() + z);
-                                    if(block.getType() == Material.DIRT || block.getType() == Material.DIRT_PATH || block.getType() == Material.COARSE_DIRT || block.getType() == Material.ROOTED_DIRT || block.getType() == Material.GRASS_BLOCK)
+                                    if (block.getType() == Material.DIRT || block.getType() == Material.DIRT_PATH || block.getType() == Material.COARSE_DIRT || block.getType() == Material.ROOTED_DIRT || block.getType() == Material.GRASS_BLOCK)
                                         block.setType(Material.NETHERRACK);
-                                    if(block.getType() == Material.STONE || block.getType() == Material.COBBLESTONE || block.getType() == Material.DIORITE || block.getType() == Material.ANDESITE || block.getType() == Material.GRANITE || block.getType() == Material.DEEPSLATE || block.getType() == Material.TUFF || block.getType() == Material.CALCITE || block.getType() == Material.GRAVEL)
+                                    if (block.getType() == Material.STONE || block.getType() == Material.COBBLESTONE || block.getType() == Material.DIORITE || block.getType() == Material.ANDESITE || block.getType() == Material.GRANITE || block.getType() == Material.DEEPSLATE || block.getType() == Material.TUFF || block.getType() == Material.CALCITE || block.getType() == Material.GRAVEL)
                                         block.setType(Material.BASALT);
-                                    if(block.getType() == Material.WATER)
+                                    if (block.getType() == Material.WATER)
                                         block.setType(Material.AIR);
-                                    if(block.getType() == Material.AIR || block.getType() == Material.CAVE_AIR) {
+                                    if (block.getType() == Material.AIR || block.getType() == Material.CAVE_AIR) {
                                         Random rand = new Random();
-                                        if(rand.nextInt(4) == 0) {
+                                        if (rand.nextInt(4) == 0) {
                                             block.setType(Material.FIRE);
                                         }
                                     }
-                                    if(block.getType() == Material.SAND || block.getType() == Material.RED_SAND)
+                                    if (block.getType() == Material.SAND || block.getType() == Material.RED_SAND)
                                         block.setType(Material.GLASS);
-                                    }
                                 }
                             }
                         }
+                    }
 
 
                     //damage nearby entities
                     ArrayList<Entity> nearbyEntities = (ArrayList<Entity>) loc.getWorld().getNearbyEntities(loc, 15, 15, 15);
-                    for(Entity entity : nearbyEntities) {
-                        if(entity instanceof LivingEntity livingEntity) {
+                    for (Entity entity : nearbyEntities) {
+                        if (entity instanceof LivingEntity livingEntity) {
                             if (livingEntity.getCategory() == EntityCategory.UNDEAD) {
                                 ((Damageable) entity).damage(32 * multiplier, p);
                                 entity.setFireTicks(100);
                             } else {
-                                if(entity != p)  {
+                                if (entity != p) {
                                     ((Damageable) entity).damage(18 * multiplier, p);
                                     entity.setFireTicks(100);
                                 }
@@ -167,16 +167,17 @@ public class LightOfHoliness extends Recordable {
 
                     new BukkitRunnable() {
                         double radiusFlame = 1.8;
+
                         @Override
                         public void run() {
                             radiusFlame = radiusFlame + 0.75;
-                            for(int j = 0; j < 150; j++) {
+                            for (int j = 0; j < 150; j++) {
                                 double x = radiusFlame * Math.cos(j);
                                 double z = radiusFlame * Math.sin(j);
                                 loc.getWorld().spawnParticle(Particle.FLAME, loc.getX() + x, loc.getY(), loc.getZ() + z, 5, 0, 0, 0, 0);
                             }
 
-                            if(radiusFlame >= 11) {
+                            if (radiusFlame >= 11) {
                                 cancel();
                             }
                         }
@@ -184,10 +185,11 @@ public class LightOfHoliness extends Recordable {
 
                     new BukkitRunnable() {
                         double radius = 1.8;
+
                         @Override
                         public void run() {
                             radius = radius + 0.75;
-                            for(int i = 0; i < 150; i++) {
+                            for (int i = 0; i < 150; i++) {
                                 double x = radius * Math.cos(i);
                                 double z = radius * Math.sin(i);
                                 loc.getWorld().spawnParticle(Particle.END_ROD, loc.getX() + x, loc.getY(), loc.getZ() + z, 1, 0, 0, 0, 0);
@@ -195,7 +197,7 @@ public class LightOfHoliness extends Recordable {
                                 loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX() + x + 0.2, loc.getY(), loc.getZ() + z + 0.2, 3, dustRipple);
                             }
 
-                            if(radius >= 14) {
+                            if (radius >= 14) {
                                 cancel();
                                 pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                             }

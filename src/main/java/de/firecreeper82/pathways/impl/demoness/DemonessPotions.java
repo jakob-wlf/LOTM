@@ -1,11 +1,9 @@
 package de.firecreeper82.pathways.impl.demoness;
 
 import de.firecreeper82.lotm.Plugin;
-import de.firecreeper82.lotm.util.BeyonderItems;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.Potion;
 import org.bukkit.Color;
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;

@@ -28,8 +28,8 @@ public class RoosterAbility extends MobUsableAbility {
         Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(0, 215, 255), 1f);
         user.getWorld().spawnParticle(Particle.REDSTONE, user.getLocation(), 200, 2, 2, 2, dust);
         user.getWorld().spawnParticle(Particle.END_ROD, user.getLocation(), 350, 0.5, 0.5, 0.5, .25);
-        for(Entity entity : user.getNearbyEntities(5, 5, 5)) {
-            if(entity instanceof Damageable damageable)
+        for (Entity entity : user.getNearbyEntities(5, 5, 5)) {
+            if (entity instanceof Damageable damageable)
                 damageable.damage(16, user);
         }
     }

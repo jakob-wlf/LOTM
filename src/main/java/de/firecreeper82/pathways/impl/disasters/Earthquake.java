@@ -32,40 +32,41 @@ public class Earthquake extends Disaster implements Listener {
         final Location startLoc = loc.clone();
         final World world = startLoc.getWorld();
 
-        if(world == null)
+        if (world == null)
             return;
 
         final Particle.DustOptions dust = new Particle.DustOptions(Color.fromRGB(110, 38, 14), 3f);
         final Random random = new Random();
 
-        new BukkitRunnable()  {
+        new BukkitRunnable() {
             int counter = 20 * 60;
+
             @Override
             public void run() {
                 counter--;
-                if(counter <= 0) {
+                if (counter <= 0) {
                     cancel();
                     return;
                 }
 
-                for(Entity entity : world.getNearbyEntities(startLoc, 60, 60, 60)) {
-                    if(entity == p || !(entity instanceof LivingEntity livingEntity))
+                for (Entity entity : world.getNearbyEntities(startLoc, 60, 60, 60)) {
+                    if (entity == p || !(entity instanceof LivingEntity livingEntity))
                         continue;
 
-                    if(!entity.isOnGround())
+                    if (!entity.isOnGround())
                         continue;
 
                     livingEntity.damage(4, p);
-                    if(counter % 15 == 0)
+                    if (counter % 15 == 0)
                         livingEntity.setVelocity(new Vector(random.nextDouble(-1, 1), 0, random.nextDouble(-1, 1)));
                 }
 
-                for(int j = 0; j < 12; j++) {
+                for (int j = 0; j < 12; j++) {
                     Block b = startLoc.clone().add(random.nextInt(-35, 35), random.nextInt(-5, 15), random.nextInt(-35, 35)).getBlock();
-                    for(int i = 0; i < 55; i++) {
+                    for (int i = 0; i < 55; i++) {
                         Material m = b.getType();
 
-                        if(m == Material.AIR)
+                        if (m == Material.AIR)
                             continue;
 
                         b.setType(Material.AIR);
@@ -79,7 +80,7 @@ public class Earthquake extends Disaster implements Listener {
                     }
                 }
 
-                if(counter % 20 == 0)
+                if (counter % 20 == 0)
                     world.spawnParticle(Particle.REDSTONE, startLoc, 400, 35, 0, 35, dust);
             }
         }.runTaskTimer(Plugin.instance, 0, 0);
@@ -87,9 +88,9 @@ public class Earthquake extends Disaster implements Listener {
 
     @EventHandler
     public void onEntityToBlockConvert(EntityChangeBlockEvent e) {
-        if(!(e.getEntity() instanceof FallingBlock fallingBlock))
+        if (!(e.getEntity() instanceof FallingBlock fallingBlock))
             return;
-        if(!fallingBlocks.contains(fallingBlock))
+        if (!fallingBlocks.contains(fallingBlock))
             return;
 
         fallingBlocks.remove(fallingBlock);

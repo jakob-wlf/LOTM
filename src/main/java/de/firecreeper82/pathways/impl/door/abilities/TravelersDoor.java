@@ -45,8 +45,8 @@ public class TravelersDoor extends Ability implements Listener {
         Vector dir = p.getEyeLocation().getDirection().normalize();
         Location loc = p.getEyeLocation();
 
-        for(int i = 0; i < 5; i++) {
-            if(loc.getBlock().getType().isSolid())
+        for (int i = 0; i < 5; i++) {
+            if (loc.getBlock().getType().isSolid())
                 break;
             loc.add(dir);
         }
@@ -54,7 +54,7 @@ public class TravelersDoor extends Ability implements Listener {
         loc.subtract(dir);
         loc.add(0, .4, 0);
 
-        if(loc.getWorld() == null)
+        if (loc.getWorld() == null)
             return;
 
         new BukkitRunnable() {
@@ -62,17 +62,17 @@ public class TravelersDoor extends Ability implements Listener {
             public void run() {
                 drawDoor(loc);
 
-                if(!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
+                if (!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
                     cancel();
                     return;
                 }
 
-                for(Entity entity : loc.getWorld().getNearbyEntities(loc, .5, .5, .5)) {
-                    if(!(entity instanceof Player player))
+                for (Entity entity : loc.getWorld().getNearbyEntities(loc, .5, .5, .5)) {
+                    if (!(entity instanceof Player player))
                         continue;
 
-                    if(player != p) {
-                        if(teleportedPlayers.containsKey(player))
+                    if (player != p) {
+                        if (teleportedPlayers.containsKey(player))
                             continue;
                         GameMode prevGameModeTeleport = player.getGameMode();
                         teleportedPlayers.put(player, prevGameModeTeleport);
@@ -80,17 +80,18 @@ public class TravelersDoor extends Ability implements Listener {
 
                         new BukkitRunnable() {
                             int counter = 0;
+
                             @Override
                             public void run() {
                                 counter++;
-                                if(counter >= 20 * 30 && !isTeleporting) {
+                                if (counter >= 20 * 30 && !isTeleporting) {
                                     cancel();
                                     player.setGameMode(teleportedPlayers.get(player));
                                     teleportedPlayers.remove(player);
                                     return;
                                 }
 
-                                if(isTeleporting)
+                                if (isTeleporting)
                                     cancel();
                             }
                         }.runTaskTimer(Plugin.instance, 0, 0);
@@ -104,17 +105,18 @@ public class TravelersDoor extends Ability implements Listener {
 
                     new BukkitRunnable() {
                         int counter = 0;
+
                         @Override
                         public void run() {
-                            if(!isTeleporting)
+                            if (!isTeleporting)
                                 cancel();
                             p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§bLeft Click to travel here"));
 
-                            for(Player teleportedPlayer : teleportedPlayers.keySet()) {
+                            for (Player teleportedPlayer : teleportedPlayers.keySet()) {
                                 teleportedPlayer.teleport(p.getLocation());
                             }
 
-                            if(counter >= 20 * 60 * 10) {
+                            if (counter >= 20 * 60 * 10) {
                                 stopTeleporting();
                                 cancel();
                                 return;
@@ -161,14 +163,14 @@ public class TravelersDoor extends Ability implements Listener {
     };
 
     private void stopTeleporting() {
-        if(!isTeleporting)
+        if (!isTeleporting)
             return;
         p = pathway.getBeyonder().getPlayer();
         isTeleporting = false;
 
         p.spawnParticle(Particle.SPELL_WITCH, p.getEyeLocation().subtract(0, .5, 0), 75, .75, .75, .75, 0);
 
-        for(Map.Entry<Player, GameMode> entry : teleportedPlayers.entrySet()) {
+        for (Map.Entry<Player, GameMode> entry : teleportedPlayers.entrySet()) {
             entry.getKey().setGameMode(entry.getValue());
             Bukkit.broadcastMessage(entry.getKey() + " -- " + entry.getValue());
         }
@@ -180,7 +182,7 @@ public class TravelersDoor extends Ability implements Listener {
 
     private void drawDoor(Location loc) {
 
-        if(loc.getWorld() == null)
+        if (loc.getWorld() == null)
             return;
 
         double space = 0.24;
@@ -207,7 +209,7 @@ public class TravelersDoor extends Ability implements Listener {
                     loc.add(v2);
 
                     Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(255, 251, 0), .4f);
-                    if(j == 1)
+                    if (j == 1)
                         dust = new Particle.DustOptions(Color.fromBGR(150, 12, 171), .55f);
                     loc.getWorld().spawnParticle(Particle.REDSTONE, loc, 3, .05, .05, .05, dust);
 
@@ -224,7 +226,7 @@ public class TravelersDoor extends Ability implements Listener {
     @EventHandler
     public void onInterAct(PlayerInteractEvent e) {
         p = pathway.getBeyonder().getPlayer();
-        if(!isTeleporting || e.getPlayer() != p)
+        if (!isTeleporting || e.getPlayer() != p)
             return;
 
         stopTeleporting();

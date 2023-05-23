@@ -86,7 +86,7 @@ public class Beyonder implements Listener {
 
         pathway.init();
 
-        if(getPlayer() == null || !Bukkit.getOnlinePlayers().contains(getPlayer()))
+        if (getPlayer() == null || !Bukkit.getOnlinePlayers().contains(getPlayer()))
             return;
 
         initializedOnce = true;
@@ -104,14 +104,14 @@ public class Beyonder implements Listener {
     @EventHandler
     //Restarts everything when Beyonder rejoins
     public void onJoin(PlayerJoinEvent e) {
-        if(!e.getPlayer().getUniqueId().equals(uuid))
+        if (!e.getPlayer().getUniqueId().equals(uuid))
             return;
-        if(!beyonder)
+        if (!beyonder)
             return;
 
         pathway.setBeyonder(this);
 
-        if(!initializedOnce) {
+        if (!initializedOnce) {
             pathway.initItems();
             initializedOnce = true;
         }
@@ -121,9 +121,9 @@ public class Beyonder implements Listener {
     @EventHandler
     //Stops everything when Beyonder leaves
     public void onLeave(PlayerQuitEvent e) {
-        if(!e.getPlayer().getUniqueId().equals(uuid))
+        if (!e.getPlayer().getUniqueId().equals(uuid))
             return;
-        if(!beyonder)
+        if (!beyonder)
             return;
         online = false;
     }
@@ -131,39 +131,39 @@ public class Beyonder implements Listener {
     @EventHandler
     //Removes Items on Death
     public void onDeath(PlayerDeathEvent e) {
-        if(!beyonder)
+        if (!beyonder)
             return;
-        if(e.getEntity() != getPlayer())
+        if (e.getEntity() != getPlayer())
             return;
         Player p = e.getEntity();
         Location deathLoc = p.getLocation();
 
-        if(pathway.getSequence() == null)
+        if (pathway.getSequence() == null)
             return;
 
 
-        if(pathway instanceof FoolPathway && pathway.getSequence().getCurrentSequence() <= 2 && resurrections < 5 && !loosingControl) {
+        if (pathway instanceof FoolPathway && pathway.getSequence().getCurrentSequence() <= 2 && resurrections < 5 && !loosingControl) {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    if(deathLoc.getWorld() == null)
+                    if (deathLoc.getWorld() == null)
                         return;
 
-                    for(Entity entity : deathLoc.getWorld().getNearbyEntities(deathLoc, 20, 20, 20)) {
-                        if(!(entity instanceof Item))
+                    for (Entity entity : deathLoc.getWorld().getNearbyEntities(deathLoc, 20, 20, 20)) {
+                        if (!(entity instanceof Item))
                             continue;
 
                         entity.remove();
                     }
 
-                    for(ItemStack item : e.getDrops()) {
+                    for (ItemStack item : e.getDrops()) {
                         p.getInventory().addItem(item);
                     }
 
                     p.teleport(deathLoc);
 
-                    for(Ability ability : pathway.getSequence().getAbilities()) {
-                        if(ability instanceof Hiding hiding)
+                    for (Ability ability : pathway.getSequence().getAbilities()) {
+                        if (ability instanceof Hiding hiding)
                             hiding.useAbility();
                     }
 
@@ -176,20 +176,20 @@ public class Beyonder implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if(deathLoc.getWorld() == null)
+                if (deathLoc.getWorld() == null)
                     return;
 
-                for(Entity entity : deathLoc.getWorld().getNearbyEntities(deathLoc, 20, 20, 20)) {
-                    if(!(entity instanceof Item item))
+                for (Entity entity : deathLoc.getWorld().getNearbyEntities(deathLoc, 20, 20, 20)) {
+                    if (!(entity instanceof Item item))
                         continue;
 
-                    for(ItemStack itemStack : pathway.getItems().returnItemsFromSequence(pathway.getSequence().getCurrentSequence())) {
-                        if(itemStack.isSimilar(item.getItemStack()))
+                    for (ItemStack itemStack : pathway.getItems().returnItemsFromSequence(pathway.getSequence().getCurrentSequence())) {
+                        if (itemStack.isSimilar(item.getItemStack()))
                             entity.remove();
                     }
 
-                    for(Recordable recordable : pathway.getSequence().getRecordables()) {
-                        if(recordable.getItem().isSimilar(item.getItemStack()))
+                    for (Recordable recordable : pathway.getSequence().getRecordables()) {
+                        if (recordable.getItem().isSimilar(item.getItemStack()))
                             entity.remove();
                     }
                 }
@@ -216,7 +216,7 @@ public class Beyonder implements Listener {
         team.setAllowFriendlyFire(false);
         team.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.ALWAYS);
 
-        if(!initializedOnce) {
+        if (!initializedOnce) {
             //acting initializing
             digested = false;
             actingNeeded = Math.pow((float) (100 / pathway.getSequence().getCurrentSequence()), 2);
@@ -236,12 +236,12 @@ public class Beyonder implements Listener {
             @Override
             public void run() {
                 //Cancel and return if player, sequence is null or player is not online
-                if(!beyonder || !online || getPlayer() == null || pathway.getSequence() == null) {
+                if (!beyonder || !online || getPlayer() == null || pathway.getSequence() == null) {
                     cancel();
                     return;
                 }
 
-                if(loosingControl)
+                if (loosingControl)
                     return;
 
                 Player p = getPlayer();
@@ -254,10 +254,11 @@ public class Beyonder implements Listener {
         //constant loop
         new BukkitRunnable() {
             int counter = 0;
+
             @Override
             public void run() {
                 //Cancel and return if player, sequence is null or player is not online
-                if(!beyonder || !online || getPlayer() == null || pathway.getSequence() == null) {
+                if (!beyonder || !online || getPlayer() == null || pathway.getSequence() == null) {
                     cancel();
                     return;
                 }
@@ -266,7 +267,7 @@ public class Beyonder implements Listener {
                 counter++;
                 updateBoard();
 
-                if(spirituality <= maxSpirituality / 100 && !loosingControl) {
+                if (spirituality <= maxSpirituality / 100 && !loosingControl) {
                     looseControl(95, 10);
                 }
 
@@ -274,25 +275,24 @@ public class Beyonder implements Listener {
                 if (spirituality < maxSpirituality && counter >= 8) {
                     counter = 0;
                     spirituality += (maxSpirituality / 200);
-                    if(spirituality > maxSpirituality)
+                    if (spirituality > maxSpirituality)
                         spirituality = maxSpirituality;
                 }
 
-                if(loosingControl)
+                if (loosingControl)
                     return;
 
                 Player p = getPlayer();
 
                 //passive effects
-                if(pathway.getSequence().getSequenceEffects().containsKey(pathway.getSequence().getCurrentSequence())) {
-                    for(PotionEffect effect : pathway.getSequence().getSequenceEffects().get(pathway.getSequence().getCurrentSequence())) {
+                if (pathway.getSequence().getSequenceEffects().containsKey(pathway.getSequence().getCurrentSequence())) {
+                    for (PotionEffect effect : pathway.getSequence().getSequenceEffects().get(pathway.getSequence().getCurrentSequence())) {
                         p.addPotionEffect(effect);
                     }
-                }
-                else {
-                    for(int i = pathway.getSequence().getCurrentSequence(); i < 10; i++) {
-                        if(pathway.getSequence().getSequenceEffects().containsKey(i)) {
-                            for(PotionEffect effect : pathway.getSequence().getSequenceEffects().get(i)) {
+                } else {
+                    for (int i = pathway.getSequence().getCurrentSequence(); i < 10; i++) {
+                        if (pathway.getSequence().getSequenceEffects().containsKey(i)) {
+                            for (PotionEffect effect : pathway.getSequence().getSequenceEffects().get(i)) {
                                 p.addPotionEffect(effect);
                             }
                             break;
@@ -301,20 +301,19 @@ public class Beyonder implements Listener {
                 }
 
                 //passive resistances
-                if(pathway.getSequence().getSequenceResistances().containsKey(pathway.getSequence().getCurrentSequence())) {
-                    for(PotionEffectType effect : pathway.getSequence().getSequenceResistances().get(pathway.getSequence().getCurrentSequence())) {
-                        for(PotionEffect potion : p.getActivePotionEffects()) {
-                            if(potion.getType() == effect) {
+                if (pathway.getSequence().getSequenceResistances().containsKey(pathway.getSequence().getCurrentSequence())) {
+                    for (PotionEffectType effect : pathway.getSequence().getSequenceResistances().get(pathway.getSequence().getCurrentSequence())) {
+                        for (PotionEffect potion : p.getActivePotionEffects()) {
+                            if (potion.getType() == effect) {
                                 p.removePotionEffect(effect);
                             }
                         }
                     }
-                }
-                else {
-                    for(int i = pathway.getSequence().getCurrentSequence(); i < 9; i++) {
-                        if(pathway.getSequence().getSequenceResistances().containsKey(i)) {
-                            for(PotionEffectType effect : pathway.getSequence().getSequenceResistances().get(i)) {
-                                if(p.getPotionEffect(effect) != null) {
+                } else {
+                    for (int i = pathway.getSequence().getCurrentSequence(); i < 9; i++) {
+                        if (pathway.getSequence().getSequenceResistances().containsKey(i)) {
+                            for (PotionEffectType effect : pathway.getSequence().getSequenceResistances().get(i)) {
+                                if (p.getPotionEffect(effect) != null) {
                                     p.removePotionEffect(effect);
                                 }
                             }
@@ -327,18 +326,18 @@ public class Beyonder implements Listener {
     }
 
     public void updateSpirituality() {
-        if(pathway.getSequence().getCurrentSequence() > 8)
+        if (pathway.getSequence().getCurrentSequence() > 8)
             spirituality = (int) Math.pow((float) (90 / pathway.getSequence().getCurrentSequence()), 2);
-        else if(pathway.getSequence().getCurrentSequence() > 4)
+        else if (pathway.getSequence().getCurrentSequence() > 4)
             spirituality = (int) Math.pow((double) (90 / pathway.getSequence().getCurrentSequence()) * 2, 2);
-        else if(pathway.getSequence().getCurrentSequence() < 5)
-            spirituality = (int) Math.pow((float) (90 / pathway.getSequence().getCurrentSequence()), 3) ;
+        else if (pathway.getSequence().getCurrentSequence() < 5)
+            spirituality = (int) Math.pow((float) (90 / pathway.getSequence().getCurrentSequence()), 3);
         maxSpirituality = spirituality;
     }
 
     public void updateActing() {
         actingNeeded = Math.pow((100f / pathway.getSequence().getCurrentSequence()), 2);
-        if(actingProgress >= actingNeeded && !digested) {
+        if (actingProgress >= actingNeeded && !digested) {
             digested = true;
             getPlayer().sendMessage("§6You have digested the potion!");
             getPlayer().spawnParticle(Particle.END_ROD, pathway.getBeyonder().getPlayer().getLocation(), 50, 1, 1, 1, 0);
@@ -367,21 +366,22 @@ public class Beyonder implements Listener {
         //Damaging player
         new BukkitRunnable() {
             int counter = 0;
+
             @Override
             public void run() {
-                if(!online || !beyonder || getPlayer() == null) {
+                if (!online || !beyonder || getPlayer() == null) {
                     loosingControl = false;
                     cancel();
                     return;
                 }
 
-                if(random.nextInt(25) + 1 == 5 && getPlayer().getHealth() > 2)
+                if (random.nextInt(25) + 1 == 5 && getPlayer().getHealth() > 2)
                     getPlayer().damage(2);
 
                 counter++;
-                if(counter == timeOfLoosingControl * 20) {
+                if (counter == timeOfLoosingControl * 20) {
                     //When not survives, summons a Warden
-                    if(!survives) {
+                    if (!survives) {
                         Entity rampager = Objects.requireNonNull(getPlayer().getLocation().getWorld()).spawnEntity(getPlayer().getLocation(), EntityType.WARDEN);
                         rampager.setGlowing(true);
                         rampager.setCustomNameVisible(true);
@@ -401,23 +401,22 @@ public class Beyonder implements Listener {
 
     //Called from the PotionListener
     public void consumePotion(int sequence, Potion potion) {
-        if(sequence >= pathway.getSequence().getCurrentSequence())
+        if (sequence >= pathway.getSequence().getCurrentSequence())
             return;
 
-        if(!getPathway().getNameNormalized().equals(potion.getName())) {
+        if (!getPathway().getNameNormalized().equals(potion.getName())) {
             looseControl(0, 10);
             return;
         }
-        if(pathway == null) {
+        if (pathway == null) {
             getPlayer().sendMessage("§cYour advancement has failed! You can call yourself lucky to still be alive...");
             return;
         }
 
-        if(!digested) {
+        if (!digested) {
             looseControl(5, 12);
-        }
-        else {
-            switch(getPathway().getSequence().getCurrentSequence() - 1 - sequence) {
+        } else {
+            switch (getPathway().getSequence().getCurrentSequence() - 1 - sequence) {
                 case 0 -> looseControl(93, 20);
                 case 1 -> looseControl(50, 20);
                 case 2 -> looseControl(30, 20);
@@ -460,12 +459,12 @@ public class Beyonder implements Listener {
     }
 
     public void removeBeyonder() {
-        for(Ability a : pathway.getSequence().getAbilities()) {
+        for (Ability a : pathway.getSequence().getAbilities()) {
             a.removeAbility();
         }
         Plugin.instance.removeBeyonder(getUuid());
         HandlerList.unregisterAll(this);
-        if(board != null)
+        if (board != null)
             board.delete();
         beyonder = false;
         pathway.setSequence(null);

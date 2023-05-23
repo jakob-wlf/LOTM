@@ -44,36 +44,36 @@ public class Giant extends Spirit {
 
     @Override
     public void tick() {
-        if(!brain.isValid())
+        if (!brain.isValid())
             entity.remove();
 
-        if(!entity.isValid())
+        if (!entity.isValid())
             brain.remove();
 
-        if(target != null) {
+        if (target != null) {
             if (target.getWorld() != entity.getWorld() || !target.isValid())
                 target = null;
         }
 
-        if(target == null) {
-            for(Player p : Bukkit.getOnlinePlayers()) {
-                if(p.getLocation().getWorld() != entity.getWorld())
+        if (target == null) {
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                if (p.getLocation().getWorld() != entity.getWorld())
                     continue;
-                if(p.getLocation().distance(entity.getLocation()) <= 15 && p.getGameMode() != GameMode.CREATIVE && p.getGameMode() != GameMode.SPECTATOR) {
+                if (p.getLocation().distance(entity.getLocation()) <= 15 && p.getGameMode() != GameMode.CREATIVE && p.getGameMode() != GameMode.SPECTATOR) {
                     target = p;
                 }
             }
         }
 
-        if(target == null)
+        if (target == null)
             return;
 
         brain.setTarget(target);
 
-        if(hasAttacked)
+        if (hasAttacked)
             return;
 
-        if(target.getLocation().distance(entity.getLocation()) > 2.25)
+        if (target.getLocation().distance(entity.getLocation()) > 2.25)
             return;
 
         entity.attack(target);

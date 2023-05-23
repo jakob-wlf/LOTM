@@ -33,14 +33,14 @@ public class PotionHandler implements Listener {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
-        if(e.getClickedBlock() == null)
+        if (e.getClickedBlock() == null)
             return;
-        if(e.getClickedBlock().getType() != Material.CAULDRON)
+        if (e.getClickedBlock().getType() != Material.CAULDRON)
             return;
 
-        if(
+        if (
                 ((e.getClickedBlock().getMetadata("special").isEmpty()) || e.getClickedBlock().getMetadata("special").get(0).value() == null || !(e.getClickedBlock().getMetadata("special").get(0).value() instanceof Boolean metaDataTag) || !metaDataTag) &&
-                e.getClickedBlock().getLocation().subtract(0, 1, 0).getBlock().getType() != Material.SOUL_FIRE
+                        e.getClickedBlock().getLocation().subtract(0, 1, 0).getBlock().getType() != Material.SOUL_FIRE
         )
             return;
 
@@ -48,7 +48,7 @@ public class PotionHandler implements Listener {
 
         Player p = e.getPlayer();
         Inventory inv = createInventory(p);
-        if(openInvs.containsKey(p))
+        if (openInvs.containsKey(p))
             openInvs.replace(p, inv);
         else
             openInvs.put(p, inv);
@@ -57,33 +57,33 @@ public class PotionHandler implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
-        if(e.getCurrentItem() == null)
+        if (e.getCurrentItem() == null)
             return;
 
         ItemStack clickedItem = null;
 
-        for(ItemStack item : itemsInInv) {
-            if(item.isSimilar(e.getCurrentItem())) {
+        for (ItemStack item : itemsInInv) {
+            if (item.isSimilar(e.getCurrentItem())) {
                 clickedItem = item;
                 break;
             }
         }
 
-        if(clickedItem == null)
+        if (clickedItem == null)
             return;
 
         e.setCancelled(true);
 
-        if(!(e.getWhoClicked() instanceof Player p))
+        if (!(e.getWhoClicked() instanceof Player p))
             return;
 
-        if(clickedItem.isSimilar(UtilItems.getConfirmPotion())) {
+        if (clickedItem.isSimilar(UtilItems.getConfirmPotion())) {
             brewPotion(p);
         }
     }
 
     private void brewPotion(Player p) {
-        if(!openInvs.containsKey(p)) {
+        if (!openInvs.containsKey(p)) {
             p.closeInventory();
             return;
         }
@@ -108,34 +108,35 @@ public class PotionHandler implements Listener {
 
         ItemStack correctPotion = null;
 
-        outerloop: for(Potion potion : Plugin.instance.getPotions()) {
-            for(int i = 9; i > 0; i--) {
-                if(potion.getSupplIngredients(i) == null || potion.getMainIngredients(i) == null)
+        outerloop:
+        for (Potion potion : Plugin.instance.getPotions()) {
+            for (int i = 9; i > 0; i--) {
+                if (potion.getSupplIngredients(i) == null || potion.getMainIngredients(i) == null)
                     continue;
 
-                if(supplementaryIngredients.size() != potion.getSupplIngredients(i).length)
+                if (supplementaryIngredients.size() != potion.getSupplIngredients(i).length)
                     continue;
 
                 boolean isCorrect = mainIngredients.size() == potion.getMainIngredients(i).length;
-                for(int j = 0; j < mainIngredients.size(); j++) {
-                    if(!isCorrect)
+                for (int j = 0; j < mainIngredients.size(); j++) {
+                    if (!isCorrect)
                         break;
-                    if(!mainIngredients.get(j).isSimilar(potion.getMainIngredients(i)[j]))
+                    if (!mainIngredients.get(j).isSimilar(potion.getMainIngredients(i)[j]))
                         isCorrect = false;
                 }
 
-                if(!isCorrect) {
-                    if(!mainIngredients.isEmpty() && mainIngredients.get(0).isSimilar(Plugin.instance.getCharacteristic().getCharacteristic(i, potion.getName(), potion.getStringColor()))) {
+                if (!isCorrect) {
+                    if (!mainIngredients.isEmpty() && mainIngredients.get(0).isSimilar(Plugin.instance.getCharacteristic().getCharacteristic(i, potion.getName(), potion.getStringColor()))) {
                         isCorrect = true;
                     }
                 }
 
-                for(int j = 0; j < supplementaryIngredients.size(); j++) {
-                    if(!supplementaryIngredients.get(j).isSimilar(potion.getSupplIngredients(i)[j]))
+                for (int j = 0; j < supplementaryIngredients.size(); j++) {
+                    if (!supplementaryIngredients.get(j).isSimilar(potion.getSupplIngredients(i)[j]))
                         isCorrect = false;
                 }
 
-                if(!isCorrect)
+                if (!isCorrect)
                     continue;
 
                 correctPotion = potion.returnPotionForSequence(i);
@@ -143,7 +144,7 @@ public class PotionHandler implements Listener {
             }
         }
 
-        if(correctPotion == null)
+        if (correctPotion == null)
             return;
 
         inv.setItem(10, new ItemStack(Material.AIR));
@@ -160,7 +161,7 @@ public class PotionHandler implements Listener {
     }
 
     private void addToIngredients(Inventory inv, ArrayList<ItemStack> ingredients, int index) {
-        if(inv.getItem(index) != null)
+        if (inv.getItem(index) != null)
             ingredients.add(inv.getItem(index));
     }
 
@@ -184,7 +185,7 @@ public class PotionHandler implements Listener {
         itemMap.put(4, UtilItems.getConfirmPotion());
 
         Inventory inv = Bukkit.createInventory(p, 54, "§5Brew a Potion");
-        for(int i = 0; i < 54; i++) {
+        for (int i = 0; i < 54; i++) {
             inv.setItem(i, itemMap.get(invConfig[i]));
         }
         return inv;

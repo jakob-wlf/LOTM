@@ -1,9 +1,7 @@
 package de.firecreeper82.handlers.mobs.abilities.sun;
 
 import de.firecreeper82.lotm.Plugin;
-import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.MobUsableAbility;
-import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.sun.SunItems;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -32,6 +30,7 @@ public class HolyLightSummoning extends MobUsableAbility {
         final Material[] lastMaterial = {loc.getBlock().getType()};
         new BukkitRunnable() {
             int counter = 0;
+
             @Override
             public void run() {
                 counter++;
@@ -57,12 +56,12 @@ public class HolyLightSummoning extends MobUsableAbility {
 
 
                 Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(0, 215, 255), 1.25f);
-                for(double i = 0; i < 3.2; i+=0.8) {
-                    for(int j = 0; j < 80; j++) {
+                for (double i = 0; i < 3.2; i += 0.8) {
+                    for (int j = 0; j < 80; j++) {
                         double x = i * Math.cos(j);
                         double z = i * Math.sin(j);
                         loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX() + x, loc.getY(), loc.getZ() + z, 2, dust);
-                        if(j % 2 == 0)
+                        if (j % 2 == 0)
                             loc.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, loc.getX() + x, loc.getY() + 1, loc.getZ() + z, 1, 0, 0, 0, 0);
                     }
                 }
@@ -73,7 +72,7 @@ public class HolyLightSummoning extends MobUsableAbility {
                 lastMaterial[0] = loc.getBlock().getType();
                 loc.getBlock().setType(Material.LIGHT);
 
-                if((lastMaterial[0].isSolid() && counter >= 12) || counter >= 200) {
+                if ((lastMaterial[0].isSolid() && counter >= 12) || counter >= 200) {
                     loc.getBlock().setType(lastMaterial[0]);
                     counter = 0;
                     cancel();
@@ -96,14 +95,14 @@ public class HolyLightSummoning extends MobUsableAbility {
                             lightLoc.add(0, 0, -2).getBlock()
                     };
 
-                    for(Block b : lightBlock) {
+                    for (Block b : lightBlock) {
                         b.setType(Material.LIGHT);
                     }
 
                     new BukkitRunnable() {
                         @Override
                         public void run() {
-                            for(int i = 0; i < lightBlock.length; i++) {
+                            for (int i = 0; i < lightBlock.length; i++) {
                                 Block b = lightBlock[i];
                                 b.setType(lightMaterial[i]);
                             }
@@ -113,12 +112,12 @@ public class HolyLightSummoning extends MobUsableAbility {
 
                     //damage nearby entities
                     ArrayList<Entity> nearbyEntities = (ArrayList<Entity>) loc.getWorld().getNearbyEntities(loc, 15, 15, 15);
-                    for(Entity entity : nearbyEntities) {
-                        if(entity instanceof LivingEntity livingEntity) {
+                    for (Entity entity : nearbyEntities) {
+                        if (entity instanceof LivingEntity livingEntity) {
                             if (livingEntity.getCategory() == EntityCategory.UNDEAD) {
                                 ((Damageable) entity).damage(22 * multiplier, caster);
                             } else {
-                                if(entity != caster)
+                                if (entity != caster)
                                     ((Damageable) entity).damage(12 * multiplier, caster);
                             }
                         }
@@ -130,10 +129,11 @@ public class HolyLightSummoning extends MobUsableAbility {
                     new BukkitRunnable() {
                         double radius = 1.8;
                         int factor = 0;
+
                         @Override
                         public void run() {
                             radius = radius + 0.75;
-                            for(int i = 0; i < 100; i++) {
+                            for (int i = 0; i < 100; i++) {
                                 factor++;
                                 double x = radius * Math.cos(factor);
                                 double z = radius * Math.sin(factor);
@@ -142,9 +142,9 @@ public class HolyLightSummoning extends MobUsableAbility {
                                 loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX() + x + 0.2, loc.getY(), loc.getZ() + z + 0.2, 3, dustRipple);
                             }
 
-                            if(radius >= 9) {
+                            if (radius >= 9) {
                                 cancel();
-                                if(pathway != null)
+                                if (pathway != null)
                                     pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                             }
                         }
@@ -156,7 +156,7 @@ public class HolyLightSummoning extends MobUsableAbility {
 
     @Override
     public void useAbility() {
-        if(pathway == null || items == null)
+        if (pathway == null || items == null)
             return;
         double multiplier = getMultiplier();
 

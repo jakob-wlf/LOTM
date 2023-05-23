@@ -28,14 +28,15 @@ public class Freezing extends Ability {
 
         Vector dir = p.getEyeLocation().getDirection().normalize();
         Location loc = p.getEyeLocation();
-        if(loc.getWorld() == null)
+        if (loc.getWorld() == null)
             return;
 
         LivingEntity target = null;
 
-        outerloop: for(int i = 0; i < 25; i++) {
-            for(Entity entity : loc.getWorld().getNearbyEntities(loc, 1, 1, 1)) {
-                if(!(entity instanceof LivingEntity e) || entity == p)
+        outerloop:
+        for (int i = 0; i < 25; i++) {
+            for (Entity entity : loc.getWorld().getNearbyEntities(loc, 1, 1, 1)) {
+                if (!(entity instanceof LivingEntity e) || entity == p)
                     continue;
                 target = e;
                 break outerloop;
@@ -44,7 +45,7 @@ public class Freezing extends Ability {
             loc.add(dir);
         }
 
-        if(target == null) {
+        if (target == null) {
             p.sendMessage("§cCouldn't find the target!");
             return;
         }
@@ -53,6 +54,7 @@ public class Freezing extends Ability {
         finalTarget.setFreezeTicks(200);
         new BukkitRunnable() {
             int counter = 0;
+
             @Override
             public void run() {
                 finalTarget.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 5, 5, false, false, false));
@@ -60,7 +62,7 @@ public class Freezing extends Ability {
                 loc.getWorld().spawnParticle(Particle.SNOWBALL, finalTarget.getLocation().add(0, 1, 0), 10, .25, .25, .25, 0);
 
                 counter++;
-                if(counter >= 20 * 5) {
+                if (counter >= 20 * 5) {
                     cancel();
                 }
             }

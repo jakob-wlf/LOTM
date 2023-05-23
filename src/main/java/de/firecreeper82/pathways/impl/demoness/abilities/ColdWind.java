@@ -34,30 +34,31 @@ public class ColdWind extends Ability {
 
         new BukkitRunnable() {
             int counter = 0;
+
             @Override
             public void run() {
-                 for(Entity entity : p.getNearbyEntities(9, 9, 9)) {
-                     entity.setVelocity(dir);
-                     entity.setFreezeTicks(20 * 8);
-                 }
+                for (Entity entity : p.getNearbyEntities(9, 9, 9)) {
+                    entity.setVelocity(dir);
+                    entity.setFreezeTicks(20 * 8);
+                }
 
-                 for(int i = 0; i < 30; i++) {
-                     Location tempLoc = p.getEyeLocation().add(random.nextInt(16) - 8, random.nextInt(10) - 5, random.nextInt(16) - 8);
-                     p.getWorld().spawnParticle(Particle.SNOWFLAKE, tempLoc, 0, dir.getX(), dir.getY(), dir.getZ(), .4);
-                 }
+                for (int i = 0; i < 30; i++) {
+                    Location tempLoc = p.getEyeLocation().add(random.nextInt(16) - 8, random.nextInt(10) - 5, random.nextInt(16) - 8);
+                    p.getWorld().spawnParticle(Particle.SNOWFLAKE, tempLoc, 0, dir.getX(), dir.getY(), dir.getZ(), .4);
+                }
 
-                if(!pathway.getSequence().getUsesAbilities()[identifier - 1] || pathway.getBeyonder().getSpirituality() <= 10) {
+                if (!pathway.getSequence().getUsesAbilities()[identifier - 1] || pathway.getBeyonder().getSpirituality() <= 10) {
                     cancel();
                     return;
                 }
 
-                 counter++;
+                counter++;
 
-                 if(counter >= 20) {
-                     counter = 0;
-                     pathway.getSequence().removeSpirituality(10);
-                 }
-             }
+                if (counter >= 20) {
+                    counter = 0;
+                    pathway.getSequence().removeSpirituality(10);
+                }
+            }
         }.runTaskTimer(Plugin.instance, 0, 0);
     }
 

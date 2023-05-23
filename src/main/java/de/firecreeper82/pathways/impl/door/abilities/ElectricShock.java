@@ -28,13 +28,14 @@ public class ElectricShock extends Ability {
 
         Random random = new Random();
 
-        if(location.getWorld() == null)
+        if (location.getWorld() == null)
             return;
 
         Vector v = p.getEyeLocation().getDirection();
-        outerloop: for(int i = 0; i < 30; i++) {
-            for(Entity entity : location.getWorld().getNearbyEntities(location, 1, 1, 1)) {
-                if(!(entity instanceof LivingEntity target) ||entity == p)
+        outerloop:
+        for (int i = 0; i < 30; i++) {
+            for (Entity entity : location.getWorld().getNearbyEntities(location, 1, 1, 1)) {
+                if (!(entity instanceof LivingEntity target) || entity == p)
                     continue;
                 target.damage(4, p);
                 break outerloop;

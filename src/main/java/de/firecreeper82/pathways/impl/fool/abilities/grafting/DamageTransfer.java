@@ -30,7 +30,7 @@ public class DamageTransfer implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if(timesReceived >= 10 || !target.isValid() || !receive.isValid()) {
+                if (timesReceived >= 10 || !target.isValid() || !receive.isValid()) {
                     damageTransfers.remove(instance);
                     cancel();
                 }
@@ -40,11 +40,11 @@ public class DamageTransfer implements Listener {
 
     @EventHandler
     public void onDamageByEntity(EntityDamageEvent e) {
-        if(timesReceived >= 10 || e.getEntity() != receive || !target.isValid() || !receive.isValid())
+        if (timesReceived >= 10 || e.getEntity() != receive || !target.isValid() || !receive.isValid())
             return;
 
         timesReceived++;
-        if(e instanceof EntityDamageByEntityEvent event)
+        if (e instanceof EntityDamageByEntityEvent event)
             target.damage(e.getDamage(), event.getDamager());
         else
             target.damage(e.getDamage());

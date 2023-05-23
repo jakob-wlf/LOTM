@@ -43,7 +43,7 @@ public class UtilItems {
     }
 
     public static ItemStack getCauldron() {
-        final ItemStack item = new ItemStack(Material.CAULDRON );
+        final ItemStack item = new ItemStack(Material.CAULDRON);
         ItemMeta itemMeta = item.getItemMeta();
         assert itemMeta != null;
         itemMeta.setDisplayName("§5Brewing Cauldron");
@@ -137,8 +137,8 @@ public class UtilItems {
         PlayerTextures cowTextures = cowProfile.getTextures();
         try {
             cowTextures.setSkin(new URL("https://textures.minecraft.net/texture/c5a9cd58d4c67bccc8fb1f5f756a2d381c9ffac2924b7f4cb71aa9fa13fb5c"));
+        } catch (MalformedURLException ignored) {
         }
-        catch (MalformedURLException ignored) {}
         cowMeta.setOwnerProfile(cowProfile);
         cowHead.setItemMeta(cowMeta);
 
@@ -158,8 +158,8 @@ public class UtilItems {
         PlayerTextures grassTextures = grassProfile.getTextures();
         try {
             grassTextures.setSkin(new URL("http://textures.minecraft.net/texture/16bb9fb97ba87cb727cd0ff477f769370bea19ccbfafb581629cd5639f2fec2b"));
+        } catch (MalformedURLException ignored) {
         }
-        catch (MalformedURLException ignored) {}
         grassMeta.setOwnerProfile(grassProfile);
         grassHead.setItemMeta(grassMeta);
 
@@ -179,8 +179,8 @@ public class UtilItems {
         PlayerTextures playerTextures = playerProfile.getTextures();
         try {
             playerTextures.setSkin(new URL("http://textures.minecraft.net/texture/4d9d043adc884b979b4f42bdb350f2a301327cab49c4ce2de42a8f4601fe9dbf"));
+        } catch (MalformedURLException ignored) {
         }
-        catch (MalformedURLException ignored) {}
         playerMeta.setOwnerProfile(playerProfile);
         playerHead.setItemMeta(playerMeta);
 

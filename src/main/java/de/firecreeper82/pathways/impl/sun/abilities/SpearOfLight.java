@@ -3,12 +3,14 @@ package de.firecreeper82.pathways.impl.sun.abilities;
 import de.firecreeper82.lotm.Beyonder;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.VectorUtils;
-import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.Recordable;
 import de.firecreeper82.pathways.impl.sun.SunItems;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
@@ -31,7 +33,7 @@ public class SpearOfLight extends Recordable {
 
     @Override
     public void useAbility(Player p, double multiplier, Beyonder beyonder, boolean recorded) {
-        if(!recorded)
+        if (!recorded)
             pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
         destroy(beyonder, recorded);
@@ -51,7 +53,7 @@ public class SpearOfLight extends Recordable {
 
         Location loc = p.getEyeLocation().add(p.getEyeLocation().getDirection().normalize().multiply(distance)).clone();
 
-        float angle = p.getEyeLocation().getYaw()/60;
+        float angle = p.getEyeLocation().getYaw() / 60;
 
         Location spearLocation = p.getEyeLocation().subtract(Math.cos(angle), 0, Math.sin(angle));
         Vector dir = loc.toVector().subtract(spearLocation.toVector()).normalize();
@@ -64,13 +66,14 @@ public class SpearOfLight extends Recordable {
 
         new BukkitRunnable() {
             int counter = 0;
+
             @Override
             public void run() {
                 spearLocation.add(direction);
                 buildSpear(spearLocation.clone(), direction.clone());
 
-                if(!Objects.requireNonNull(spearLocation.getWorld()).getNearbyEntities(spearLocation, 5, 5, 5).isEmpty()) {
-                    for(Entity entity : spearLocation.getWorld().getNearbyEntities(spearLocation, 5, 5, 5)) {
+                if (!Objects.requireNonNull(spearLocation.getWorld()).getNearbyEntities(spearLocation, 5, 5, 5).isEmpty()) {
+                    for (Entity entity : spearLocation.getWorld().getNearbyEntities(spearLocation, 5, 5, 5)) {
                         if (entity instanceof LivingEntity) {
                             // Ignore player that initiated the shot
                             if (entity == p) {
@@ -86,12 +89,12 @@ public class SpearOfLight extends Recordable {
                                     spearLocation.getZ() + 0.25);
 
                             //entity hit
-                            if(entity.getBoundingBox().overlaps(particleMinVector,particleMaxVector)){
+                            if (entity.getBoundingBox().overlaps(particleMinVector, particleMaxVector)) {
 
                                 spearLocation.getWorld().spawnParticle(Particle.END_ROD, spearLocation, 200, 0, 0, 0, 0.5);
 
                                 entity.setVelocity(entity.getVelocity().add(spearLocation.getDirection().normalize().multiply(1.5)));
-                                if(((LivingEntity) entity).getCategory() == EntityCategory.UNDEAD)
+                                if (((LivingEntity) entity).getCategory() == EntityCategory.UNDEAD)
                                     ((Damageable) entity).damage(85 * multiplier, p);
                                 else
                                     ((Damageable) entity).damage(45 * multiplier, p);
@@ -101,6 +104,7 @@ public class SpearOfLight extends Recordable {
 
                                 new BukkitRunnable() {
                                     double sphereRadius = 1;
+
                                     @Override
                                     public void run() {
                                         for (double i = 0; i <= Math.PI; i += Math.PI / 25) {
@@ -113,8 +117,8 @@ public class SpearOfLight extends Recordable {
                                                 Objects.requireNonNull(sphereLoc.getWorld()).spawnParticle(Particle.END_ROD, sphereLoc, 4, 0.15, 0.15, 0.15, 0);
 
                                                 //damage entities
-                                                if(!sphereLoc.getWorld().getNearbyEntities(sphereLoc, 2, 2, 2).isEmpty()) {
-                                                    for(Entity entity : sphereLoc.getWorld().getNearbyEntities(sphereLoc, 5, 5, 5)) {
+                                                if (!sphereLoc.getWorld().getNearbyEntities(sphereLoc, 2, 2, 2).isEmpty()) {
+                                                    for (Entity entity : sphereLoc.getWorld().getNearbyEntities(sphereLoc, 5, 5, 5)) {
                                                         if (entity instanceof LivingEntity) {
                                                             // Ignore player that initiated the shot
                                                             if (entity == p) {
@@ -131,7 +135,7 @@ public class SpearOfLight extends Recordable {
 
                                                             //entity hit
                                                             if (entity.getBoundingBox().overlaps(particleMinVector, particleMaxVector)) {
-                                                                if(((LivingEntity) entity).getCategory() == EntityCategory.UNDEAD)
+                                                                if (((LivingEntity) entity).getCategory() == EntityCategory.UNDEAD)
                                                                     ((Damageable) entity).damage(65 * multiplier, p);
                                                                 else
                                                                     ((Damageable) entity).damage(30 * multiplier, p);
@@ -144,7 +148,7 @@ public class SpearOfLight extends Recordable {
                                             }
                                         }
                                         sphereRadius += 0.2;
-                                        if(sphereRadius >= 7) {
+                                        if (sphereRadius >= 7) {
                                             lastLightBlock.setType(lastMaterial);
                                             this.cancel();
                                         }
@@ -158,10 +162,11 @@ public class SpearOfLight extends Recordable {
                 }
 
                 //hits solid block
-                if(spearLocation.getBlock().getType().isSolid()) {
+                if (spearLocation.getBlock().getType().isSolid()) {
                     Location sphereLoc = spearLocation.clone();
                     new BukkitRunnable() {
                         double sphereRadius = 1;
+
                         @Override
                         public void run() {
                             for (double i = 0; i <= Math.PI; i += Math.PI / 27) {
@@ -174,8 +179,8 @@ public class SpearOfLight extends Recordable {
                                     Objects.requireNonNull(sphereLoc.getWorld()).spawnParticle(Particle.END_ROD, sphereLoc, 1, 0.1, 0.1, 0.1, 0);
 
                                     //damage entities
-                                    if(!sphereLoc.getWorld().getNearbyEntities(sphereLoc, 2, 2, 2).isEmpty()) {
-                                        for(Entity entity : sphereLoc.getWorld().getNearbyEntities(sphereLoc, 5, 5, 5)) {
+                                    if (!sphereLoc.getWorld().getNearbyEntities(sphereLoc, 2, 2, 2).isEmpty()) {
+                                        for (Entity entity : sphereLoc.getWorld().getNearbyEntities(sphereLoc, 5, 5, 5)) {
                                             if (entity instanceof LivingEntity) {
                                                 // Ignore player that initiated the shot
                                                 if (entity == p) {
@@ -192,7 +197,7 @@ public class SpearOfLight extends Recordable {
 
                                                 //entity hit
                                                 if (entity.getBoundingBox().overlaps(particleMinVector, particleMaxVector)) {
-                                                    if(((LivingEntity) entity).getCategory() == EntityCategory.UNDEAD)
+                                                    if (((LivingEntity) entity).getCategory() == EntityCategory.UNDEAD)
                                                         ((Damageable) entity).damage(65 * multiplier, p);
                                                     else
                                                         ((Damageable) entity).damage(30 * multiplier, p);
@@ -204,7 +209,7 @@ public class SpearOfLight extends Recordable {
                                 }
                             }
                             sphereRadius += 0.2;
-                            if(sphereRadius >= 10) {
+                            if (sphereRadius >= 10) {
                                 lastLightBlock.setType(lastMaterial);
                                 this.cancel();
                             }
@@ -213,7 +218,7 @@ public class SpearOfLight extends Recordable {
                     spearLocation.getWorld().spawnParticle(Particle.FLAME, spearLocation, 1000, 0.4, 0.4, 0.4, .15);
                     cancel();
                 }
-                if(counter >= 100) {
+                if (counter >= 100) {
                     lastLightBlock.setType(lastMaterial);
                     cancel();
                     return;
@@ -223,7 +228,7 @@ public class SpearOfLight extends Recordable {
         }.runTaskTimer(Plugin.instance, 5, 0);
 
         new BukkitRunnable() {
-            public void run () {
+            public void run() {
                 pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
             }
         }.runTaskLater(Plugin.instance, 20 * 3);
@@ -231,7 +236,7 @@ public class SpearOfLight extends Recordable {
 
     public void buildSpear(Location loc, Vector direc) {
 
-        for(int i = 0; i < 6; i++) {
+        for (int i = 0; i < 6; i++) {
             loc.subtract(direc);
         }
 
@@ -247,7 +252,7 @@ public class SpearOfLight extends Recordable {
         double pitch = (playerLoc.getPitch() + 90.0F) * 0.017453292F;
         double yaw = -playerLoc.getYaw() * 0.017453292F;
         double increment = (2 * Math.PI) / circlePoints;
-        for(int k = 0; k < 5; k++) {
+        for (int k = 0; k < 5; k++) {
             radius -= 0.009;
             for (int i = 0; i < circlePoints; i++) {
                 double angle = i * increment;
@@ -264,7 +269,7 @@ public class SpearOfLight extends Recordable {
         }
 
         direc.multiply(0.125);
-        for(int i = 0; i < 96; i++) {
+        for (int i = 0; i < 96; i++) {
             Objects.requireNonNull(loc.getWorld()).spawnParticle(Particle.ELECTRIC_SPARK, loc.clone(), 10, .03, .03, .03, 0);
             loc.add(direc);
         }
@@ -276,7 +281,7 @@ public class SpearOfLight extends Recordable {
         pitch = (playerLoc.getPitch() + 90.0F) * 0.017453292F;
         yaw = -playerLoc.getYaw() * 0.017453292F;
         increment = (2 * Math.PI) / circlePoints;
-        for(int k = 0; k < 13; k++) {
+        for (int k = 0; k < 13; k++) {
             radius -= 0.019;
             for (int i = 0; i < circlePoints; i++) {
                 double angle = i * increment;

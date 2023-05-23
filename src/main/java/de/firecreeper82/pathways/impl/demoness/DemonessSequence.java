@@ -49,7 +49,7 @@ public class DemonessSequence extends Sequence implements Listener {
     //Remove fall damage
     @EventHandler
     public void onDamage(EntityDamageEvent e) {
-        if(e.getEntity() != getPathway().getBeyonder().getPlayer() || e.getCause() != EntityDamageEvent.DamageCause.FALL)
+        if (e.getEntity() != getPathway().getBeyonder().getPlayer() || e.getCause() != EntityDamageEvent.DamageCause.FALL)
             return;
 
         e.setCancelled(true);

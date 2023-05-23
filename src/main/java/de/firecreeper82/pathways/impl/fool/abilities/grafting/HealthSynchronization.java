@@ -26,7 +26,7 @@ public class HealthSynchronization implements Listener {
 
         stopped = false;
 
-        if(!(entity1 instanceof LivingEntity mob1) || !(entity2 instanceof LivingEntity mob2))
+        if (!(entity1 instanceof LivingEntity mob1) || !(entity2 instanceof LivingEntity mob2))
             return;
 
         maxHealth = Objects.requireNonNull(mob1.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue();
@@ -37,12 +37,13 @@ public class HealthSynchronization implements Listener {
 
         new BukkitRunnable() {
             int counter = 0;
+
             @Override
             public void run() {
                 counter++;
                 Objects.requireNonNull(mob1.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(Objects.requireNonNull(mob2.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue());
 
-                if(mob2.getHealth() <= 0) {
+                if (mob2.getHealth() <= 0) {
                     reset();
                     cancel();
                     mob1.setHealth(0);
@@ -51,7 +52,7 @@ public class HealthSynchronization implements Listener {
 
                 mob1.setHealth(mob2.getHealth());
 
-                if(counter >= 20 * 60 * 60 * 2 || !entity1.isValid() || !entity2.isValid() || stopped) {
+                if (counter >= 20 * 60 * 60 * 2 || !entity1.isValid() || !entity2.isValid() || stopped) {
                     reset();
                     cancel();
                 }
@@ -63,29 +64,29 @@ public class HealthSynchronization implements Listener {
 
     @EventHandler
     public void onDamage(EntityDamageEvent e) {
-        if(entity1 == null | entity2 == null)
+        if (entity1 == null | entity2 == null)
             return;
 
-        if(!entity1.isValid() || !entity2.isValid()) {
+        if (!entity1.isValid() || !entity2.isValid()) {
             reset();
             return;
         }
 
-        if(e.getEntity() != entity1 && e.getEntity() != entity2)
+        if (e.getEntity() != entity1 && e.getEntity() != entity2)
             return;
 
-        if(!(entity1 instanceof LivingEntity mob1))
+        if (!(entity1 instanceof LivingEntity mob1))
             return;
 
-        if(e.getEntity() == entity1) {
+        if (e.getEntity() == entity1) {
             e.setCancelled(true);
             return;
         }
 
-        if(hasFired)
+        if (hasFired)
             return;
 
-        if(e.getEntity() == entity2) {
+        if (e.getEntity() == entity2) {
             mob1.damage(0);
         }
 
@@ -100,10 +101,10 @@ public class HealthSynchronization implements Listener {
     }
 
     private void reset() {
-        if(!(entity1 instanceof LivingEntity mob))
+        if (!(entity1 instanceof LivingEntity mob))
             return;
 
-        if(mob.getHealth() > maxHealth)
+        if (mob.getHealth() > maxHealth)
             mob.setHealth(maxHealth);
 
         Objects.requireNonNull(mob.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(maxHealth);

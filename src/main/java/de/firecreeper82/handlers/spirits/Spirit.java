@@ -5,7 +5,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 
-public abstract class Spirit{
+public abstract class Spirit {
 
     protected int spawnRate;
     protected EntityType entityType;
@@ -36,9 +36,11 @@ public abstract class Spirit{
     public abstract Spirit initNew(LivingEntity entity);
 
     public abstract void start();
+
     public abstract void tick();
 
-    public void stop() {}
+    public void stop() {
+    }
 
     public int getSpawnRate() {
         return spawnRate;

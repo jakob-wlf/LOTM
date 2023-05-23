@@ -27,22 +27,22 @@ public class ItemsCmd implements CommandExecutor, Listener {
 
     @Override
     public boolean onCommand(@NonNull CommandSender s, @NonNull Command cmd, @NonNull String label, @NonNull String[] args) {
-        if(!(s instanceof Player p)) {
+        if (!(s instanceof Player p)) {
             s.sendMessage("§cYou have to be a player to use this command!");
             return true;
         }
 
-        if(!Plugin.beyonders.containsKey(p.getUniqueId())) {
+        if (!Plugin.beyonders.containsKey(p.getUniqueId())) {
             s.sendMessage("§cYou have to be a Beyonder to use this command!");
             return true;
         }
 
-        if(args.length != 0) {
+        if (args.length != 0) {
             s.sendMessage("§cWrong usage: Use /items!");
             return true;
         }
 
-        if(openInventories.containsKey(p)) {
+        if (openInventories.containsKey(p)) {
             p.closeInventory();
             openInventories.remove(p);
         }
@@ -51,11 +51,11 @@ public class ItemsCmd implements CommandExecutor, Listener {
         //Create Inventory and loop through the for the player available items and add them to the inv
         //Put the Player in the openInventories HashMap
         Inventory inv = Bukkit.createInventory(p, 27, Plugin.beyonders.get(p.getUniqueId()).getPathway().getStringColor() + p.getName() + " - Items");
-        for(int i = Plugin.beyonders.get(p.getUniqueId()).getPathway().getItems().returnItemsFromSequence(Plugin.beyonders.get(p.getUniqueId()).getPathway().getSequence().getCurrentSequence()).size(); i < inv.getSize(); i++) {
+        for (int i = Plugin.beyonders.get(p.getUniqueId()).getPathway().getItems().returnItemsFromSequence(Plugin.beyonders.get(p.getUniqueId()).getPathway().getSequence().getCurrentSequence()).size(); i < inv.getSize(); i++) {
             inv.setItem(i, UtilItems.getMagentaPane());
         }
 
-        for(ItemStack tempItem : Plugin.beyonders.get(p.getUniqueId()).getPathway().getItems().returnItemsFromSequence(Plugin.beyonders.get(p.getUniqueId()).getPathway().getSequence().getCurrentSequence()))  {
+        for (ItemStack tempItem : Plugin.beyonders.get(p.getUniqueId()).getPathway().getItems().returnItemsFromSequence(Plugin.beyonders.get(p.getUniqueId()).getPathway().getSequence().getCurrentSequence())) {
             inv.addItem(tempItem);
         }
 
@@ -68,25 +68,25 @@ public class ItemsCmd implements CommandExecutor, Listener {
     //Check if Player is in the opeInventories HashMap
     //If he is, cancel the event and give the player the item if he doesn't already have it
     public void onInventoryInteract(InventoryClickEvent e) {
-        if(!(e.getWhoClicked() instanceof Player p))
+        if (!(e.getWhoClicked() instanceof Player p))
             return;
 
-        if(!openInventories.containsKey(p))
+        if (!openInventories.containsKey(p))
             return;
 
         e.setCancelled(true);
 
-        if(e.getClickedInventory() != openInventories.get(p)) {
+        if (e.getClickedInventory() != openInventories.get(p)) {
             return;
         }
 
-        if(p.getInventory().contains(e.getCurrentItem()))
+        if (p.getInventory().contains(e.getCurrentItem()))
             return;
 
-        if(e.getCurrentItem() == null)
+        if (e.getCurrentItem() == null)
             return;
 
-        if(UtilItems.getMagentaPane().isSimilar(e.getCurrentItem()))
+        if (UtilItems.getMagentaPane().isSimilar(e.getCurrentItem()))
             return;
 
         p.getInventory().addItem(e.getCurrentItem());
@@ -95,10 +95,10 @@ public class ItemsCmd implements CommandExecutor, Listener {
     @EventHandler
     //remove player from openInventories HashMap
     public void onInventoryClose(InventoryCloseEvent e) {
-        if(!(e.getPlayer() instanceof Player p))
+        if (!(e.getPlayer() instanceof Player p))
             return;
 
-        if(!openInventories.containsKey(p))
+        if (!openInventories.containsKey(p))
             return;
 
         openInventories.remove(p);

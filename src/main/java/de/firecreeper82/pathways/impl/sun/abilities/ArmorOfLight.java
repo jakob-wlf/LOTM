@@ -69,6 +69,7 @@ public class ArmorOfLight extends Ability implements Listener {
 
         new BukkitRunnable() {
             int counter = 0;
+
             @Override
             public void run() {
                 Location loc = p.getLocation().add(0, 0.5, 0);
@@ -76,18 +77,18 @@ public class ArmorOfLight extends Ability implements Listener {
                 Objects.requireNonNull(loc.getWorld()).spawnParticle(Particle.REDSTONE, loc, 2, 0.3, 0.7, 0.3, 0, dust);
                 loc.getWorld().spawnParticle(Particle.END_ROD, loc, 1, 0.3, 0.7, 0.3, 0);
 
-                if(counter >= 20) {
+                if (counter >= 20) {
                     pathway.getSequence().removeSpirituality(100);
                     counter = 0;
                 }
 
-                if(pathway.getBeyonder().getSpirituality() <= 100) {
+                if (pathway.getBeyonder().getSpirituality() <= 100) {
                     pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                     cancel();
                 }
                 counter++;
 
-                if(!pathway.getSequence().getUsesAbilities()[identifier - 1] || dead) {
+                if (!pathway.getSequence().getUsesAbilities()[identifier - 1] || dead) {
                     p.getInventory().setHelmet(lastItems[0]);
                     p.getInventory().setChestplate(lastItems[1]);
                     p.getInventory().setLeggings(lastItems[2]);
@@ -103,7 +104,7 @@ public class ArmorOfLight extends Ability implements Listener {
                     cancel();
                 }
 
-                if(!pathway.getBeyonder().online) {
+                if (!pathway.getBeyonder().online) {
                     removeOnRejoin = true;
                     pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                     cancel();
@@ -208,16 +209,16 @@ public class ArmorOfLight extends Ability implements Listener {
 
     @EventHandler
     public void onDrop(PlayerDropItemEvent e) {
-        if(Objects.requireNonNull(e.getItemDrop().getItemStack().getItemMeta()).getDisplayName().equals(Objects.requireNonNull(helmet.getItemMeta()).getDisplayName()) || e.getItemDrop().getItemStack().getItemMeta().getDisplayName().equals(Objects.requireNonNull(helmet.getItemMeta()).getDisplayName()) || e.getItemDrop().getItemStack().getItemMeta().getDisplayName().equals(Objects.requireNonNull(helmet.getItemMeta()).getDisplayName()) || e.getItemDrop().getItemStack().getItemMeta().getDisplayName().equals(Objects.requireNonNull(helmet.getItemMeta()).getDisplayName()) || e.getItemDrop().getItemStack().getItemMeta().getDisplayName().equals(Objects.requireNonNull(helmet.getItemMeta()).getDisplayName()))
+        if (Objects.requireNonNull(e.getItemDrop().getItemStack().getItemMeta()).getDisplayName().equals(Objects.requireNonNull(helmet.getItemMeta()).getDisplayName()) || e.getItemDrop().getItemStack().getItemMeta().getDisplayName().equals(Objects.requireNonNull(helmet.getItemMeta()).getDisplayName()) || e.getItemDrop().getItemStack().getItemMeta().getDisplayName().equals(Objects.requireNonNull(helmet.getItemMeta()).getDisplayName()) || e.getItemDrop().getItemStack().getItemMeta().getDisplayName().equals(Objects.requireNonNull(helmet.getItemMeta()).getDisplayName()) || e.getItemDrop().getItemStack().getItemMeta().getDisplayName().equals(Objects.requireNonNull(helmet.getItemMeta()).getDisplayName()))
             e.setCancelled(true);
     }
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
         p = pathway.getBeyonder().getPlayer();
-        if(!e.getPlayer().getUniqueId().equals(p.getUniqueId()))
+        if (!e.getPlayer().getUniqueId().equals(p.getUniqueId()))
             return;
-        if(!removeOnRejoin)
+        if (!removeOnRejoin)
             return;
 
         removeOnRejoin = false;
@@ -236,12 +237,12 @@ public class ArmorOfLight extends Ability implements Listener {
     @EventHandler
     public void onDeath(PlayerDeathEvent e) {
         p = pathway.getBeyonder().getPlayer();
-        if(!e.getEntity().getUniqueId().equals(p.getUniqueId()))
+        if (!e.getEntity().getUniqueId().equals(p.getUniqueId()))
             return;
         dead = true;
         new BukkitRunnable() {
             @Override
-            public void run () {
+            public void run() {
                 dead = false;
             }
         }.runTaskLater(Plugin.instance, 10);

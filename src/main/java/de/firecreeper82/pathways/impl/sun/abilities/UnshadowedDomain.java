@@ -2,7 +2,6 @@ package de.firecreeper82.pathways.impl.sun.abilities;
 
 import de.firecreeper82.lotm.Beyonder;
 import de.firecreeper82.lotm.Plugin;
-import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.Recordable;
@@ -28,7 +27,7 @@ public class UnshadowedDomain extends Recordable {
 
     @Override
     public void useAbility(Player p, double multiplier, Beyonder beyonder, boolean recorded) {
-        if(!recorded)
+        if (!recorded)
             pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
         destroy(beyonder, recorded);
@@ -37,12 +36,12 @@ public class UnshadowedDomain extends Recordable {
         ArrayList<Block> blocks = new ArrayList<>();
 
         int radius = 32;
-        for(int i = 15; i > -15; i--) {
+        for (int i = 15; i > -15; i--) {
             for (int x = -radius; x <= radius; x++) {
                 for (int z = -radius; z <= radius; z++) {
-                    if( (x*x) + (z*z) <= Math.pow(radius, 2)) {
+                    if ((x * x) + (z * z) <= Math.pow(radius, 2)) {
                         Block block = p.getWorld().getBlockAt((int) loc.getX() + x, (int) loc.getY() + i, (int) loc.getZ() + z);
-                        if(block.getType() == Material.AIR && block.getLocation().clone().subtract(0, 1, 0).getBlock().getType().isSolid()) {
+                        if (block.getType() == Material.AIR && block.getLocation().clone().subtract(0, 1, 0).getBlock().getType().isSolid()) {
                             block.setType(Material.LIGHT);
                             blocks.add(block);
                         }
@@ -53,6 +52,7 @@ public class UnshadowedDomain extends Recordable {
 
         new BukkitRunnable() {
             int counter = 0;
+
             @Override
             public void run() {
                 counter++;
@@ -61,14 +61,14 @@ public class UnshadowedDomain extends Recordable {
                 Objects.requireNonNull(loc.getWorld()).spawnParticle(Particle.REDSTONE, loc, 65, 40, 40, 40, 0, dustSphere);
                 loc.getWorld().spawnParticle(Particle.END_ROD, loc, 65, 40, 40, 40, 0);
 
-                for(Entity entity : loc.getWorld().getNearbyEntities(loc, 30, 30, 30)) {
-                    if(entity instanceof LivingEntity) {
+                for (Entity entity : loc.getWorld().getNearbyEntities(loc, 30, 30, 30)) {
+                    if (entity instanceof LivingEntity) {
                         ((LivingEntity) entity).addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 5, 1));
                     }
                 }
 
-                if(counter > 20 * 20) {
-                    for(Block b : blocks) {
+                if (counter > 20 * 20) {
+                    for (Block b : blocks) {
                         b.setType(Material.AIR);
                     }
                     pathway.getSequence().getUsesAbilities()[identifier - 1] = false;

@@ -22,9 +22,10 @@ public class HolyLight extends Recordable {
         super(identifier, pathway, sequence, items);
         items.addToSequenceItems(identifier - 1, sequence);
     }
+
     @Override
     public void useAbility(Player p, double multiplier, Beyonder beyonder, boolean recorded) {
-        if(!recorded)
+        if (!recorded)
             pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
         destroy(beyonder, recorded);
@@ -45,13 +46,14 @@ public class HolyLight extends Recordable {
         final Material[] lastMaterial = {loc.getBlock().getType()};
         new BukkitRunnable() {
             int counter = 0;
+
             @Override
             public void run() {
                 counter++;
 
                 Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(0, 215, 255), 1f);
-                for(double i = 0; i < 3.2; i+=0.8) {
-                    for(int j = 0; j < 50; j++) {
+                for (double i = 0; i < 3.2; i += 0.8) {
+                    for (int j = 0; j < 50; j++) {
                         double x = i * Math.cos(j);
                         double z = i * Math.sin(j);
                         Objects.requireNonNull(loc.getWorld()).spawnParticle(Particle.REDSTONE, loc.getX() + x, loc.getY(), loc.getZ() + z, 2, dust);
@@ -64,21 +66,21 @@ public class HolyLight extends Recordable {
                 lastMaterial[0] = loc.getBlock().getType();
                 loc.getBlock().setType(Material.LIGHT);
 
-                if((lastMaterial[0].isSolid() && counter >= 18.6) || counter >= 200) {
+                if ((lastMaterial[0].isSolid() && counter >= 18.6) || counter >= 200) {
                     loc.getBlock().setType(lastMaterial[0]);
                     counter = 0;
                     cancel();
-                    if(!recorded)
+                    if (!recorded)
                         pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
 
                     //damage nearby entities
                     ArrayList<Entity> nearbyEntities = (ArrayList<Entity>) loc.getWorld().getNearbyEntities(loc.subtract(5, 0, 5), 10, 10, 10);
-                    for(Entity entity : nearbyEntities) {
-                        if(entity instanceof LivingEntity livingEntity) {
+                    for (Entity entity : nearbyEntities) {
+                        if (entity instanceof LivingEntity livingEntity) {
                             if (livingEntity.getCategory() == EntityCategory.UNDEAD) {
                                 ((Damageable) entity).damage(15 * multiplier, p);
                             } else {
-                                if(entity != p)
+                                if (entity != p)
                                     ((Damageable) entity).damage(8 * multiplier, p);
                             }
                         }

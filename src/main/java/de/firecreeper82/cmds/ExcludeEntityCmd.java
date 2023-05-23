@@ -37,25 +37,24 @@ public class ExcludeEntityCmd implements CommandExecutor {
 
         EntityType entityType = null;
 
-        for(EntityType type : EntityType.values()) {
-            if(type.name().equalsIgnoreCase(args[0])) {
+        for (EntityType type : EntityType.values()) {
+            if (type.name().equalsIgnoreCase(args[0])) {
                 entityType = type;
                 break;
             }
         }
 
-        if(entityType == null) {
+        if (entityType == null) {
             p.sendMessage("§c" + args[0].substring(0, 1).toUpperCase() + args[0].substring(1).toLowerCase() + " is not a valid entity! If you want to cancel the divination, type \"cancel\"");
             s.sendMessage("§cUse /exclude-entity <Entity>");
             return true;
         }
 
         SpiritBodyThreads spiritBodyThreads = (SpiritBodyThreads) Plugin.beyonders.get(p.getUniqueId()).getPathway().getSequence().getAbilities().get(6);
-        if(spiritBodyThreads.addExcludedEntity(entityType)) {
+        if (spiritBodyThreads.addExcludedEntity(entityType)) {
             p.sendMessage("§aDisabled the entity " + entityType.name().substring(0, 1).toUpperCase() + entityType.name().substring(1).toLowerCase() + "!");
             p.sendMessage("§aUse the same command to enable the Spirit Body Thread again");
-        }
-        else {
+        } else {
             p.sendMessage("§aEnabled the entity " + entityType.name().substring(0, 1).toUpperCase() + entityType.name().substring(1).toLowerCase() + "!");
         }
 

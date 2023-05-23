@@ -6,11 +6,11 @@ import de.firecreeper82.lotm.util.UtilItems;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
-import de.firecreeper82.pathways.impl.fool.FoolItems;
 import de.firecreeper82.pathways.impl.disasters.Disaster;
 import de.firecreeper82.pathways.impl.disasters.Lightning;
 import de.firecreeper82.pathways.impl.disasters.Meteor;
 import de.firecreeper82.pathways.impl.disasters.Tornado;
+import de.firecreeper82.pathways.impl.fool.FoolItems;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
@@ -80,13 +80,13 @@ public class Miracles extends Ability implements Listener {
 
     @EventHandler
     public void onInventoryInteract(InventoryClickEvent e) {
-        if(!Arrays.asList(inventories).contains(e.getInventory()))
+        if (!Arrays.asList(inventories).contains(e.getInventory()))
             return;
         e.setCancelled(true);
 
         //Check if clicked on disaster and spawn corresponding disaster where player is looking at
-        for(Disaster disaster : disasters) {
-            if(!disaster.getItem().isSimilar(e.getCurrentItem()))
+        for (Disaster disaster : disasters) {
+            if (!disaster.getItem().isSimilar(e.getCurrentItem()))
                 continue;
 
             //Get block player is looking at
@@ -105,19 +105,17 @@ public class Miracles extends Ability implements Listener {
         }
 
         World world = p.getWorld();
-        if(UtilItems.getSunnyWeather().isSimilar(e.getCurrentItem())) {
+        if (UtilItems.getSunnyWeather().isSimilar(e.getCurrentItem())) {
             p.sendMessage("§6The weather clears up!");
             world.setClearWeatherDuration(120 * 60 * 20);
             p.closeInventory();
-        }
-        else if(UtilItems.getRainyWeather().isSimilar(e.getCurrentItem())) {
+        } else if (UtilItems.getRainyWeather().isSimilar(e.getCurrentItem())) {
             p.sendMessage("§3It begins to rain!");
             world.setClearWeatherDuration(0);
             world.setStorm(true);
             world.setThunderDuration(120 * 60 * 20);
             p.closeInventory();
-        }
-        else if(UtilItems.getStormyWeather().isSimilar(e.getCurrentItem())) {
+        } else if (UtilItems.getStormyWeather().isSimilar(e.getCurrentItem())) {
             p.sendMessage("§9A storm is approaching");
             world.setClearWeatherDuration(0);
             world.setStorm(true);
@@ -130,31 +128,31 @@ public class Miracles extends Ability implements Listener {
 
     @EventHandler
     public void onTarget(EntityTargetLivingEntityEvent e) {
-        if(!summonedMobs.contains(e.getEntity()))
+        if (!summonedMobs.contains(e.getEntity()))
             return;
 
-        if(e.getTarget() == pathway.getBeyonder().getPlayer())
+        if (e.getTarget() == pathway.getBeyonder().getPlayer())
             e.setCancelled(true);
     }
 
     @EventHandler
     public void onChat(AsyncPlayerChatEvent e) {
-        if(e.getPlayer() != pathway.getBeyonder().getPlayer())
+        if (e.getPlayer() != pathway.getBeyonder().getPlayer())
             return;
 
-        if(chat == Chat.NOTHING)
+        if (chat == Chat.NOTHING)
             return;
 
         e.setCancelled(true);
 
         //Summoning Mob
-        if(chat == Chat.MOB) {
+        if (chat == Chat.MOB) {
             chat = Chat.NOTHING;
             String chatMsg = e.getMessage();
             EntityType entityType = null;
 
-            for(EntityType type : EntityType.values()) {
-                if(type.name().replace("_", " ").equalsIgnoreCase(chatMsg)) {
+            for (EntityType type : EntityType.values()) {
+                if (type.name().replace("_", " ").equalsIgnoreCase(chatMsg)) {
                     entityType = type;
                     break;
                 }
@@ -162,7 +160,7 @@ public class Miracles extends Ability implements Listener {
 
             final EntityType type = entityType;
 
-            if(entityType == null) {
+            if (entityType == null) {
                 p.sendMessage("§c" + chatMsg + " is not a valid entity!");
                 return;
             }
@@ -185,7 +183,7 @@ public class Miracles extends Ability implements Listener {
 
                     Location loc = lastBlock.getLocation();
                     World world = loc.getWorld();
-                    if(world == null)
+                    if (world == null)
                         return;
                     Entity entity = world.spawnEntity(loc, type);
                     world.spawnParticle(Particle.SPELL_WITCH, loc, 2000, 1, 2, 1, 2);
@@ -198,9 +196,9 @@ public class Miracles extends Ability implements Listener {
             }.runTaskLater(Plugin.instance, 0);
         }
         //Teleporting
-        else if(chat == Chat.TELEPORT) {
+        else if (chat == Chat.TELEPORT) {
             chat = Chat.NOTHING;
-            if(e.getMessage().split(" ").length != 1 && e.getMessage().split(" ").length != 3) {
+            if (e.getMessage().split(" ").length != 1 && e.getMessage().split(" ").length != 3) {
                 p.sendMessage("§cYou need to type in coordinates or a player name");
                 chat = Chat.NOTHING;
                 return;
@@ -208,18 +206,17 @@ public class Miracles extends Ability implements Listener {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    if(e.getMessage().split(" ").length == 1) {
-                        if(Bukkit.getPlayer(e.getMessage()) == null) {
+                    if (e.getMessage().split(" ").length == 1) {
+                        if (Bukkit.getPlayer(e.getMessage()) == null) {
                             p.sendMessage("§c" + e.getMessage() + " is not a valid player");
                             chat = Chat.NOTHING;
                             return;
                         }
 
                         p.teleport(Objects.requireNonNull(Bukkit.getPlayer(e.getMessage())));
-                    }
-                    else {
-                        for(String msg : e.getMessage().split(" ")) {
-                            if(!Util.isInteger(msg)) {
+                    } else {
+                        for (String msg : e.getMessage().split(" ")) {
+                            if (!Util.isInteger(msg)) {
                                 p.sendMessage("§cYou need to type in coordinates or a player name");
                                 chat = Chat.NOTHING;
                                 return;
@@ -234,9 +231,9 @@ public class Miracles extends Ability implements Listener {
             }.runTaskLater(Plugin.instance, 0);
         }
         //Change the Biome
-        else if(chat == Chat.BIOME) {
+        else if (chat == Chat.BIOME) {
             chat = Chat.NOTHING;
-            if(e.getMessage().split(" ").length != 1) {
+            if (e.getMessage().split(" ").length != 1) {
                 p.sendMessage("§cYou need to type in the biome");
                 chat = Chat.NOTHING;
                 return;
@@ -245,14 +242,14 @@ public class Miracles extends Ability implements Listener {
             String chatMsg = e.getMessage();
             Biome biome = null;
 
-            for(Biome b : Biome.values()) {
-                if(b.name().replace("_", " ").equalsIgnoreCase(chatMsg)) {
+            for (Biome b : Biome.values()) {
+                if (b.name().replace("_", " ").equalsIgnoreCase(chatMsg)) {
                     biome = b;
                     break;
                 }
             }
 
-            if(biome == null) {
+            if (biome == null) {
                 p.sendMessage("§c" + chatMsg + " is not a valid biome!");
                 return;
             }
@@ -265,15 +262,15 @@ public class Miracles extends Ability implements Listener {
                 @Override
                 public void run() {
                     final int radius = 64;
-                    for(int i = radius / 2; i > -(radius / 2); i--) {
+                    for (int i = radius / 2; i > -(radius / 2); i--) {
                         for (int x = -radius; x <= radius; x++) {
                             for (int z = -radius; z <= radius; z++) {
-                                if( (x*x) + (z*z) <= Math.pow(radius, 2)) {
+                                if ((x * x) + (z * z) <= Math.pow(radius, 2)) {
                                     Location tempLoc = new Location(world, (int) loc.getX() + x, (int) loc.getY() + i, (int) loc.getZ() + z);
                                     world.setBiome(tempLoc, biomeChange);
-                                    if(!tempLoc.getBlock().getType().isSolid()) {
+                                    if (!tempLoc.getBlock().getType().isSolid()) {
                                         tempLoc.subtract(0, 1, 0);
-                                        if(tempLoc.getBlock().getType().isSolid()) {
+                                        if (tempLoc.getBlock().getType().isSolid()) {
                                             tempLoc.add(0, 1, 0);
                                             world.spawnParticle(Particle.SPELL_WITCH, tempLoc, 5, .075, .075, .075, 2);
                                         }
@@ -360,7 +357,7 @@ public class Miracles extends Ability implements Listener {
         initializeInvs();
 
         //open corresponding Inventory
-        if(inventories[selected] != null)
+        if (inventories[selected] != null)
             p.openInventory(inventories[selected]);
 
         switch (selected) {
@@ -383,7 +380,7 @@ public class Miracles extends Ability implements Listener {
     @Override
     //Display selected category
     public void onHold() {
-        if(p == null)
+        if (p == null)
             p = pathway.getBeyonder().getPlayer();
         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§5Selected Miracle: §f" + selectedCategory.name));
     }
@@ -392,7 +389,7 @@ public class Miracles extends Ability implements Listener {
     //Cycle through categories on left click
     public void leftClick() {
         selected++;
-        if(selected >= categories.length)
+        if (selected >= categories.length)
             selected = 0;
         selectedCategory = categories[selected];
     }

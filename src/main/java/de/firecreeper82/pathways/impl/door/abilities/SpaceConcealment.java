@@ -45,7 +45,7 @@ public class SpaceConcealment extends Ability {
         concealedEntities = new ArrayList<>(p.getNearbyEntities(radiusAdjust, radiusAdjust, radiusAdjust));
         concealedEntities.add(p);
 
-        if(loc.getWorld() == null)
+        if (loc.getWorld() == null)
             return;
 
         int radius = radiusAdjust;
@@ -53,15 +53,16 @@ public class SpaceConcealment extends Ability {
         new BukkitRunnable() {
             boolean doorInit = false;
             int counter = 0;
+
             @Override
             public void run() {
-                if(counter >= 8) {
-                    for(Entity entity : loc.getWorld().getNearbyEntities(loc, radius, radius, radius)) {
-                        if(!concealedEntities.contains(entity))
+                if (counter >= 8) {
+                    for (Entity entity : loc.getWorld().getNearbyEntities(loc, radius, radius, radius)) {
+                        if (!concealedEntities.contains(entity))
                             concealedEntities.add(entity);
                     }
 
-                    if(!concealedEntities.isEmpty()) {
+                    if (!concealedEntities.isEmpty()) {
                         for (Entity entity : concealedEntities) {
                             if (!loc.getWorld().getNearbyEntities(loc, radius, radius, radius).contains(entity)) {
                                 for (Player player : Bukkit.getOnlinePlayers()) {
@@ -78,8 +79,8 @@ public class SpaceConcealment extends Ability {
 
                 counter++;
 
-                for(Entity entity : concealedEntities) {
-                    if(entity instanceof Player concealedPlayer) {
+                for (Entity entity : concealedEntities) {
+                    if (entity instanceof Player concealedPlayer) {
                         for (Player player : Bukkit.getOnlinePlayers()) {
                             player.hidePlayer(Plugin.instance, concealedPlayer);
                         }
@@ -88,23 +89,23 @@ public class SpaceConcealment extends Ability {
 
                 drawSquare(loc, Material.BARRIER, radius, p);
 
-                if(!doorInit) {
-                    for(int i = 0; i < 200; i++) {
+                if (!doorInit) {
+                    for (int i = 0; i < 200; i++) {
                         doorLoc.setX(random.nextDouble(loc.getX() - radius + 1, loc.getX() + radius - 1));
                         doorLoc.setY(loc.getY());
                         doorLoc.setZ(random.nextDouble(loc.getZ() - radius + 1, loc.getZ() + radius - 1));
 
-                        if(!doorLoc.getBlock().getType().isSolid())
+                        if (!doorLoc.getBlock().getType().isSolid())
                             break;
                     }
 
                     doorInit = true;
 
-                    for(int i = 0; i < radius * 20; i++) {
-                        if(doorLoc.getBlock().getType() == Material.BARRIER)
+                    for (int i = 0; i < radius * 20; i++) {
+                        if (doorLoc.getBlock().getType() == Material.BARRIER)
                             break;
 
-                        switch((int) doorLoc.getYaw()) {
+                        switch ((int) doorLoc.getYaw()) {
                             case 0, 360 -> doorLoc.add(0, 0, .25);
                             case 90 -> doorLoc.add(-.25, 0, 0);
                             case 180 -> doorLoc.add(0, 0, -.25);
@@ -116,22 +117,22 @@ public class SpaceConcealment extends Ability {
 
                 drawDoor(doorLoc, p);
 
-                if(doorLoc.getWorld() == null)
+                if (doorLoc.getWorld() == null)
                     return;
 
-                for(Entity entity : doorLoc.getWorld().getNearbyEntities(doorLoc, 1, 1, 1)) {
+                for (Entity entity : doorLoc.getWorld().getNearbyEntities(doorLoc, 1, 1, 1)) {
 
                     int x2 = 0;
                     int z2 = 0;
 
-                    switch((int) doorLoc.getYaw()) {
+                    switch ((int) doorLoc.getYaw()) {
                         case 0, 360 -> z2 = 1;
-                        case 90 -> x2 = - 1;
+                        case 90 -> x2 = -1;
                         case 180 -> z2 = -1;
                         case 270 -> x2 = 1;
                     }
 
-                    if(!concealedEntities.contains(entity)) {
+                    if (!concealedEntities.contains(entity)) {
                         x2 *= -1;
                         z2 *= -1;
                     }
@@ -141,7 +142,7 @@ public class SpaceConcealment extends Ability {
 
                         tempLoc.add(x2 * i, 0, z2 * i);
 
-                        if(tempLoc.getBlock().getType().isSolid())
+                        if (tempLoc.getBlock().getType().isSolid())
                             continue;
 
                         entity.teleport(tempLoc);
@@ -149,7 +150,7 @@ public class SpaceConcealment extends Ability {
                     }
                 }
 
-                if(!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
+                if (!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
                     drawSquare(loc, Material.AIR, radius, p);
                     cancel();
                 }
@@ -168,7 +169,7 @@ public class SpaceConcealment extends Ability {
 
         radiusAdjust++;
 
-        if(radiusAdjust > 15)
+        if (radiusAdjust > 15)
             radiusAdjust = 4;
 
         p.sendMessage("§5Set the radius to " + radiusAdjust);
@@ -201,7 +202,7 @@ public class SpaceConcealment extends Ability {
 
     private void drawDoor(Location loc, Player player) {
 
-        if(loc.getWorld() == null)
+        if (loc.getWorld() == null)
             return;
 
         double space = 0.24;
@@ -228,9 +229,9 @@ public class SpaceConcealment extends Ability {
                     loc.add(v2);
 
                     Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(255, 251, 0), .4f);
-                    if(j == 1)
+                    if (j == 1)
                         dust = new Particle.DustOptions(Color.fromBGR(150, 12, 171), .55f);
-                    if(p.getInventory().getItemInMainHand().isSimilar(getItem()))
+                    if (p.getInventory().getItemInMainHand().isSimilar(getItem()))
                         player.spawnParticle(Particle.REDSTONE, loc, 3, .05, .05, .05, dust);
 
                     loc.subtract(v2);
@@ -246,13 +247,13 @@ public class SpaceConcealment extends Ability {
     @SuppressWarnings("all")
     private void drawSquare(Location location, Material material, int radius, Player player) {
         for (int y = -radius; y < radius; y++) {
-            for(int x = -radius; x < radius; x++) {
-                for(int z = -radius; z < radius; z++) {
-                    if(z == -radius || z == radius - 1 || y == -radius || y == radius - 1 || x == -radius || x == radius - 1) {
+            for (int x = -radius; x < radius; x++) {
+                for (int z = -radius; z < radius; z++) {
+                    if (z == -radius || z == radius - 1 || y == -radius || y == radius - 1 || x == -radius || x == radius - 1) {
                         Block block = location.clone().add(x, y, z).getBlock();
-                        if(!block.getType().isSolid() || block.getType() == Material.BARRIER) {
+                        if (!block.getType().isSolid() || block.getType() == Material.BARRIER) {
                             block.setType(material);
-                            if(p.getInventory().getItemInMainHand().isSimilar(getItem()))
+                            if (p.getInventory().getItemInMainHand().isSimilar(getItem()))
                                 p.spawnParticle(Particle.SPELL_WITCH, block.getLocation(), 2, 0, 0, 0, 0);
                         }
                     }

@@ -12,35 +12,36 @@ public class PotionListener implements Listener {
 
     @EventHandler
     public void onPotionInteract(PlayerInteractEvent e) {
-        if(e.getItem() == null)
+        if (e.getItem() == null)
             return;
 
         int sequence = 0;
         Potion potion = null;
-        outerloop: for(Potion p : Plugin.instance.getPotions()) {
-            for(int i = 1; i < 10; i++) {
-                if(p.returnPotionForSequence(i).equals(e.getItem())) {
+        outerloop:
+        for (Potion p : Plugin.instance.getPotions()) {
+            for (int i = 1; i < 10; i++) {
+                if (p.returnPotionForSequence(i).equals(e.getItem())) {
                     sequence = i;
                     potion = p;
                     break outerloop;
                 }
             }
         }
-        if(sequence == 0)
+        if (sequence == 0)
             return;
 
         e.getPlayer().getInventory().remove(e.getItem());
 
         //Not a beyonder already
-        if(!Plugin.beyonders.containsKey(e.getPlayer().getUniqueId())) {
+        if (!Plugin.beyonders.containsKey(e.getPlayer().getUniqueId())) {
             //initializing new Pathway
             Pathway pathway = Pathway.initializeNew(potion.getName(), e.getPlayer().getUniqueId(), sequence);
-            if(pathway == null) {
+            if (pathway == null) {
                 e.getPlayer().sendMessage("§cYour advancement has failed! You can call yourself lucky to still be alive...");
                 return;
             }
             //makes new Beyonder loose control accordingly
-            switch(9 - sequence) {
+            switch (9 - sequence) {
                 case 0 -> pathway.getBeyonder().looseControl(93, 20);
                 case 1 -> pathway.getBeyonder().looseControl(50, 20);
                 case 2 -> pathway.getBeyonder().looseControl(25, 16);

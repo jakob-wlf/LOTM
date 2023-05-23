@@ -22,7 +22,6 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -56,8 +55,8 @@ public class FogOfHistory extends Ability implements Listener {
         active = true;
 
         //Adding Inventory ItemStacks to List
-        for(ItemStack item : pathway.getBeyonder().getPlayer().getInventory().getContents()) {
-            if(item == null)
+        for (ItemStack item : pathway.getBeyonder().getPlayer().getInventory().getContents()) {
+            if (item == null)
                 continue;
             ItemStack addItem = item.clone();
             addItem.setAmount(1);
@@ -81,7 +80,7 @@ public class FogOfHistory extends Ability implements Listener {
 
         currentPage = 0;
 
-        if(Plugin.fogOfHistories.containsKey(pathway.getBeyonder().getUuid()))
+        if (Plugin.fogOfHistories.containsKey(pathway.getBeyonder().getUuid()))
             return;
         Plugin.fogOfHistories.put(pathway.getBeyonder().getUuid(), this);
     }
@@ -89,7 +88,7 @@ public class FogOfHistory extends Ability implements Listener {
 
     @EventHandler
     public void onPlayerPickUpItem(EntityPickupItemEvent e) {
-        if(e.getEntity() != pathway.getBeyonder().getPlayer() || !active)
+        if (e.getEntity() != pathway.getBeyonder().getPlayer() || !active)
             return;
 
         ItemStack itemNormalized = normalizeItem(e.getItem().getItemStack().clone());
@@ -101,14 +100,14 @@ public class FogOfHistory extends Ability implements Listener {
         items.removeIf(item -> (pathway.getSequence().checkValid(item) == 0));
 
 
-        for(ItemStack item : items) {
-            if(item == null)
+        for (ItemStack item : items) {
+            if (item == null)
                 continue;
-            if(normalizeItem(item.clone()).isSimilar(itemNormalized))
+            if (normalizeItem(item.clone()).isSimilar(itemNormalized))
                 isContained = true;
         }
 
-        if(!isContained) {
+        if (!isContained) {
             ItemStack addItem = e.getItem().getItemStack().clone();
             addItem.setAmount(1);
             addItem = normalizeItem(addItem);
@@ -118,7 +117,7 @@ public class FogOfHistory extends Ability implements Listener {
     }
 
     private ItemStack normalizeItem(ItemStack itemNormalized) {
-        if(itemNormalized instanceof Damageable) {
+        if (itemNormalized instanceof Damageable) {
             ((Damageable) itemNormalized).setDamage(0);
         }
         return itemNormalized;
@@ -129,7 +128,7 @@ public class FogOfHistory extends Ability implements Listener {
         items.addAll(hashSet);
         hashSet.clear();
 
-        if(!active)
+        if (!active)
             return;
 
         Player p = pathway.getBeyonder().getPlayer();
@@ -149,25 +148,25 @@ public class FogOfHistory extends Ability implements Listener {
         double pageCount = Math.ceil((float) items.size() / 52);
 
 
-        if(pageCount == 0)
+        if (pageCount == 0)
             pageCount = 1;
 
         pages = new ArrayList<>();
 
-        for(int i = 0; i < pageCount; i++) {
+        for (int i = 0; i < pageCount; i++) {
             pages.add(Bukkit.createInventory(p, 54, "§5Fog of History"));
         }
 
         int counter = 0;
-        for(int i = 0; i < pageCount; i++) {
-            for(int j = 0; j < 52; j++) {
-                if(counter >= items.size())
+        for (int i = 0; i < pageCount; i++) {
+            for (int j = 0; j < 52; j++) {
+                if (counter >= items.size())
                     break;
                 pages.get(i).setItem(j, items.get(counter));
                 counter++;
             }
         }
-        for(Inventory inv : pages) {
+        for (Inventory inv : pages) {
             inv.setItem(52, barrier);
             inv.setItem(53, arrow);
         }
@@ -178,17 +177,17 @@ public class FogOfHistory extends Ability implements Listener {
 
     @EventHandler
     public void onDrop(PlayerDropItemEvent e) {
-        if(!active)
+        if (!active)
             return;
         ItemStack checkItem = e.getItemDrop().getItemStack().clone();
 
         boolean contains = false;
-        for(ItemStack item : summonedItems) {
-            if(item.isSimilar(checkItem))
+        for (ItemStack item : summonedItems) {
+            if (item.isSimilar(checkItem))
                 contains = true;
         }
 
-        if(!contains)
+        if (!contains)
             return;
 
         summonedItems.remove(checkItem);
@@ -197,30 +196,30 @@ public class FogOfHistory extends Ability implements Listener {
 
     @EventHandler
     public void onInventoryInteract(InventoryClickEvent e) {
-        if(!active)
+        if (!active)
             return;
-        if(pages == null)
+        if (pages == null)
             return;
-        if(!pages.contains(e.getInventory()))
+        if (!pages.contains(e.getInventory()))
             return;
 
         e.setCancelled(true);
-        if(summonedItems.size() >= 3)
+        if (summonedItems.size() >= 3)
             return;
-        if(e.getCurrentItem() == null)
+        if (e.getCurrentItem() == null)
             return;
 
-        if(e.getCurrentItem().isSimilar(barrier)) {
-            if(currentPage <= 0)
+        if (e.getCurrentItem().isSimilar(barrier)) {
+            if (currentPage <= 0)
                 return;
             currentPage -= 1;
             e.getWhoClicked().openInventory(pages.get(currentPage));
             return;
         }
 
-        if(e.getCurrentItem().isSimilar(arrow)) {
+        if (e.getCurrentItem().isSimilar(arrow)) {
             currentPage += 1;
-            if(currentPage >= pages.size()) {
+            if (currentPage >= pages.size()) {
                 currentPage -= 1;
                 return;
             }
@@ -237,7 +236,7 @@ public class FogOfHistory extends Ability implements Listener {
             @Override
             public void run() {
                 summonedItems.remove(summonedItem);
-                if(e.getWhoClicked().getInventory().contains(summonedItem))
+                if (e.getWhoClicked().getInventory().contains(summonedItem))
                     e.getWhoClicked().getInventory().remove(summonedItem);
             }
         }.runTaskLater(Plugin.instance, 20 * 60 * 3);

@@ -39,15 +39,15 @@ public class BlackHole extends Ability {
         Vector dir = p.getEyeLocation().getDirection().normalize();
         Location loc = p.getEyeLocation();
 
-        for(int i = 0; i < 18; i++) {
-            if(loc.getBlock().getType().isSolid())
+        for (int i = 0; i < 18; i++) {
+            if (loc.getBlock().getType().isSolid())
                 break;
             loc.add(dir);
         }
 
         loc.subtract(dir.multiply(2));
 
-        if(loc.getWorld() == null)
+        if (loc.getWorld() == null)
             return;
 
         Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(0, 0, 0), 2f);
@@ -57,9 +57,10 @@ public class BlackHole extends Ability {
             ArrayList<Block> blocks = Util.getNearbyBlocksInSphere(loc.getBlock().getLocation(), 32, false, true, true);
 
             int counter = 0;
+
             @Override
             public void run() {
-                if(!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
+                if (!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
                     cancel();
                     return;
                 }
@@ -68,27 +69,27 @@ public class BlackHole extends Ability {
 
                 counter++;
 
-                if(counter >= 3 * 20) {
+                if (counter >= 3 * 20) {
                     counter = 0;
                     blocks = Util.getNearbyBlocksInSphere(loc.getBlock().getLocation(), 32, false, true, true);
                 }
 
-                for(int i = 0; i < 5; i++) {
-                    if(blocks.isEmpty())
+                for (int i = 0; i < 5; i++) {
+                    if (blocks.isEmpty())
                         continue;
                     Block b = blocks.get(random.nextInt(blocks.size()));
 
                     Material blockMaterial = b.getType();
                     b.setType(Material.AIR);
 
-                    if(blockMaterial == Material.WATER || blockMaterial == Material.LAVA)
+                    if (blockMaterial == Material.WATER || blockMaterial == Material.LAVA)
                         continue;
 
                     FallingBlock fallingBlock = b.getWorld().spawnFallingBlock(b.getLocation().clone().add(0, 1, 0), blockMaterial.createBlockData());
                     fallingBlock.setGravity(false);
                     fallingBlock.setDropItem(false);
 
-                    if(fallingBlock.getBlockData().getMaterial() == Material.WATER) {
+                    if (fallingBlock.getBlockData().getMaterial() == Material.WATER) {
                         fallingBlock.remove();
                         continue;
                     }
@@ -98,16 +99,17 @@ public class BlackHole extends Ability {
 
                     new BukkitRunnable() {
                         int life = 20 * 6;
+
                         @Override
                         public void run() {
-                            if(!fallingBlock.isValid()) {
+                            if (!fallingBlock.isValid()) {
                                 cancel();
                                 return;
                             }
 
                             life--;
 
-                            if(life <= 0 || fallingBlock.getBlockData().getMaterial() == Material.WATER) {
+                            if (life <= 0 || fallingBlock.getBlockData().getMaterial() == Material.WATER) {
                                 fallingBlock.remove();
                                 cancel();
                                 return;
@@ -116,7 +118,7 @@ public class BlackHole extends Ability {
                             Vector direction = loc.clone().toVector().subtract(fallingBlock.getLocation().toVector()).normalize().multiply(.55);
                             fallingBlock.setVelocity(direction);
 
-                            if(!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
+                            if (!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
                                 fallingBlock.remove();
                             }
                         }
@@ -128,25 +130,25 @@ public class BlackHole extends Ability {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if(!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
+                if (!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
                     cancel();
                     return;
                 }
 
-                if(loc.getWorld() == null)
+                if (loc.getWorld() == null)
                     return;
 
-                for(Entity entity : loc.getWorld().getNearbyEntities(loc, 30, 30, 30)) {
-                    if(entity == p)
+                for (Entity entity : loc.getWorld().getNearbyEntities(loc, 30, 30, 30)) {
+                    if (entity == p)
                         continue;
 
                     Vector dir = loc.clone().toVector().subtract(entity.getLocation().toVector()).normalize().multiply(.5);
                     entity.setVelocity(dir);
                 }
 
-                for(Entity entity : loc.getWorld().getNearbyEntities(loc, 2, 2, 2)) {
-                    if(!(entity instanceof LivingEntity livingEntity)) {
-                        if(!(entity instanceof Item))
+                for (Entity entity : loc.getWorld().getNearbyEntities(loc, 2, 2, 2)) {
+                    if (!(entity instanceof LivingEntity livingEntity)) {
+                        if (!(entity instanceof Item))
                             entity.remove();
                         continue;
                     }

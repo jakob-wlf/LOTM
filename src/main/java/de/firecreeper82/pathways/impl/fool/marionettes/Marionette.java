@@ -45,10 +45,10 @@ public class Marionette implements Listener {
         };
 
         World world = loc.getWorld();
-        if(world == null)
+        if (world == null)
             return;
         Entity e = world.spawnEntity(loc, entityType);
-        if(!(e instanceof Mob livingEntity))
+        if (!(e instanceof Mob livingEntity))
             return;
 
         Plugin.instance.getServer().getPluginManager().registerEvents(this, Plugin.instance);
@@ -72,41 +72,38 @@ public class Marionette implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if(currentTarget != null && !currentTarget.isValid())
+                if (currentTarget != null && !currentTarget.isValid())
                     currentTarget = null;
 
-                if(!active)
+                if (!active)
                     return;
 
-                if(!alive)
+                if (!alive)
                     cancel();
 
-                if(beingControlled) {
+                if (beingControlled) {
                     entity.setTarget(null);
                     return;
                 }
 
-                if(currentTarget == entity || pathway.getBeyonder().getMarionetteEntities().contains(currentTarget))
+                if (currentTarget == entity || pathway.getBeyonder().getMarionetteEntities().contains(currentTarget))
                     currentTarget = null;
 
-                if(currentTarget == null && pathway.getBeyonder().getPlayer().getLocation().distance(entity.getLocation()) > 8) {
-                    if(!Arrays.asList(rangedEntities).contains(entity.getType())) {
+                if (currentTarget == null && pathway.getBeyonder().getPlayer().getLocation().distance(entity.getLocation()) > 8) {
+                    if (!Arrays.asList(rangedEntities).contains(entity.getType())) {
                         entity.setTarget(pathway.getBeyonder().getPlayer());
                         entity.setAware(true);
-                    }
-                    else {
-                        if(pathway.getBeyonder().getPlayer().getLocation().distance(entity.getLocation()) > 10)
+                    } else {
+                        if (pathway.getBeyonder().getPlayer().getLocation().distance(entity.getLocation()) > 10)
                             entity.setVelocity(pathway.getBeyonder().getPlayer().getLocation().toVector().subtract(entity.getLocation().toVector()).normalize().multiply(.25));
                         entity.setTarget(null);
                         entity.setAware(false);
                     }
 
-                }
-                else if(currentTarget != null) {
+                } else if (currentTarget != null) {
                     entity.setTarget(currentTarget);
                     entity.setAware(true);
-                }
-                else {
+                } else {
                     entity.setTarget(null);
                     entity.setAware(false);
                 }
@@ -116,7 +113,7 @@ public class Marionette implements Listener {
 
     @EventHandler
     public void onBowShoot(EntityShootBowEvent e) {
-        if(e.getEntity() == entity && entity.getTarget() == pathway.getBeyonder().getPlayer())
+        if (e.getEntity() == entity && entity.getTarget() == pathway.getBeyonder().getPlayer())
             e.setCancelled(true);
     }
 
@@ -125,21 +122,21 @@ public class Marionette implements Listener {
     public void entityDamageByEntity(EntityDamageByEntityEvent e) {
         Player p = pathway.getBeyonder().getPlayer();
 
-        if(e.getEntity() instanceof Mob m && e.getDamager() == entity && pathway.getBeyonder().getMarionetteEntities().contains(m))
+        if (e.getEntity() instanceof Mob m && e.getDamager() == entity && pathway.getBeyonder().getMarionetteEntities().contains(m))
             e.setCancelled(true);
 
-        if(e.getEntity() instanceof Mob m && m == entity && e.getDamager() == p) {
+        if (e.getEntity() instanceof Mob m && m == entity && e.getDamager() == p) {
             e.setCancelled(true);
             return;
         }
 
-        if(e.getEntity() == p && e.getDamager() == entity)
+        if (e.getEntity() == p && e.getDamager() == entity)
             e.setCancelled(true);
     }
 
     @EventHandler
     public void onDeath(EntityDeathEvent e) {
-        if(e.getEntity() != entity)
+        if (e.getEntity() != entity)
             return;
 
         alive = false;
@@ -151,7 +148,7 @@ public class Marionette implements Listener {
 
     @EventHandler
     public void onTargetEntity(EntityDamageByEntityEvent e) {
-        if(!(e.getDamager() instanceof Player p) || p != pathway.getBeyonder().getPlayer() || !(e.getEntity() instanceof Mob ent))
+        if (!(e.getDamager() instanceof Player p) || p != pathway.getBeyonder().getPlayer() || !(e.getEntity() instanceof Mob ent))
             return;
 
         currentTarget = ent;
@@ -169,10 +166,10 @@ public class Marionette implements Listener {
 
         Location loc = pathway.getBeyonder().getPlayer().getLocation();
         World world = loc.getWorld();
-        if(world == null)
+        if (world == null)
             return;
         Entity e = world.spawnEntity(loc, type);
-        if(!(e instanceof LivingEntity livingEntity))
+        if (!(e instanceof LivingEntity livingEntity))
             return;
 
         this.entity = (Mob) livingEntity;
@@ -192,7 +189,7 @@ public class Marionette implements Listener {
     }
 
     public Mob getEntity() {
-        if(!active)
+        if (!active)
             return null;
         return entity;
     }

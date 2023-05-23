@@ -4,7 +4,7 @@ main: de.firecreeper82.lotm.Plugin
 api-version: 1.19
 authors: [ FireCreeper82 ]
 description: A Fan made Lord of the Mysteries plugin
-depend: [Citizens]
+depend: [ Citizens ]
 commands:
   beyonder:
     description: Make yourself a Beyonder

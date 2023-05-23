@@ -40,10 +40,10 @@ public class Characteristic {
         playerMeta.setDisplayName(pathwayColor + Util.capitalize(pathway) + " Beyonder Characteristic");
         String[] playerLore = {
                 pathwayColor + "A Characteristic corresponding to Sequence " + sequence,
-                pathwayColor  + "of the " + Util.capitalize(pathway) + " Pathway!"
+                pathwayColor + "of the " + Util.capitalize(pathway) + " Pathway!"
         };
         playerMeta.setLore(Arrays.asList(playerLore));
-        if(blocksForPathway.get(pathway) != null) {
+        if (blocksForPathway.get(pathway) != null) {
             PlayerProfile playerProfile = Bukkit.createPlayerProfile(uuid);
             PlayerTextures playerTextures = playerProfile.getTextures();
             playerTextures.setSkin(blocksForPathway.get(pathway));

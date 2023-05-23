@@ -7,7 +7,10 @@ import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.fool.FoolItems;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Color;
+import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -30,21 +33,21 @@ public class Hiding extends Ability implements Listener {
         p.setInvisible(false);
         p.setInvulnerable(false);
 
-        for(Player p : Bukkit.getOnlinePlayers()) {
+        for (Player p : Bukkit.getOnlinePlayers()) {
             p.showPlayer(Plugin.instance, pathway.getBeyonder().getPlayer());
         }
     }
 
     @Override
     public void useAbility() {
-        if(hiding)
+        if (hiding)
             return;
 
         p = pathway.getBeyonder().getPlayer();
 
         hiding = true;
 
-        for(Player player : Bukkit.getOnlinePlayers()) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
             player.hidePlayer(Plugin.instance, p);
         }
 
@@ -53,21 +56,22 @@ public class Hiding extends Ability implements Listener {
 
         new BukkitRunnable() {
             final Particle.DustOptions dust = new Particle.DustOptions(Color.fromRGB(216, 216, 216), 50f);
+
             @Override
             public void run() {
 
                 p.spawnParticle(Particle.REDSTONE, p.getLocation(), 500, 6, 6, 6, dust);
-                for(Player player : Bukkit.getOnlinePlayers()) {
+                for (Player player : Bukkit.getOnlinePlayers()) {
                     player.hidePlayer(Plugin.instance, p);
                 }
 
                 p.setInvulnerable(true);
                 p.setInvisible(true);
 
-                if(!hiding) {
+                if (!hiding) {
                     cancel();
                     p.setInvisible(false);
-                    for(Player p : Bukkit.getOnlinePlayers()) {
+                    for (Player p : Bukkit.getOnlinePlayers()) {
                         p.showPlayer(Plugin.instance, pathway.getBeyonder().getPlayer());
                     }
 
@@ -79,7 +83,7 @@ public class Hiding extends Ability implements Listener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
-        if(e.getPlayer() != p || !hiding)
+        if (e.getPlayer() != p || !hiding)
             return;
 
         e.setCancelled(true);
@@ -87,13 +91,13 @@ public class Hiding extends Ability implements Listener {
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent e) {
-        if(e.getPlayer() != p || !hiding)
+        if (e.getPlayer() != p || !hiding)
             return;
 
-        for(Ability ability : pathway.getSequence().getAbilities()) {
-            if(!(ability instanceof MarionetteControlling controlling))
+        for (Ability ability : pathway.getSequence().getAbilities()) {
+            if (!(ability instanceof MarionetteControlling controlling))
                 continue;
-            if(controlling.isControlling())
+            if (controlling.isControlling())
                 return;
         }
 
@@ -107,7 +111,7 @@ public class Hiding extends Ability implements Listener {
 
     @Override
     public void onHold() {
-        if(hiding)
+        if (hiding)
             p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§7Left-Click to stop hiding"));
     }
 

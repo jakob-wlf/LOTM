@@ -31,14 +31,15 @@ public class Instigate extends Ability {
 
         Vector dir = p.getEyeLocation().getDirection().normalize();
         Location loc = p.getEyeLocation();
-        if(loc.getWorld() == null)
+        if (loc.getWorld() == null)
             return;
 
         LivingEntity target = null;
 
-        outerloop: for(int i = 0; i < 25; i++) {
-            for(Entity entity : loc.getWorld().getNearbyEntities(loc, 1, 1, 1)) {
-                if(!(entity instanceof LivingEntity e) || entity == p)
+        outerloop:
+        for (int i = 0; i < 25; i++) {
+            for (Entity entity : loc.getWorld().getNearbyEntities(loc, 1, 1, 1)) {
+                if (!(entity instanceof LivingEntity e) || entity == p)
                     continue;
                 target = e;
                 break outerloop;
@@ -47,13 +48,13 @@ public class Instigate extends Ability {
             loc.add(dir);
         }
 
-        if(target == null) {
+        if (target == null) {
             p.sendMessage("§cCouldn't find the target!");
             return;
         }
 
-        if(!isInstigating) {
-            if(!(target instanceof Mob mob)) {
+        if (!isInstigating) {
+            if (!(target instanceof Mob mob)) {
                 p.sendMessage("§cThat entity can't be instigated!");
                 return;
             }
@@ -65,7 +66,7 @@ public class Instigate extends Ability {
         }
 
         isInstigating = false;
-        if(attacker == null) {
+        if (attacker == null) {
             p.sendMessage("§cSomething went wrong!");
             return;
         }

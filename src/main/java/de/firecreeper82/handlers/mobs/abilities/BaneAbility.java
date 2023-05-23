@@ -18,10 +18,13 @@ public class BaneAbility extends MobUsableAbility {
     }
 
     @Override
-    public void useAbility() {}
+    public void useAbility() {
+    }
 
     @Override
-    public ItemStack getItem() { return null; }
+    public ItemStack getItem() {
+        return null;
+    }
 
     @Override
     public void useAbility(Location startLoc, Location endLoc, double multiplier, Entity user, Entity target) {
@@ -30,18 +33,19 @@ public class BaneAbility extends MobUsableAbility {
         Vector vector = (endLoc.clone().toVector().subtract(loc.toVector())).normalize();
         new BukkitRunnable() {
             int counter = 0;
+
             @Override
             public void run() {
                 user.getWorld().spawnParticle(Particle.REDSTONE, loc, 45, .5, .5, .5, dust);
                 loc.add(vector);
 
-                for(Entity e : user.getWorld().getNearbyEntities(loc, 1, 1, 1)) {
-                    if(e instanceof LivingEntity livingEntity)
+                for (Entity e : user.getWorld().getNearbyEntities(loc, 1, 1, 1)) {
+                    if (e instanceof LivingEntity livingEntity)
                         livingEntity.damage(12, user);
                 }
 
                 counter++;
-                if(counter > 50)
+                if (counter > 50)
                     cancel();
             }
         }.runTaskTimer(Plugin.instance, 0, 1);

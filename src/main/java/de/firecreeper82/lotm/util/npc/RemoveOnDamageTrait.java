@@ -13,10 +13,10 @@ public class RemoveOnDamageTrait extends Trait {
 
     @EventHandler
     public void onDamage(EntityDamageEvent e) {
-        if(!npc.isSpawned())
+        if (!npc.isSpawned())
             return;
 
-        if(e.getEntity() == npc.getEntity())
+        if (e.getEntity() == npc.getEntity())
             npc.destroy();
     }
 }

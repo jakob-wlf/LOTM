@@ -35,8 +35,8 @@ public class MediumSpirit extends Spirit implements Listener {
 
     @Override
     public void tick() {
-        for(Entity nearby : entity.getNearbyEntities(35, 35, 35)) {
-            if(!(nearby instanceof Player p))
+        for (Entity nearby : entity.getNearbyEntities(35, 35, 35)) {
+            if (!(nearby instanceof Player p))
                 continue;
 
             p.spawnParticle(Particle.REDSTONE, entity.getLocation(), 60, particleOffset, particleOffset, particleOffset, dust);
@@ -45,7 +45,7 @@ public class MediumSpirit extends Spirit implements Listener {
 
     @EventHandler
     public void onAttack(ProjectileLaunchEvent e) {
-        if(e.getEntity().getShooter() != entity)
+        if (e.getEntity().getShooter() != entity)
             return;
 
         Fireball fireball = (Fireball) e.getEntity();
@@ -54,7 +54,7 @@ public class MediumSpirit extends Spirit implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if(!fireball.isValid())
+                if (!fireball.isValid())
                     cancel();
 
                 fireball.getWorld().spawnParticle(Particle.REDSTONE, fireball.getLocation(), 10, .2, .2, .2, dust);
@@ -66,16 +66,16 @@ public class MediumSpirit extends Spirit implements Listener {
 
     @EventHandler
     public void onProjectileHit(ProjectileHitEvent e) {
-        if(e.getEntity().getShooter() != entity)
+        if (e.getEntity().getShooter() != entity)
             return;
 
         e.setCancelled(true);
 
-        if(e.getHitEntity() == null)
+        if (e.getHitEntity() == null)
             return;
 
         Entity hitEntity = e.getHitEntity();
-        if(hitEntity instanceof LivingEntity livingEntity)
+        if (hitEntity instanceof LivingEntity livingEntity)
             livingEntity.damage(13, entity);
 
         hitEntity.teleport(entity);

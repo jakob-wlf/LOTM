@@ -36,12 +36,12 @@ public class BlockHandler implements Listener {
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {
-        for(CustomBlock customBlock : customBlocks) {
-            if(e.getBlock().getType() != customBlock.type())
+        for (CustomBlock customBlock : customBlocks) {
+            if (e.getBlock().getType() != customBlock.type())
                 continue;
 
             Random random = new Random();
-            if(random.nextInt(customBlock.rarity()) == 0) {
+            if (random.nextInt(customBlock.rarity()) == 0) {
                 e.setDropItems(false);
                 e.getBlock().getWorld().dropItem(e.getBlock().getLocation(), customBlock.drop());
             }

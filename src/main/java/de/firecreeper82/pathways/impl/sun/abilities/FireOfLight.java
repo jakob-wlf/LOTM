@@ -27,7 +27,7 @@ public class FireOfLight extends Recordable {
 
     @Override
     public void useAbility(Player p, double multiplier, Beyonder beyonder, boolean recorded) {
-        if(!recorded)
+        if (!recorded)
             pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
         destroy(beyonder, recorded);
@@ -45,19 +45,19 @@ public class FireOfLight extends Recordable {
 
         //setting the fire
         Location loc = lastBlock.getLocation().add(0, 1, 0);
-        if(!loc.getBlock().getType().isSolid())
+        if (!loc.getBlock().getType().isSolid())
             loc.getBlock().setType(Material.FIRE);
         loc.add(1, 0, 0);
-        if(!loc.getBlock().getType().isSolid())
+        if (!loc.getBlock().getType().isSolid())
             loc.getBlock().setType(Material.FIRE);
         loc.add(-2, 0, 0);
-        if(!loc.getBlock().getType().isSolid())
+        if (!loc.getBlock().getType().isSolid())
             loc.getBlock().setType(Material.FIRE);
         loc.add(1, 0, -1);
-        if(!loc.getBlock().getType().isSolid())
+        if (!loc.getBlock().getType().isSolid())
             loc.getBlock().setType(Material.FIRE);
         loc.add(0, 0, 2);
-        if(!loc.getBlock().getType().isSolid())
+        if (!loc.getBlock().getType().isSolid())
             loc.getBlock().setType(Material.FIRE);
         loc.subtract(0, 0, 1);
 
@@ -68,6 +68,7 @@ public class FireOfLight extends Recordable {
 
         new BukkitRunnable() {
             int counter = 0;
+
             @Override
             public void run() {
                 counter++;
@@ -77,19 +78,19 @@ public class FireOfLight extends Recordable {
 
                 //damage nearby entities
                 ArrayList<Entity> nearbyEntities = (ArrayList<Entity>) loc.getWorld().getNearbyEntities(loc, 2, 2, 2);
-                for(Entity entity : nearbyEntities) {
-                    if(entity instanceof LivingEntity livingEntity) {
+                for (Entity entity : nearbyEntities) {
+                    if (entity instanceof LivingEntity livingEntity) {
                         if (livingEntity.getCategory() == EntityCategory.UNDEAD) {
                             ((Damageable) entity).damage(10 * multiplier, p);
                             livingEntity.setFireTicks(10 * 20);
                         }
-                        if(entity != p)
+                        if (entity != p)
                             livingEntity.setFireTicks(10 * 20);
 
                     }
                 }
 
-                if(counter >= 5 * 20) {
+                if (counter >= 5 * 20) {
                     loc.getBlock().setType(Material.AIR);
                     cancel();
                     pathway.getSequence().getUsesAbilities()[identifier - 1] = false;

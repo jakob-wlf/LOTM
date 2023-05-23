@@ -33,19 +33,19 @@ public class PaperSubstitute extends Recordable {
 
         Location loc = p.getLocation();
 
-        if(loc.getWorld() == null)
+        if (loc.getWorld() == null)
             return;
 
         //Check if Player has paper in inv
-        if(!p.getInventory().contains(Material.PAPER))
+        if (!p.getInventory().contains(Material.PAPER))
             return;
 
         ItemStack item;
-        for(int i = 0; i < p.getInventory().getContents().length; i++) {
+        for (int i = 0; i < p.getInventory().getContents().length; i++) {
             item = p.getInventory().getItem(i);
-            if(item == null)
+            if (item == null)
                 continue;
-            if(item.getType() == Material.PAPER) {
+            if (item.getType() == Material.PAPER) {
                 item.setAmount(item.getAmount() - 1);
                 p.getInventory().setItem(i, item);
                 break;
@@ -59,8 +59,8 @@ public class PaperSubstitute extends Recordable {
 
         Random random = new Random();
         Location newLoc = loc.clone().add((random.nextInt(50) - 25), random.nextInt(25) - 12.5, random.nextInt(50) - 25);
-        for(int i = 0; i < 500; i++) {
-            if(!newLoc.getBlock().getType().isSolid())
+        for (int i = 0; i < 500; i++) {
+            if (!newLoc.getBlock().getType().isSolid())
                 break;
             newLoc = loc.clone().add((random.nextInt(50) - 25), random.nextInt(25) - 12.5, random.nextInt(50) - 25);
         }

@@ -40,14 +40,15 @@ public class Petrification extends Ability {
 
         Vector dir = p.getEyeLocation().getDirection().normalize();
         Location loc = p.getEyeLocation();
-        if(loc.getWorld() == null)
+        if (loc.getWorld() == null)
             return;
 
         LivingEntity target = null;
 
-        outerloop: for(int i = 0; i < 50; i++) {
-            for(Entity entity : loc.getWorld().getNearbyEntities(loc, 1, 1, 1)) {
-                if(!(entity instanceof LivingEntity e) || entity == p)
+        outerloop:
+        for (int i = 0; i < 50; i++) {
+            for (Entity entity : loc.getWorld().getNearbyEntities(loc, 1, 1, 1)) {
+                if (!(entity instanceof LivingEntity e) || entity == p)
                     continue;
                 target = e;
                 break outerloop;
@@ -55,19 +56,19 @@ public class Petrification extends Ability {
 
             loc.add(dir);
 
-            if(loc.getBlock().getType().isSolid()) {
+            if (loc.getBlock().getType().isSolid()) {
                 petrifyLoc(loc.clone().subtract(dir));
                 break;
             }
         }
 
-        if(target == null) {
+        if (target == null) {
             return;
         }
 
         LivingEntity finalTarget = target;
 
-        if(cooldownEntities.contains(finalTarget)) {
+        if (cooldownEntities.contains(finalTarget)) {
             p.sendMessage("§cYou can't petrify that entity again yet!");
             return;
         }
@@ -85,20 +86,20 @@ public class Petrification extends Ability {
             public void run() {
                 counter--;
 
-                if(counter <= 0) {
+                if (counter <= 0) {
                     cancelled = true;
                 }
 
-                if(!finalTarget.isValid()) {
+                if (!finalTarget.isValid()) {
                     cooldownEntities.remove(finalTarget);
                     cancelled = true;
                 }
 
-                if(eLoc.distance(finalTarget.getLocation()) > 3) {
+                if (eLoc.distance(finalTarget.getLocation()) > 3) {
                     cancelled = true;
                 }
 
-                if(cancelled) {
+                if (cancelled) {
                     new BukkitRunnable() {
                         @Override
                         public void run() {
@@ -109,7 +110,7 @@ public class Petrification extends Ability {
                     return;
                 }
 
-                for(Map.Entry<Block, Material> entry : blocks.entrySet()) {
+                for (Map.Entry<Block, Material> entry : blocks.entrySet()) {
                     entry.getKey().setType(entry.getValue());
                 }
 
@@ -117,26 +118,26 @@ public class Petrification extends Ability {
 
                 finalTarget.setVelocity(new Vector(0, 0, 0));
 
-                if(counter % 10 == 0) {
+                if (counter % 10 == 0) {
                     Particle.DustOptions dust = new Particle.DustOptions(Color.fromRGB(100, 100, 100), 2f);
                     finalTarget.getWorld().spawnParticle(Particle.REDSTONE, finalTarget.getEyeLocation().clone().subtract(0, .5, 0), 50, .5, 1, .5, dust);
                 }
 
-                if(counter % 20 == 0) {
+                if (counter % 20 == 0) {
                     finalTarget.damage(25, p);
                 }
 
                 finalTarget.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 120, 120));
 
-                for(double x = -finalTarget.getWidth() + .5; x < finalTarget.getWidth() + .5; x++) {
-                    for(double z = -finalTarget.getWidth() + .5; z < finalTarget.getWidth() + .5; z++) {
-                        for(int i = 0; i < finalTarget.getHeight(); i++) {
+                for (double x = -finalTarget.getWidth() + .5; x < finalTarget.getWidth() + .5; x++) {
+                    for (double z = -finalTarget.getWidth() + .5; z < finalTarget.getWidth() + .5; z++) {
+                        for (int i = 0; i < finalTarget.getHeight(); i++) {
                             blocks.put(finalTarget.getLocation().clone().add(x, i, z).getBlock(), finalTarget.getLocation().clone().add(0, i, 0).getBlock().getType());
                         }
                     }
                 }
 
-                for(Block block : blocks.keySet()) {
+                for (Block block : blocks.keySet()) {
                     block.setType(Material.STONE);
                 }
             }
@@ -146,8 +147,8 @@ public class Petrification extends Ability {
     private void petrifyLoc(Location loc) {
 
         ArrayList<Block> blocks = Util.getNearbyBlocksInSphere(loc, 6, false, true, true);
-        for(Block block : blocks) {
-            if(block.getType().getHardness() < 0 || !block.getType().isSolid())
+        for (Block block : blocks) {
+            if (block.getType().getHardness() < 0 || !block.getType().isSolid())
                 continue;
             block.setType(Material.STONE);
         }

@@ -10,20 +10,20 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 public class SpawnCmd implements CommandExecutor {
     @Override
     public boolean onCommand(@NonNull CommandSender s, @NonNull Command cmd, @NonNull String label, @NonNull String[] args) {
-        if(!s.isOp()) {
+        if (!s.isOp()) {
             s.sendMessage("§cYou don't have the permission to use this command!");
             return true;
         }
-        if(!(s instanceof Player p)) {
+        if (!(s instanceof Player p)) {
             s.sendMessage("§cYou have to be a player to use this command!");
             return true;
         }
-        if(args.length != 1) {
+        if (args.length != 1) {
             s.sendMessage("§cWrong usage: Use /spawn <ID>!");
             return true;
         }
 
-        if(!Plugin.instance.getBeyonderMobsHandler().spawnEntity(args[0], p.getLocation(), p.getWorld()))
+        if (!Plugin.instance.getBeyonderMobsHandler().spawnEntity(args[0], p.getLocation(), p.getWorld()))
             p.sendMessage("§cThere is no mob with the id: " + args[0]);
 
         return true;

@@ -3,8 +3,8 @@ package de.firecreeper82.pathways.impl.door;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
-import de.firecreeper82.pathways.impl.door.abilities.*;
 import de.firecreeper82.pathways.impl.door.abilities.Record;
+import de.firecreeper82.pathways.impl.door.abilities.*;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
@@ -33,16 +33,16 @@ public class DoorItems extends Items {
         HashMap<Integer, String> names = Objects.requireNonNull(Pathway.getNamesForPathway(pathway.getNameNormalized()));
         String[] s9 = formatAbilityInfo(pathway.getStringColor(), "9: " + names.get(9),
                 "§bUse: §7/items §bto get the abilities for your Sequence",
-                    "§bDoor Opening: §7Lets you pass through solid blocks"
+                "§bDoor Opening: §7Lets you pass through solid blocks"
         );
         abilityInfo.put(9, s9);
 
         String[] s8 = formatAbilityInfo(pathway.getStringColor(), "8: " + names.get(8),
                 "§bFog: §7Create fog to hide yourself",
-                    "§bWind: §7Create Wind to push away entities",
-                    "§bFlash: §7Create light",
-                    "§bFreeze: §7Freeze the target for a few seconds",
-                    "§bElectric Shock: §7Attack your target with a small electric shock"
+                "§bWind: §7Create Wind to push away entities",
+                "§bFlash: §7Create light",
+                "§bFreeze: §7Freeze the target for a few seconds",
+                "§bElectric Shock: §7Attack your target with a small electric shock"
         );
         abilityInfo.put(8, s8);
 
@@ -53,43 +53,43 @@ public class DoorItems extends Items {
 
         String[] s6 = formatAbilityInfo(pathway.getStringColor(), "6: " + names.get(6),
                 "§bRecord: §7Record beyonder abilities from other players",
-                    "§bRecorded abilities can only be used once",
-                    "§bThe higher the abilities Sequence is to yours, the less likely it is for the Recording to succed"
+                "§bRecorded abilities can only be used once",
+                "§bThe higher the abilities Sequence is to yours, the less likely it is for the Recording to succed"
         );
         abilityInfo.put(6, s6);
 
         String[] s5 = formatAbilityInfo(pathway.getStringColor(), "5: " + names.get(5),
                 "§bBlink: §7Short distance teleportation",
-                    "§bTravelers Door: §7Teleport yourself and other entities"
+                "§bTravelers Door: §7Teleport yourself and other entities"
         );
         abilityInfo.put(5, s5);
 
         String[] s4 = formatAbilityInfo(pathway.getStringColor(), "4: " + names.get(4),
                 "§bExile: §7Create multiple overlapping doors to temporarily exile entities within range",
-                    "§bSpace Concealment: §7Conceal a space. To enter/exit you have to find the corresponding door.",
-                    "§bYou can see the door and the concealed space while holding the item",
-                    "§bChange the radius with §7Left-click§b!",
-                    "§bDimensional Pocket: §7Open a dimensional pocket to store items"
+                "§bSpace Concealment: §7Conceal a space. To enter/exit you have to find the corresponding door.",
+                "§bYou can see the door and the concealed space while holding the item",
+                "§bChange the radius with §7Left-click§b!",
+                "§bDimensional Pocket: §7Open a dimensional pocket to store items"
         );
         abilityInfo.put(4, s4);
 
         String[] s3 = formatAbilityInfo(pathway.getStringColor(), "3: " + names.get(3),
                 "§bWandering: §7Wander through the different dimensions",
-                    "§bConceptualization: §7Turn into symbols to travel the different dimensions",
-                    "§bConceptualize: §7Attack the enemy using symbols"
+                "§bConceptualization: §7Turn into symbols to travel the different dimensions",
+                "§bConceptualize: §7Attack the enemy using symbols"
         );
         abilityInfo.put(3, s3);
 
         String[] s2 = formatAbilityInfo(pathway.getStringColor(), "2: " + names.get(2),
                 "§bBlack Hole: Create a miniature black hole to suck in blocks and entities",
-                    "§bSpace Swapping: §7Swap places/Copy a place somewhere else/Move a place somewhere else",
-                    "§bUse §7Left-click §bto change the selected use case and §7Shift §bto change the radius"
+                "§bSpace Swapping: §7Swap places/Copy a place somewhere else/Move a place somewhere else",
+                "§bUse §7Left-click §bto change the selected use case and §7Shift §bto change the radius"
         );
         abilityInfo.put(2, s2);
 
         String[] s1 = formatAbilityInfo(pathway.getStringColor(), "1: " + names.get(1),
                 "§bStarfall: §7Summon multiple star fragments to hit the earth",
-                    "§bFind Player: §7Teleport to a player"
+                "§bFind Player: §7Teleport to a player"
         );
         abilityInfo.put(1, s1);
     }
@@ -97,8 +97,8 @@ public class DoorItems extends Items {
     @Override
     public ArrayList<ItemStack> returnItemsFromSequence(int sequence) {
         ArrayList<ItemStack> itemsForSequence = new ArrayList<>();
-        for(Map.Entry<Integer, Integer> entry : sequenceItems.entrySet()) {
-            if(entry.getValue() >= sequence) {
+        for (Map.Entry<Integer, Integer> entry : sequenceItems.entrySet()) {
+            if (entry.getValue() >= sequence) {
                 itemsForSequence.add(items.get(entry.getKey()));
             }
         }

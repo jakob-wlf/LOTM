@@ -22,9 +22,11 @@ public abstract class Ability {
 
     public abstract ItemStack getItem();
 
-    public void onHold() {}
+    public void onHold() {
+    }
 
-    public void leftClick() {}
+    public void leftClick() {
+    }
 
     public Pathway getPathway() {
         return pathway;
@@ -50,7 +52,8 @@ public abstract class Ability {
         this.identifier = identifier;
     }
 
-    public void removeAbility() {}
+    public void removeAbility() {
+    }
 
     public int getSequence() {
         return sequence;
@@ -58,12 +61,11 @@ public abstract class Ability {
 
     public double getMultiplier() {
         double multiplier = 1;
-        if(pathway.getSequence().getSequenceMultiplier().containsKey(pathway.getSequence().getCurrentSequence())) {
+        if (pathway.getSequence().getSequenceMultiplier().containsKey(pathway.getSequence().getCurrentSequence())) {
             multiplier = pathway.getSequence().getSequenceMultiplier().get(pathway.getSequence().getCurrentSequence());
-        }
-        else {
-            for(int i = pathway.getSequence().currentSequence; i < 9; i++) {
-                if(pathway.getSequence().getSequenceMultiplier().containsKey(i)) {
+        } else {
+            for (int i = pathway.getSequence().currentSequence; i < 9; i++) {
+                if (pathway.getSequence().getSequenceMultiplier().containsKey(i)) {
                     multiplier = pathway.getSequence().getSequenceMultiplier().get(i);
                 }
             }
@@ -73,12 +75,11 @@ public abstract class Ability {
 
     public static double getMultiplier(Pathway pathway) {
         double multiplier = 1;
-        if(pathway.getSequence().getSequenceMultiplier().containsKey(pathway.getSequence().getCurrentSequence())) {
+        if (pathway.getSequence().getSequenceMultiplier().containsKey(pathway.getSequence().getCurrentSequence())) {
             multiplier = pathway.getSequence().getSequenceMultiplier().get(pathway.getSequence().getCurrentSequence());
-        }
-        else {
-            for(int i = pathway.getSequence().currentSequence; i < 9; i++) {
-                if(pathway.getSequence().getSequenceMultiplier().containsKey(i)) {
+        } else {
+            for (int i = pathway.getSequence().currentSequence; i < 9; i++) {
+                if (pathway.getSequence().getSequenceMultiplier().containsKey(i)) {
                     multiplier = pathway.getSequence().getSequenceMultiplier().get(i);
                 }
             }

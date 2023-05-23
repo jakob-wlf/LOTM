@@ -5,7 +5,6 @@ import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.door.DoorItems;
-import de.firecreeper82.pathways.impl.fool.FoolItems;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 

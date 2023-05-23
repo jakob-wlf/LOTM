@@ -25,30 +25,30 @@ public class CleaveOfPurification extends Recordable {
         Location loc = p.getLocation().add(0, 1, 0);
         Vector vector = loc.getDirection();
 
-        for(int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++) {
             loc.add(vector);
 
             //Spawn Particles
-            if(i == 2) {
+            if (i == 2) {
                 Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(0, 215, 255), 1.5f);
                 loc.getWorld().spawnParticle(Particle.END_ROD, loc, 10, 0.15, 0.15, 0.15, 0);
                 loc.getWorld().spawnParticle(Particle.REDSTONE, loc, 80, 0.2, 0.2, 0.2, dust);
             }
 
-            if(i < 2) {
+            if (i < 2) {
                 Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(0, 215, 255), 2f);
                 Objects.requireNonNull(loc.getWorld()).spawnParticle(Particle.END_ROD, loc, 10, 0.25, 0.25, 0.25, 0);
                 loc.getWorld().spawnParticle(Particle.REDSTONE, loc, 80, 0.3, 0.3, 0.3, dust);
             }
 
-            if(loc.getWorld().getNearbyEntities(loc, 1, 1, 1).isEmpty())
+            if (loc.getWorld().getNearbyEntities(loc, 1, 1, 1).isEmpty())
                 continue;
 
-            for(Entity entity : loc.getWorld().getNearbyEntities(loc, 1, 1, 1)) {
-                if(entity.getUniqueId() == pathway.getUuid())
+            for (Entity entity : loc.getWorld().getNearbyEntities(loc, 1, 1, 1)) {
+                if (entity.getUniqueId() == pathway.getUuid())
                     continue;
                 Location entLoc = entity.getLocation();
-                if(entity instanceof LivingEntity livingEntity) {
+                if (entity instanceof LivingEntity livingEntity) {
                     if (livingEntity.getCategory() == EntityCategory.UNDEAD) {
                         ((Damageable) entity).damage(28 * multiplier, p);
                     } else {

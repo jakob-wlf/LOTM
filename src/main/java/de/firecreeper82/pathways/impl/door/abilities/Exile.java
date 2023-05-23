@@ -7,7 +7,10 @@ import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.door.DoorItems;
-import org.bukkit.*;
+import org.bukkit.Color;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -32,8 +35,8 @@ public class Exile extends Ability {
         Vector dir = p.getEyeLocation().getDirection().normalize();
         Location loc = p.getEyeLocation();
 
-        for(int i = 0; i < 20; i++) {
-            if(loc.getBlock().getType().isSolid())
+        for (int i = 0; i < 20; i++) {
+            if (loc.getBlock().getType().isSolid())
                 break;
             loc.add(dir);
         }
@@ -41,13 +44,13 @@ public class Exile extends Ability {
         loc.subtract(dir);
         loc.add(0, .4, 0);
 
-        if(loc.getWorld() == null)
+        if (loc.getWorld() == null)
             return;
 
         Random random = new Random();
         Location[] locations = new Location[12];
 
-        for(int i = 0; i < locations.length; i++) {
+        for (int i = 0; i < locations.length; i++) {
             locations[i] = loc.clone().add(random.nextInt(-4, 4), random.nextInt(-4, 4), random.nextInt(-4, 4));
             locations[i].setPitch(random.nextInt(45));
             locations[i].setYaw(random.nextInt(360));
@@ -55,34 +58,36 @@ public class Exile extends Ability {
 
         new BukkitRunnable() {
             int counter = 0;
+
             @Override
             public void run() {
                 counter++;
-                if(counter >= 20 * 60) {
+                if (counter >= 20 * 60) {
                     cancel();
                     return;
                 }
 
-                for(Location location : locations) {
+                for (Location location : locations) {
                     drawDoor(location);
                 }
 
-                for(Entity entity : loc.getWorld().getNearbyEntities(loc, 5, 5, 5)) {
-                    if(entity == p)
+                for (Entity entity : loc.getWorld().getNearbyEntities(loc, 5, 5, 5)) {
+                    if (entity == p)
                         continue;
 
-                    if(entity instanceof Player player && Plugin.beyonders.containsKey(player.getUniqueId())) {
+                    if (entity instanceof Player player && Plugin.beyonders.containsKey(player.getUniqueId())) {
                         Beyonder beyonder = Plugin.beyonders.get(player.getUniqueId());
-                        if(random.nextInt(Math.round(160f / beyonder.getPathway().getSequence().getCurrentSequence())) == 0) {
+                        if (random.nextInt(Math.round(160f / beyonder.getPathway().getSequence().getCurrentSequence())) == 0) {
                             Location startLoc = player.getLocation();
                             Location teleportLoc = new Location(startLoc.getWorld(), 1000, 10000, 1000);
                             player.teleport(teleportLoc);
 
                             new BukkitRunnable() {
                                 int c = 0;
+
                                 @Override
                                 public void run() {
-                                    if(c >= (20 * 1.5 * Math.pow(beyonder.getPathway().getSequence().getCurrentSequence(), 1.2))) {
+                                    if (c >= (20 * 1.5 * Math.pow(beyonder.getPathway().getSequence().getCurrentSequence(), 1.2))) {
                                         player.teleport(startLoc);
                                         cancel();
                                         return;
@@ -95,15 +100,16 @@ public class Exile extends Ability {
                         continue;
                     }
 
-                    if(random.nextInt(15) == 0) {
+                    if (random.nextInt(15) == 0) {
                         Location startLoc = entity.getLocation();
                         Location teleportLoc = new Location(startLoc.getWorld(), random.nextInt(1000, 2000), 10000, random.nextInt(1000, 2000));
                         entity.teleport(teleportLoc);
                         new BukkitRunnable() {
                             int c = 0;
+
                             @Override
                             public void run() {
-                                if(c >= 20 * 30) {
+                                if (c >= 20 * 30) {
                                     entity.teleport(startLoc);
                                     cancel();
                                     return;
@@ -116,7 +122,7 @@ public class Exile extends Ability {
 
                 }
 
-                if(!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
+                if (!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
                     cancel();
                 }
             }
@@ -153,7 +159,7 @@ public class Exile extends Ability {
 
     private void drawDoor(Location loc) {
 
-        if(loc.getWorld() == null)
+        if (loc.getWorld() == null)
             return;
 
         double space = 0.24;
@@ -182,7 +188,7 @@ public class Exile extends Ability {
                     loc.add(v2);
 
                     Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(255, 251, 0), .5f);
-                    if(j == 1)
+                    if (j == 1)
                         dust = new Particle.DustOptions(Color.fromBGR(150, 12, 171), .6f);
                     loc.getWorld().spawnParticle(Particle.REDSTONE, loc, 1, .05, .05, .05, dust);
 

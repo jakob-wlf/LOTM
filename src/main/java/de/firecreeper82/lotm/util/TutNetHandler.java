@@ -10,6 +10,7 @@ public class TutNetHandler extends ServerGamePacketListenerImpl {
     public TutNetHandler(MinecraftServer minecraftserver, Connection networkmanager, ServerPlayer entityplayer) {
         super(minecraftserver, networkmanager, entityplayer);
     }
+
     @Override
     public void send(Packet<?> packet) {
     }
