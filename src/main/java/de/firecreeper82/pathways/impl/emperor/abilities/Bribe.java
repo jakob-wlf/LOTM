@@ -48,8 +48,7 @@ public class Bribe extends Recordable {
                 bribeselected = 3;
             }
         }
-
-        p.sendMessage("§fSet bribe mode to:" + (bribeMode.get(bribeselected)));
+        p.sendMessage(pathway.getStringColor() + "Set bribe mode to:" + (bribeMode.get(bribeselected)));
     }
 
     @Override

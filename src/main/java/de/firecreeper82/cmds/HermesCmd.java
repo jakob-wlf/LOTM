@@ -28,11 +28,9 @@ import static de.firecreeper82.lotm.Plugin.honorific_name_keys;
 public class HermesCmd implements CommandExecutor {
     @Override
     public boolean onCommand(@NonNull CommandSender s, @NonNull Command cmd, @NonNull String label, @NonNull String[] args) {
-        String[] cmd_args_array;
         String cmd_args_string;
-        cmd_args_array = ArrayUtils.remove(args, 0);
-        cmd_args_string = Arrays.toString(cmd_args_array);
-        cmd_args_string = cmd_args_string.toLowercase()
+        cmd_args_string = Arrays.toString(args);
+        cmd_args_string = cmd_args_string.toLowerCase();
         //creates a var which contains all arguments, but excludes the first one.
         //E.G: args=["help", "hello", "world"]
         //Here, cmd_args=["hello", "world"].
@@ -51,7 +49,7 @@ public class HermesCmd implements CommandExecutor {
             case "pray_to":
                 //ArrayUtils.remove(args, 1);
 
-                String EntityPrayed = Arrays.toString(cmd_args_array);
+                String EntityPrayed = Arrays.toString(args);
                 Plugin.setLastPrayedTo(p, EntityPrayed);
                 s.sendMessage("§dYou have prayed to: " + EntityPrayed);
                 break;

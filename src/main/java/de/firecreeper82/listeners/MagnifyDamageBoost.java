@@ -1,4 +1,4 @@
-package de.firecreeper82.listeners;
+/*package de.firecreeper82.listeners;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -28,4 +28,4 @@ public class MagnifyDamageBoost implements Listener {
             }
         }
     }
-}
+}*/

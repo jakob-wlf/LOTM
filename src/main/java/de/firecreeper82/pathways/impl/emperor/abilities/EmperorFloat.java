@@ -22,10 +22,12 @@ public class EmperorFloat extends Recordable {
     @Override
     public void useAbility(Player p, double multiplier, Beyonder beyonder, boolean recorded) {
         if (!recorded) pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
+
         destroy(beyonder, recorded);
         {
             new BukkitRunnable() {
-                int counter = 3;
+                int counter = 15;
+
                 @Override
                 public void run() {
 

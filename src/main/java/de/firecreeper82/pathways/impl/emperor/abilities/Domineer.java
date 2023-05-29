@@ -16,7 +16,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public class Domineer extends Ability {
-    private static int radius;
+    private static int radius = 5;
     Player p = pathway.getBeyonder().getPlayer();
 
     public Domineer(int identifier, Pathway pathway, int sequence, Items items) {

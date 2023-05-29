@@ -1,6 +1,5 @@
 de\firecreeper82\lotm\Beyonder.class
 de\firecreeper82\pathways\Pathway.class
-de\firecreeper82\pathways\impl\emperor\abilities\MagnifyReach.class
 de\firecreeper82\lotm\Beyonder$2.class
 de\firecreeper82\pathways\impl\fool\marionettes\BeyonderMarionette$1.class
 de\firecreeper82\lotm\Beyonder$3.class
@@ -26,13 +25,11 @@ de\firecreeper82\pathways\impl\emperor\abilities\ExploitFlight$1.class
 de\firecreeper82\pathways\impl\sun\SunPathway.class
 de\firecreeper82\pathways\impl\sun\abilities\OceanOfLight$1.class
 de\firecreeper82\lotm\Beyonder$4.class
-de\firecreeper82\pathways\impl\emperor\abilities\MagnifyReach$1.class
 de\firecreeper82\pathways\impl\demoness\abilities\Pestilence$1.class
 de\firecreeper82\pathways\impl\emperor\abilities\MagnifySelf$2.class
 de\firecreeper82\lotm\Beyonder$1.class
 de\firecreeper82\handlers\mobs\BeyonderMobs$1.class
 de\firecreeper82\pathways\impl\emperor\abilities\MagnifyDamage.class
-de\firecreeper82\handlers\mobs\abilities\MagnifyDamageBoost.class
 de\firecreeper82\pathways\Sequence.class
 de\firecreeper82\handlers\mobs\BeyonderMobs.class
 de\firecreeper82\pathways\impl\demoness\abilities\Pestilence$1$1.class

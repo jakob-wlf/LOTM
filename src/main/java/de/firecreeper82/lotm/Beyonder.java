@@ -458,9 +458,10 @@ public class Beyonder implements Listener {
     public UUID getUuid() {
         return uuid;
     }
-    public boolean getDistorted(){return isDistorted;}
+/*    public boolean getDistorted(){return isDistorted;}
     public boolean getBribed(){return isBribed;}
     public boolean getDamageMagnified(){return damageMagnified;}
+ */
     public double getSpirituality() {
         return spirituality;
     }

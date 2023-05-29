@@ -18,11 +18,12 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+
 import java.util.List;
 
 public class Distortion extends Recordable {
     private Boolean distortEnv;
-    private int distorted;
+    private int distortedNum;
 
     public Distortion(int identifier, Pathway pathway, int sequence, Items items) {
         super(identifier, pathway, sequence, items);
@@ -34,21 +35,22 @@ public class Distortion extends Recordable {
         p = pathway.getBeyonder().getPlayer();
         if (!distortEnv) {
             distortEnv = true;
-            String distortMode = "the surrounding environment !";
-            p.sendMessage("You are now distorting " + pathway.getStringColor() + distortMode);
+            p.sendMessage("You are now distorting the surrounding environment !");
         } else {
             distortEnv = false;
-            String distortMode = "living entities !";
-            p.sendMessage("You are now distorting " + pathway.getStringColor() + distortMode);
+
+            p.sendMessage("You are now distorting surrounding living entities !");
         }
     }
 
     @Override
     public void useAbility(Player p, double multiplier, Beyonder beyonder, boolean recorded) {
         if (!recorded) pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
+
         destroy(beyonder, recorded);
         new BukkitRunnable() {
             int timer = 30;
+
             @Override
             public void run() {
 
@@ -56,7 +58,7 @@ public class Distortion extends Recordable {
                     List<Entity> near = p.getNearbyEntities(25, 25, 25);
                     for (Entity e : near) {
                         if (e instanceof LivingEntity && e != p && pathway.getBeyonder().getSpirituality() >= 20) {
-                            distorted++;
+                            distortedNum++;
                             Location entityLoc = e.getLocation().clone();
                             entityLoc.add(0, 1, 0);
 
@@ -135,8 +137,7 @@ public class Distortion extends Recordable {
                 timer--;
                 if (timer == 0) {
                     cancel();
-                    pathway.getBeyonder().setSpirituality(pathway.getBeyonder().getSpirituality() - distorted * 20);
-
+                    pathway.getBeyonder().setSpirituality(pathway.getBeyonder().getSpirituality() - distortedNum * 20);
                 }
             }
         }.runTaskTimer(Plugin.instance, 0, 20);

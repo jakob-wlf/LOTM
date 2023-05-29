@@ -1,7 +1,6 @@
 package de.firecreeper82.pathways;
 
 import org.bukkit.inventory.ItemStack;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 

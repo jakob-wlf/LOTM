@@ -3,7 +3,7 @@ package de.firecreeper82.lotm;
 import de.firecreeper82.cmds.*;
 import de.firecreeper82.cmds.HermesCmd;
 import de.firecreeper82.handlers.blocks.BlockHandler;
-import de.firecreeper82.handlers.mobs.abilities.MagnifyDamageBoost;
+//import de.firecreeper82.listeners.MagnifyDamageBoost;
 import de.firecreeper82.handlers.spirits.SpiritHandler;
 import de.firecreeper82.listeners.*;
 import de.firecreeper82.handlers.mobs.BeyonderMobsHandler;
@@ -113,8 +113,8 @@ public final class Plugin extends JavaPlugin {
                 divination,
                 beyonderMobsHandler,
                 new BlockHandler(),
-                new GenerationListener(),
-                new MagnifyDamageBoost()
+                new GenerationListener()/*,
+                new MagnifyDamageBoost()*/
         );
 
         Objects.requireNonNull(this.getCommand("beyonder")).setExecutor(new BeyonderCmd());
@@ -337,20 +337,20 @@ public final class Plugin extends JavaPlugin {
     }
 
     public static void sendPrayer(@NonNull String prayer, @NonNull UUID sender, @NonNull UUID target) {
-        if (Bukkit.getPlayer(sender).isOnline()) {
-            Bukkit.getPlayer(target).sendMessage(
+        if (Objects.requireNonNull(Bukkit.getPlayer(sender)).isOnline()) {
+            Objects.requireNonNull(Bukkit.getPlayer(target)).sendMessage(
                     "§dReceived a prayer from: " + sender + "\n" +
-                            "§dPosition : " + Bukkit.getPlayer(sender).getLocation() +
+                            "§dPosition : " + Objects.requireNonNull(Bukkit.getPlayer(sender)).getLocation() +
                             "\n§f" + prayer);
         } else {
-            Bukkit.getPlayer(target).sendMessage(
+            Objects.requireNonNull(Bukkit.getPlayer(target)).sendMessage(
                     "§dReceived a prayer from: " + sender + "\n" +
                             "§cThe person praying mysteriously disappeared..." +
                             "\n§f" + prayer);
         }
     }
 
-    public static boolean getHermesHelp(@NonNull Player s) {
+    public static void getHermesHelp(@NonNull Player s) {
         s.sendMessage("§aList of uses:");
         s.sendMessage("§e<help/null/empty args>: will print out this menu.");
         s.sendMessage("§e<set_name>: Allows you to set/change your honorific name.");
@@ -359,8 +359,6 @@ public final class Plugin extends JavaPlugin {
         s.sendMessage("§e<send_prayer>: Allows you to send a prayer to the selected entity/player you prayed to.");
         s.sendMessage("§e<hermes>: Not Yet Implemented.");
         s.sendMessage("§e<get_all_names>: Admin-only commands. Allows you to get a list of all Honorific Name.");
-        return false;
-
     }
 
     public static <T, E> T getKeyByValue(Map<T, E> map, E value) {

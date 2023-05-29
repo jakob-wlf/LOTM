@@ -67,7 +67,7 @@ public class BrainWash extends Recordable {
 
     @Override
     public ItemStack getItem() {
-        return EmperorItems.createItem(Material.LANTERN, "BrainWash", "40", identifier, sequence, pathway.getBeyonder().getPlayer().getName());
+        return EmperorItems.createItem(Material.ROTTEN_FLESH, "BrainWash", "40", identifier, sequence, pathway.getBeyonder().getPlayer().getName());
     }
 }
 

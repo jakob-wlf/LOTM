@@ -32,7 +32,6 @@ C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathwa
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\cmds\DisableThreadsCmd.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\listeners\PotionListener.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\handlers\spirits\impl\SkeletonHorse.java
-C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\handlers\mobs\abilities\MagnifyDamageBoost.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\listeners\PotionHandler.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\handlers\mobs\BeyonderMobs.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\disasters\Tsunami.java
@@ -78,6 +77,7 @@ C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\cmds\E
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\emperor\abilities\Bestowment.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\door\DoorItems.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\cmds\TestCmd.java
+C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\listeners\MagnifyDamageBoost.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\lotm\Plugin.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\lotm\util\NPC.java
 C:\McDev\lord_of_the_mysteries\LOTM-HERMES\src\main\java\de\firecreeper82\pathways\impl\sun\abilities\UnshadowedDomain.java
