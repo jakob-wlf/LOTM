@@ -1,4 +1,4 @@
-package de.firecreeper82.handlers.mobs.abilities;
+package de.firecreeper82.listeners;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;

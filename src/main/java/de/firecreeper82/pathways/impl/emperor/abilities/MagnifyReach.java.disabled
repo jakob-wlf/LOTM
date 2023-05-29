@@ -1,4 +1,4 @@
-package de.firecreeper82.pathways.impl.emperor.abilities;
+/*package de.firecreeper82.pathways.impl.emperor.abilities;
 
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.pathways.Ability;
@@ -108,4 +108,4 @@ public class MagnifyReach extends Ability implements Listener {
         return EmperorItems.createItem(Material.GOLDEN_SWORD, "Magnify Reach", "125/s", identifier, sequence, pathway.getBeyonder().getPlayer().getName());
 
     }
-}
+}*/
