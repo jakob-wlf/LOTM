@@ -31,7 +31,7 @@ public class PlundererAbility extends MobUsableAbility {
     @Override
     public void useAbility(Location startLoc, Location endLoc, double multiplier, Entity user, Entity target) {
         Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(154, 0, 194), 1.25f);
-        if(!(target instanceof Player playerTarget))
+        if (!(target instanceof Player playerTarget))
             return;
 
         Vector vector = (target.getLocation().toVector().subtract(startLoc.toVector())).normalize();
@@ -43,8 +43,8 @@ public class PlundererAbility extends MobUsableAbility {
                 user.getWorld().spawnParticle(Particle.REDSTONE, startLoc, 4, .05, .05, .05, dust);
                 startLoc.add(vector);
 
-                for(Entity e : user.getWorld().getNearbyEntities(startLoc, 1, 1, 1)) {
-                    if(e != playerTarget)
+                for (Entity e : user.getWorld().getNearbyEntities(startLoc, 1, 1, 1)) {
+                    if (e != playerTarget)
                         continue;
                     playerTarget.damage(4, user);
                     playerTarget.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 60, 2));
@@ -53,7 +53,7 @@ public class PlundererAbility extends MobUsableAbility {
                 }
 
                 counter++;
-                if(counter > 50)
+                if (counter > 50)
                     cancel();
             }
         }.runTaskTimer(Plugin.instance, 0, 4);

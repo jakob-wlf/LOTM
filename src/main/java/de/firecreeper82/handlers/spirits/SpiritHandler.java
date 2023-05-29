@@ -37,7 +37,7 @@ public class SpiritHandler implements Listener, CommandExecutor {
 
         spirits = new ArrayList<>();
         spiritEntities = new ArrayList<>();
-        spawnTypes = new EntityType[] {
+        spawnTypes = new EntityType[]{
                 EntityType.ZOMBIFIED_PIGLIN,
                 EntityType.PIGLIN,
                 EntityType.MAGMA_CUBE,
@@ -59,7 +59,7 @@ public class SpiritHandler implements Listener, CommandExecutor {
         spirits.add(new FriendlySpirit(null, 15, .5f, 1, EntityType.ALLAY, false, 2, BeyonderItems.getSpiritRemains(), false, "§bSpirit"));
         spirits.add(new WeakSpirit(null, 22, .25f, 5, EntityType.VEX, false, 1, BeyonderItems.getSpiritRemains(), false, "§5Weak Spirit"));
         spirits.add(new MediumSpirit(null, 22, 2.5f, 40, EntityType.GHAST, true, 1, null, false, "§0Angry Spirit"));
-        spirits.add(new Giant(null, 50, 1, 15, EntityType.GIANT, true, 1, null,  true, "§2Undead Giant"));
+        spirits.add(new Giant(null, 50, 1, 15, EntityType.GIANT, true, 1, null, true, "§2Undead Giant"));
         spirits.add(new SkeletonHorse(null, 30, .6f, 3, EntityType.SKELETON_HORSE, true, 2, null, true, "§fHorse Spirit"));
         spirits.add(new UndeadHorse(null, 30, .6f, 6, EntityType.ZOMBIE_HORSE, true, 1, null, true, "§2Undead Horse"));
         spirits.add(new TallSkeleton(null, 55, 1, 8, EntityType.SKELETON, true, 1, null, true, "§fBone Amalgamation"));
@@ -67,18 +67,18 @@ public class SpiritHandler implements Listener, CommandExecutor {
 
     @EventHandler
     public void onSpawn(EntitySpawnEvent e) {
-        if(!e.getEntity().getWorld().getName().equalsIgnoreCase("world_nether") || !Arrays.asList(spawnTypes).contains(e.getEntity().getType()))
+        if (!e.getEntity().getWorld().getName().equalsIgnoreCase("world_nether") || !Arrays.asList(spawnTypes).contains(e.getEntity().getType()))
             return;
 
         Random random = new Random();
 
-        for(Spirit spirit : spirits) {
-            if(spirit.isUndead() && e.getLocation().getBlock().getBiome() != Biome.SOUL_SAND_VALLEY)
+        for (Spirit spirit : spirits) {
+            if (spirit.isUndead() && e.getLocation().getBlock().getBiome() != Biome.SOUL_SAND_VALLEY)
                 continue;
 
-            if(random.nextInt(spirit.getSpawnRate()) == 0) {
-                for(int i = 0; i < spirit.getSpawnCount(); i++) {
-                    if(spiritEntities.size() > 300) {
+            if (random.nextInt(spirit.getSpawnRate()) == 0) {
+                for (int i = 0; i < spirit.getSpawnCount(); i++) {
+                    if (spiritEntities.size() > 300) {
                         spiritEntities.get(0).getEntity().remove();
                     }
 
@@ -94,7 +94,7 @@ public class SpiritHandler implements Listener, CommandExecutor {
                     new BukkitRunnable() {
                         @Override
                         public void run() {
-                            if(!entity.isValid()) {
+                            if (!entity.isValid()) {
                                 cancel();
                                 newSpirit.stop();
                                 return;
@@ -110,8 +110,8 @@ public class SpiritHandler implements Listener, CommandExecutor {
 
     @EventHandler
     public void onDeath(EntityDeathEvent e) {
-        for(Spirit spirit : spiritEntities) {
-            if(spirit.getEntity() != e.getEntity() || spirit.getDrop() == null)
+        for (Spirit spirit : spiritEntities) {
+            if (spirit.getEntity() != e.getEntity() || spirit.getDrop() == null)
                 continue;
 
             e.getEntity().getWorld().dropItem(e.getEntity().getLocation(), spirit.getDrop());
@@ -137,7 +137,7 @@ public class SpiritHandler implements Listener, CommandExecutor {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if(!entity.isValid()) {
+                if (!entity.isValid()) {
                     cancel();
                     return;
                 }

@@ -2,7 +2,6 @@ package de.firecreeper82.pathways.impl.fool.abilities.grafting;
 
 
 import de.firecreeper82.lotm.Plugin;
-import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -18,19 +17,19 @@ public class EntityToEntity {
         stopped = false;
         new BukkitRunnable() {
             int counter = 0;
+
             @Override
             public void run() {
                 counter++;
 
-                if(stopped || counter > 20 * 60 * 60 || entity == null ||!entity.isValid() || target == null || !target.isValid()) {
+                if (stopped || counter > 20 * 60 * 60 || entity == null || !entity.isValid() || target == null || !target.isValid()) {
                     cancel();
                     return;
                 }
 
-                if(target.getLocation().distance(entity.getLocation()) > 3 || target.getLocation().getWorld() != entity.getWorld()) {
+                if (target.getLocation().distance(entity.getLocation()) > 3 || target.getLocation().getWorld() != entity.getWorld()) {
                     entity.teleport(target.getLocation());
-                }
-                else {
+                } else {
                     Vector dir = target.getLocation().toVector().subtract(entity.getLocation().toVector());
                     entity.setVelocity(dir);
                 }

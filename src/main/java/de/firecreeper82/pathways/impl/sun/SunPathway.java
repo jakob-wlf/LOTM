@@ -2,7 +2,6 @@ package de.firecreeper82.pathways.impl.sun;
 
 import de.firecreeper82.pathways.Pathway;
 
-import java.awt.*;
 import java.util.HashMap;
 import java.util.UUID;
 

@@ -51,7 +51,7 @@ public class AirBullet extends Recordable {
     public void useAbility(Player p, double multiplier, Beyonder beyonder, boolean recorded) {
         destroy(beyonder, recorded);
 
-        if(!recorded) {
+        if (!recorded) {
             if (pathway.getSequence().getCurrentSequence() > 3)
                 sequencePower = pathway.getSequence().getCurrentSequence();
             else if (!wasAdjustedOnce) {
@@ -60,7 +60,7 @@ public class AirBullet extends Recordable {
             }
         }
 
-        if(!recorded)
+        if (!recorded)
             multiplier = (valuesForSequence.get(sequencePower) != null ? valuesForSequence.get(sequencePower)[3] : 3);
 
         double finalMultiplier = multiplier;
@@ -80,10 +80,11 @@ public class AirBullet extends Recordable {
             double circlePointOffset = 0;
 
             int counter = 0;
+
             @Override
             public void run() {
 
-                if(world == null)
+                if (world == null)
                     return;
 
                 //Particle effects
@@ -110,8 +111,8 @@ public class AirBullet extends Recordable {
                 radius -= ((!recorded) ? (valuesForSequence.get(sequencePower) != null ? valuesForSequence.get(sequencePower)[0] : 0.25) : .5) / 70;
 
                 //Check if hit Entity
-                if(!world.getNearbyEntities(loc, 5, 5, 5).isEmpty()) {
-                    for(Entity entity : world.getNearbyEntities(loc, 5, 5, 5)) {
+                if (!world.getNearbyEntities(loc, 5, 5, 5).isEmpty()) {
+                    for (Entity entity : world.getNearbyEntities(loc, 5, 5, 5)) {
                         Vector v1 = new Vector(
                                 loc.getX() + radius / 2,
                                 loc.getY() + radius / 2,
@@ -122,12 +123,11 @@ public class AirBullet extends Recordable {
                                 loc.getY() - radius / 2,
                                 loc.getZ() - radius / 2
                         );
-                        if(entity.getBoundingBox().overlaps(v1, v2) && entity instanceof Damageable && entity != p) {
-                            if(!recorded) {
+                        if (entity.getBoundingBox().overlaps(v1, v2) && entity instanceof Damageable && entity != p) {
+                            if (!recorded) {
                                 if (valuesForSequence.get(sequencePower) != null && valuesForSequence.get(sequencePower)[2] > 1)
                                     world.createExplosion(entity.getLocation(), (int) (valuesForSequence.get(sequencePower)[2] - 1));
-                            }
-                            else {
+                            } else {
                                 world.createExplosion(entity.getLocation(), 1);
                             }
                             ((Damageable) entity).damage(7 * finalMultiplier, p);
@@ -139,12 +139,11 @@ public class AirBullet extends Recordable {
 
                 counter++;
 
-                if(loc.getBlock().getType().isSolid() || counter >= 50) {
-                    if(!recorded) {
+                if (loc.getBlock().getType().isSolid() || counter >= 50) {
+                    if (!recorded) {
                         if (valuesForSequence.get(sequencePower) != null && valuesForSequence.get(sequencePower)[2] > 0)
                             world.createExplosion(loc, (int) (valuesForSequence.get(sequencePower)[2]));
-                    }
-                    else {
+                    } else {
                         world.createExplosion(loc, 2);
                     }
                     cancel();
@@ -159,7 +158,7 @@ public class AirBullet extends Recordable {
     public void onHold() {
         p = pathway.getBeyonder().getPlayer();
 
-        if(pathway.getSequence().getCurrentSequence() > 3)
+        if (pathway.getSequence().getCurrentSequence() > 3)
             return;
 
         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§5Selected: §8Sequence " + sequencePower));
@@ -168,11 +167,11 @@ public class AirBullet extends Recordable {
     @Override
     //Adjust sequence power on left click
     public void leftClick() {
-        if(pathway.getSequence().getCurrentSequence() > 3)
+        if (pathway.getSequence().getCurrentSequence() > 3)
             return;
 
         sequencePower--;
-        if(sequencePower < pathway.getSequence().getCurrentSequence())
+        if (sequencePower < pathway.getSequence().getCurrentSequence())
             sequencePower = 7;
     }
 

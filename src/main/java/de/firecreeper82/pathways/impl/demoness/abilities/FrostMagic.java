@@ -33,7 +33,7 @@ public class FrostMagic extends Ability {
         super(identifier, pathway, sequence, items);
         items.addToSequenceItems(identifier - 1, sequence);
 
-        convertMaterials = new Material[] {
+        convertMaterials = new Material[]{
                 Material.GRASS_BLOCK,
                 Material.DIRT_PATH,
                 Material.DIRT,
@@ -62,9 +62,9 @@ public class FrostMagic extends Ability {
 
     @Override
     public void useAbility() {
-        if(selectedCategory == Category.Attack)
+        if (selectedCategory == Category.Attack)
             attack();
-        if(selectedCategory == Category.Freeze)
+        if (selectedCategory == Category.Freeze)
             freeze();
     }
 
@@ -73,47 +73,50 @@ public class FrostMagic extends Ability {
 
         Vector vector = p.getLocation().getDirection().normalize().multiply(.5);
         Location loc = p.getEyeLocation().clone();
-        if(loc.getWorld() == null)
+        if (loc.getWorld() == null)
             return;
         World world = loc.getWorld();
 
-        for(int i = 0; i < 30; i++) {
+        for (int i = 0; i < 30; i++) {
             loc.add(vector);
             world.spawnParticle(Particle.SNOWFLAKE, loc, 40, .25, .25, .25, 0);
 
-            if(world.getNearbyEntities(loc, 1, 1, 1).isEmpty())
+            if (world.getNearbyEntities(loc, 1, 1, 1).isEmpty())
                 continue;
 
-            if(loc.getBlock().getType().isSolid()) {
+            if (loc.getBlock().getType().isSolid()) {
                 loc.clone().subtract(vector).getBlock().setType(Material.SOUL_FIRE);
                 break;
             }
 
             boolean cancelled = false;
-            for(Entity entity : world.getNearbyEntities(loc, 1, 1, 1)) {
-                if(!(entity instanceof LivingEntity livingEntity) || entity == p)
+            for (Entity entity : world.getNearbyEntities(loc, 1, 1, 1)) {
+                if (!(entity instanceof LivingEntity livingEntity) || entity == p)
                     continue;
                 livingEntity.damage(15, p);
                 livingEntity.setFreezeTicks(20 * 40);
                 cancelled = true;
             }
 
-            if(cancelled)
+            if (cancelled)
                 break;
         }
     }
 
-    private void freeze()  {
+    private void freeze() {
         p = pathway.getBeyonder().getPlayer();
         ArrayList<Block> blocks = Util.getBlocksInCircleRadius(p.getLocation().subtract(0, .5, 0).getBlock(), 8, true);
 
         Random random = new Random();
 
-        for(Block block : blocks) {
-            if(!Arrays.asList(convertMaterials).contains(block.getType()))
+        for (Block block : blocks) {
+            if (block.getType() == Material.WATER)
+                block.setType(Material.PACKED_ICE);
+
+            if (!Arrays.asList(convertMaterials).contains(block.getType()))
                 continue;
 
-            if(random.nextInt(3) == 0)
+            if (random.nextInt(3) == 0)
                 continue;
 
             block.setType(Material.PACKED_ICE);
@@ -121,8 +124,8 @@ public class FrostMagic extends Ability {
 
         p.getWorld().spawnParticle(Particle.SNOWFLAKE, p.getEyeLocation(), 70, 5, 5, 5, 0);
 
-        for(Entity entity : p.getNearbyEntities(8, 8, 8)) {
-            if(!(entity instanceof LivingEntity livingEntity))
+        for (Entity entity : p.getNearbyEntities(8, 8, 8)) {
+            if (!(entity instanceof LivingEntity livingEntity))
                 continue;
 
             livingEntity.damage(4, p);
@@ -134,7 +137,7 @@ public class FrostMagic extends Ability {
     //Cycle through categories on left click
     public void leftClick() {
         selected++;
-        if(selected >= categories.length)
+        if (selected >= categories.length)
             selected = 0;
         selectedCategory = categories[selected];
     }
@@ -142,7 +145,7 @@ public class FrostMagic extends Ability {
     @Override
     //Display selected category
     public void onHold() {
-        if(p == null)
+        if (p == null)
             p = pathway.getBeyonder().getPlayer();
         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§5Selected Use-case: §f" + selectedCategory.name));
     }

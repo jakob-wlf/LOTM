@@ -33,7 +33,7 @@ public class MirrorWorldTraversal extends Ability implements Listener {
 
         Plugin.instance.getServer().getPluginManager().registerEvents(this, Plugin.instance);
 
-        glassMaterials = new Material[] {
+        glassMaterials = new Material[]{
                 Material.GLASS,
                 Material.GLASS_PANE,
                 Material.WHITE_STAINED_GLASS,
@@ -78,17 +78,17 @@ public class MirrorWorldTraversal extends Ability implements Listener {
     public void useAbility() {
         p = pathway.getBeyonder().getPlayer();
 
-        if(traversing)
+        if (traversing)
             return;
 
-        if(onCooldown)
+        if (onCooldown)
             return;
 
-        ArrayList<Block> nearBlocks = Util.getBlocksInSquare(p.getEyeLocation().getBlock(), 4);
+        ArrayList<Block> nearBlocks = Util.getBlocksInSquare(p.getEyeLocation().getBlock(), 4, false);
 
         boolean valid = false;
-        for(Block block : nearBlocks) {
-            if(!Arrays.asList(glassMaterials).contains(block.getType()))
+        for (Block block : nearBlocks) {
+            if (!Arrays.asList(glassMaterials).contains(block.getType()))
                 continue;
 
             valid = true;
@@ -96,7 +96,7 @@ public class MirrorWorldTraversal extends Ability implements Listener {
         }
 
 
-        if(!valid) {
+        if (!valid) {
             p.sendMessage("§cYou have to be near glass blocks");
             return;
         }
@@ -119,24 +119,24 @@ public class MirrorWorldTraversal extends Ability implements Listener {
     public void onInteract(PlayerInteractEvent e) {
         p = pathway.getBeyonder().getPlayer();
 
-        if(!traversing || e.getPlayer() != p)
+        if (!traversing || e.getPlayer() != p)
             return;
 
-        ArrayList<Block> nearBlocks = Util.getBlocksInSquare(p.getEyeLocation().getBlock(), 4);
+        ArrayList<Block> nearBlocks = Util.getBlocksInSquare(p.getEyeLocation().getBlock(), 4, false);
 
         boolean valid = false;
-        for(Block block : nearBlocks) {
-            if(!Arrays.asList(glassMaterials).contains(block.getType()))
+        for (Block block : nearBlocks) {
+            if (!Arrays.asList(glassMaterials).contains(block.getType()))
                 continue;
 
             valid = true;
             break;
         }
 
-        if(onCooldown)
+        if (onCooldown)
             return;
 
-        if(!valid) {
+        if (!valid) {
             p.sendMessage("§cYou have to be near glass blocks");
             return;
         }
@@ -145,7 +145,6 @@ public class MirrorWorldTraversal extends Ability implements Listener {
         onCooldown = false;
         traversing = false;
     }
-
 
 
     @Override

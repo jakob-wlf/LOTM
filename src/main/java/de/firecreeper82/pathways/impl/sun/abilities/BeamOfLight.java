@@ -3,7 +3,6 @@ package de.firecreeper82.pathways.impl.sun.abilities;
 import de.firecreeper82.lotm.Beyonder;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.VectorUtils;
-import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.Recordable;
@@ -28,7 +27,7 @@ public class BeamOfLight extends Recordable {
 
     @Override
     public void useAbility(Player p, double multiplier, Beyonder beyonder, boolean recorded) {
-        if(!recorded)
+        if (!recorded)
             pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
         destroy(beyonder, recorded);
@@ -50,12 +49,12 @@ public class BeamOfLight extends Recordable {
 
                 Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(0, 215, 255), 1f);
 
-                for(int i = 0; i < 48; i++) {
+                for (int i = 0; i < 48; i++) {
                     tempLoc.add(direction);
                     world.spawnParticle(Particle.REDSTONE, tempLoc, 2, 0, 0, 0, dust);
                 }
 
-                if(counter > 25)
+                if (counter > 25)
                     cancel();
             }
 
@@ -79,7 +78,7 @@ public class BeamOfLight extends Recordable {
             public void run() {
                 Location tempLoc = loc.clone();
 
-                for(int i = 0; i < 48; i++) {
+                for (int i = 0; i < 48; i++) {
                     tempLoc.add(direction);
 
                     //Particle effects
@@ -96,8 +95,8 @@ public class BeamOfLight extends Recordable {
                         tempLoc.add(vec);
 
                         world.spawnParticle(Particle.END_ROD, tempLoc, 1, .05, .05, .05, 0);
-                        if(tempLoc.getBlock().getType().getHardness() >= 0) {
-                            if(random.nextInt(3) == 0)
+                        if (tempLoc.getBlock().getType().getHardness() >= 0) {
+                            if (random.nextInt(3) == 0)
                                 tempLoc.getBlock().setType(Material.FIRE);
                             else
                                 tempLoc.getBlock().setType(Material.AIR);
@@ -106,13 +105,13 @@ public class BeamOfLight extends Recordable {
                         tempLoc.subtract(vec);
                     }
 
-                    if(world.getNearbyEntities(tempLoc, 4, 4, 4).isEmpty())
+                    if (world.getNearbyEntities(tempLoc, 4, 4, 4).isEmpty())
                         continue;
 
-                    for(Entity e : world.getNearbyEntities(tempLoc, 4, 4, 4)) {
-                        if(!(e instanceof LivingEntity livingEntity) || e == p)
+                    for (Entity e : world.getNearbyEntities(tempLoc, 4, 4, 4)) {
+                        if (!(e instanceof LivingEntity livingEntity) || e == p)
                             continue;
-                        if(livingEntity.getCategory() == EntityCategory.UNDEAD)
+                        if (livingEntity.getCategory() == EntityCategory.UNDEAD)
                             livingEntity.damage(18 * multiplier);
                         livingEntity.damage(10 * multiplier);
                     }
@@ -121,7 +120,7 @@ public class BeamOfLight extends Recordable {
 
                 radius += .25;
 
-                if(radius > 1.75) {
+                if (radius > 1.75) {
                     cancel();
                     pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                 }

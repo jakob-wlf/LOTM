@@ -27,27 +27,28 @@ public class AirPipe extends Ability {
 
         new BukkitRunnable() {
             int counter = 0;
+
             @Override
             public void run() {
 
                 p.addPotionEffect(new PotionEffect(PotionEffectType.WATER_BREATHING, 60, 1, false, false));
 
                 Location particleLoc = p.getEyeLocation().clone().add(p.getLocation().getDirection().normalize().multiply(0.25));
-                while(particleLoc.getBlock().getType() == Material.WATER) {
-                    if(particleLoc.getWorld() != null) {
+                while (particleLoc.getBlock().getType() == Material.WATER) {
+                    if (particleLoc.getWorld() != null) {
                         particleLoc.getWorld().spawnParticle(Particle.SPELL, particleLoc, 1, 0, 0, 0, 0);
                     }
                     particleLoc.add(0, .5, 0);
                 }
 
-                if(counter >= 20) {
+                if (counter >= 20) {
                     counter = 0;
                     pathway.getBeyonder().setSpirituality(pathway.getBeyonder().getSpirituality() - 5);
                 }
 
                 counter++;
 
-                if(pathway.getBeyonder().getSpirituality() <= 2 || !pathway.getSequence().getUsesAbilities()[identifier - 1] || !pathway.getBeyonder().online) {
+                if (pathway.getBeyonder().getSpirituality() <= 2 || !pathway.getSequence().getUsesAbilities()[identifier - 1] || !pathway.getBeyonder().online) {
                     pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                     cancel();
                 }

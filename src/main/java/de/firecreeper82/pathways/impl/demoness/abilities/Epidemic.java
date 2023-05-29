@@ -35,42 +35,43 @@ public class Epidemic extends Ability {
 
         new BukkitRunnable() {
             int drainer = 0;
+
             @Override
             public void run() {
                 p.getWorld().spawnParticle(Particle.SMOKE_NORMAL, p.getEyeLocation(), 500, 40, 40, 40, 0);
 
-                if(pathway.getBeyonder().getSpirituality() <= 10) {
+                if (pathway.getBeyonder().getSpirituality() <= 10) {
                     cancel();
                     return;
                 }
 
                 drainer++;
-                if(drainer >= 20) {
+                if (drainer >= 20) {
                     drainer = 0;
                     pathway.getSequence().removeSpirituality(10);
                 }
 
-                for(Entity entity : p.getNearbyEntities(50, 50, 50)) {
-                    if(infected.contains(entity))
+                for (Entity entity : p.getNearbyEntities(50, 50, 50)) {
+                    if (infected.contains(entity))
                         continue;
 
-                    if(!(entity instanceof LivingEntity livingEntity))
+                    if (!(entity instanceof LivingEntity livingEntity))
                         continue;
 
                     infected.add(entity);
                     new BukkitRunnable() {
                         long counter = 80;
+
                         @Override
                         public void run() {
 
-                            if(counter % 80 == 0) {
-                                if(counter < 8 * 20)
+                            if (counter % 80 == 0) {
+                                if (counter < 8 * 20)
                                     livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 200, 0));
-                                else if(counter <= 18 * 20) {
+                                else if (counter <= 18 * 20) {
                                     livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 200, 1));
                                     livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 200, 4));
-                                }
-                                else {
+                                } else {
                                     livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 200, 4));
                                     livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 200, 3));
                                     livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 200, 1));
@@ -79,29 +80,29 @@ public class Epidemic extends Ability {
 
                             counter++;
 
-                            if(counter >= 9223372036854775800L)
+                            if (counter >= 9223372036854775800L)
                                 infected.remove(entity);
 
-                            if(!pathway.getSequence().getUsesAbilities()[identifier - 1])
+                            if (!pathway.getSequence().getUsesAbilities()[identifier - 1])
                                 infected.remove(entity);
 
-                            if(!p.getNearbyEntities(50, 50, 50).contains(entity)) {
+                            if (!p.getNearbyEntities(50, 50, 50).contains(entity)) {
                                 infected.remove(entity);
                             }
 
-                            if(!infected.contains(entity)) {
+                            if (!infected.contains(entity)) {
                                 cancel();
                                 return;
                             }
 
-                            if(!livingEntity.isValid())
+                            if (!livingEntity.isValid())
                                 cancel();
 
                         }
                     }.runTaskTimer(Plugin.instance, 0, 0);
                 }
 
-                if(!pathway.getSequence().getUsesAbilities()[identifier - 1])
+                if (!pathway.getSequence().getUsesAbilities()[identifier - 1])
                     cancel();
             }
         }.runTaskTimer(Plugin.instance, 0, 0);

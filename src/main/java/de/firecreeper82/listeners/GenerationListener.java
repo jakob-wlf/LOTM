@@ -16,7 +16,7 @@ import java.util.Random;
 
 public class GenerationListener implements Listener {
 
-    private static final double[] PROBABILITY_DISTRIBUTION = { 0.05, 0.06, 0.07, 0.08, 0.09, 0.10, 0.11, 0.12, 0.28 };
+    private static final double[] PROBABILITY_DISTRIBUTION = {0.05, 0.06, 0.07, 0.08, 0.09, 0.10, 0.11, 0.12, 0.28};
     private static final int MIN_VALUE = 1;
 
     @EventHandler
@@ -24,7 +24,7 @@ public class GenerationListener implements Listener {
         ItemStack item;
         Random random = new Random();
 
-        if(random.nextBoolean())
+        if (random.nextBoolean())
             return;
 
         int sequence = Util.biasedRandomNumber(PROBABILITY_DISTRIBUTION, MIN_VALUE);
@@ -37,7 +37,7 @@ public class GenerationListener implements Listener {
             default -> item = potion.returnPotionForSequence(sequence);
         }
 
-        if(e.getInventoryHolder() == null)
+        if (e.getInventoryHolder() == null)
             return;
 
         Inventory inv = e.getInventoryHolder().getInventory();
@@ -63,7 +63,7 @@ public class GenerationListener implements Listener {
                 in.setAmount(random.nextInt(20, 54));
                 ItemStack in2 = new ItemStack(Material.DIAMOND);
                 in.setAmount(random.nextInt(1, 4));
-                return new ItemStack[] { in, in2, out };
+                return new ItemStack[]{in, in2, out};
             }
 
             default -> out = potion.returnPotionForSequence(sequence);

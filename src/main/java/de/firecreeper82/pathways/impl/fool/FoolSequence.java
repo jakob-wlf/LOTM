@@ -59,9 +59,9 @@ public class FoolSequence extends Sequence implements Listener {
     //Paper throw ability
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
-        if(e.getPlayer() != getPathway().getBeyonder().getPlayer() || e.getItem() == null || currentSequence > 8 || pathway.getBeyonder().getSpirituality() < 6 || !pathway.getBeyonder().isBeyonder())
+        if (e.getPlayer() != getPathway().getBeyonder().getPlayer() || e.getItem() == null || currentSequence > 8 || pathway.getBeyonder().getSpirituality() < 6 || !pathway.getBeyonder().isBeyonder())
             return;
-        if(e.getItem().getType() == Material.PAPER) {
+        if (e.getItem().getType() == Material.PAPER) {
             Player p = e.getPlayer();
             ItemStack removeItem = e.getItem();
 
@@ -75,14 +75,15 @@ public class FoolSequence extends Sequence implements Listener {
             removeSpirituality(5);
             new BukkitRunnable() {
                 int counter = 0;
+
                 @Override
                 public void run() {
                     Objects.requireNonNull(startLoc.getWorld()).spawnParticle(Particle.CLOUD, startLoc, 1, 0, 0, 0, 0);
                     startLoc.add(v);
                     counter++;
 
-                    if(!startLoc.getWorld().getNearbyEntities(startLoc, 5, 5,5).isEmpty()) {
-                        for(Entity entity : startLoc.getWorld().getNearbyEntities(startLoc, 5, 5, 5)) {
+                    if (!startLoc.getWorld().getNearbyEntities(startLoc, 5, 5, 5).isEmpty()) {
+                        for (Entity entity : startLoc.getWorld().getNearbyEntities(startLoc, 5, 5, 5)) {
                             Vector v1 = new Vector(
                                     startLoc.getX() + 0.25,
                                     startLoc.getY() + 0.25,
@@ -93,8 +94,8 @@ public class FoolSequence extends Sequence implements Listener {
                                     startLoc.getY() - 0.25,
                                     startLoc.getZ() - 0.25
                             );
-                            if(entity.getBoundingBox().overlaps(v1, v2)) {
-                                if(!(entity instanceof Damageable) || entity == p)
+                            if (entity.getBoundingBox().overlaps(v1, v2)) {
+                                if (!(entity instanceof Damageable) || entity == p)
                                     continue;
                                 ((Damageable) entity).damage(5 * Ability.getMultiplier(getPathway()), p);
                                 cancel();
@@ -103,9 +104,9 @@ public class FoolSequence extends Sequence implements Listener {
                         }
                     }
 
-                    if(counter >= 40 || startLoc.getBlock().getType().isSolid()) {
+                    if (counter >= 40 || startLoc.getBlock().getType().isSolid()) {
                         removeItem.setAmount(1);
-                        if(removeItem.getType() == Material.PAPER)
+                        if (removeItem.getType() == Material.PAPER)
                             startLoc.getWorld().dropItem(startLoc, removeItem);
                         cancel();
                     }
@@ -117,10 +118,11 @@ public class FoolSequence extends Sequence implements Listener {
     //Remove fall damage
     @EventHandler
     public void onDamage(EntityDamageEvent e) {
-        if(e.getEntity() != getPathway().getBeyonder().getPlayer() || e.getCause() != EntityDamageEvent.DamageCause.FALL)
+        if (e.getEntity() != getPathway().getBeyonder().getPlayer() || e.getCause() != EntityDamageEvent.DamageCause.FALL)
             return;
 
-        e.setCancelled(true);
+        if (currentSequence < 9)
+            e.setCancelled(true);
     }
 
     //Passive effects

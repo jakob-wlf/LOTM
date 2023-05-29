@@ -1,7 +1,9 @@
 package de.firecreeper82.handlers.spirits.impl;
 
 import de.firecreeper82.handlers.spirits.Spirit;
-import org.bukkit.entity.*;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Skeleton;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Objects;

@@ -32,6 +32,7 @@ public class HolySong extends Ability {
         p.getWorld().playSound(p, Sound.MUSIC_DISC_MELLOHI, 10f, 1f);
         new BukkitRunnable() {
             int counter = 0;
+
             @Override
             public void run() {
                 p.getWorld().spawnParticle(Particle.NOTE, p.getLocation(), 50, 5, 5, 5);
@@ -39,7 +40,7 @@ public class HolySong extends Ability {
                 p.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 40, 0, false, false, false));
                 p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 40, 1, false, false, false));
                 p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 40, 0, false, false, false));
-                if(counter >= 95) {
+                if (counter >= 95) {
                     counter = 0;
                     cancel();
                     pathway.getSequence().getUsesAbilities()[identifier - 1] = false;

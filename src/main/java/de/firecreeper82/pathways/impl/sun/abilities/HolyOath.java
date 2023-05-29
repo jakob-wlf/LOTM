@@ -30,7 +30,7 @@ public class HolyOath extends Ability {
 
         //Particle effects
         double radius = 1;
-        for(double y = 0; y <= 2; y+=0.05) {
+        for (double y = 0; y <= 2; y += 0.05) {
             double x = radius * Math.cos(y * 20);
             double z = radius * Math.sin(y * 20);
             double x2 = radius * Math.sin(y * 20);
@@ -53,14 +53,14 @@ public class HolyOath extends Ability {
                 p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 40, 2, false, false, false));
                 p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 40, 2, false, false, false));
 
-                if(pathway.getBeyonder().getSpirituality() <= 45 || !pathway.getBeyonder().online) {
+                if (pathway.getBeyonder().getSpirituality() <= 45 || !pathway.getBeyonder().online) {
                     pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                     cancel();
                 }
 
                 pathway.getBeyonder().setSpirituality(pathway.getBeyonder().getSpirituality() - 45);
 
-                if(!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
+                if (!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
                     cancel();
                 }
             }
@@ -70,6 +70,7 @@ public class HolyOath extends Ability {
         new BukkitRunnable() {
             double counter = 0;
             double counterY = 0;
+
             @Override
             public void run() {
 
@@ -84,15 +85,15 @@ public class HolyOath extends Ability {
 
                 Objects.requireNonNull(pLoc.getWorld()).spawnParticle(Particle.END_ROD, pLoc.getX() + x, pLoc.getY() + counterY, pLoc.getZ() + z, 20, 0, 0, 0, 0);
 
-                if(counterY >= 2)
+                if (counterY >= 2)
                     counterY = 0;
 
-                if(pathway.getBeyonder().getSpirituality() <= 5 || !pathway.getBeyonder().online) {
+                if (pathway.getBeyonder().getSpirituality() <= 5 || !pathway.getBeyonder().online) {
                     pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                     cancel();
                 }
 
-                if(!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
+                if (!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
                     cancel();
                 }
 

@@ -22,23 +22,23 @@ public class DoorOpening extends Ability {
         Vector dir = p.getEyeLocation().getDirection();
         Location startLoc = p.getEyeLocation();
 
-        for(int i = 0; i < 3; i++) {
-            if(startLoc.getBlock().getType().isSolid())
+        for (int i = 0; i < 3; i++) {
+            if (startLoc.getBlock().getType().isSolid())
                 break;
             startLoc.add(dir);
         }
 
-        if(!startLoc.getBlock().getType().isSolid())
+        if (!startLoc.getBlock().getType().isSolid())
             return;
 
         for (int i = 0; i < 100; i++) {
-            if(!startLoc.getBlock().getType().isSolid())
+            if (!startLoc.getBlock().getType().isSolid())
                 break;
 
             startLoc.add(dir);
         }
 
-        if(startLoc.getBlock().getType().isSolid())
+        if (startLoc.getBlock().getType().isSolid())
             return;
 
         p.teleport(startLoc);

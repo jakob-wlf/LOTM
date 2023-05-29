@@ -13,7 +13,10 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Damageable;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BlockIterator;
@@ -34,7 +37,7 @@ public class FrostSpear extends Recordable {
         items.addToSequenceItems(identifier - 1, sequence);
 
         dust = new Particle.DustOptions(Color.fromRGB(165, 231, 250), .5f);
-        convertMaterials = new Material[] {
+        convertMaterials = new Material[]{
                 Material.GRASS_BLOCK,
                 Material.DIRT_PATH,
                 Material.DIRT,
@@ -52,7 +55,7 @@ public class FrostSpear extends Recordable {
 
     @Override
     public void useAbility(Player p, double multiplier, Beyonder beyonder, boolean recorded) {
-        if(!recorded)
+        if (!recorded)
             pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
         destroy(beyonder, recorded);
@@ -72,7 +75,7 @@ public class FrostSpear extends Recordable {
 
         Location loc = p.getEyeLocation().add(p.getEyeLocation().getDirection().normalize().multiply(distance)).clone();
 
-        float angle = p.getEyeLocation().getYaw()/60;
+        float angle = p.getEyeLocation().getYaw() / 60;
 
         Location spearLocation = p.getEyeLocation().subtract(Math.cos(angle), 0, Math.sin(angle));
         Vector dir = loc.toVector().subtract(spearLocation.toVector()).normalize();
@@ -82,13 +85,14 @@ public class FrostSpear extends Recordable {
 
         new BukkitRunnable() {
             int counter = 0;
+
             @Override
             public void run() {
                 spearLocation.add(direction);
                 buildSpear(spearLocation.clone(), direction.clone());
 
-                if(!Objects.requireNonNull(spearLocation.getWorld()).getNearbyEntities(spearLocation, 5, 5, 5).isEmpty()) {
-                    for(Entity entity : spearLocation.getWorld().getNearbyEntities(spearLocation, 5, 5, 5)) {
+                if (!Objects.requireNonNull(spearLocation.getWorld()).getNearbyEntities(spearLocation, 5, 5, 5).isEmpty()) {
+                    for (Entity entity : spearLocation.getWorld().getNearbyEntities(spearLocation, 5, 5, 5)) {
                         if (entity instanceof LivingEntity) {
                             // Ignore player that initiated the shot
                             if (entity == p) {
@@ -104,7 +108,7 @@ public class FrostSpear extends Recordable {
                                     spearLocation.getZ() + 0.25);
 
                             //entity hit
-                            if(entity.getBoundingBox().overlaps(particleMinVector,particleMaxVector)){
+                            if (entity.getBoundingBox().overlaps(particleMinVector, particleMaxVector)) {
 
                                 entity.setVelocity(entity.getVelocity().add(spearLocation.getDirection().normalize().multiply(1.5)));
                                 ((Damageable) entity).damage(28 * multiplier, p);
@@ -120,7 +124,7 @@ public class FrostSpear extends Recordable {
                 }
 
                 //hits solid block
-                if(spearLocation.getBlock().getType().isSolid()) {
+                if (spearLocation.getBlock().getType().isSolid()) {
                     Location freezeLoc = spearLocation.clone();
                     ArrayList<Block> blocks = Util.getBlocksInCircleRadius(freezeLoc.getBlock(), 13, true);
 
@@ -128,11 +132,11 @@ public class FrostSpear extends Recordable {
 
                     Random random = new Random();
 
-                    for(Block block : blocks) {
-                        if(!Arrays.asList(convertMaterials).contains(block.getType()))
+                    for (Block block : blocks) {
+                        if (!Arrays.asList(convertMaterials).contains(block.getType()))
                             continue;
 
-                        if(random.nextInt(4) == 0)
+                        if (random.nextInt(4) == 0)
                             continue;
 
                         block.setType(Material.PACKED_ICE);
@@ -140,8 +144,8 @@ public class FrostSpear extends Recordable {
 
                     p.getWorld().spawnParticle(Particle.SNOWFLAKE, freezeLoc, 200, 5, 5, 5, 0);
 
-                    for(Entity entity : p.getNearbyEntities(10, 10, 10)) {
-                        if(!(entity instanceof LivingEntity livingEntity))
+                    for (Entity entity : p.getNearbyEntities(10, 10, 10)) {
+                        if (!(entity instanceof LivingEntity livingEntity))
                             continue;
 
                         livingEntity.damage(8, p);
@@ -149,7 +153,7 @@ public class FrostSpear extends Recordable {
                     }
                     cancel();
                 }
-                if(counter >= 160) {
+                if (counter >= 160) {
                     pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                     cancel();
                     return;
@@ -159,7 +163,7 @@ public class FrostSpear extends Recordable {
         }.runTaskTimer(Plugin.instance, 5, 0);
 
         new BukkitRunnable() {
-            public void run () {
+            public void run() {
                 pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
             }
         }.runTaskLater(Plugin.instance, 20);
@@ -167,7 +171,7 @@ public class FrostSpear extends Recordable {
 
     public void buildSpear(Location loc, Vector direc) {
 
-        for(int i = 0; i < 6; i++) {
+        for (int i = 0; i < 6; i++) {
             loc.subtract(direc);
         }
 
@@ -178,7 +182,7 @@ public class FrostSpear extends Recordable {
         double pitch = (playerLoc.getPitch() + 90.0F) * 0.017453292F;
         double yaw = -playerLoc.getYaw() * 0.017453292F;
         double increment = (2 * Math.PI) / circlePoints;
-        for(int k = 0; k < 5; k++) {
+        for (int k = 0; k < 5; k++) {
             radius -= 0.009;
             for (int i = 0; i < circlePoints; i++) {
                 double angle = i * increment;
@@ -195,7 +199,7 @@ public class FrostSpear extends Recordable {
         }
 
         direc.multiply(0.125);
-        for(int i = 0; i < 96; i++) {
+        for (int i = 0; i < 96; i++) {
             Objects.requireNonNull(loc.getWorld()).spawnParticle(Particle.REDSTONE, loc.clone(), 10, .03, .03, .03, dust);
             loc.add(direc);
         }
@@ -207,7 +211,7 @@ public class FrostSpear extends Recordable {
         pitch = (playerLoc.getPitch() + 90.0F) * 0.017453292F;
         yaw = -playerLoc.getYaw() * 0.017453292F;
         increment = (2 * Math.PI) / circlePoints;
-        for(int k = 0; k < 13; k++) {
+        for (int k = 0; k < 13; k++) {
             radius -= 0.019;
             for (int i = 0; i < circlePoints; i++) {
                 double angle = i * increment;

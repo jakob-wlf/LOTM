@@ -34,13 +34,12 @@ public abstract class Potion {
         potionMeta.setColor(color);
         potionMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
         String[] lore;
-        if(ritual.equals("")) {
+        if (ritual.equals("")) {
             lore = new String[]{
                     "§5Drink this Potion to gain the powers",
                     "§5of a Sequence " + sequence + ": " + name
             };
-        }
-        else {
+        } else {
             lore = new String[]{
                     "§5Drink this Potion to gain the powers",
                     "§5of a Sequence " + sequence + ": " + name,

@@ -34,7 +34,7 @@ public class FlameJump extends Ability {
     public void useAbility() {
         p = pathway.getBeyonder().getPlayer();
 
-        if(teleportBlock == null)
+        if (teleportBlock == null)
             return;
 
         Location loc = teleportBlock.getLocation().clone().add(0.5, 0.5, 0.5);
@@ -63,9 +63,9 @@ public class FlameJump extends Ability {
 
     public static List<Block> getNearbyBlocks(Location location, int radius) {
         List<Block> blocks = new ArrayList<>();
-        for(int x = location.getBlockX() - radius; x <= location.getBlockX() + radius; x++) {
-            for(int y = location.getBlockY() - radius; y <= location.getBlockY() + radius; y++) {
-                for(int z = location.getBlockZ() - radius; z <= location.getBlockZ() + radius; z++) {
+        for (int x = location.getBlockX() - radius; x <= location.getBlockX() + radius; x++) {
+            for (int y = location.getBlockY() - radius; y <= location.getBlockY() + radius; y++) {
+                for (int z = location.getBlockZ() - radius; z <= location.getBlockZ() + radius; z++) {
                     blocks.add(Objects.requireNonNull(location.getWorld()).getBlockAt(x, y, z));
                 }
             }
@@ -81,9 +81,9 @@ public class FlameJump extends Ability {
         Vector direction = p.getLocation().getDirection().normalize();
         Location loc = p.getEyeLocation().clone();
 
-        for(int i = 0; i < 60; i++) {
+        for (int i = 0; i < 60; i++) {
             loc.add(direction);
-            if(loc.getBlock().getType().isSolid())
+            if (loc.getBlock().getType().isSolid())
                 break;
         }
         double nearestBlockDistance = -1;
@@ -91,34 +91,34 @@ public class FlameJump extends Ability {
 
         List<Block> blocks = getNearbyBlocks(p.getLocation(), 60);
 
-        for(Block b : blocks) {
+        for (Block b : blocks) {
             Material[] validMaterials = {
                     Material.FIRE,
                     Material.SOUL_FIRE,
                     Material.SOUL_CAMPFIRE,
                     Material.CAMPFIRE
             };
-            if(!Arrays.asList(validMaterials).contains(b.getType()))
+            if (!Arrays.asList(validMaterials).contains(b.getType()))
                 continue;
-            if(nearestBlockDistance == -1) {
+            if (nearestBlockDistance == -1) {
                 nearestBlock = b;
                 nearestBlockDistance = b.getLocation().distance(loc);
                 continue;
             }
-            if(nearestBlockDistance > b.getLocation().distance(loc)) {
+            if (nearestBlockDistance > b.getLocation().distance(loc)) {
                 nearestBlock = b;
                 nearestBlockDistance = b.getLocation().distance(loc);
             }
         }
 
-        if(nearestBlock == null) {
+        if (nearestBlock == null) {
             teleportBlock = null;
             return;
         }
 
         loc = nearestBlock.getLocation().clone();
 
-        if(!justTeleported)
+        if (!justTeleported)
             p.spawnParticle(Particle.FLASH, loc.clone().add(0.5, 0.75, 0.5), 1, 0, 0, 0, 0);
         teleportBlock = nearestBlock;
     }

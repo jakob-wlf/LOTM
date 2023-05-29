@@ -6,7 +6,8 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-import java.util.HashMap;
-
-public record CustomEntity(@NonNull String name, @NonNull String id, int rarity, @NonNull ItemStack drop, @NonNull EntityType entityType, @Nullable Integer maxHealth, @Nullable BeyonderMobs beyonderMobs, @Nullable EntityType spawnType, String particle, boolean repeatingParticles, MobUsableAbility[] abilities) {
+public record CustomEntity(@NonNull String name, @NonNull String id, int rarity, @NonNull ItemStack drop,
+                           @NonNull EntityType entityType, @Nullable Integer maxHealth,
+                           @Nullable BeyonderMobs beyonderMobs, @Nullable EntityType spawnType, String particle,
+                           boolean repeatingParticles, MobUsableAbility[] abilities) {
 }

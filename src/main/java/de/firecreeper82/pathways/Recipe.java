@@ -19,14 +19,14 @@ public class Recipe {
         bookMeta.setDisplayName(potion.getStringColor() + Util.capitalize(potion.getName()) + "-Pathway Sequence " + sequence);
 
         StringBuilder mainIngredients = new StringBuilder();
-        for(ItemStack item : potion.getMainIngredients(sequence)) {
+        for (ItemStack item : potion.getMainIngredients(sequence)) {
             mainIngredients.append(Objects.requireNonNull(item.getItemMeta()).getDisplayName());
             mainIngredients.append("\n");
         }
 
         StringBuilder supplIngredients = new StringBuilder();
-        for(ItemStack item : potion.getSupplIngredients(sequence)) {
-            if(!Objects.requireNonNull(item.getItemMeta()).getDisplayName().equalsIgnoreCase(""))
+        for (ItemStack item : potion.getSupplIngredients(sequence)) {
+            if (!Objects.requireNonNull(item.getItemMeta()).getDisplayName().equalsIgnoreCase(""))
                 supplIngredients.append(Objects.requireNonNull(item.getItemMeta()).getDisplayName());
             else
                 supplIngredients.append(Util.capitalize(item.getType().name()));
@@ -37,9 +37,9 @@ public class Recipe {
 
         String page =
                 potion.getStringColor() + "Main ingredients: \n" +
-                mainIngredients + "\n \n" +
-                potion.getStringColor() + "Supplementary Ingredients:§r \n" +
-                supplIngredients + "\n";
+                        mainIngredients + "\n \n" +
+                        potion.getStringColor() + "Supplementary Ingredients:§r \n" +
+                        supplIngredients + "\n";
 
         content.add(page);
         bookMeta.setPages(content);

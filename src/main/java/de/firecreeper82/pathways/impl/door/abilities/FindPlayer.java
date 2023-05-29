@@ -30,7 +30,7 @@ public class FindPlayer extends Ability implements Listener {
     public void useAbility() {
         p = pathway.getBeyonder().getPlayer();
 
-        if(finding) {
+        if (finding) {
             finding = false;
             p.sendMessage("§cCancelling");
             return;
@@ -46,7 +46,7 @@ public class FindPlayer extends Ability implements Listener {
     public void onChat(AsyncPlayerChatEvent e) {
         p = pathway.getBeyonder().getPlayer();
 
-        if(!finding || e.getPlayer() != p)
+        if (!finding || e.getPlayer() != p)
             return;
 
         e.setCancelled(true);
@@ -56,8 +56,8 @@ public class FindPlayer extends Ability implements Listener {
             public void run() {
                 Player tp = null;
 
-                for(Player player : Bukkit.getOnlinePlayers()) {
-                    if(!e.getMessage().equalsIgnoreCase(player.getName()))
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    if (!e.getMessage().equalsIgnoreCase(player.getName()))
                         continue;
                     tp = player;
                     break;
@@ -66,7 +66,7 @@ public class FindPlayer extends Ability implements Listener {
                 finding = false;
 
 
-                if(tp == null) {
+                if (tp == null) {
                     p.sendMessage("§cCouldn't find the player " + e.getMessage());
                     p.sendMessage("§cCancelling");
                     return;

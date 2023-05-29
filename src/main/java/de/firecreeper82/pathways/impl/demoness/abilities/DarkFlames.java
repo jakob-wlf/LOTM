@@ -28,16 +28,17 @@ public class DarkFlames extends Ability {
 
         Vector vector = p.getLocation().getDirection().normalize();
         Location loc = p.getEyeLocation().clone();
-        if(loc.getWorld() == null)
+        if (loc.getWorld() == null)
             return;
         World world = loc.getWorld();
 
         new BukkitRunnable() {
             int counter = 0;
+
             @Override
             public void run() {
                 counter++;
-                if(counter >= 50) {
+                if (counter >= 50) {
                     cancel();
                     return;
                 }
@@ -45,25 +46,25 @@ public class DarkFlames extends Ability {
                 loc.add(vector);
                 world.spawnParticle(Particle.SOUL_FIRE_FLAME, loc, 40, .25, .25, .25, 0);
 
-                if(world.getNearbyEntities(loc, 1, 1, 1).isEmpty())
+                if (world.getNearbyEntities(loc, 1, 1, 1).isEmpty())
                     return;
 
-                if(loc.getBlock().getType().isSolid()) {
+                if (loc.getBlock().getType().isSolid()) {
                     loc.clone().subtract(vector).getBlock().setType(Material.SOUL_FIRE);
                     cancel();
                     return;
                 }
 
                 boolean cancelled = false;
-                for(Entity entity : world.getNearbyEntities(loc, 1, 1, 1)) {
-                    if(!(entity instanceof LivingEntity livingEntity) || entity == p)
+                for (Entity entity : world.getNearbyEntities(loc, 1, 1, 1)) {
+                    if (!(entity instanceof LivingEntity livingEntity) || entity == p)
                         continue;
                     livingEntity.damage(15, p);
                     livingEntity.setFireTicks(20 * 20);
                     cancelled = true;
                 }
 
-                if(cancelled)
+                if (cancelled)
                     cancel();
             }
         }.runTaskTimer(Plugin.instance, 0, 0);

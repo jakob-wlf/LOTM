@@ -6,14 +6,17 @@ import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.sun.SunItems;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.Objects;
 
-public class WingsOfLight extends Ability{
+public class WingsOfLight extends Ability {
 
     public WingsOfLight(int identifier, Pathway pathway, int sequence, Items items) {
         super(identifier, pathway, sequence, items);
@@ -45,7 +48,7 @@ public class WingsOfLight extends Ability{
     public void useAbility() {
         p = pathway.getBeyonder().getPlayer();
 
-        if(pathway.getSequence().getCurrentSequence() > 1) {
+        if (pathway.getSequence().getCurrentSequence() > 1) {
             p.setVelocity(new Vector(0, 1, 0));
             pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
             new BukkitRunnable() {
@@ -92,9 +95,10 @@ public class WingsOfLight extends Ability{
         p.setVelocity(p.getEyeLocation().getDirection().normalize().multiply(1.75));
         new BukkitRunnable() {
             int counter = 0;
+
             @Override
             public void run() {
-                if(counter > 20) {
+                if (counter > 20) {
                     cancel();
                     return;
                 }
@@ -108,7 +112,7 @@ public class WingsOfLight extends Ability{
     @Override
     public void leftClick() {
         p = pathway.getBeyonder().getPlayer();
-        if(pathway.getSequence().getCurrentSequence() > 1)
+        if (pathway.getSequence().getCurrentSequence() > 1)
             return;
 
         p.setVelocity(new Vector(0, 0, 0));
@@ -118,7 +122,7 @@ public class WingsOfLight extends Ability{
         new BukkitRunnable() {
             @Override
             public void run() {
-                if(p.hasGravity()) {
+                if (p.hasGravity()) {
                     cancel();
                     return;
                 }

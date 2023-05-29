@@ -1,6 +1,11 @@
 package de.firecreeper82.handlers.mobs;
 
-import de.firecreeper82.handlers.mobs.abilities.*;
+import de.firecreeper82.handlers.mobs.abilities.BaneAbility;
+import de.firecreeper82.handlers.mobs.abilities.PlundererAbility;
+import de.firecreeper82.handlers.mobs.abilities.RoosterAbility;
+import de.firecreeper82.handlers.mobs.abilities.SpawnVex;
+import de.firecreeper82.handlers.mobs.abilities.sun.FlaringSun;
+import de.firecreeper82.handlers.mobs.abilities.sun.HolyLightSummoning;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.BeyonderItems;
 import de.firecreeper82.pathways.MobUsableAbility;
@@ -54,21 +59,21 @@ public class BeyonderMobsHandler implements Listener {
     }
 
     public boolean spawnEntity(String id, Location location, World world) {
-        for(CustomEntity customEntity : customEntities) {
-            if(!customEntity.id().equalsIgnoreCase(id))
+        for (CustomEntity customEntity : customEntities) {
+            if (!customEntity.id().equalsIgnoreCase(id))
                 continue;
 
             Entity entity = customEntity.spawnType() == null ? world.spawnEntity(location, customEntity.entityType()) : world.spawnEntity(location, customEntity.spawnType());
             entity.setCustomName(customEntity.name());
 
-            if(entity instanceof LivingEntity livingEntity && customEntity.maxHealth() != null) {
+            if (entity instanceof LivingEntity livingEntity && customEntity.maxHealth() != null) {
                 Objects.requireNonNull(livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(customEntity.maxHealth());
                 livingEntity.setHealth(customEntity.maxHealth());
             }
 
             entity.setMetadata("customEntityId", new FixedMetadataValue(Plugin.instance, customEntity.id()));
 
-            if(customEntity.beyonderMobs() != null) {
+            if (customEntity.beyonderMobs() != null) {
                 customEntity.beyonderMobs().addMob(entity, customEntity);
             }
             return true;
@@ -78,16 +83,16 @@ public class BeyonderMobsHandler implements Listener {
 
     @EventHandler
     public void onEntitySpawn(EntitySpawnEvent e) {
-        for(CustomEntity customEntity : customEntities) {
-            if(e.getEntity().getType() != customEntity.entityType())
+        for (CustomEntity customEntity : customEntities) {
+            if (e.getEntity().getType() != customEntity.entityType())
                 continue;
 
             Random random = new Random();
-            if(random.nextInt(customEntity.rarity()) != 0)
+            if (random.nextInt(customEntity.rarity()) != 0)
                 return;
 
             Entity entity;
-            if(customEntity.spawnType() == null)
+            if (customEntity.spawnType() == null)
                 entity = e.getEntity();
             else {
                 entity = e.getEntity().getWorld().spawnEntity(e.getLocation(), customEntity.spawnType());
@@ -96,14 +101,14 @@ public class BeyonderMobsHandler implements Listener {
 
             entity.setCustomName(customEntity.name());
 
-            if(entity instanceof LivingEntity livingEntity && customEntity.maxHealth() != null) {
+            if (entity instanceof LivingEntity livingEntity && customEntity.maxHealth() != null) {
                 Objects.requireNonNull(livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(customEntity.maxHealth());
                 livingEntity.setHealth(customEntity.maxHealth());
             }
 
             entity.setMetadata("customEntityId", new FixedMetadataValue(Plugin.instance, customEntity.id()));
 
-            if(customEntity.beyonderMobs() != null) {
+            if (customEntity.beyonderMobs() != null) {
                 customEntity.beyonderMobs().addMob(entity, customEntity);
             }
         }
@@ -111,17 +116,17 @@ public class BeyonderMobsHandler implements Listener {
 
     @EventHandler
     public void onEntityDie(EntityDamageEvent e) {
-        if(e.getEntity().getMetadata("customEntityId").isEmpty())
+        if (e.getEntity().getMetadata("customEntityId").isEmpty())
             return;
 
-        if(!(e.getEntity() instanceof LivingEntity livingEntity))
+        if (!(e.getEntity() instanceof LivingEntity livingEntity))
             return;
 
-        if(livingEntity.getHealth() > e.getDamage())
+        if (livingEntity.getHealth() > e.getDamage())
             return;
 
-        for(CustomEntity customEntity : customEntities) {
-            if(Objects.equals(e.getEntity().getMetadata("customEntityId").get(0).value(), customEntity.id())) {
+        for (CustomEntity customEntity : customEntities) {
+            if (Objects.equals(e.getEntity().getMetadata("customEntityId").get(0).value(), customEntity.id())) {
                 livingEntity.getWorld().dropItem(livingEntity.getLocation(), customEntity.drop());
                 break;
             }

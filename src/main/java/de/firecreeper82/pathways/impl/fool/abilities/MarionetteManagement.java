@@ -40,7 +40,7 @@ public class MarionetteManagement extends Ability implements Listener {
     public void useAbility() {
         p = pathway.getBeyonder().getPlayer();
 
-        if(!beyonderMarionette && !pathway.getBeyonder().getMarionettes().isEmpty()) {
+        if (!beyonderMarionette && !pathway.getBeyonder().getMarionettes().isEmpty()) {
             Marionette marionette = pathway.getBeyonder().getMarionettes().get(currentIndex);
             if (marionette.isBeingControlled()) {
                 p.sendTitle("", "§cYou are currently controlling this marionette", 10, 70, 10);
@@ -50,8 +50,7 @@ public class MarionetteManagement extends Ability implements Listener {
                 marionette.removeEntity();
             else
                 marionette.respawnEntity();
-        }
-        else if(beyonderMarionette && !pathway.getBeyonder().getBeyonderMarionettes().isEmpty()) {
+        } else if (beyonderMarionette && !pathway.getBeyonder().getBeyonderMarionettes().isEmpty()) {
             BeyonderMarionette marionette = pathway.getBeyonder().getBeyonderMarionettes().get(currentIndex);
 
             if (marionette.isActive())
@@ -68,17 +67,15 @@ public class MarionetteManagement extends Ability implements Listener {
 
     @Override
     public void leftClick() {
-        if(currentIndex == pathway.getBeyonder().getMarionettes().size() - 1 && !beyonderMarionette) {
-            if(!pathway.getBeyonder().getBeyonderMarionettes().isEmpty())
+        if (currentIndex == pathway.getBeyonder().getMarionettes().size() - 1 && !beyonderMarionette) {
+            if (!pathway.getBeyonder().getBeyonderMarionettes().isEmpty())
                 beyonderMarionette = true;
             currentIndex = 0;
-        }
-        else if(beyonderMarionette && currentIndex == pathway.getBeyonder().getBeyonderMarionettes().size() - 1) {
-            if(!pathway.getBeyonder().getMarionettes().isEmpty())
+        } else if (beyonderMarionette && currentIndex == pathway.getBeyonder().getBeyonderMarionettes().size() - 1) {
+            if (!pathway.getBeyonder().getMarionettes().isEmpty())
                 beyonderMarionette = false;
             currentIndex = 0;
-        }
-        else
+        } else
             currentIndex++;
     }
 
@@ -86,44 +83,42 @@ public class MarionetteManagement extends Ability implements Listener {
     public void onHold() {
         p = pathway.getBeyonder().getPlayer();
 
-        if(pathway.getBeyonder().getMarionettes().isEmpty()) {
+        if (pathway.getBeyonder().getMarionettes().isEmpty()) {
             beyonderMarionette = true;
         }
 
-        if(pathway.getBeyonder().getBeyonderMarionettes().isEmpty()) {
+        if (pathway.getBeyonder().getBeyonderMarionettes().isEmpty()) {
             beyonderMarionette = false;
         }
 
-        if(pathway.getBeyonder().getMarionettes().isEmpty() && pathway.getBeyonder().getBeyonderMarionettes().isEmpty()) {
+        if (pathway.getBeyonder().getMarionettes().isEmpty() && pathway.getBeyonder().getBeyonderMarionettes().isEmpty()) {
             p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§cYou don't have any Marionettes!"));
             return;
         }
 
-        if(!beyonderMarionette) {
+        if (!beyonderMarionette) {
             while (currentIndex >= pathway.getBeyonder().getMarionettes().size()) {
                 currentIndex--;
             }
-        }
-        else {
+        } else {
             while (currentIndex >= pathway.getBeyonder().getBeyonderMarionettes().size()) {
                 currentIndex--;
             }
         }
 
-        if(!beyonderMarionette) {
+        if (!beyonderMarionette) {
             Marionette marionette = pathway.getBeyonder().getMarionettes().get(currentIndex);
             String entityName = Util.capitalize(pathway.getBeyonder().getMarionettes().get(currentIndex).getType().name());
             String status = marionette.isActive() ? "despawn" : "respawn";
             p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§5Selected: §7" + entityName + " §5-- §7Right-Click §5to " + status));
-        }
-        else {
+        } else {
             BeyonderMarionette marionette = pathway.getBeyonder().getBeyonderMarionettes().get(currentIndex);
             String entityName = Util.capitalize(pathway.getBeyonder().getBeyonderMarionettes().get(currentIndex).getName());
             String status = marionette.isActive() ? "despawn" : "respawn";
             p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§5Selected: §7" + entityName + " §5-- §7Right-Click §5to " + status));
         }
 
-        if(!pathway.getBeyonder().getMarionettes().isEmpty()) {
+        if (!pathway.getBeyonder().getMarionettes().isEmpty()) {
             for (Marionette m : pathway.getBeyonder().getMarionettes()) {
                 if (!m.isActive())
                     continue;
@@ -148,7 +143,7 @@ public class MarionetteManagement extends Ability implements Listener {
             }
         }
 
-        if(pathway.getBeyonder().getBeyonderMarionettes().isEmpty())
+        if (pathway.getBeyonder().getBeyonderMarionettes().isEmpty())
             return;
         for (BeyonderMarionette m : pathway.getBeyonder().getBeyonderMarionettes()) {
             if (!m.isActive())
@@ -160,7 +155,7 @@ public class MarionetteManagement extends Ability implements Listener {
             World world = p.getWorld();
 
             int[] colors = new int[]{255, 255, 255};
-            if(beyonderMarionette) {
+            if (beyonderMarionette) {
                 BeyonderMarionette marionette1 = pathway.getBeyonder().getBeyonderMarionettes().get(currentIndex);
                 colors = m == marionette1 ? new int[]{145, 0, 194} : new int[]{255, 255, 255};
             }
@@ -178,10 +173,10 @@ public class MarionetteManagement extends Ability implements Listener {
     public void onSneak(PlayerToggleSneakEvent e) {
         p = pathway.getBeyonder().getPlayer();
 
-        if(!e.isSneaking() || e.getPlayer() != p || teleportCooldown || !p.getInventory().getItemInMainHand().isSimilar(getItem()) || pathway.getSequence().getCurrentSequence() > 4)
+        if (!e.isSneaking() || e.getPlayer() != p || teleportCooldown || !p.getInventory().getItemInMainHand().isSimilar(getItem()) || pathway.getSequence().getCurrentSequence() > 4)
             return;
 
-        if(pathway.getBeyonder().getMarionettes().isEmpty()) {
+        if (pathway.getBeyonder().getMarionettes().isEmpty()) {
             p.sendTitle("", "§cYou don't have any Marionettes active", 10, 70, 10);
             return;
         }
@@ -190,18 +185,17 @@ public class MarionetteManagement extends Ability implements Listener {
         boolean active;
         Mob mob;
 
-        if(!beyonderMarionette) {
+        if (!beyonderMarionette) {
             Marionette m = pathway.getBeyonder().getMarionettes().get(currentIndex);
             active = m.isActive();
             mob = m.getEntity();
-        }
-        else {
+        } else {
             BeyonderMarionette m = pathway.getBeyonder().getBeyonderMarionettes().get(currentIndex);
             active = m.isActive();
             mob = m.getEntity();
         }
 
-        if(!active) {
+        if (!active) {
             p.sendTitle("", "§cThat Marionette is not active", 10, 70, 10);
             return;
         }

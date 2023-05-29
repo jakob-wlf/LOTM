@@ -6,7 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 
 
-public abstract class MobUsableAbility extends Ability{
+public abstract class MobUsableAbility extends Ability {
 
     protected int frequency;
 

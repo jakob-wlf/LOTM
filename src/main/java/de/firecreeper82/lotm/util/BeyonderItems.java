@@ -255,7 +255,6 @@ public class BeyonderItems {
     }
 
 
-
     public static ItemStack getRedRoosterComb() {
         final ItemStack item = new ItemStack(Material.RED_DYE);
         ItemMeta itemMeta = item.getItemMeta();
@@ -314,8 +313,10 @@ public class BeyonderItems {
         PlayerProfile profile = Bukkit.createPlayerProfile(characteristicUUID);
         PlayerTextures textures = profile.getTextures();
 
-        try { textures.setSkin(new URL("http://textures.minecraft.net/texture/3ccc8a690c89ebf01adf0440c0a3d540e2db89cfc97ad3b8e01810bf3289f67a")); }
-        catch (MalformedURLException ignored) {}
+        try {
+            textures.setSkin(new URL("http://textures.minecraft.net/texture/3ccc8a690c89ebf01adf0440c0a3d540e2db89cfc97ad3b8e01810bf3289f67a"));
+        } catch (MalformedURLException ignored) {
+        }
 
         itemMeta.setOwnerProfile(profile);
 

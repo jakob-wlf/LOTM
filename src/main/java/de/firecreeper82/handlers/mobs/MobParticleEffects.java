@@ -19,7 +19,7 @@ import java.util.Random;
 public class MobParticleEffects {
 
     public static void playParticleEffect(Location location, String id, Entity entity) {
-        switch(id) {
+        switch (id) {
             case "wraith" -> wraith(location);
             case "gargoyle" -> gargoyle(location.clone().add(0, .5, 0));
             case "bane" -> bane(location);
@@ -63,7 +63,7 @@ public class MobParticleEffects {
     }
 
     private static void wolf(Entity entity) {
-        if(!(entity instanceof Wolf wolf))
+        if (!(entity instanceof Wolf wolf))
             return;
 
         Particle.DustOptions dust = new Particle.DustOptions(Color.fromRGB(216, 216, 216), 50f);
@@ -80,7 +80,7 @@ public class MobParticleEffects {
     }
 
     private static void fogWolf(Entity entity) {
-        if(!(entity instanceof Wolf wolf))
+        if (!(entity instanceof Wolf wolf))
             return;
 
         wolf.setCollarColor(DyeColor.RED);
@@ -161,9 +161,10 @@ public class MobParticleEffects {
             double height = heightOffset;
             double spiralX;
             double spiralZ;
+
             @Override
             public void run() {
-                if(!entity.isValid()) {
+                if (!entity.isValid()) {
                     cancel();
                 }
 
@@ -174,9 +175,9 @@ public class MobParticleEffects {
                 spiralZ = spiralRadius * Math.sin(spiral);
                 spiral += 0.25;
                 height += .05;
-                if(height >= 2.5)
+                if (height >= 2.5)
                     height = 0;
-                if(entityLoc.getWorld() != null)
+                if (entityLoc.getWorld() != null)
                     entityLoc.getWorld().spawnParticle(Particle.REDSTONE, spiralX + entityLoc.getX(), height + entityLoc.getY(), spiralZ + entityLoc.getZ(), 5, dust);
             }
         }.runTaskTimer(Plugin.instance, delay, 0);

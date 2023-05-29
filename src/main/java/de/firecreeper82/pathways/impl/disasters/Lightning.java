@@ -10,7 +10,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Random;
 
-public class Lightning extends Disaster{
+public class Lightning extends Disaster {
     public Lightning(Player p) {
         super(p);
     }
@@ -20,12 +20,13 @@ public class Lightning extends Disaster{
         Location startLoc = loc.clone();
         World world = startLoc.getWorld();
 
-        if(world == null)
+        if (world == null)
             return;
 
         new BukkitRunnable() {
 
             int counter = 0;
+
             @Override
             public void run() {
                 counter++;
@@ -36,11 +37,11 @@ public class Lightning extends Disaster{
                 world.setThunderDuration(10 * 60 * 20);
 
                 Random random = new Random();
-                for(int i = 0; i < 8; i++) {
+                for (int i = 0; i < 8; i++) {
                     world.strikeLightning(startLoc.clone().add(random.nextInt(25) - 12.5, 0, random.nextInt(25) - 12.5));
                 }
 
-                if(counter >= 100) {
+                if (counter >= 100) {
                     cancel();
                 }
             }

@@ -18,19 +18,19 @@ public class EntityToLocation {
         stopped = false;
         new BukkitRunnable() {
             int counter = 0;
+
             @Override
             public void run() {
                 counter++;
 
-                if(stopped || counter > 20 * 60 * 60 || entity == null || location == null ||!entity.isValid()) {
+                if (stopped || counter > 20 * 60 * 60 || entity == null || location == null || !entity.isValid()) {
                     cancel();
                     return;
                 }
 
-                if(location.distance(entity.getLocation()) > 3 || location.getWorld() != entity.getWorld()) {
+                if (location.distance(entity.getLocation()) > 3 || location.getWorld() != entity.getWorld()) {
                     entity.teleport(location);
-                }
-                else {
+                } else {
                     Vector dir = location.toVector().subtract(entity.getLocation().toVector());
                     entity.setVelocity(dir);
                 }

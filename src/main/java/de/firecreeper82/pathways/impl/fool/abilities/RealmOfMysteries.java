@@ -55,13 +55,13 @@ public class RealmOfMysteries extends Ability implements Listener {
         Plugin.instance.addToConcealedEntities(concealedEntities);
 
         Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(0, 0, 0), 85f);
-        for(Entity entity : concealedEntities) {
-            if(!(entity instanceof Player player))
+        for (Entity entity : concealedEntities) {
+            if (!(entity instanceof Player player))
                 continue;
 
             ClientboundPlayerInfoPacket playerInfoRemove = new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.REMOVE_PLAYER, ((CraftPlayer) player).getHandle());
-            for(Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-                if(concealedEntities.contains(onlinePlayer))
+            for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+                if (concealedEntities.contains(onlinePlayer))
                     continue;
                 ServerGamePacketListenerImpl connection = ((CraftPlayer) onlinePlayer).getHandle().connection;
                 connection.send(playerInfoRemove);
@@ -71,40 +71,41 @@ public class RealmOfMysteries extends Ability implements Listener {
         new BukkitRunnable() {
             final int currentRadius = radius;
             final long max = Math.max(20, Math.min(55, Math.round(currentRadius * 2.5)));
+
             @Override
             public void run() {
                 Util.drawSphere(loc, currentRadius, (int) max, dust, Material.BARRIER, .2);
 
-                if(loc.getWorld() == null)
+                if (loc.getWorld() == null)
                     return;
 
-                for(Entity entity : loc.getWorld().getNearbyEntities(loc, radius, radius, radius)) {
-                    if(!concealedEntities.contains(entity)) {
+                for (Entity entity : loc.getWorld().getNearbyEntities(loc, radius, radius, radius)) {
+                    if (!concealedEntities.contains(entity)) {
                         Vector dir = new Vector(0, .5, 1);
                         Location entLoc = entity.getLocation();
-                        while(entLoc.distance(loc) < (radius + 5) || entLoc.getBlock().getType().isSolid()) {
+                        while (entLoc.distance(loc) < (radius + 5) || entLoc.getBlock().getType().isSolid()) {
                             entLoc.add(dir);
                         }
                         entity.teleport(entLoc);
                     }
                 }
 
-                for(Entity entity : concealedEntities) {
-                    if(!(entity instanceof LivingEntity livingEntity))
+                for (Entity entity : concealedEntities) {
+                    if (!(entity instanceof LivingEntity livingEntity))
                         continue;
                     livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.DARKNESS, 12, 1, false, false));
                     livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 220, 1, false, false));
                 }
 
-                if(!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
+                if (!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
                     Util.drawSphere(loc, currentRadius, (int) max, dust, Material.AIR, .2);
-                    for(Entity entity : concealedEntities) {
-                        if(!(entity instanceof Player player))
+                    for (Entity entity : concealedEntities) {
+                        if (!(entity instanceof Player player))
                             continue;
 
                         ClientboundPlayerInfoPacket playerInfoAdd = new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.ADD_PLAYER, ((CraftPlayer) player).getHandle());
-                        for(Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-                            if(concealedEntities.contains(onlinePlayer))
+                        for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+                            if (concealedEntities.contains(onlinePlayer))
                                 continue;
                             ServerGamePacketListenerImpl connection = ((CraftPlayer) onlinePlayer).getHandle().connection;
                             connection.send(playerInfoAdd);
@@ -127,7 +128,7 @@ public class RealmOfMysteries extends Ability implements Listener {
     public void leftClick() {
         p = pathway.getBeyonder().getPlayer();
         radius++;
-        if(radius > 30)
+        if (radius > 30)
             radius = 5;
 
         p.sendMessage("§5Radius is now " + radius);
@@ -136,20 +137,20 @@ public class RealmOfMysteries extends Ability implements Listener {
 
     @EventHandler
     public void onDamageByEntity(EntityDamageByEntityEvent e) {
-        if(!concealedEntities.contains(e.getEntity()))
+        if (!concealedEntities.contains(e.getEntity()))
             return;
 
-        if(!concealedEntities.contains(e.getDamager()))
+        if (!concealedEntities.contains(e.getDamager()))
             e.setCancelled(true);
     }
 
     @EventHandler
     public void onChat(AsyncPlayerChatEvent e) {
-        if(!concealedEntities.contains(e.getPlayer()))
+        if (!concealedEntities.contains(e.getPlayer()))
             return;
 
-        for(Player player : e.getRecipients()) {
-            if(concealedEntities.contains(player))
+        for (Player player : e.getRecipients()) {
+            if (concealedEntities.contains(player))
                 continue;
             e.getRecipients().remove(player);
         }

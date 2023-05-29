@@ -28,8 +28,8 @@ public class SkeletonHorse extends Spirit {
 
     @Override
     public void tick() {
-        for(Entity nearby : entity.getNearbyEntities(35, 35, 35)) {
-            if(!(nearby instanceof Player p))
+        for (Entity nearby : entity.getNearbyEntities(35, 35, 35)) {
+            if (!(nearby instanceof Player p))
                 continue;
 
             p.spawnParticle(Particle.REDSTONE, entity.getLocation(), 5, particleOffset, particleOffset, particleOffset, dust);

@@ -30,21 +30,21 @@ public class Fog extends Ability {
         new BukkitRunnable() {
             @Override
             public void run() {
-                 p.getWorld().spawnParticle(Particle.CAMPFIRE_SIGNAL_SMOKE, p.getLocation(), 45, 3.5, 3.5, 3.5, 0);
+                p.getWorld().spawnParticle(Particle.CAMPFIRE_SIGNAL_SMOKE, p.getLocation(), 45, 3.5, 3.5, 3.5, 0);
 
-                 p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 10, 1, false, false, false));
+                p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 10, 1, false, false, false));
 
-                 for(Entity entity : p.getNearbyEntities(3.5, 3.5, 3.5)) {
-                     if(!(entity instanceof LivingEntity livingEntity))
-                         continue;
+                for (Entity entity : p.getNearbyEntities(3.5, 3.5, 3.5)) {
+                    if (!(entity instanceof LivingEntity livingEntity))
+                        continue;
 
-                     livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10, 1, false, false, false));
-                 }
+                    livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10, 1, false, false, false));
+                }
 
-                 if(!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
-                     cancel();
-                 }
-             }
+                if (!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
+                    cancel();
+                }
+            }
         }.runTaskTimer(Plugin.instance, 0, 0);
     }
 

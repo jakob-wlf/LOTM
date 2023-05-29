@@ -4,9 +4,11 @@ import de.firecreeper82.cmds.*;
 import de.firecreeper82.cmds.HermesCmd;
 import de.firecreeper82.handlers.blocks.BlockHandler;
 //import de.firecreeper82.listeners.MagnifyDamageBoost;
-import de.firecreeper82.handlers.spirits.SpiritHandler;
-import de.firecreeper82.listeners.*;
 import de.firecreeper82.handlers.mobs.BeyonderMobsHandler;
+import de.firecreeper82.handlers.mobs.beyonders.RogueBeyonders;
+import de.firecreeper82.handlers.spirits.SpiritHandler;
+import de.firecreeper82.handlers.spirits.SpiritWorld;
+import de.firecreeper82.listeners.*;
 import de.firecreeper82.pathways.*;
 import de.firecreeper82.pathways.impl.door.DoorPotions;
 import de.firecreeper82.pathways.impl.fool.FoolPotions;
@@ -28,7 +30,10 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.util.*;
 
@@ -51,6 +56,8 @@ public final class Plugin extends JavaPlugin {
     public static List<UUID> honorific_name_keys = new ArrayList<>();
     private ArrayList<ArrayList<Entity>> concealedEntities;
 
+    public static final ArrayList<Integer> temp = new ArrayList<>();
+
     private File configSaveFile;
     private FileConfiguration configSave;
 
@@ -62,6 +69,7 @@ public final class Plugin extends JavaPlugin {
 
     public static UUID randomUUID;
 
+    private ArrayList<String> names;
 
     @Override
     public void onEnable() {
@@ -70,6 +78,12 @@ public final class Plugin extends JavaPlugin {
 
         beyonders = new HashMap<>();
         fakePlayers = new HashMap<>();
+
+        names = new ArrayList<>();
+
+        for (int i = 0; i < 4; i++) {
+            temp.add(i);
+        }
 
         randomUUID = UUID.fromString("1af36f3a-d8a3-11ed-afa1-0242ac120002");
 
@@ -83,10 +97,17 @@ public final class Plugin extends JavaPlugin {
         concealedEntities = new ArrayList<>();
 
         new SpiritHandler();
+        new SpiritWorld();
+        new RogueBeyonders();
 
         Bukkit.getConsoleSender().sendMessage(prefix + "§aEnabled Plugin");
 
-        createSaveConfig();
+        try {
+            createSaveConfig();
+            loadNames();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         register();
         initPotions();
@@ -145,6 +166,25 @@ public final class Plugin extends JavaPlugin {
         potions.add(new DoorPotions());
     }
 
+    private void loadNames() throws InterruptedException {
+        File namesFile = new File(getDataFolder(), "names.yml");
+        FileConfiguration configNames = new YamlConfiguration();
+
+
+        if (!namesFile.exists()) {
+            saveResource("names.yml", true);
+        }
+
+        Thread.sleep(1000);
+
+        try {
+            configNames.load(namesFile);
+        } catch (IOException | InvalidConfigurationException e) {
+            e.printStackTrace();
+        }
+        names.addAll(configNames.getStringList("names"));
+    }
+
     @Override
     //call the save function to save the beyonders.yml file and the fools.yml file
     public void onDisable() {
@@ -182,14 +222,17 @@ public final class Plugin extends JavaPlugin {
     }
 
     //create the config file if it doesn't exist and then load the config
-    public void createSaveConfig() {
+    public void createSaveConfig() throws InterruptedException {
         configSaveFile = new File(getDataFolder(), "beyonders.yml");
         if (!configSaveFile.exists()) {
             if (configSaveFile.getParentFile().mkdirs())
                 saveResource("beyonders.yml", false);
+
             else
                 Bukkit.getConsoleSender().sendMessage("§cSomething went wrong while saving the beyonders.yml file");
         }
+
+        Thread.sleep(1000);
 
         configSave = new YamlConfiguration();
         try {
@@ -372,6 +415,10 @@ public final class Plugin extends JavaPlugin {
 
     public ArrayList<Potion> getPotions() {
         return potions;
+    }
+
+    public ArrayList<String> getNames() {
+        return names;
     }
 
     public Divination getDivination() {

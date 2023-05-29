@@ -73,7 +73,7 @@ public class ConfigureThreadsCmd implements CommandExecutor, Listener {
 
     private Inventory createInv(Player p) {
         Inventory inv = Bukkit.createInventory(p, 27, "§5Spirit Body Threads");
-        for(int i = 0; i < 27; i++) {
+        for (int i = 0; i < 27; i++) {
             inv.setItem(i, UtilItems.getMagentaPane());
         }
 
@@ -87,7 +87,7 @@ public class ConfigureThreadsCmd implements CommandExecutor, Listener {
     @EventHandler
     public void onChat(AsyncPlayerChatEvent e) {
         Player p = e.getPlayer();
-        if(!Plugin.beyonders.containsKey(p.getUniqueId()) || !actions.containsKey(Plugin.beyonders.get(p.getUniqueId())) || actions.get(Plugin.beyonders.get(p.getUniqueId())) == Action.NONE)
+        if (!Plugin.beyonders.containsKey(p.getUniqueId()) || !actions.containsKey(Plugin.beyonders.get(p.getUniqueId())) || actions.get(Plugin.beyonders.get(p.getUniqueId())) == Action.NONE)
             return;
 
         e.setCancelled(true);
@@ -101,14 +101,14 @@ public class ConfigureThreadsCmd implements CommandExecutor, Listener {
                     return;
 
                 SpiritBodyThreads spiritBodyThreads = null;
-                for(Ability a : beyonder.getPathway().getSequence().getAbilities()) {
-                    if(a instanceof SpiritBodyThreads) {
+                for (Ability a : beyonder.getPathway().getSequence().getAbilities()) {
+                    if (a instanceof SpiritBodyThreads) {
                         spiritBodyThreads = (SpiritBodyThreads) a;
                         break;
                     }
                 }
 
-                if(spiritBodyThreads == null) {
+                if (spiritBodyThreads == null) {
                     p.sendMessage("§cSomething went wrong");
                     p.sendMessage("§cCancelling length-configuration!");
                     actions.replace(beyonder, Action.NONE);
@@ -117,27 +117,27 @@ public class ConfigureThreadsCmd implements CommandExecutor, Listener {
                 }
 
                 //Setting preferred length of threads
-                if(actions.get(beyonder) == Action.LENGTH) {
-                    if(e.getMessage().equalsIgnoreCase("cancel")) {
+                if (actions.get(beyonder) == Action.LENGTH) {
+                    if (e.getMessage().equalsIgnoreCase("cancel")) {
                         p.sendMessage("§cCancelling length-configuration!");
                         actions.replace(beyonder, Action.NONE);
                         p.openInventory(createInv(p));
                         return;
                     }
-                    if(!Util.isInteger(e.getMessage())) {
+                    if (!Util.isInteger(e.getMessage())) {
                         p.sendMessage("§cYou need to put in a number");
                         p.sendMessage("§cType §4cancel §cto cancel");
                         return;
                     }
                     int length = Util.parseInt(e.getMessage());
 
-                    if(length < 0) {
+                    if (length < 0) {
                         p.sendMessage("§cYou need to put in a number greater than 0");
                         p.sendMessage("§cType §4cancel §cto cancel");
                         return;
                     }
 
-                    if(spiritBodyThreads.getMaxDistance() < length) {
+                    if (spiritBodyThreads.getMaxDistance() < length) {
                         p.sendMessage("§cThe current maximum length for Spirit Body Threads is " + spiritBodyThreads.getMaxDistance() + " for you!");
                         p.sendMessage("§cType §4cancel §cto cancel");
                         return;
@@ -150,16 +150,16 @@ public class ConfigureThreadsCmd implements CommandExecutor, Listener {
 
                 }
                 //Adding entities to the excluded entities
-                else if(actions.get(beyonder) == Action.EXCLUDE) {
+                else if (actions.get(beyonder) == Action.EXCLUDE) {
 
-                    if(e.getMessage().equalsIgnoreCase("cancel")) {
+                    if (e.getMessage().equalsIgnoreCase("cancel")) {
                         p.sendMessage("§cCancelling configuration!");
                         actions.replace(beyonder, Action.NONE);
                         p.openInventory(createInv(p));
                         return;
                     }
 
-                    if(e.getMessage().equalsIgnoreCase("reset")) {
+                    if (e.getMessage().equalsIgnoreCase("reset")) {
                         p.sendMessage("§cResetting excluded entities configuration!");
                         actions.replace(beyonder, Action.NONE);
                         spiritBodyThreads.resetExcludedEntities();
@@ -169,40 +169,39 @@ public class ConfigureThreadsCmd implements CommandExecutor, Listener {
 
                     EntityType entityType = null;
 
-                    for(EntityType type : EntityType.values()) {
-                        if(type.name().replace("_", " ").equalsIgnoreCase(e.getMessage())) {
+                    for (EntityType type : EntityType.values()) {
+                        if (type.name().replace("_", " ").equalsIgnoreCase(e.getMessage())) {
                             entityType = type;
                             break;
                         }
                     }
 
-                    if(entityType == null) {
+                    if (entityType == null) {
                         p.sendMessage("§c" + e.getMessage().substring(0, 1).toUpperCase() + e.getMessage().substring(1).toLowerCase() + " is not a valid entity! If you want to cancel the divination, type \"cancel\"");
                         p.sendMessage("§cType §4cancel §cto cancel");
                         return;
                     }
 
-                    if(spiritBodyThreads.addExcludedEntity(entityType)) {
+                    if (spiritBodyThreads.addExcludedEntity(entityType)) {
                         p.sendMessage("§aDisabled the entity " + entityType.name().substring(0, 1).toUpperCase() + entityType.name().substring(1).toLowerCase() + "!");
                         p.sendMessage("§aType in the same entity to enable the Spirit Body Thread again");
-                    }
-                    else {
+                    } else {
                         p.sendMessage("§aEnabled the entity " + entityType.name().substring(0, 1).toUpperCase() + entityType.name().substring(1).toLowerCase() + "!");
                     }
                     actions.replace(beyonder, Action.NONE);
                     p.openInventory(createInv(p));
                 }
                 //Adding entities to the included entities
-                else if(actions.get(beyonder) == Action.INCLUDE) {
+                else if (actions.get(beyonder) == Action.INCLUDE) {
 
-                    if(e.getMessage().equalsIgnoreCase("cancel")) {
+                    if (e.getMessage().equalsIgnoreCase("cancel")) {
                         p.sendMessage("§cCancelling configuration!");
                         actions.replace(beyonder, Action.NONE);
                         p.openInventory(createInv(p));
                         return;
                     }
 
-                    if(e.getMessage().equalsIgnoreCase("reset")) {
+                    if (e.getMessage().equalsIgnoreCase("reset")) {
                         p.sendMessage("§cResetting included entities configuration!");
                         actions.replace(beyonder, Action.NONE);
                         spiritBodyThreads.resetExcludedEntities();
@@ -212,24 +211,23 @@ public class ConfigureThreadsCmd implements CommandExecutor, Listener {
 
                     EntityType entityType = null;
 
-                    for(EntityType type : EntityType.values()) {
-                        if(type.name().replace("_", " ").equalsIgnoreCase(e.getMessage())) {
+                    for (EntityType type : EntityType.values()) {
+                        if (type.name().replace("_", " ").equalsIgnoreCase(e.getMessage())) {
                             entityType = type;
                             break;
                         }
                     }
 
-                    if(entityType == null) {
+                    if (entityType == null) {
                         p.sendMessage("§c" + e.getMessage().substring(0, 1).toUpperCase() + e.getMessage().substring(1).toLowerCase() + " is not a valid entity! If you want to cancel the divination, type \"cancel\"");
                         p.sendMessage("§cType §4cancel §cto cancel");
                         return;
                     }
 
-                    if(spiritBodyThreads.addIncludedEntity(entityType)) {
+                    if (spiritBodyThreads.addIncludedEntity(entityType)) {
                         p.sendMessage("§aIncluded the entity " + entityType.name().substring(0, 1).toUpperCase() + entityType.name().substring(1).toLowerCase() + "!");
                         p.sendMessage("§aType in the same entity to exclude their Spirit Body Threads again");
-                    }
-                    else {
+                    } else {
                         p.sendMessage("§aExcluded the entity again " + entityType.name().substring(0, 1).toUpperCase() + entityType.name().substring(1).toLowerCase() + "!");
                     }
                     actions.replace(beyonder, Action.NONE);
@@ -241,16 +239,16 @@ public class ConfigureThreadsCmd implements CommandExecutor, Listener {
 
     @EventHandler
     public void onInventoryInteract(InventoryClickEvent e) {
-        if(!(e.getWhoClicked() instanceof Player p))
+        if (!(e.getWhoClicked() instanceof Player p))
             return;
 
-        if(!Plugin.beyonders.containsKey(p.getUniqueId()))
+        if (!Plugin.beyonders.containsKey(p.getUniqueId()))
             return;
 
-        if(UtilItems.getThreadLength().isSimilar(e.getCurrentItem())) {
+        if (UtilItems.getThreadLength().isSimilar(e.getCurrentItem())) {
             e.setCancelled(true);
             Beyonder beyonder = Plugin.beyonders.get(p.getUniqueId());
-            if(actions.containsKey(beyonder))
+            if (actions.containsKey(beyonder))
                 actions.replace(beyonder, Action.LENGTH);
             else
                 actions.put(beyonder, Action.LENGTH);
@@ -259,27 +257,27 @@ public class ConfigureThreadsCmd implements CommandExecutor, Listener {
             p.closeInventory();
         }
 
-        if(UtilItems.getMagentaPane().isSimilar(e.getCurrentItem())) {
+        if (UtilItems.getMagentaPane().isSimilar(e.getCurrentItem())) {
             e.setCancelled(true);
         }
 
-        if(UtilItems.getExcludeEntities().isSimilar(e.getCurrentItem())) {
+        if (UtilItems.getExcludeEntities().isSimilar(e.getCurrentItem())) {
             e.setCancelled(true);
             Beyonder beyonder = Plugin.beyonders.get(p.getUniqueId());
-            if(actions.containsKey(beyonder))
+            if (actions.containsKey(beyonder))
                 actions.replace(beyonder, Action.EXCLUDE);
             else
                 actions.put(beyonder, Action.EXCLUDE);
 
             SpiritBodyThreads spiritBodyThreads = null;
-            for(Ability a : beyonder.getPathway().getSequence().getAbilities()) {
-                if(a instanceof SpiritBodyThreads) {
+            for (Ability a : beyonder.getPathway().getSequence().getAbilities()) {
+                if (a instanceof SpiritBodyThreads) {
                     spiritBodyThreads = (SpiritBodyThreads) a;
                     break;
                 }
             }
 
-            if(spiritBodyThreads == null) {
+            if (spiritBodyThreads == null) {
                 p.sendMessage("§cSomething went wrong");
                 p.sendMessage("§cCancelling entities adding!");
                 actions.replace(beyonder, Action.NONE);
@@ -287,30 +285,30 @@ public class ConfigureThreadsCmd implements CommandExecutor, Listener {
                 return;
             }
 
-            if(!spiritBodyThreads.isExcluded())
+            if (!spiritBodyThreads.isExcluded())
                 p.sendMessage("§5Switching mode from including entities to excluding entities");
             spiritBodyThreads.setExcluded(true);
             p.sendMessage("§5Type in the entities you want to exclude the Spirit Body Threads of", "§5Type §ccancel §5to cancel the process and §creset §5to reset the excluded entities");
             p.closeInventory();
         }
 
-        if(UtilItems.getIncludeEntities().isSimilar(e.getCurrentItem())) {
+        if (UtilItems.getIncludeEntities().isSimilar(e.getCurrentItem())) {
             e.setCancelled(true);
             Beyonder beyonder = Plugin.beyonders.get(p.getUniqueId());
-            if(actions.containsKey(beyonder))
+            if (actions.containsKey(beyonder))
                 actions.replace(beyonder, Action.INCLUDE);
             else
                 actions.put(beyonder, Action.INCLUDE);
 
             SpiritBodyThreads spiritBodyThreads = null;
-            for(Ability a : beyonder.getPathway().getSequence().getAbilities()) {
-                if(a instanceof SpiritBodyThreads) {
+            for (Ability a : beyonder.getPathway().getSequence().getAbilities()) {
+                if (a instanceof SpiritBodyThreads) {
                     spiritBodyThreads = (SpiritBodyThreads) a;
                     break;
                 }
             }
 
-            if(spiritBodyThreads == null) {
+            if (spiritBodyThreads == null) {
                 p.sendMessage("§cSomething went wrong");
                 p.sendMessage("§cCancelling entities adding!");
                 actions.replace(beyonder, Action.NONE);
@@ -318,7 +316,7 @@ public class ConfigureThreadsCmd implements CommandExecutor, Listener {
                 return;
             }
 
-            if(spiritBodyThreads.isExcluded())
+            if (spiritBodyThreads.isExcluded())
                 p.sendMessage("§5Switching mode from excluding entities to including entities");
             spiritBodyThreads.setExcluded(false);
             p.sendMessage("§5Type in the entities you want to include the Spirit Body Threads of", "§5Type §ccancel §5to cancel the process and §creset §5to reset the excluded entities");

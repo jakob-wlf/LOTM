@@ -1,9 +1,7 @@
 package de.firecreeper82.pathways.impl.fool;
 
-import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.pathways.Pathway;
 
-import java.awt.*;
 import java.util.HashMap;
 import java.util.UUID;
 

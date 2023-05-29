@@ -67,30 +67,30 @@ public class SpaceSwapping extends Ability implements Listener {
         Vector dir = p.getEyeLocation().getDirection().normalize();
         Location loc = p.getEyeLocation();
 
-        for(int i = 0; i < 80; i++) {
-            if(loc.getBlock().getType().isSolid() || loc.getBlock().getType() == Material.WATER)
+        for (int i = 0; i < 80; i++) {
+            if (loc.getBlock().getType().isSolid() || loc.getBlock().getType() == Material.WATER)
                 break;
             loc.add(dir);
         }
 
-        if(loc.getWorld() == null)
+        if (loc.getWorld() == null)
             return;
 
-        if(!isSwapping) {
+        if (!isSwapping) {
             isSwapping = true;
 
-            swappedBlocks = Util.getBlocksInSquare(loc.getBlock(), radius);
+            swappedBlocks = Util.getBlocksInSquare(loc.getBlock(), radius, false);
 
             originLoc = loc.clone();
 
-            for(Block block : swappedBlocks) {
-                if(!block.getLocation().add(0, 1, 0).getBlock().getType().isSolid() && block.getType().isSolid())
+            for (Block block : swappedBlocks) {
+                if (!block.getLocation().add(0, 1, 0).getBlock().getType().isSolid() && block.getType().isSolid())
                     p.getWorld().spawnParticle(Particle.SPELL_WITCH, block.getLocation().clone().add(0, 1, 0), 2, 0, 0, 0, 0);
             }
             return;
         }
 
-        if(loc.getWorld() != originLoc.getWorld()) {
+        if (loc.getWorld() != originLoc.getWorld()) {
             isSwapping = false;
             swappedBlocks = null;
 
@@ -102,27 +102,27 @@ public class SpaceSwapping extends Ability implements Listener {
 
         Vector subtract = loc.clone().toVector().subtract(originLoc.clone().toVector());
 
-        ArrayList<Block> newBlocks = Util.getBlocksInSquare(loc.getBlock(), radius);
+        ArrayList<Block> newBlocks = Util.getBlocksInSquare(loc.getBlock(), radius, false);
         HashMap<Block, Material> materials = new HashMap<>();
         HashMap<Block, BlockData> blockDatas = new HashMap<>();
 
-        for(Block block : newBlocks) {
+        for (Block block : newBlocks) {
             materials.put(block, block.getType());
             blockDatas.put(block, block.getBlockData());
         }
 
         Vector newVector = originLoc.clone().toVector().subtract(loc.clone().toVector());
 
-        for(Block block : swappedBlocks) {
+        for (Block block : swappedBlocks) {
             block.getWorld().getBlockAt(block.getLocation().clone().add(subtract)).setType(block.getType());
             block.getWorld().getBlockAt(block.getLocation().clone().add(subtract)).setBlockData(block.getBlockData());
 
-            if(useCase == usages.MOVE)
+            if (useCase == usages.MOVE)
                 block.setType(Material.AIR);
         }
 
-        if(useCase == usages.SWAP) {
-            for(Block block : newBlocks) {
+        if (useCase == usages.SWAP) {
+            for (Block block : newBlocks) {
                 block.getWorld().getBlockAt(block.getLocation().clone().add(newVector)).setType(materials.get(block));
                 block.getWorld().getBlockAt(block.getLocation().clone().add(newVector)).setBlockData(blockDatas.get(block));
             }
@@ -131,7 +131,7 @@ public class SpaceSwapping extends Ability implements Listener {
 
     @Override
     public void leftClick() {
-        if(isSwapping) {
+        if (isSwapping) {
             p.sendMessage("§cYou are currently swapping spaces!", "§cCancelling swapping!");
             isSwapping = false;
             swappedBlocks = null;
@@ -139,7 +139,7 @@ public class SpaceSwapping extends Ability implements Listener {
         }
         selected++;
 
-        if(selected >= useCases.length) {
+        if (selected >= useCases.length) {
             selected = 0;
         }
 
@@ -150,12 +150,12 @@ public class SpaceSwapping extends Ability implements Listener {
     public void onShift(PlayerToggleSneakEvent e) {
         p = pathway.getBeyonder().getPlayer();
 
-        if(e.getPlayer() != p || e.getPlayer().isSneaking() || !p.getInventory().getItemInMainHand().isSimilar(getItem()) || isSwapping)
+        if (e.getPlayer() != p || e.getPlayer().isSneaking() || !p.getInventory().getItemInMainHand().isSimilar(getItem()) || isSwapping)
             return;
 
         radius++;
 
-        if(radius >= 43)
+        if (radius >= 43)
             radius = 5;
 
         p.sendMessage("§bSet the radius to " + radius);

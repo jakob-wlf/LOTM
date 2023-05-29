@@ -1,10 +1,7 @@
 package de.firecreeper82.pathways.impl.door;
 
 import de.firecreeper82.pathways.Pathway;
-import de.firecreeper82.pathways.impl.sun.SunItems;
-import de.firecreeper82.pathways.impl.sun.SunSequence;
 
-import java.awt.*;
 import java.util.HashMap;
 import java.util.UUID;
 

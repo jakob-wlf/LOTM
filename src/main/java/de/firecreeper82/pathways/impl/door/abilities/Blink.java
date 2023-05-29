@@ -24,15 +24,15 @@ public class Blink extends Ability {
         Vector dir = p.getEyeLocation().getDirection().normalize();
         Location loc = p.getEyeLocation();
 
-        for(int i = 0; i < 15; i++) {
-            if(loc.getBlock().getType().isSolid())
+        for (int i = 0; i < 15; i++) {
+            if (loc.getBlock().getType().isSolid())
                 break;
             loc.add(dir);
         }
 
         loc.subtract(dir);
 
-        if(loc.getWorld() == null)
+        if (loc.getWorld() == null)
             return;
 
         loc.getWorld().spawnParticle(Particle.SPELL_WITCH, p.getEyeLocation().subtract(0, .5, 0), 25, .5, .5, .5, 0);

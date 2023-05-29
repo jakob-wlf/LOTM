@@ -29,14 +29,15 @@ public class Conceptualize extends Ability {
 
         Vector dir = p.getEyeLocation().getDirection().normalize();
         Location loc = p.getEyeLocation();
-        if(loc.getWorld() == null)
+        if (loc.getWorld() == null)
             return;
 
         LivingEntity target = null;
 
-        outerloop: for(int i = 0; i < 50; i++) {
-            for(Entity entity : loc.getWorld().getNearbyEntities(loc, 1, 1, 1)) {
-                if(!(entity instanceof LivingEntity e) || entity == p)
+        outerloop:
+        for (int i = 0; i < 50; i++) {
+            for (Entity entity : loc.getWorld().getNearbyEntities(loc, 1, 1, 1)) {
+                if (!(entity instanceof LivingEntity e) || entity == p)
                     continue;
                 target = e;
                 break outerloop;
@@ -45,7 +46,7 @@ public class Conceptualize extends Ability {
             loc.add(dir);
         }
 
-        if(target == null) {
+        if (target == null) {
             p.sendMessage("§cCouldn't find the target!");
             return;
         }
@@ -53,9 +54,10 @@ public class Conceptualize extends Ability {
         LivingEntity finalTarget = target;
         new BukkitRunnable() {
             int counter = 0;
+
             @Override
             public void run() {
-                if(!finalTarget.isValid() || !pathway.getSequence().getUsesAbilities()[identifier - 1]) {
+                if (!finalTarget.isValid() || !pathway.getSequence().getUsesAbilities()[identifier - 1]) {
                     pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                     cancel();
                     return;
@@ -65,16 +67,16 @@ public class Conceptualize extends Ability {
 
                 finalTarget.damage(8, p);
 
-                if(counter >= 20) {
+                if (counter >= 20) {
                     counter = 0;
-                    if(pathway.getBeyonder().getSpirituality() <= 110) {
+                    if (pathway.getBeyonder().getSpirituality() <= 110) {
                         cancel();
                         return;
                     }
                     pathway.getSequence().removeSpirituality(110);
                 }
 
-                for(int i = 0; i < 3; i++) {
+                for (int i = 0; i < 3; i++) {
                     int j = i;
                     new BukkitRunnable() {
                         final double spiralRadius = 1;
@@ -83,9 +85,10 @@ public class Conceptualize extends Ability {
                         double height = j * .25;
                         double spiralX;
                         double spiralZ;
+
                         @Override
                         public void run() {
-                            if(!finalTarget.isValid() || !pathway.getSequence().getUsesAbilities()[identifier - 1]) {
+                            if (!finalTarget.isValid() || !pathway.getSequence().getUsesAbilities()[identifier - 1]) {
                                 pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                                 cancel();
                                 return;
@@ -98,9 +101,9 @@ public class Conceptualize extends Ability {
                             spiralZ = spiralRadius * Math.sin(spiral);
                             spiral += 0.05;
                             height += .01;
-                            if(height >= 2.5)
+                            if (height >= 2.5)
                                 height = 0;
-                            if(entityLoc.getWorld() != null)
+                            if (entityLoc.getWorld() != null)
                                 entityLoc.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, spiralX + entityLoc.getX(), height + entityLoc.getY(), spiralZ + entityLoc.getZ(), 1, 0, 0, 0, 0);
                         }
                     }.runTaskTimer(Plugin.instance, j * 10, 0);

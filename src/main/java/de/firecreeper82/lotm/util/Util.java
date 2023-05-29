@@ -97,12 +97,14 @@ public class Util {
         return blocks;
     }
 
-    public static ArrayList<Block> getNearbyBlocksInSphere(Location location, int radius, boolean empty, boolean ignoreAir) {
+    public static ArrayList<Block> getNearbyBlocksInSphere(Location location, int radius, boolean empty, boolean ignoreAir, boolean smoothEdges) {
         ArrayList<Block> blocks = new ArrayList<>();
 
         int bx = location.getBlockX();
         int by = location.getBlockY();
         int bz = location.getBlockZ();
+
+        Random random = new Random();
 
         for (int x = bx - radius; x <= bx + radius; x++) {
             for (int y = by - radius; y <= by + radius; y++) {
@@ -110,6 +112,8 @@ public class Util {
                     double distance = ((bx - x) * (bx - x) + (bz - z) * (bz - z) + (by - y) * (by - y));
                     if (distance < radius * radius && (!empty && distance < (radius - 1) * (radius - 1))) {
                         Block block = new Location(location.getWorld(), x, y, z).getBlock();
+                        if (!smoothEdges && (x >= bx + radius - (radius / 10) || z >= bz + radius - (radius / 10)) && random.nextInt(3) != 0)
+                            continue;
                         if ((block.getType() != Material.AIR && block.getType() != Material.CAVE_AIR) || !ignoreAir)
                             blocks.add(block);
                     }
@@ -120,7 +124,7 @@ public class Util {
         return blocks;
     }
 
-    public static ArrayList<Block> getBlocksInSquare(Block start, int radius) {
+    public static ArrayList<Block> getBlocksInSquare(Block start, int radius, boolean ignoreAir) {
         if (radius < 0) {
             return new ArrayList<>(0);
         }
@@ -129,7 +133,8 @@ public class Util {
         for (int x = -radius; x <= radius; x++) {
             for (int y = -radius; y <= radius; y++) {
                 for (int z = -radius; z <= radius; z++) {
-                    blocks.add(start.getRelative(x, y, z));
+                    if ((start.getRelative(x, y, z).getType() != Material.AIR && start.getRelative(x, y, z).getType() != Material.CAVE_AIR) || !ignoreAir)
+                        blocks.add(start.getRelative(x, y, z));
                 }
             }
         }

@@ -32,22 +32,22 @@ public class SunItems extends Items {
         HashMap<Integer, String> names = Objects.requireNonNull(Pathway.getNamesForPathway(pathway.getNameNormalized()));
         String[] s9 = formatAbilityInfo(pathway.getStringColor(), "9: " + names.get(9),
                 "§6Use: §7/items §6to get the abilities for your Sequence",
-                    "§6Holy Song: §7Imbue strength and agility through singing a song"
+                "§6Holy Song: §7Imbue strength and agility through singing a song"
         );
         abilityInfo.put(9, s9);
 
         String[] s8 = formatAbilityInfo(pathway.getStringColor(), "8: " + names.get(8),
                 "§6Holy Light: §7Summon a fiery beam of light from the sky. Especially effective against the undead",
-                    "§6Illuminate: §7Summon light to illuminate the darkness"
+                "§6Illuminate: §7Summon light to illuminate the darkness"
         );
         abilityInfo.put(8, s8);
 
         String[] s7 = formatAbilityInfo(pathway.getStringColor(), "7: " + names.get(7),
                 "§6Fire of Light: §7Summon a holy fire that burns and damages mobs",
-                    "§6Holy Light Summoning: §7An upgraded version of Holy Light",
-                    "§6Holy Oath: §7Temporarily strengthen one’s strength and agility",
-                    "§6Cleave of Purification: §7 A purifying blow particularly effective against the undead",
-                    "§6Immunity against horror and poison effects"
+                "§6Holy Light Summoning: §7An upgraded version of Holy Light",
+                "§6Holy Oath: §7Temporarily strengthen one’s strength and agility",
+                "§6Cleave of Purification: §7 A purifying blow particularly effective against the undead",
+                "§6Immunity against horror and poison effects"
         );
         abilityInfo.put(7, s7);
 
@@ -58,15 +58,15 @@ public class SunItems extends Items {
 
         String[] s5 = formatAbilityInfo(pathway.getStringColor(), "5: " + names.get(5),
                 "§6Light of Holiness: §7Upgraded version of Holy Light Summoning",
-                    "§6Light of Purification: §7Produces a halo-like effect, purifying all undead and foul creatures within a certain range"
+                "§6Light of Purification: §7Produces a halo-like effect, purifying all undead and foul creatures within a certain range"
         );
         abilityInfo.put(5, s5);
 
         String[] s4 = formatAbilityInfo(pathway.getStringColor(), "4: " + names.get(4),
                 "§6Unshadowed Spear: §7Throw a spear made of pure condensed light that explodes on impact into brilliant light",
-                    "§6Flaring Sun: §7Summon a miniature sun to burn all enemies that come near it",
-                    "§6Unshadowed Domain: §7Lighten up the entire area and reveal any entity in the area",
-                    "§6Armor of Light: §7Summon a Holy Armour to grant you extra protection"
+                "§6Flaring Sun: §7Summon a miniature sun to burn all enemies that come near it",
+                "§6Unshadowed Domain: §7Lighten up the entire area and reveal any entity in the area",
+                "§6Armor of Light: §7Summon a Holy Armour to grant you extra protection"
         );
         abilityInfo.put(4, s4);
 
@@ -77,15 +77,15 @@ public class SunItems extends Items {
 
         String[] s2 = formatAbilityInfo(pathway.getStringColor(), "2: " + names.get(2),
                 "§6Spear of Light: §7An upgraded version of the Unshadowed Spear",
-                    "§6Ocean of Light: §7An upgraded version of the Unshadowed Domain. Purify all undead creatures in the area",
-                    "§6Wings of Light: §7Float in the air using wings made of light"
+                "§6Ocean of Light: §7An upgraded version of the Unshadowed Domain. Purify all undead creatures in the area",
+                "§6Wings of Light: §7Float in the air using wings made of light"
         );
         abilityInfo.put(2, s2);
 
         String[] s1 = formatAbilityInfo(pathway.getStringColor(), "1: " + names.get(1),
                 "§6Day and Night: §7Freely fast forward the time to make it night or day",
-                    "§6Solar Flare: §7Create a powerful Solar Flare",
-                    "§6Adjust the strength of the Solar Flare using §7left click§6!"
+                "§6Solar Flare: §7Create a powerful Solar Flare",
+                "§6Adjust the strength of the Solar Flare using §7left click§6!"
         );
         abilityInfo.put(1, s1);
     }
@@ -93,8 +93,8 @@ public class SunItems extends Items {
     @Override
     public ArrayList<ItemStack> returnItemsFromSequence(int sequence) {
         ArrayList<ItemStack> itemsForSequence = new ArrayList<>();
-        for(Map.Entry<Integer, Integer> entry : sequenceItems.entrySet()) {
-            if(entry.getValue() >= sequence) {
+        for (Map.Entry<Integer, Integer> entry : sequenceItems.entrySet()) {
+            if (entry.getValue() >= sequence) {
                 itemsForSequence.add(items.get(entry.getKey()));
             }
         }
