@@ -32,6 +32,7 @@ public class HermesCmd implements CommandExecutor {
         String cmd_args_string;
         cmd_args_array = ArrayUtils.remove(args, 0);
         cmd_args_string = Arrays.toString(cmd_args_array);
+        cmd_args_string = cmd_args_string.toLowercase()
         //creates a var which contains all arguments, but excludes the first one.
         //E.G: args=["help", "hello", "world"]
         //Here, cmd_args=["hello", "world"].
