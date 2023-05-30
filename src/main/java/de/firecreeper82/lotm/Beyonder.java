@@ -59,9 +59,16 @@ public class Beyonder implements Listener {
     private final ArrayList<BeyonderMarionette> beyonderMarionettes;
     private final ArrayList<Mob> beyonderMarionetteEntities;
     private final ArrayList<Mob> marionetteEntities;
+    //used to prevent stacking different types of bribe.
     public boolean isBribed;
+    //used to prevent being distorted from different sources.
     public boolean isDistorted;
-    public boolean damageMagnified;
+    //used in bonus sharpness calculation.
+    public int damageMagnified;
+    //used in bonus sharpness calculation.
+    public int damageMagnifiedOld;
+    //used in bonus damage reduction.
+    public boolean isMagnifyingDamage;
     public boolean damageMagnifiedDown;
     public boolean isMagnifyingReach;
     public LivingEntity targetedEntity;
@@ -78,7 +85,7 @@ public class Beyonder implements Listener {
         beyonder = true;
         online = false;
         initializedOnce = false;
-        damageMagnified = false;
+        damageMagnified = 0;
         damageMagnifiedDown = false;
         isBribed = false;
         isDistorted = false;

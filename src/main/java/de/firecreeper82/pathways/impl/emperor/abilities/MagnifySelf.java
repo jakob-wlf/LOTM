@@ -15,6 +15,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class MagnifySelf extends Recordable {
     public boolean magnifyUse;
+
     public MagnifySelf(int identifier, Pathway pathway, int sequence, Items items) {
         super(identifier, pathway, sequence, items);
         items.addToSequenceItems(identifier - 1, sequence);
@@ -38,53 +39,48 @@ public class MagnifySelf extends Recordable {
     public void useAbility(Player p, double multiplier, Beyonder beyonder, boolean recorded) {
         if (!recorded) pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
         destroy(beyonder, recorded);
-        //set magnified to 1 if 0
-        if (!pathway.getBeyonder().damageMagnified) {
-            pathway.getBeyonder().damageMagnified = true;
-        } else {
+        if (magnifyUse) {
+            new BukkitRunnable() {
+                int timer = 30;
 
-            if (magnifyUse) {
-                new BukkitRunnable() {
-                    int timer = 30;
-
-                    @Override
-                    public void run() {
-                        if (pathway.getBeyonder().getSpirituality() >= 200 && timer != 0) {
-                            p.removePotionEffect(PotionEffectType.SPEED);
-                            p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 0, 10, false, false, false));
-                            pathway.getBeyonder().setSpirituality(pathway.getBeyonder().getSpirituality() - 200);
-                        } else {
-                            cancel();
-                        }
-                        timer--;
-                        if (timer == 0) {
-                            cancel();
-                        }
+                @Override
+                public void run() {
+                    if (pathway.getBeyonder().getSpirituality() >= 200 && timer != 0) {
+                        p.removePotionEffect(PotionEffectType.SPEED);
+                        p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 0, 10, false, false, false));
+                        pathway.getBeyonder().setSpirituality(pathway.getBeyonder().getSpirituality() - 200);
+                    } else {
+                        cancel();
                     }
-                }.runTaskTimer(Plugin.instance, 0, 20);
-            }
-            if (!magnifyUse) {
-                new BukkitRunnable() {
-                    int timer = 30;
-
-                    @Override
-                    public void run() {
-                        if (pathway.getBeyonder().getSpirituality() >= 200 && timer != 0) {
-                            p.removePotionEffect(PotionEffectType.JUMP);
-                            p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 0, 10, false, false, false));
-                            pathway.getBeyonder().setSpirituality(pathway.getBeyonder().getSpirituality() - 200);
-                        } else {
-                            cancel();
-                        }
-                        timer--;
-                        if (timer == 0) {
-                            cancel();
-                        }
+                    timer--;
+                    if (timer == 0) {
+                        cancel();
                     }
-                }.runTaskTimer(Plugin.instance, 0, 20);
-            }
+                }
+            }.runTaskTimer(Plugin.instance, 0, 20);
+        }
+        if (!magnifyUse) {
+            new BukkitRunnable() {
+                int timer = 30;
+
+                @Override
+                public void run() {
+                    if (pathway.getBeyonder().getSpirituality() >= 200 && timer != 0) {
+                        p.removePotionEffect(PotionEffectType.JUMP);
+                        p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 0, 10, false, false, false));
+                        pathway.getBeyonder().setSpirituality(pathway.getBeyonder().getSpirituality() - 200);
+                    } else {
+                        cancel();
+                    }
+                    timer--;
+                    if (timer == 0) {
+                        cancel();
+                    }
+                }
+            }.runTaskTimer(Plugin.instance, 0, 20);
         }
     }
+
 
     @Override
     public ItemStack getItem() {

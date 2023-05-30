@@ -57,10 +57,10 @@ public class MagnifyDefense extends Ability {
         if (!p.isSneaking()) {
             p.sendMessage("§fToggled Magnify Defense. Hold Shift and right click again to deactivate.");
             Plugin.emperorMagnifyDamageDown.put(p.getUniqueId(), defenseUse);
-            pathway.getBeyonder().damageMagnified = true;
+            pathway.getBeyonder().damageMagnifiedDown = true;
         } else if (p.isSneaking()) {
             p.sendMessage("§fDeactivated Magnify Damage. Press right-click to activate.");
-            pathway.getBeyonder().damageMagnified = false;
+            pathway.getBeyonder().damageMagnifiedDown = false;
         }
     }
 
