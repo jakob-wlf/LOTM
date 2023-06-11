@@ -26,6 +26,8 @@ public class Illuminate extends Ability {
     public void useAbility() {
         pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
+        p = pathway.getBeyonder().getPlayer();
+
         //get block player is looking at
         BlockIterator iter = new BlockIterator(p, 9);
         Block lastBlock = iter.next();

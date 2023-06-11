@@ -34,6 +34,8 @@ public class SpearOfLight extends Ability {
     public void useAbility() {
         pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
+        p = pathway.getBeyonder().getPlayer();
+
         double multiplier = getMultiplier();
 
         //get block player is looking at

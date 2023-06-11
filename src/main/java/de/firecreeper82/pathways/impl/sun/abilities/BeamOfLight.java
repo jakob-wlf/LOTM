@@ -18,14 +18,16 @@ import java.util.Objects;
 import java.util.Random;
 
 public class BeamOfLight extends NPCAbility {
-    public BeamOfLight(int identifier, Pathway pathway, int sequence, Items items) {
+    public BeamOfLight(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
-        items.addToSequenceItems(identifier - 1, sequence);
+        if(!npc)
+            items.addToSequenceItems(identifier - 1, sequence);
     }
 
     @Override
-    public void useNPCAbility(Location target, LivingEntity caster, double multiplier) {
-        Vector direction = target.toVector().subtract(caster.getLocation().toVector());
+    public void useNPCAbility(Location target, Entity caster, double multiplier) {
+        Location loc = caster.getLocation().add(0, 1, 0);
+        Vector direction = loc.getDirection().normalize().multiply(.5);
         World world = caster.getWorld();
 
         Random random = new Random();
@@ -37,7 +39,7 @@ public class BeamOfLight extends NPCAbility {
             public void run() {
                 counter++;
 
-                Location tempLoc = target.clone();
+                Location tempLoc = loc.clone();
 
                 Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(0, 215, 255), 1f);
 
@@ -57,8 +59,8 @@ public class BeamOfLight extends NPCAbility {
             final int circlePoints = 25;
             double radius = .15;
 
-            final Location loc = p.getEyeLocation();
-            final World world = p.getWorld();
+            final Location loc = caster.getLocation().add(0, 1, 0);
+            final World world = caster.getWorld();
 
             final double pitch = (loc.getPitch() + 90.0F) * 0.017453292F;
             final double yaw = -loc.getYaw() * 0.017453292F;
@@ -101,11 +103,11 @@ public class BeamOfLight extends NPCAbility {
                         continue;
 
                     for(Entity e : world.getNearbyEntities(tempLoc, 4, 4, 4)) {
-                        if(!(e instanceof LivingEntity livingEntity) || e == p)
+                        if(!(e instanceof LivingEntity livingEntity) || e == caster)
                             continue;
                         if(livingEntity.getCategory() == EntityCategory.UNDEAD)
-                            livingEntity.damage(18 * multiplier);
-                        livingEntity.damage(10 * multiplier);
+                            livingEntity.damage(18 * multiplier, caster);
+                        livingEntity.damage(10 * multiplier, caster);
                     }
 
                 }
@@ -114,7 +116,6 @@ public class BeamOfLight extends NPCAbility {
 
                 if(radius > 1.75) {
                     cancel();
-                    pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                 }
             }
         }.runTaskTimer(Plugin.instance, 25, 0);
@@ -124,8 +125,8 @@ public class BeamOfLight extends NPCAbility {
             final int circlePoints = 20;
             double radius = .15;
 
-            final Location loc = p.getEyeLocation();
-            final World world = p.getWorld();
+            final Location loc = caster.getLocation().add(0, 1, 0);
+            final World world = caster.getWorld();
 
             final double pitch = (loc.getPitch() + 90.0F) * 0.017453292F;
             final double yaw = -loc.getYaw() * 0.017453292F;

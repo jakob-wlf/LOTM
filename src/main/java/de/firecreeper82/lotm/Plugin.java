@@ -48,8 +48,6 @@ public final class Plugin extends JavaPlugin {
 
     private ArrayList<ArrayList<Entity>> concealedEntities;
 
-    public static final ArrayList<Integer> temp = new ArrayList<>();
-
     private File configSaveFile;
     private FileConfiguration configSave;
 
@@ -71,11 +69,6 @@ public final class Plugin extends JavaPlugin {
         beyonders = new HashMap<>();
         fakePlayers = new HashMap<>();
 
-        names = new ArrayList<>();
-
-        for (int i = 0; i < 4; i++) {
-            temp.add(i);
-        }
 
         randomUUID = UUID.fromString("1af36f3a-d8a3-11ed-afa1-0242ac120002");
 
@@ -87,6 +80,8 @@ public final class Plugin extends JavaPlugin {
         recipe = new Recipe();
 
         concealedEntities = new ArrayList<>();
+
+        names = new ArrayList<>();
 
         new SpiritHandler();
         new SpiritWorld();
@@ -378,4 +373,6 @@ public final class Plugin extends JavaPlugin {
     public ArrayList<ArrayList<Entity>> getConcealedEntities() {
         return concealedEntities;
     }
+
+
 }

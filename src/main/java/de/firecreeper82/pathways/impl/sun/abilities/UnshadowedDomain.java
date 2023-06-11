@@ -27,6 +27,8 @@ public class UnshadowedDomain extends Ability {
     public void useAbility() {
         pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
+        p = pathway.getBeyonder().getPlayer();
+
         Location loc = p.getLocation();
         ArrayList<Block> blocks = new ArrayList<>();
 

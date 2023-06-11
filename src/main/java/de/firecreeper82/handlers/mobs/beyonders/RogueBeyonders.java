@@ -3,20 +3,22 @@ package de.firecreeper82.handlers.mobs.beyonders;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.Util;
 import de.firecreeper82.pathways.NPCAbility;
+import de.firecreeper82.pathways.impl.sun.abilities.BeamOfLight;
+import de.firecreeper82.pathways.impl.sun.abilities.CleaveOfPurification;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntitySpawnEvent;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 
 public class RogueBeyonders implements Listener {
 
     private final HashMap<EntityType, Integer> spawnProbabilityTable;
 
-    private final HashMap<Integer, ArrayList<NPCAbility>> abilities;
+    private final HashMap<Integer, List<NPCAbility>> abilities;
+
+    private final HashMap<Integer, String> colorPrefix;
 
     private static final double[] PROBABILITY_DISTRIBUTION = {0.05, 0.06, 0.07, 0.08, 0.09, 0.10, 0.11, 0.12, 0.28};
     private static final int MIN_VALUE = 1;
@@ -30,6 +32,10 @@ public class RogueBeyonders implements Listener {
         spawnProbabilityTable.put(EntityType.SHEEP, 1);
 
         abilities = new HashMap<>();
+        colorPrefix = new HashMap<>();
+
+        initAbilities();
+        initColorPrefix();
     }
 
     @EventHandler
@@ -42,20 +48,33 @@ public class RogueBeyonders implements Listener {
         if (random.nextInt(Math.max(1, 101 - spawnProbabilityTable.get(e.getEntity().getType()))) != 0)
             return;
 
-        boolean aggressive = (random.nextInt(4) == 0);
-        int sequence = Util.biasedRandomNumber(PROBABILITY_DISTRIBUTION, MIN_VALUE);
-        int pathway = random.nextInt(Plugin.temp.size());
+        boolean aggressive = true; // (random.nextInt(4) == 0);
+        int sequence = 1; //Util.biasedRandomNumber(PROBABILITY_DISTRIBUTION, MIN_VALUE);
+        int pathway = 0; //random.nextInt(colorPrefix.size());
 
-        RogueBeyonder rogueBeyonder = new RogueBeyonder(aggressive, sequence, pathway);
+        RogueBeyonder rogueBeyonder = new RogueBeyonder(aggressive, sequence, pathway, this);
         Plugin.instance.getServer().getPluginManager().registerEvents(rogueBeyonder, Plugin.instance);
         rogueBeyonder.spawn(e.getLocation());
     }
 
-    private void initAbilities() {
-        //abilities.put(0, )
+    private void initColorPrefix() {
+        colorPrefix.put(0, "§6");
+        colorPrefix.put(1, "§5");
+        colorPrefix.put(2, "§b");
+        colorPrefix.put(3, "§d");
     }
 
-    public HashMap<Integer, ArrayList<NPCAbility>> getAbilities() {
+    private void initAbilities() {
+        abilities.put(0, Arrays.asList(
+                new BeamOfLight(0, null, 3, null, true),
+                new CleaveOfPurification(0, null, 7, null, true)));
+    }
+
+    public HashMap<Integer, List<NPCAbility>> getAbilities() {
         return abilities;
+    }
+
+    public HashMap<Integer, String> getColorPrefix() {
+        return colorPrefix;
     }
 }

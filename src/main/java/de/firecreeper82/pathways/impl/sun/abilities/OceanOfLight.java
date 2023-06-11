@@ -25,6 +25,9 @@ public class OceanOfLight extends Ability {
     @Override
     public void useAbility() {
         pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
+
+        p = pathway.getBeyonder().getPlayer();
+
         double multiplier = getMultiplier();
 
         Location loc = p.getLocation();
