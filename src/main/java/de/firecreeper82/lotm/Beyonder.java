@@ -3,7 +3,6 @@ package de.firecreeper82.lotm;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.Potion;
-import de.firecreeper82.pathways.Recordable;
 import de.firecreeper82.pathways.impl.door.abilities.Record;
 import de.firecreeper82.pathways.impl.fool.FoolPathway;
 import de.firecreeper82.pathways.impl.fool.abilities.Hiding;
@@ -185,11 +184,6 @@ public class Beyonder implements Listener {
 
                     for (ItemStack itemStack : pathway.getItems().returnItemsFromSequence(pathway.getSequence().getCurrentSequence())) {
                         if (itemStack.isSimilar(item.getItemStack()))
-                            entity.remove();
-                    }
-
-                    for (Recordable recordable : pathway.getSequence().getRecordables()) {
-                        if (recordable.getItem().isSimilar(item.getItemStack()))
                             entity.remove();
                     }
                 }
@@ -493,18 +487,6 @@ public class Beyonder implements Listener {
 
     public ArrayList<Mob> getBeyonderMarionetteEntities() {
         return beyonderMarionetteEntities;
-    }
-
-    public void addRecording(@NonNull Record record) {
-        records.add(record);
-    }
-
-    public void removeRecording(Record record) {
-        records.remove(record);
-    }
-
-    public ArrayList<Record> getRecords() {
-        return records;
     }
 }
 

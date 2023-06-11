@@ -1,12 +1,11 @@
 package de.firecreeper82.pathways.impl.demoness.abilities;
 
-import de.firecreeper82.lotm.Beyonder;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.Util;
 import de.firecreeper82.lotm.util.VectorUtils;
+import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
-import de.firecreeper82.pathways.Recordable;
 import de.firecreeper82.pathways.impl.demoness.DemonessItems;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -16,7 +15,6 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BlockIterator;
@@ -27,7 +25,7 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
 
-public class FrostSpear extends Recordable {
+public class FrostSpear extends Ability {
 
     private final Material[] convertMaterials;
     private final Particle.DustOptions dust;
@@ -54,11 +52,10 @@ public class FrostSpear extends Recordable {
     }
 
     @Override
-    public void useAbility(Player p, double multiplier, Beyonder beyonder, boolean recorded) {
-        if (!recorded)
-            pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
+    public void useAbility() {
+        pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
-        destroy(beyonder, recorded);
+        double multiplier = getMultiplier();
 
         //get block player is looking at
         BlockIterator iter = new BlockIterator(p, 40);

@@ -2,17 +2,21 @@ package de.firecreeper82.handlers.mobs.beyonders;
 
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.Util;
+import de.firecreeper82.pathways.NPCAbility;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntitySpawnEvent;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
 public class RogueBeyonders implements Listener {
 
     private final HashMap<EntityType, Integer> spawnProbabilityTable;
+
+    private final HashMap<Integer, ArrayList<NPCAbility>> abilities;
 
     private static final double[] PROBABILITY_DISTRIBUTION = {0.05, 0.06, 0.07, 0.08, 0.09, 0.10, 0.11, 0.12, 0.28};
     private static final int MIN_VALUE = 1;
@@ -24,6 +28,8 @@ public class RogueBeyonders implements Listener {
         spawnProbabilityTable.put(EntityType.VILLAGER, 100);
         spawnProbabilityTable.put(EntityType.COW, 1);
         spawnProbabilityTable.put(EntityType.SHEEP, 1);
+
+        abilities = new HashMap<>();
     }
 
     @EventHandler
@@ -43,5 +49,13 @@ public class RogueBeyonders implements Listener {
         RogueBeyonder rogueBeyonder = new RogueBeyonder(aggressive, sequence, pathway);
         Plugin.instance.getServer().getPluginManager().registerEvents(rogueBeyonder, Plugin.instance);
         rogueBeyonder.spawn(e.getLocation());
+    }
+
+    private void initAbilities() {
+        //abilities.put(0, )
+    }
+
+    public HashMap<Integer, ArrayList<NPCAbility>> getAbilities() {
+        return abilities;
     }
 }

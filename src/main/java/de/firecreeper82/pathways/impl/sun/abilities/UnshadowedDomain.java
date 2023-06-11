@@ -1,16 +1,14 @@
 package de.firecreeper82.pathways.impl.sun.abilities;
 
-import de.firecreeper82.lotm.Beyonder;
 import de.firecreeper82.lotm.Plugin;
+import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
-import de.firecreeper82.pathways.Recordable;
 import de.firecreeper82.pathways.impl.sun.SunItems;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -19,18 +17,15 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class UnshadowedDomain extends Recordable {
+public class UnshadowedDomain extends Ability {
     public UnshadowedDomain(int identifier, Pathway pathway, int sequence, Items items) {
         super(identifier, pathway, sequence, items);
         items.addToSequenceItems(identifier - 1, sequence);
     }
 
     @Override
-    public void useAbility(Player p, double multiplier, Beyonder beyonder, boolean recorded) {
-        if (!recorded)
-            pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
-
-        destroy(beyonder, recorded);
+    public void useAbility() {
+        pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
         Location loc = p.getLocation();
         ArrayList<Block> blocks = new ArrayList<>();

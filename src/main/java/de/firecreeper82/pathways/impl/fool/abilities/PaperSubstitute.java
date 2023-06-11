@@ -1,11 +1,10 @@
 package de.firecreeper82.pathways.impl.fool.abilities;
 
-import de.firecreeper82.lotm.Beyonder;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.npc.RemoveOnDamageTrait;
+import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
-import de.firecreeper82.pathways.Recordable;
 import de.firecreeper82.pathways.impl.fool.FoolItems;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
@@ -13,13 +12,12 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Random;
 
-public class PaperSubstitute extends Recordable {
+public class PaperSubstitute extends Ability {
 
     public PaperSubstitute(int identifier, Pathway pathway, int sequence, Items items) {
         super(identifier, pathway, sequence, items);
@@ -28,8 +26,7 @@ public class PaperSubstitute extends Recordable {
     }
 
     @Override
-    public void useAbility(Player p, double multiplier, Beyonder beyonder, boolean recorded) {
-        destroy(beyonder, recorded);
+    public void useAbility() {
 
         Location loc = p.getLocation();
 

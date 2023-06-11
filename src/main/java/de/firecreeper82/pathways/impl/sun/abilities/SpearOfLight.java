@@ -1,11 +1,10 @@
 package de.firecreeper82.pathways.impl.sun.abilities;
 
-import de.firecreeper82.lotm.Beyonder;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.VectorUtils;
+import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
-import de.firecreeper82.pathways.Recordable;
 import de.firecreeper82.pathways.impl.sun.SunItems;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -22,7 +21,7 @@ import org.bukkit.util.Vector;
 
 import java.util.Objects;
 
-public class SpearOfLight extends Recordable {
+public class SpearOfLight extends Ability {
     public Block lastLightBlock;
     public Material lastMaterial;
 
@@ -32,11 +31,10 @@ public class SpearOfLight extends Recordable {
     }
 
     @Override
-    public void useAbility(Player p, double multiplier, Beyonder beyonder, boolean recorded) {
-        if (!recorded)
-            pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
+    public void useAbility() {
+        pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
-        destroy(beyonder, recorded);
+        double multiplier = getMultiplier();
 
         //get block player is looking at
         BlockIterator iter = new BlockIterator(p, 40);

@@ -28,7 +28,6 @@ public class DoorSequence extends Sequence {
         Arrays.fill(usesAbilities, false);
 
         abilities = new ArrayList<>();
-        recordables = new ArrayList<>();
 
         sequenceEffects = new HashMap<>();
         sequenceResistances = new HashMap<>();

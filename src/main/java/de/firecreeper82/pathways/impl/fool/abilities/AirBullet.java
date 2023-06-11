@@ -1,11 +1,10 @@
 package de.firecreeper82.pathways.impl.fool.abilities;
 
-import de.firecreeper82.lotm.Beyonder;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.VectorUtils;
+import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
-import de.firecreeper82.pathways.Recordable;
 import de.firecreeper82.pathways.impl.fool.FoolItems;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -15,14 +14,13 @@ import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.HashMap;
 
-public class AirBullet extends Recordable {
+public class AirBullet extends Ability {
 
     private static HashMap<Integer, double[]> valuesForSequence;
 
@@ -48,26 +46,21 @@ public class AirBullet extends Recordable {
     }
 
     @Override
-    public void useAbility(Player p, double multiplier, Beyonder beyonder, boolean recorded) {
-        destroy(beyonder, recorded);
+    public void useAbility() {
 
-        if (!recorded) {
-            if (pathway.getSequence().getCurrentSequence() > 3)
-                sequencePower = pathway.getSequence().getCurrentSequence();
-            else if (!wasAdjustedOnce) {
-                sequencePower = pathway.getSequence().getCurrentSequence();
-                wasAdjustedOnce = true;
-            }
+        if (pathway.getSequence().getCurrentSequence() > 3)
+            sequencePower = pathway.getSequence().getCurrentSequence();
+        else if (!wasAdjustedOnce) {
+            sequencePower = pathway.getSequence().getCurrentSequence();
+            wasAdjustedOnce = true;
         }
 
-        if (!recorded)
-            multiplier = (valuesForSequence.get(sequencePower) != null ? valuesForSequence.get(sequencePower)[3] : 3);
+        double multiplier = (valuesForSequence.get(sequencePower) != null ? valuesForSequence.get(sequencePower)[3] : 3);
 
-        double finalMultiplier = multiplier;
         new BukkitRunnable() {
 
-            final double circlePoints = (!recorded) ? (valuesForSequence.get(pathway.getSequence().getCurrentSequence()) != null ? valuesForSequence.get(sequencePower)[1] : 20) : 50;
-            double radius = (!recorded) ? (valuesForSequence.get(sequencePower) != null ? valuesForSequence.get(sequencePower)[0] : 0.25) : .5;
+            final double circlePoints = valuesForSequence.get(pathway.getSequence().getCurrentSequence()) != null ? valuesForSequence.get(sequencePower)[1] : 20;
+            double radius = valuesForSequence.get(sequencePower) != null ? valuesForSequence.get(sequencePower)[0] : 0.25;
 
             final Location loc = p.getEyeLocation();
             final World world = loc.getWorld();
@@ -108,7 +101,7 @@ public class AirBullet extends Recordable {
                     circlePointOffset = 0;
                 }
                 loc.add(dir);
-                radius -= ((!recorded) ? (valuesForSequence.get(sequencePower) != null ? valuesForSequence.get(sequencePower)[0] : 0.25) : .5) / 70;
+                radius -= (valuesForSequence.get(sequencePower) != null ? valuesForSequence.get(sequencePower)[0] : 0.25) / 70;
 
                 //Check if hit Entity
                 if (!world.getNearbyEntities(loc, 5, 5, 5).isEmpty()) {
@@ -124,13 +117,9 @@ public class AirBullet extends Recordable {
                                 loc.getZ() - radius / 2
                         );
                         if (entity.getBoundingBox().overlaps(v1, v2) && entity instanceof Damageable && entity != p) {
-                            if (!recorded) {
-                                if (valuesForSequence.get(sequencePower) != null && valuesForSequence.get(sequencePower)[2] > 1)
-                                    world.createExplosion(entity.getLocation(), (int) (valuesForSequence.get(sequencePower)[2] - 1));
-                            } else {
-                                world.createExplosion(entity.getLocation(), 1);
-                            }
-                            ((Damageable) entity).damage(7 * finalMultiplier, p);
+                            if (valuesForSequence.get(sequencePower) != null && valuesForSequence.get(sequencePower)[2] > 1)
+                                world.createExplosion(entity.getLocation(), (int) (valuesForSequence.get(sequencePower)[2] - 1));
+                            ((Damageable) entity).damage(7 * multiplier, p);
                             cancel();
                             return;
                         }
@@ -140,12 +129,8 @@ public class AirBullet extends Recordable {
                 counter++;
 
                 if (loc.getBlock().getType().isSolid() || counter >= 50) {
-                    if (!recorded) {
-                        if (valuesForSequence.get(sequencePower) != null && valuesForSequence.get(sequencePower)[2] > 0)
-                            world.createExplosion(loc, (int) (valuesForSequence.get(sequencePower)[2]));
-                    } else {
-                        world.createExplosion(loc, 2);
-                    }
+                    if (valuesForSequence.get(sequencePower) != null && valuesForSequence.get(sequencePower)[2] > 0)
+                        world.createExplosion(loc, (int) (valuesForSequence.get(sequencePower)[2]));
                     cancel();
                 }
             }

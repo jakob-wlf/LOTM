@@ -166,7 +166,7 @@ public class MarionetteControlling extends Ability implements Listener {
                 }
 
                 for (ItemStack item : p.getInventory().getContents()) {
-                    if (pathway.getSequence().checkValid(item) == 0)
+                    if (pathway.getSequence().checkValid(item))
                         continue;
 
                     if (item == null)
