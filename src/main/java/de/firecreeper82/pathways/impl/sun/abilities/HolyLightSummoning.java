@@ -3,6 +3,7 @@ package de.firecreeper82.pathways.impl.sun.abilities;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
+import de.firecreeper82.pathways.NPCAbility;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.sun.SunItems;
 import org.bukkit.*;
@@ -15,31 +16,20 @@ import org.bukkit.util.BlockIterator;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class HolyLightSummoning extends Ability {
-    public HolyLightSummoning(int identifier, Pathway pathway, int sequence, Items items) {
+public class HolyLightSummoning extends NPCAbility {
+
+    private boolean npc;
+
+    public HolyLightSummoning(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
-        items.addToSequenceItems(identifier - 1, sequence);
+        if(!npc)
+            items.addToSequenceItems(identifier - 1, sequence);
+
+        this.npc = npc;
     }
 
     @Override
-    public void useAbility() {
-        pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
-
-        p = pathway.getBeyonder().getPlayer();
-
-        double multiplier = getMultiplier();
-
-        //get block player is looking at
-        BlockIterator iter = new BlockIterator(p, 22);
-        Block lastBlock = iter.next();
-        while (iter.hasNext()) {
-            lastBlock = iter.next();
-            if (!lastBlock.getType().isSolid()) {
-                continue;
-            }
-            break;
-        }
-        Location loc = lastBlock.getLocation();
+    public void useNPCAbility(Location loc, Entity caster, double multiplier) {
         loc.add(0, 14, 0);
 
         //Runnable
@@ -131,10 +121,10 @@ public class HolyLightSummoning extends Ability {
                     for (Entity entity : nearbyEntities) {
                         if (entity instanceof LivingEntity livingEntity) {
                             if (livingEntity.getCategory() == EntityCategory.UNDEAD) {
-                                ((Damageable) entity).damage(22 * multiplier, p);
+                                ((Damageable) entity).damage(22 * multiplier, caster);
                             } else {
-                                if (entity != p)
-                                    ((Damageable) entity).damage(12 * multiplier, p);
+                                if (entity != caster)
+                                    ((Damageable) entity).damage(12 * multiplier, caster);
                             }
                         }
                     }
@@ -160,13 +150,38 @@ public class HolyLightSummoning extends Ability {
 
                             if (radius >= 9) {
                                 cancel();
-                                pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
+
+                                if(!npc)
+                                    pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                             }
                         }
                     }.runTaskTimer(Plugin.instance, 0, 1);
                 }
             }
         }.runTaskTimer(Plugin.instance, 0, 1);
+    }
+
+    @Override
+    public void useAbility() {
+        pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
+
+        p = pathway.getBeyonder().getPlayer();
+
+        double multiplier = getMultiplier();
+
+        //get block player is looking at
+        BlockIterator iter = new BlockIterator(p, 22);
+        Block lastBlock = iter.next();
+        while (iter.hasNext()) {
+            lastBlock = iter.next();
+            if (!lastBlock.getType().isSolid()) {
+                continue;
+            }
+            break;
+        }
+        Location loc = lastBlock.getLocation();
+
+        useNPCAbility(loc, p, multiplier);
     }
 
     @Override

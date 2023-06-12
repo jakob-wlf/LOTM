@@ -1,9 +1,8 @@
 package de.firecreeper82.pathways.impl.sun.abilities;
 
-import de.firecreeper82.lotm.Beyonder;
 import de.firecreeper82.lotm.Plugin;
-import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
+import de.firecreeper82.pathways.NPCAbility;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.sun.SunItems;
 import org.bukkit.*;
@@ -17,43 +16,31 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
 
-public class FlaringSun extends Ability {
-    public FlaringSun(int identifier, Pathway pathway, int sequence, Items items) {
+public class FlaringSun extends NPCAbility {
+
+    private boolean npc;
+
+    public FlaringSun(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
-        items.addToSequenceItems(identifier - 1, sequence);
+        if(!npc)
+            items.addToSequenceItems(identifier - 1, sequence);
+
+        this.npc = npc;
     }
 
     private ArrayList<Block> airBlocks;
 
     @Override
-    public void useAbility() {
-        pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
-
-        p = pathway.getBeyonder().getPlayer();
-
-        double multiplier = getMultiplier();
+    public void useNPCAbility(Location loc, Entity caster, double multiplier) {
 
         airBlocks = new ArrayList<>();
-
-        //get block player is looking at
-        BlockIterator iter = new BlockIterator(p, 15);
-        Block lastBlock = iter.next();
-        while (iter.hasNext()) {
-            lastBlock = iter.next();
-            if (!lastBlock.getType().isSolid()) {
-                continue;
-            }
-            break;
-        }
-
-        Location loc = lastBlock.getLocation().add(0, 1, 0);
 
         int burnRadius = 10;
         for (int i = 3; i > -8; i--) {
             for (int x = -burnRadius; x <= burnRadius; x++) {
                 for (int z = -burnRadius; z <= burnRadius; z++) {
                     if ((x * x) + (z * z) <= Math.pow(burnRadius, 2)) {
-                        Block block = p.getWorld().getBlockAt((int) loc.getX() + x, (int) loc.getY() + i, (int) loc.getZ() + z);
+                        Block block = caster.getWorld().getBlockAt((int) loc.getX() + x, (int) loc.getY() + i, (int) loc.getZ() + z);
                         if (block.getType() == Material.DIRT || block.getType() == Material.DIRT_PATH || block.getType() == Material.COARSE_DIRT || block.getType() == Material.ROOTED_DIRT || block.getType() == Material.GRASS_BLOCK)
                             block.setType(Material.NETHERRACK);
                         if (block.getType() == Material.STONE || block.getType() == Material.COBBLESTONE || block.getType() == Material.DIORITE || block.getType() == Material.ANDESITE || block.getType() == Material.GRANITE || block.getType() == Material.DEEPSLATE || block.getType() == Material.TUFF || block.getType() == Material.CALCITE || block.getType() == Material.GRAVEL)
@@ -108,11 +95,11 @@ public class FlaringSun extends Ability {
                 for (Entity entity : nearbyEntities) {
                     if (entity instanceof LivingEntity livingEntity) {
                         if (livingEntity.getCategory() == EntityCategory.UNDEAD) {
-                            ((Damageable) entity).damage(7 * multiplier, p);
+                            ((Damageable) entity).damage(7 * multiplier, caster);
                             livingEntity.setFireTicks(50 * 20);
-                        } else if (entity != p) {
+                        } else if (entity != caster) {
                             livingEntity.setFireTicks(50 * 20);
-                            ((Damageable) entity).damage(3 * multiplier, p);
+                            ((Damageable) entity).damage(3 * multiplier, caster);
                         }
                     }
                 }
@@ -122,10 +109,35 @@ public class FlaringSun extends Ability {
                         b.setType(Material.AIR);
                     }
                     cancel();
-                    pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
+                    if(!npc)
+                        pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                 }
             }
         }.runTaskTimer(Plugin.instance, 0, 1);
+    }
+
+    @Override
+    public void useAbility() {
+        pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
+
+        p = pathway.getBeyonder().getPlayer();
+
+        double multiplier = getMultiplier();
+
+        //get block player is looking at
+        BlockIterator iter = new BlockIterator(p, 15);
+        Block lastBlock = iter.next();
+        while (iter.hasNext()) {
+            lastBlock = iter.next();
+            if (!lastBlock.getType().isSolid()) {
+                continue;
+            }
+            break;
+        }
+
+        Location loc = lastBlock.getLocation().add(0, 1, 0);
+
+        useNPCAbility(loc, p, multiplier);
     }
 
     @Override

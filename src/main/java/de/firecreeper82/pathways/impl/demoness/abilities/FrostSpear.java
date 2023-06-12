@@ -3,8 +3,8 @@ package de.firecreeper82.pathways.impl.demoness.abilities;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.Util;
 import de.firecreeper82.lotm.util.VectorUtils;
-import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
+import de.firecreeper82.pathways.NPCAbility;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.demoness.DemonessItems;
 import org.bukkit.Color;
@@ -14,8 +14,11 @@ import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityCategory;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
@@ -25,14 +28,20 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
 
-public class FrostSpear extends Ability {
+public class FrostSpear extends NPCAbility {
 
     private final Material[] convertMaterials;
     private final Particle.DustOptions dust;
 
-    public FrostSpear(int identifier, Pathway pathway, int sequence, Items items) {
+    private final boolean npc;
+
+    public FrostSpear(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
-        items.addToSequenceItems(identifier - 1, sequence);
+
+        this.npc = npc;
+
+        if(!npc)
+            items.addToSequenceItems(identifier - 1, sequence);
 
         dust = new Particle.DustOptions(Color.fromRGB(165, 231, 250), .5f);
         convertMaterials = new Material[]{
@@ -52,7 +61,123 @@ public class FrostSpear extends Ability {
     }
 
     @Override
+    public void useNPCAbility(Location loc, Entity caster, double multiplier) {
+        if(!(caster instanceof LivingEntity))
+            return;
+
+        //get block player is looking at
+        BlockIterator iter = new BlockIterator((LivingEntity) caster, 40);
+        Block lastBlock = iter.next();
+        while (iter.hasNext()) {
+            lastBlock = iter.next();
+            if (!lastBlock.getType().isSolid()) {
+                continue;
+            }
+            break;
+        }
+
+        double distance = lastBlock.getLocation().distance(caster.getLocation().add(0, 1.5, 0));
+
+        loc = caster.getLocation().add(0, 1.5, 0).add(caster.getLocation().getDirection().normalize().multiply(distance)).clone();
+
+        float angle = caster.getLocation().getYaw() / 60;
+
+        Location spearLocation = caster.getLocation().add(0, 1.5, 0).subtract(Math.cos(angle), 0, Math.sin(angle));
+        Vector dir = loc.toVector().subtract(spearLocation.toVector()).normalize();
+        Vector direction = dir.clone();
+
+        buildSpear(spearLocation.clone(), dir);
+
+        new BukkitRunnable() {
+            int counter = 0;
+
+            @Override
+            public void run() {
+                spearLocation.add(direction);
+                buildSpear(spearLocation.clone(), direction.clone());
+
+                if (!Objects.requireNonNull(spearLocation.getWorld()).getNearbyEntities(spearLocation, 5, 5, 5).isEmpty()) {
+                    for (Entity entity : spearLocation.getWorld().getNearbyEntities(spearLocation, 5, 5, 5)) {
+                        if (entity instanceof LivingEntity) {
+                            // Ignore player that initiated the shot
+                            if (entity == caster) {
+                                continue;
+                            }
+                            Vector particleMinVector = new Vector(
+                                    spearLocation.getX() - 0.25,
+                                    spearLocation.getY() - 0.25,
+                                    spearLocation.getZ() - 0.25);
+                            Vector particleMaxVector = new Vector(
+                                    spearLocation.getX() + 0.25,
+                                    spearLocation.getY() + 0.25,
+                                    spearLocation.getZ() + 0.25);
+
+                            //entity hit
+                            if (entity.getBoundingBox().overlaps(particleMinVector, particleMaxVector)) {
+
+                                entity.setVelocity(entity.getVelocity().add(spearLocation.getDirection().normalize().multiply(1.5)));
+                                ((Damageable) entity).damage(28 * multiplier, caster);
+                                entity.setFreezeTicks(20 * 10);
+
+                                if(!npc)
+                                    pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
+                                cancel();
+                                return;
+                            }
+                        }
+                    }
+                }
+
+                //hits solid block
+                if (spearLocation.getBlock().getType().isSolid()) {
+                    Location freezeLoc = spearLocation.clone();
+                    ArrayList<Block> blocks = Util.getBlocksInCircleRadius(freezeLoc.getBlock(), 13, true);
+
+                    if(!npc)
+                        pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
+
+                    Random random = new Random();
+
+                    for (Block block : blocks) {
+                        if (!Arrays.asList(convertMaterials).contains(block.getType()))
+                            continue;
+
+                        if (random.nextInt(4) == 0)
+                            continue;
+
+                        block.setType(Material.PACKED_ICE);
+                    }
+
+                    caster.getWorld().spawnParticle(Particle.SNOWFLAKE, freezeLoc, 200, 5, 5, 5, 0);
+
+                    for (Entity entity : caster.getNearbyEntities(10, 10, 10)) {
+                        if (!(entity instanceof LivingEntity livingEntity))
+                            continue;
+
+                        livingEntity.damage(8 * multiplier, caster);
+                        livingEntity.setFreezeTicks(20 * 6);
+                    }
+                    cancel();
+                }
+                if (counter >= 100) {
+                    cancel();
+                    return;
+                }
+                counter++;
+            }
+        }.runTaskTimer(Plugin.instance, 5, 0);
+
+        new BukkitRunnable() {
+            public void run() {
+                if(!npc)
+                    pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
+            }
+        }.runTaskLater(Plugin.instance, 20 * 3);
+    }
+
+    @Override
     public void useAbility() {
+        p = pathway.getBeyonder().getPlayer();
         pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
         double multiplier = getMultiplier();

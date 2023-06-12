@@ -3,6 +3,7 @@ package de.firecreeper82.pathways.impl.sun.abilities;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
+import de.firecreeper82.pathways.NPCAbility;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.sun.SunItems;
 import org.bukkit.*;
@@ -13,21 +14,21 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.Objects;
 import java.util.Random;
 
-public class LightOfPurification extends Ability {
-    public LightOfPurification(int identifier, Pathway pathway, int sequence, Items items) {
+public class LightOfPurification extends NPCAbility {
+
+    private boolean npc;
+
+    public LightOfPurification(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
-        items.addToSequenceItems(identifier - 1, sequence);
+        if(!npc)
+            items.addToSequenceItems(identifier - 1, sequence);
+
+        this.npc = npc;
     }
 
     @Override
-    public void useAbility() {
-        pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
-
-        p = pathway.getBeyonder().getPlayer();
-
-        double multiplier = getMultiplier();
-
-        Location loc = p.getLocation();
+    public void useNPCAbility(Location ignored, Entity caster, double multiplier) {
+        Location loc = caster.getLocation();
 
         //Spawning Particles
         loc.add(0, 1, 0);
@@ -50,17 +51,29 @@ public class LightOfPurification extends Ability {
                     for (Entity entity : loc.getWorld().getNearbyEntities(new Location(loc.getWorld(), loc.getX() + x, loc.getY(), loc.getZ() + z), 1, 3, 1)) {
                         if (entity instanceof LivingEntity) {
                             if (((LivingEntity) entity).getCategory() == EntityCategory.UNDEAD)
-                                ((Damageable) entity).damage(25 * multiplier, p);
+                                ((Damageable) entity).damage(25 * multiplier, caster);
                         }
                     }
                 }
 
                 if (radius >= 20) {
                     cancel();
-                    pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
+                    if(!npc)
+                        pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                 }
             }
         }.runTaskTimer(Plugin.instance, 0, 1);
+    }
+
+    @Override
+    public void useAbility() {
+        pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
+
+        p = pathway.getBeyonder().getPlayer();
+
+        double multiplier = getMultiplier();
+
+        useNPCAbility(p.getLocation(), p, multiplier);
     }
 
     @Override

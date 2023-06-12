@@ -2,8 +2,8 @@ package de.firecreeper82.pathways.impl.sun.abilities;
 
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.VectorUtils;
-import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
+import de.firecreeper82.pathways.NPCAbility;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.sun.SunItems;
 import org.bukkit.Bukkit;
@@ -21,25 +21,27 @@ import org.bukkit.util.Vector;
 
 import java.util.Objects;
 
-public class SpearOfLight extends Ability {
+public class SpearOfLight extends NPCAbility {
     public Block lastLightBlock;
     public Material lastMaterial;
 
-    public SpearOfLight(int identifier, Pathway pathway, int sequence, Items items) {
+    private final boolean npc;
+
+    public SpearOfLight(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
-        items.addToSequenceItems(identifier - 1, sequence);
+        if(!npc)
+            items.addToSequenceItems(identifier - 1, sequence);
+
+        this.npc = npc;
     }
 
     @Override
-    public void useAbility() {
-        pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
-
-        p = pathway.getBeyonder().getPlayer();
-
-        double multiplier = getMultiplier();
+    public void useNPCAbility(Location loc, Entity caster, double multiplier) {
+        if(!(caster instanceof LivingEntity))
+            return;
 
         //get block player is looking at
-        BlockIterator iter = new BlockIterator(p, 40);
+        BlockIterator iter = new BlockIterator((LivingEntity) caster, 40);
         Block lastBlock = iter.next();
         while (iter.hasNext()) {
             lastBlock = iter.next();
@@ -49,13 +51,13 @@ public class SpearOfLight extends Ability {
             break;
         }
 
-        double distance = lastBlock.getLocation().distance(p.getEyeLocation());
+        double distance = lastBlock.getLocation().distance(caster.getLocation().add(0, 1.5, 0));
 
-        Location loc = p.getEyeLocation().add(p.getEyeLocation().getDirection().normalize().multiply(distance)).clone();
+        loc = caster.getLocation().add(0, 1.5, 0).add(caster.getLocation().getDirection().normalize().multiply(distance)).clone();
 
-        float angle = p.getEyeLocation().getYaw() / 60;
+        float angle = caster.getLocation().getYaw() / 60;
 
-        Location spearLocation = p.getEyeLocation().subtract(Math.cos(angle), 0, Math.sin(angle));
+        Location spearLocation = caster.getLocation().add(0, 1.5, 0).subtract(Math.cos(angle), 0, Math.sin(angle));
         Vector dir = loc.toVector().subtract(spearLocation.toVector()).normalize();
         Vector direction = dir.clone();
 
@@ -76,7 +78,7 @@ public class SpearOfLight extends Ability {
                     for (Entity entity : spearLocation.getWorld().getNearbyEntities(spearLocation, 5, 5, 5)) {
                         if (entity instanceof LivingEntity) {
                             // Ignore player that initiated the shot
-                            if (entity == p) {
+                            if (entity == caster) {
                                 continue;
                             }
                             Vector particleMinVector = new Vector(
@@ -95,9 +97,9 @@ public class SpearOfLight extends Ability {
 
                                 entity.setVelocity(entity.getVelocity().add(spearLocation.getDirection().normalize().multiply(1.5)));
                                 if (((LivingEntity) entity).getCategory() == EntityCategory.UNDEAD)
-                                    ((Damageable) entity).damage(85 * multiplier, p);
+                                    ((Damageable) entity).damage(85 * multiplier, caster);
                                 else
-                                    ((Damageable) entity).damage(45 * multiplier, p);
+                                    ((Damageable) entity).damage(45 * multiplier, caster);
                                 ((LivingEntity) entity).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * 5, 15));
 
                                 Location sphereLoc = ((LivingEntity) entity).getEyeLocation().clone();
@@ -121,7 +123,7 @@ public class SpearOfLight extends Ability {
                                                     for (Entity entity : sphereLoc.getWorld().getNearbyEntities(sphereLoc, 5, 5, 5)) {
                                                         if (entity instanceof LivingEntity) {
                                                             // Ignore player that initiated the shot
-                                                            if (entity == p) {
+                                                            if (entity == caster) {
                                                                 continue;
                                                             }
                                                             Vector particleMinVector = new Vector(
@@ -136,9 +138,9 @@ public class SpearOfLight extends Ability {
                                                             //entity hit
                                                             if (entity.getBoundingBox().overlaps(particleMinVector, particleMaxVector)) {
                                                                 if (((LivingEntity) entity).getCategory() == EntityCategory.UNDEAD)
-                                                                    ((Damageable) entity).damage(65 * multiplier, p);
+                                                                    ((Damageable) entity).damage(65 * multiplier, caster);
                                                                 else
-                                                                    ((Damageable) entity).damage(30 * multiplier, p);
+                                                                    ((Damageable) entity).damage(30 * multiplier, caster);
                                                             }
                                                         }
                                                     }
@@ -183,7 +185,7 @@ public class SpearOfLight extends Ability {
                                         for (Entity entity : sphereLoc.getWorld().getNearbyEntities(sphereLoc, 5, 5, 5)) {
                                             if (entity instanceof LivingEntity) {
                                                 // Ignore player that initiated the shot
-                                                if (entity == p) {
+                                                if (entity == caster) {
                                                     continue;
                                                 }
                                                 Vector particleMinVector = new Vector(
@@ -198,9 +200,9 @@ public class SpearOfLight extends Ability {
                                                 //entity hit
                                                 if (entity.getBoundingBox().overlaps(particleMinVector, particleMaxVector)) {
                                                     if (((LivingEntity) entity).getCategory() == EntityCategory.UNDEAD)
-                                                        ((Damageable) entity).damage(65 * multiplier, p);
+                                                        ((Damageable) entity).damage(65 * multiplier, caster);
                                                     else
-                                                        ((Damageable) entity).damage(30 * multiplier, p);
+                                                        ((Damageable) entity).damage(30 * multiplier, caster);
                                                 }
                                             }
                                         }
@@ -229,9 +231,21 @@ public class SpearOfLight extends Ability {
 
         new BukkitRunnable() {
             public void run() {
-                pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
+                if(!npc)
+                    pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
             }
         }.runTaskLater(Plugin.instance, 20 * 3);
+    }
+
+    @Override
+    public void useAbility() {
+        pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
+
+        p = pathway.getBeyonder().getPlayer();
+
+        double multiplier = getMultiplier();
+
+        useNPCAbility(p.getEyeLocation(), p, multiplier);
     }
 
     public void buildSpear(Location loc, Vector direc) {

@@ -9,9 +9,7 @@ import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.trait.SkinTrait;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -35,6 +33,9 @@ public class RogueBeyonder implements Listener {
 
     private Entity target;
 
+    private float attackTimer;
+    private boolean initHealth;
+
     private enum STATE {
         WANDER,
         ATTACK
@@ -42,16 +43,20 @@ public class RogueBeyonder implements Listener {
 
     private STATE state;
 
+
     public RogueBeyonder(boolean aggressive, int sequence, int pathway, RogueBeyonders rogueBeyonders) {
         this.aggressive = aggressive;
         this.sequence = sequence;
         this.pathway = pathway;
         this.rogueBeyonders = rogueBeyonders;
 
+        initHealth = false;
+        attackTimer = 0;
+
         Random random = new Random();
 
         String name = Plugin.instance.getNames().get(random.nextInt(Plugin.instance.getNames().size()));
-        name = rogueBeyonders.getColorPrefix().get(pathway) + name;
+        name = rogueBeyonders.getColorPrefix().get(pathway) + name + " - " + sequence + " (" + aggressive + ")";
 
         beyonder = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, name);
         beyonder.setProtected(false);
@@ -69,18 +74,48 @@ public class RogueBeyonder implements Listener {
             public void run() {
                 RogueBeyonder.this.run();
             }
-        }.runTaskTimer(Plugin.instance, 0, 0);
+        }.runTaskTimer(Plugin.instance, 0, 1);
     }
 
     private void run() {
         if (beyonder == null || !beyonder.isSpawned())
             return;
 
+        if(!initHealth) {
+            if(beyonder.getEntity() instanceof LivingEntity livingEntity && livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH) != null) {
+                Objects.requireNonNull(livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(350f / (float) sequence);
+                livingEntity.setHealth(Objects.requireNonNull(livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue());
+            }
+            initHealth = true;
+        }
+
         if(target != null) {
             if(!target.isValid())
                 target = null;
             else if(target.getWorld() != beyonder.getEntity().getWorld())
                 target = null;
+
+            else if(target.getLocation().distance(beyonder.getEntity().getLocation()) > 30)
+                target = null;
+        }
+
+
+
+        if(target != null) {
+            state = STATE.ATTACK;
+        }
+        else {
+            if(aggressive) {
+                for(Entity entity : beyonder.getEntity().getNearbyEntities(8, 8, 8)) {
+                    if((!(entity instanceof Mob) && !(entity instanceof Player)) || entity.getType() == EntityType.ARMOR_STAND)
+                        continue;
+                    target = entity;
+                    break;
+                }
+            }
+
+            if(target == null)
+                state = STATE.WANDER;
         }
 
         if (state == STATE.WANDER) {
@@ -90,25 +125,13 @@ public class RogueBeyonder implements Listener {
             attackState();
         }
 
-        if(target != null) {
-            state = STATE.ATTACK;
-        }
-        else {
-            if(aggressive) {
-                for(Entity entity : beyonder.getEntity().getNearbyEntities(8, 8, 8)) {
-                    if(!(entity instanceof LivingEntity))
-                        continue;
-                    target = entity;
-                    break;
-                }
-            }
-        }
-
         if(pathway == 0)
             beyonder.getEntity().setFireTicks(0);
     }
 
     private void attackState() {
+        attackTimer--;
+
         beyonder.getDefaultGoalController().clear();
 
         if(target == null)
@@ -116,31 +139,26 @@ public class RogueBeyonder implements Listener {
 
         beyonder.getNavigator().setTarget(target, true);
 
-        if(beyonder.getEntity() instanceof LivingEntity livingEntity) {
-            Objects.requireNonNull(livingEntity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)).setBaseValue(.2);
-        }
-
-        Random random = new Random();
-        if(random.nextInt(80) != 0)
+        if(attackTimer > 0)
             return;
 
         if(rogueBeyonders.getAbilities().get(pathway) == null)
             return;
 
-        for(NPCAbility currentAbility : rogueBeyonders.getAbilities().get(pathway)) {
-            if(currentAbility.getSequence() < sequence)
-                return;
-            currentAbility.useNPCAbility(target.getLocation(), beyonder.getEntity(), 1);
-        }
+        Random random = new Random();
+
+        NPCAbility currentAbility = rogueBeyonders.getAbilities().get(pathway).get(random.nextInt(rogueBeyonders.getAbilities().get(pathway).size()));
+        if(currentAbility.getSequence() < sequence)
+            return;
+
+        attackTimer = (60f) / (float) currentAbility.getSequence() * 5;
+
+        currentAbility.useNPCAbility(target.getLocation(), beyonder.getEntity(), 1);
     }
 
     private void wanderState() {
         if (isWandering) {
             return;
-        }
-
-        if(beyonder.getEntity() instanceof LivingEntity livingEntity) {
-            Objects.requireNonNull(livingEntity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)).setBaseValue(1);
         }
 
         isWandering = true;

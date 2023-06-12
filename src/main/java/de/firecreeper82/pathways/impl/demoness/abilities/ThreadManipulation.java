@@ -4,12 +4,14 @@ import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.Util;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
+import de.firecreeper82.pathways.NPCAbility;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.demoness.DemonessItems;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -18,35 +20,46 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-public class ThreadManipulation extends Ability {
+public class ThreadManipulation extends NPCAbility {
 
-    public ThreadManipulation(int identifier, Pathway pathway, int sequence, Items items) {
+    public ThreadManipulation(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
-        items.addToSequenceItems(identifier - 1, sequence);
+        if(!npc)
+            items.addToSequenceItems(identifier - 1, sequence);
+    }
+
+    @Override
+    public void useNPCAbility(Location loc, Entity caster, double multiplier) {
+        placeThreads(true, caster, loc);
     }
 
     @Override
     public void useAbility() {
         p = pathway.getBeyonder().getPlayer();
-        placeThreads();
+        placeThreads(false, null, null);
     }
 
-    private void placeThreads() {
-        Location loc = p.getEyeLocation();
-        Vector dir = p.getEyeLocation().getDirection().normalize();
-        World world = loc.getWorld();
+    private void placeThreads(boolean npc, Entity e, Location target) {
+        Entity caster = npc ? e : p;
 
-        if (world == null)
-            return;
+        Location loc = npc ? target : p.getEyeLocation();
 
-        for (int i = 0; i < 30; i++) {
-            loc.add(dir);
+        if(!npc) {
+            Vector dir = p.getEyeLocation().getDirection().normalize();
+            World world = loc.getWorld();
 
-            if (loc.getBlock().getType().isSolid())
-                break;
+            if (world == null)
+                return;
 
-            if (!world.getNearbyEntities(loc, 1.2, 1.2, 1.2).isEmpty() && !world.getNearbyEntities(loc, 1.2, 1.2, 1.2).contains(p))
-                break;
+            for (int i = 0; i < 30; i++) {
+                loc.add(dir);
+
+                if (loc.getBlock().getType().isSolid())
+                    break;
+
+                if (!world.getNearbyEntities(loc, 1.2, 1.2, 1.2).isEmpty() && !world.getNearbyEntities(loc, 1.2, 1.2, 1.2).contains(p))
+                    break;
+            }
         }
 
         Random random = new Random();

@@ -1,8 +1,8 @@
 package de.firecreeper82.pathways.impl.demoness.abilities;
 
 import de.firecreeper82.lotm.util.Util;
-import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
+import de.firecreeper82.pathways.NPCAbility;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.demoness.DemonessItems;
 import net.md_5.bungee.api.ChatMessageType;
@@ -14,6 +14,8 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Mob;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
@@ -21,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-public class FrostMagic extends Ability {
+public class FrostMagic extends NPCAbility {
 
     private Category selectedCategory = Category.Attack;
     private final Category[] categories = Category.values();
@@ -29,9 +31,10 @@ public class FrostMagic extends Ability {
 
     private final Material[] convertMaterials;
 
-    public FrostMagic(int identifier, Pathway pathway, int sequence, Items items) {
+    public FrostMagic(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
-        items.addToSequenceItems(identifier - 1, sequence);
+        if(!npc)
+            items.addToSequenceItems(identifier - 1, sequence);
 
         convertMaterials = new Material[]{
                 Material.GRASS_BLOCK,
@@ -49,6 +52,14 @@ public class FrostMagic extends Ability {
         };
     }
 
+    @Override
+    public void useNPCAbility(Location loc, Entity caster, double multiplier) {
+        if((new Random()).nextBoolean())
+            attack(true, loc, caster, multiplier);
+        else
+            freeze(true, caster, multiplier);
+    }
+
     enum Category {
         Attack("Attack targets"),
         Freeze("Freeze an area");
@@ -63,16 +74,20 @@ public class FrostMagic extends Ability {
     @Override
     public void useAbility() {
         if (selectedCategory == Category.Attack)
-            attack();
+            attack(false, null, null, getMultiplier());
         if (selectedCategory == Category.Freeze)
-            freeze();
+            freeze(false, null, getMultiplier());
     }
 
-    private void attack() {
-        p = pathway.getBeyonder().getPlayer();
+    private void attack(boolean npc, Location target, Entity e, double multiplier) {
+        Entity caster = (npc) ? e : pathway.getBeyonder().getPlayer();
 
-        Vector vector = p.getLocation().getDirection().normalize().multiply(.5);
-        Location loc = p.getEyeLocation().clone();
+        Location loc = caster.getLocation().add(0, 1.5, 0).clone();
+        Vector vector;
+        if(!npc)
+            vector = caster.getLocation().getDirection().normalize().multiply(.5);
+        else
+            vector = target.toVector().subtract(loc.toVector()).normalize().multiply(.5);
         if (loc.getWorld() == null)
             return;
         World world = loc.getWorld();
@@ -91,10 +106,10 @@ public class FrostMagic extends Ability {
 
             boolean cancelled = false;
             for (Entity entity : world.getNearbyEntities(loc, 1, 1, 1)) {
-                if (!(entity instanceof LivingEntity livingEntity) || entity == p)
+                if ((!(entity instanceof Mob) && !(entity instanceof Player)) || entity == caster)
                     continue;
-                livingEntity.damage(15, p);
-                livingEntity.setFreezeTicks(20 * 40);
+                ((LivingEntity) entity).damage(15 * multiplier, caster);
+                entity.setFreezeTicks(20 * 40);
                 cancelled = true;
             }
 
@@ -103,9 +118,11 @@ public class FrostMagic extends Ability {
         }
     }
 
-    private void freeze() {
-        p = pathway.getBeyonder().getPlayer();
-        ArrayList<Block> blocks = Util.getBlocksInCircleRadius(p.getLocation().subtract(0, .5, 0).getBlock(), 8, true);
+    private void freeze(boolean npc, Entity e, double multiplier) {
+
+        Entity caster;
+        caster = (npc) ? e : pathway.getBeyonder().getPlayer();
+        ArrayList<Block> blocks = Util.getBlocksInCircleRadius(caster.getLocation().subtract(0, .5, 0).getBlock(), 8, true);
 
         Random random = new Random();
 
@@ -122,16 +139,17 @@ public class FrostMagic extends Ability {
             block.setType(Material.PACKED_ICE);
         }
 
-        p.getWorld().spawnParticle(Particle.SNOWFLAKE, p.getEyeLocation(), 70, 5, 5, 5, 0);
+        caster.getWorld().spawnParticle(Particle.SNOWFLAKE, caster.getLocation().add(0, 1.5, 0), 70, 5, 5, 5, 0);
 
-        for (Entity entity : p.getNearbyEntities(8, 8, 8)) {
+        for (Entity entity : caster.getNearbyEntities(8, 8, 8)) {
             if (!(entity instanceof LivingEntity livingEntity))
                 continue;
 
-            livingEntity.damage(4, p);
+            livingEntity.damage(4 * multiplier, caster);
             livingEntity.setFreezeTicks(20 * 6);
         }
     }
+
 
     @Override
     //Cycle through categories on left click

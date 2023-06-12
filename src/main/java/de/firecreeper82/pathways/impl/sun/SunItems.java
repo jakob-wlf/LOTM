@@ -104,20 +104,20 @@ public class SunItems extends Items {
     @Override
     public void createItems() {
         addAbility(new HolySong(1, pathway, 9, this));
-        addAbility(new HolyLight(2, pathway, 8, this));
+        addAbility(new HolyLight(2, pathway, 8, this, false));
         addAbility(new Illuminate(3, pathway, 8, this));
-        addAbility(new FireOfLight(4, pathway, 7, this));
-        addAbility(new HolyLightSummoning(5, pathway, 7, this));
+        addAbility(new FireOfLight(4, pathway, 7, this, false));
+        addAbility(new HolyLightSummoning(5, pathway, 7, this, false));
         addAbility(new HolyOath(6, pathway, 7, this));
         addAbility(new CleaveOfPurification(7, pathway, 7, this, false));
-        addAbility(new LightOfHoliness(8, pathway, 5, this));
-        addAbility(new LightOfPurification(9, pathway, 5, this));
+        addAbility(new LightOfHoliness(8, pathway, 5, this, false));
+        addAbility(new LightOfPurification(9, pathway, 5, this, false));
         addAbility(new UnshadowedSpear(10, pathway, 4, this));
-        addAbility(new FlaringSun(11, pathway, 4, this));
+        addAbility(new FlaringSun(11, pathway, 4, this, false));
         addAbility(new UnshadowedDomain(12, pathway, 4, this));
         addAbility(new ArmorOfLight(13, pathway, 4, this));
         addAbility(new BeamOfLight(14, pathway, 3, this, false));
-        addAbility(new SpearOfLight(15, pathway, 2, this));
+        addAbility(new SpearOfLight(15, pathway, 2, this, false));
         addAbility(new OceanOfLight(16, pathway, 2, this));
         addAbility(new WingsOfLight(17, pathway, 2, this));
         addAbility(new DayAndNight(18, pathway, 1, this));

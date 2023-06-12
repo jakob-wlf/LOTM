@@ -2,8 +2,8 @@ package de.firecreeper82.pathways.impl.demoness.abilities;
 
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.Util;
-import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
+import de.firecreeper82.pathways.NPCAbility;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.demoness.DemonessItems;
 import org.bukkit.Color;
@@ -13,6 +13,8 @@ import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Mob;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -23,23 +25,27 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Petrification extends Ability {
+public class Petrification extends NPCAbility {
 
     private final ArrayList<Entity> cooldownEntities;
 
-    public Petrification(int identifier, Pathway pathway, int sequence, Items items) {
+    private final boolean npc;
+
+    public Petrification(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
-        items.addToSequenceItems(identifier - 1, sequence);
+
+        this.npc = npc;
+
+        if(!npc)
+            items.addToSequenceItems(identifier - 1, sequence);
 
         cooldownEntities = new ArrayList<>();
     }
 
     @Override
-    public void useAbility() {
-        p = pathway.getBeyonder().getPlayer();
-
-        Vector dir = p.getEyeLocation().getDirection().normalize();
-        Location loc = p.getEyeLocation();
+    public void useNPCAbility(Location targetLoc, Entity caster, double multiplier) {
+        Vector dir = caster.getLocation().getDirection().normalize();
+        Location loc = caster.getLocation().add(0, 1.5, 0);
         if (loc.getWorld() == null)
             return;
 
@@ -48,9 +54,9 @@ public class Petrification extends Ability {
         outerloop:
         for (int i = 0; i < 50; i++) {
             for (Entity entity : loc.getWorld().getNearbyEntities(loc, 1, 1, 1)) {
-                if (!(entity instanceof LivingEntity e) || entity == p)
+                if ((!(entity instanceof Mob) && !(entity instanceof Player)) || entity == caster)
                     continue;
-                target = e;
+                target = (LivingEntity) entity;
                 break outerloop;
             }
 
@@ -68,12 +74,13 @@ public class Petrification extends Ability {
 
         LivingEntity finalTarget = target;
 
-        if (cooldownEntities.contains(finalTarget)) {
-            p.sendMessage("§cYou can't petrify that entity again yet!");
-            return;
+        if(!npc) {
+            if (cooldownEntities.contains(finalTarget)) {
+                caster.sendMessage("§cYou can't petrify that entity again yet!");
+                return;
+            }
+            cooldownEntities.add(finalTarget);
         }
-
-        cooldownEntities.add(finalTarget);
 
         HashMap<Block, Material> blocks = new HashMap<>();
         final Location eLoc = finalTarget.getLocation();
@@ -91,7 +98,8 @@ public class Petrification extends Ability {
                 }
 
                 if (!finalTarget.isValid()) {
-                    cooldownEntities.remove(finalTarget);
+                    if(!npc)
+                        cooldownEntities.remove(finalTarget);
                     cancelled = true;
                 }
 
@@ -103,7 +111,8 @@ public class Petrification extends Ability {
                     new BukkitRunnable() {
                         @Override
                         public void run() {
-                            cooldownEntities.remove(finalTarget);
+                            if(!npc)
+                                cooldownEntities.remove(finalTarget);
                         }
                     }.runTaskLater(Plugin.instance, 20 * 20);
                     cancel();
@@ -142,6 +151,13 @@ public class Petrification extends Ability {
                 }
             }
         }.runTaskTimer(Plugin.instance, 0, 0);
+    }
+
+    @Override
+    public void useAbility() {
+        p = pathway.getBeyonder().getPlayer();
+
+        useNPCAbility(p.getEyeLocation(), p, getMultiplier());
     }
 
     private void petrifyLoc(Location loc) {

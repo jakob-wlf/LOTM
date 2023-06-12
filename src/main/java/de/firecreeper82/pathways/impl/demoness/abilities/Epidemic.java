@@ -3,8 +3,10 @@ package de.firecreeper82.pathways.impl.demoness.abilities;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
+import de.firecreeper82.pathways.NPCAbility;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.demoness.DemonessItems;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
@@ -16,42 +18,54 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 
-public class Epidemic extends Ability {
+public class Epidemic extends NPCAbility {
 
     private final ArrayList<Entity> infected;
 
-    public Epidemic(int identifier, Pathway pathway, int sequence, Items items) {
+    private final boolean npc;
+
+    public Epidemic(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
 
-        items.addToSequenceItems(identifier - 1, sequence);
+        if(!npc)
+            items.addToSequenceItems(identifier - 1, sequence);
         infected = new ArrayList<>();
+
+        this.npc = npc;
     }
 
     @Override
-    public void useAbility() {
-        p = pathway.getBeyonder().getPlayer();
-
-        pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
-
+    public void useNPCAbility(Location loc, Entity caster, double multiplier) {
         new BukkitRunnable() {
             int drainer = 0;
+            int npcCounter = 20 * 20;
 
             @Override
             public void run() {
-                p.getWorld().spawnParticle(Particle.SMOKE_NORMAL, p.getEyeLocation(), 500, 40, 40, 40, 0);
+                caster.getWorld().spawnParticle(Particle.SMOKE_NORMAL, caster.getLocation().add(0, 1.5, 0), 500, 40, 40, 40, 0);
 
-                if (pathway.getBeyonder().getSpirituality() <= 10) {
+                if(npc)
+                    npcCounter--;
+
+                if(npc && npcCounter <= 0)
                     cancel();
-                    return;
+
+
+                if(!npc)
+                    if (pathway.getBeyonder().getSpirituality() <= 10) {
+                        cancel();
+                        return;
+                    }
+
+                if(!npc) {
+                    drainer++;
+                    if (drainer >= 20) {
+                        drainer = 0;
+                        pathway.getSequence().removeSpirituality(10);
+                    }
                 }
 
-                drainer++;
-                if (drainer >= 20) {
-                    drainer = 0;
-                    pathway.getSequence().removeSpirituality(10);
-                }
-
-                for (Entity entity : p.getNearbyEntities(50, 50, 50)) {
+                for (Entity entity : caster.getNearbyEntities(50, 50, 50)) {
                     if (infected.contains(entity))
                         continue;
 
@@ -83,10 +97,11 @@ public class Epidemic extends Ability {
                             if (counter >= 9223372036854775800L)
                                 infected.remove(entity);
 
-                            if (!pathway.getSequence().getUsesAbilities()[identifier - 1])
-                                infected.remove(entity);
+                            if(!npc)
+                                if (!pathway.getSequence().getUsesAbilities()[identifier - 1])
+                                    infected.remove(entity);
 
-                            if (!p.getNearbyEntities(50, 50, 50).contains(entity)) {
+                            if (!caster.getNearbyEntities(50, 50, 50).contains(entity)) {
                                 infected.remove(entity);
                             }
 
@@ -102,10 +117,21 @@ public class Epidemic extends Ability {
                     }.runTaskTimer(Plugin.instance, 0, 0);
                 }
 
-                if (!pathway.getSequence().getUsesAbilities()[identifier - 1])
-                    cancel();
+                if(!npc) {
+                    if (!pathway.getSequence().getUsesAbilities()[identifier - 1])
+                        cancel();
+                }
             }
         }.runTaskTimer(Plugin.instance, 0, 0);
+    }
+
+    @Override
+    public void useAbility() {
+        p = pathway.getBeyonder().getPlayer();
+
+        pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
+
+        useNPCAbility(p.getLocation(), p, 1);
     }
 
     @Override

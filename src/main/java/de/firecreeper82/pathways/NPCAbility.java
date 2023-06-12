@@ -8,5 +8,5 @@ public abstract class NPCAbility extends Ability{
         super(identifier, pathway, sequence, items);
     }
 
-    public abstract void useNPCAbility(Location target, Entity caster, double multiplier);
+    public abstract void useNPCAbility(Location loc, Entity caster, double multiplier);
 }

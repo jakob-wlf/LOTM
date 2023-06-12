@@ -3,8 +3,8 @@ package de.firecreeper82.handlers.mobs.beyonders;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.Util;
 import de.firecreeper82.pathways.NPCAbility;
-import de.firecreeper82.pathways.impl.sun.abilities.BeamOfLight;
-import de.firecreeper82.pathways.impl.sun.abilities.CleaveOfPurification;
+import de.firecreeper82.pathways.impl.demoness.abilities.*;
+import de.firecreeper82.pathways.impl.sun.abilities.*;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -48,9 +48,9 @@ public class RogueBeyonders implements Listener {
         if (random.nextInt(Math.max(1, 101 - spawnProbabilityTable.get(e.getEntity().getType()))) != 0)
             return;
 
-        boolean aggressive = true; // (random.nextInt(4) == 0);
-        int sequence = 1; //Util.biasedRandomNumber(PROBABILITY_DISTRIBUTION, MIN_VALUE);
-        int pathway = 0; //random.nextInt(colorPrefix.size());
+        boolean aggressive = true; //(random.nextInt(4) == 0);
+        int sequence = 2; //Util.biasedRandomNumber(PROBABILITY_DISTRIBUTION, MIN_VALUE);
+        int pathway = 1; //random.nextInt(colorPrefix.size());
 
         RogueBeyonder rogueBeyonder = new RogueBeyonder(aggressive, sequence, pathway, this);
         Plugin.instance.getServer().getPluginManager().registerEvents(rogueBeyonder, Plugin.instance);
@@ -67,7 +67,26 @@ public class RogueBeyonders implements Listener {
     private void initAbilities() {
         abilities.put(0, Arrays.asList(
                 new BeamOfLight(0, null, 3, null, true),
-                new CleaveOfPurification(0, null, 7, null, true)));
+                new CleaveOfPurification(0, null, 7, null, true),
+                new FireOfLight(0, null, 7, null, true),
+                new FlaringSun(0, null, 4, null, true),
+                new HolyLight(0, null, 8, null, true),
+                new HolyLightSummoning(0, null, 7, null, true),
+                new LightOfHoliness(0, null, 5, null, true),
+                new LightOfPurification(0, null, 4, null, true),
+                new SpearOfLight(0, null, 2, null, true)
+        ));
+
+        abilities.put(3, Arrays.asList(
+                new ColdWind(0, null, 7, null, true),
+                new DarkFlames(0, null, 7, null, true),
+                new Epidemic(0, null, 5, null, true),
+                new FrostMagic(0, null, 7, null, true),
+                new FrostSpear(0, null, 6, null, true),
+                new Petrification(0, null, 3, null, true),
+                new Pestilence(0, null, 4, null, true),
+                new ThreadManipulation(0, null, 6, null, true)
+        ));
     }
 
     public HashMap<Integer, List<NPCAbility>> getAbilities() {
