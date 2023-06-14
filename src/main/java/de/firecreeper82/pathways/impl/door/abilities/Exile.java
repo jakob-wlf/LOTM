@@ -3,8 +3,8 @@ package de.firecreeper82.pathways.impl.door.abilities;
 import de.firecreeper82.lotm.Beyonder;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.VectorUtils;
-import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
+import de.firecreeper82.pathways.NPCAbility;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.door.DoorItems;
 import org.bukkit.Color;
@@ -12,28 +12,31 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.Random;
 
-public class Exile extends Ability {
+public class Exile extends NPCAbility {
 
-    public Exile(int identifier, Pathway pathway, int sequence, Items items) {
+    private final boolean npc;
+
+    public Exile(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
-        items.addToSequenceItems(identifier - 1, sequence);
+        this.npc = npc;
+        if(!npc)
+            items.addToSequenceItems(identifier - 1, sequence);
     }
 
     @Override
-    public void useAbility() {
-        p = pathway.getBeyonder().getPlayer();
-
-        pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
-
-        Vector dir = p.getEyeLocation().getDirection().normalize();
-        Location loc = p.getEyeLocation();
+    public void useNPCAbility(Location target, Entity caster, double multiplier) {
+        Vector dir = caster.getLocation().getDirection().normalize();
+        Location loc = caster.getLocation().add(0, 1.5, 0);
 
         for (int i = 0; i < 20; i++) {
             if (loc.getBlock().getType().isSolid())
@@ -59,6 +62,8 @@ public class Exile extends Ability {
         new BukkitRunnable() {
             int counter = 0;
 
+            int npcCounter = 20 * 5;
+
             @Override
             public void run() {
                 counter++;
@@ -67,15 +72,20 @@ public class Exile extends Ability {
                     return;
                 }
 
+                npcCounter--;
+                if(npc && npcCounter <= 0) {
+                    cancel();
+                }
+
                 for (Location location : locations) {
                     drawDoor(location);
                 }
 
                 for (Entity entity : loc.getWorld().getNearbyEntities(loc, 5, 5, 5)) {
-                    if (entity == p)
+                    if (entity == caster)
                         continue;
 
-                    if (entity instanceof Player player && Plugin.beyonders.containsKey(player.getUniqueId())) {
+                    if (entity instanceof Player player && Plugin.beyonders.containsKey(player.getUniqueId()) && !npc) {
                         Beyonder beyonder = Plugin.beyonders.get(player.getUniqueId());
                         if (random.nextInt(Math.round(160f / beyonder.getPathway().getSequence().getCurrentSequence())) == 0) {
                             Location startLoc = player.getLocation();
@@ -101,32 +111,56 @@ public class Exile extends Ability {
                     }
 
                     if (random.nextInt(15) == 0) {
-                        Location startLoc = entity.getLocation();
-                        Location teleportLoc = new Location(startLoc.getWorld(), random.nextInt(1000, 2000), 10000, random.nextInt(1000, 2000));
-                        entity.teleport(teleportLoc);
-                        new BukkitRunnable() {
-                            int c = 0;
 
-                            @Override
-                            public void run() {
-                                if (c >= 20 * 30) {
-                                    entity.teleport(startLoc);
-                                    cancel();
-                                    return;
+                        if(!npc) {
+                            Location startLoc = entity.getLocation();
+                            Location teleportLoc = new Location(startLoc.getWorld(), random.nextInt(1000, 2000), 10000, random.nextInt(1000, 2000));
+                            entity.teleport(teleportLoc);
+                            new BukkitRunnable() {
+                                int c = 0;
+
+                                @Override
+                                public void run() {
+                                    if (c >= 20 * 30) {
+                                        entity.teleport(startLoc);
+                                        cancel();
+                                        return;
+                                    }
+                                    c++;
+                                    entity.teleport(teleportLoc);
                                 }
-                                c++;
-                                entity.teleport(teleportLoc);
-                            }
-                        }.runTaskTimer(Plugin.instance, 0, 0);
-                    }
+                            }.runTaskTimer(Plugin.instance, 0, 0);
+                        }
+                        else {
+                            if(entity instanceof LivingEntity livingEntity) {
+                                livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 60, 10));
+                                livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.DARKNESS, 60, 10));
+                                livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 60, 100));
 
+                                if(entity instanceof Player pTarget) {
+                                    Particle.DustOptions dust1 = new Particle.DustOptions(Color.fromBGR(150, 12, 171), .6f);
+                                    Particle.DustOptions dust2 = new Particle.DustOptions(Color.fromBGR(255, 251, 0), .5f);
+                                    pTarget.spawnParticle(Particle.REDSTONE, pTarget.getLocation(), 25, 2, 2, 2, dust1);
+                                    pTarget.spawnParticle(Particle.REDSTONE, pTarget.getLocation(), 25, 2, 2, 2, dust2);
+                                }
+                            }
+                        }
+                    }
                 }
 
-                if (!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
+                if (!npc && !pathway.getSequence().getUsesAbilities()[identifier - 1]) {
                     cancel();
                 }
             }
         }.runTaskTimer(Plugin.instance, 0, 0);
+    }
+
+    @Override
+    public void useAbility() {
+        p = pathway.getBeyonder().getPlayer();
+
+        pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
+        useNPCAbility(p.getLocation(), p, 1);
     }
 
     @Override

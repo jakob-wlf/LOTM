@@ -12,6 +12,7 @@ import fr.mrmicky.fastboard.FastBoard;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
@@ -63,6 +64,8 @@ public class Beyonder implements Listener {
 
     private final ArrayList<Record> records;
 
+    private final int[] healthIndex;
+
     public Beyonder(UUID uuid, Pathway pathway) {
         this.pathway = pathway;
         this.uuid = uuid;
@@ -82,6 +85,10 @@ public class Beyonder implements Listener {
         loosingControl = false;
 
         resurrections = 0;
+
+        healthIndex = new int[] {
+                0, 180, 120, 80, 70, 55, 40, 30, 25, 20
+        };
 
         pathway.init();
 
@@ -224,6 +231,8 @@ public class Beyonder implements Listener {
 
         online = true;
         initializedOnce = true;
+
+        Objects.requireNonNull(getPlayer().getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(healthIndex[pathway.getSequence().getCurrentSequence()]);
 
         //onHold
         new BukkitRunnable() {
@@ -426,6 +435,8 @@ public class Beyonder implements Listener {
         actingProgress = 0;
         updateActing();
         updateSpirituality();
+
+        Objects.requireNonNull(getPlayer().getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(healthIndex[pathway.getSequence().getCurrentSequence()]);
     }
 
     public Player getPlayer() {

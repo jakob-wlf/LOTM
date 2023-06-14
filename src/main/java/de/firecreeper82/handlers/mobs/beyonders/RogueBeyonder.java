@@ -30,6 +30,7 @@ public class RogueBeyonder implements Listener {
     private boolean isWandering;
 
     private final NPC beyonder;
+    private Entity entity;
 
     private Entity target;
 
@@ -43,6 +44,9 @@ public class RogueBeyonder implements Listener {
 
     private STATE state;
 
+    private final String[][] characteristicIndex;
+
+    private String name;
 
     public RogueBeyonder(boolean aggressive, int sequence, int pathway, RogueBeyonders rogueBeyonders) {
         this.aggressive = aggressive;
@@ -53,9 +57,14 @@ public class RogueBeyonder implements Listener {
         initHealth = false;
         attackTimer = 0;
 
+        characteristicIndex = new String[][] {
+                {"sun", "fool", "door", "demoness"},
+                {"§6", "§5", "§b", "§d"}
+        };
+
         Random random = new Random();
 
-        String name = Plugin.instance.getNames().get(random.nextInt(Plugin.instance.getNames().size()));
+        name = Plugin.instance.getNames().get(random.nextInt(Plugin.instance.getNames().size()));
         name = rogueBeyonders.getColorPrefix().get(pathway) + name + " - " + sequence + " (" + aggressive + ")";
 
         beyonder = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, name);
@@ -64,6 +73,7 @@ public class RogueBeyonder implements Listener {
         SkinTrait skinTrait = new SkinTrait();
         skinTrait.setTexture("ewogICJ0aW1lc3RhbXAiIDogMTY4NDI1ODY0NTIyMywKICAicHJvZmlsZUlkIiA6ICJkOGNkMTNjZGRmNGU0Y2IzODJmYWZiYWIwOGIyNzQ4OSIsCiAgInByb2ZpbGVOYW1lIiA6ICJaYWNoeVphY2giLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjBiMTIxNzE1MjIxMjhmZGQ0YTZjYzFlMDRlMDZmNzk0ZmMxZTc5N2I2YmM2MGQ0N2E2NGMzYmZiMGEyM2VjMSIKICAgIH0KICB9Cn0=", "AoRkj9+lOTkFAFLOC9mY3zvLIooEINec6S2DKrO6om5Pq5CxJ289znUeZkKuxa5XbvlPr2FpwY2siaNMeQcJQwrBnv+8fDua4BR2dBEKge7w/4E3WHttn+hJsr6CGQ2j2FYlNMcnpJ6n/HNws58APBW2BhRwqIU6upH6p8XTmedIlCQHO1hv6pi9D82pF7eAn6dLuyKCYeDUZ9uPrOTZ9PUviQwqMFJn6Z+gAtN1Sg+tTXkEitp+HAvfYd7E71NQNFC7A35Bh2f6dlsjHgpESV5rWBtv9DN0tYtTF68CaNZUzSl5Wt+4U5mcIQ6zfNnlBIWe1eXYN5zSXsEQMnYwDAmPhWPnjD6L7TkWBIvqdh9YfGxbUyqRbzMVL0VrS+P6ZmTPMbPxUblFJLb95swMgpUwOQG9vcJvL/9Pp9ZpVednDk3g27Cp25QWZf1HNiIDgfrBsLEpKn2dmCFKGzCV7nlcNHqpnXCThSJZB/ALN2vTxF1MOJ22AIOAffHUCKARUZhxAVISYx1ZDr+FABAi6wHtyF5fJamgSVfoNnmCRvNCc0pzl9WEU1I66ddfwlcS2bHWdAsjq+xayftTGCDHIOk1w8fSHhGwSUz0wMY8Wco6gYxoRJAIeZ5OfxJD5lvP99H1htPf4hioK4/b+NwAYvJoG9TjDheLjJT2o+uQbfI=");
         beyonder.addTrait(skinTrait);
+        beyonder.setName(name);
 
         state = STATE.WANDER;
 
@@ -83,10 +93,13 @@ public class RogueBeyonder implements Listener {
 
         if(!initHealth) {
             if(beyonder.getEntity() instanceof LivingEntity livingEntity && livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH) != null) {
-                Objects.requireNonNull(livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(350f / (float) sequence);
+                Objects.requireNonNull(livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(500f * (2 / (float) sequence));
                 livingEntity.setHealth(Objects.requireNonNull(livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue());
             }
             initHealth = true;
+
+            entity = beyonder.getEntity();
+            beyonder.getEntity().setCustomName(name);
         }
 
         if(target != null) {
@@ -151,7 +164,7 @@ public class RogueBeyonder implements Listener {
         if(currentAbility.getSequence() < sequence)
             return;
 
-        attackTimer = (60f) / (float) currentAbility.getSequence() * 5;
+        attackTimer = (60 * 20f) / ((float) currentAbility.getSequence() * 5);
 
         currentAbility.useNPCAbility(target.getLocation(), beyonder.getEntity(), 1);
     }
@@ -172,10 +185,10 @@ public class RogueBeyonder implements Listener {
 
     @EventHandler
     public void onDeath(EntityDeathEvent e) {
-        if (!beyonder.isSpawned())
-            return;
 
-        if (e.getEntity() == beyonder.getEntity())
+        if (e.getEntity() == entity) {
+            e.getEntity().getWorld().dropItem(e.getEntity().getLocation(), Plugin.instance.getCharacteristic().getCharacteristic(sequence, characteristicIndex[0][pathway], characteristicIndex[1][pathway]));
             beyonder.destroy();
+        }
     }
 }

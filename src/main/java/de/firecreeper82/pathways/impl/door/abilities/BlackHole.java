@@ -2,8 +2,8 @@ package de.firecreeper82.pathways.impl.door.abilities;
 
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.Util;
-import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
+import de.firecreeper82.pathways.NPCAbility;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.door.DoorItems;
 import org.bukkit.Color;
@@ -22,22 +22,25 @@ import org.bukkit.util.Vector;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class BlackHole extends Ability {
+public class BlackHole extends NPCAbility {
 
-    public BlackHole(int identifier, Pathway pathway, int sequence, Items items) {
+    private final boolean npc;
+
+    public BlackHole(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
-        items.addToSequenceItems(identifier - 1, sequence);
+
+        this.npc = npc;
+
+        if(!npc)
+            items.addToSequenceItems(identifier - 1, sequence);
+
 
     }
 
     @Override
-    public void useAbility() {
-        p = pathway.getBeyonder().getPlayer();
-
-        pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
-
-        Vector dir = p.getEyeLocation().getDirection().normalize();
-        Location loc = p.getEyeLocation();
+    public void useNPCAbility(Location target, Entity caster, double multiplier) {
+        Vector dir = caster.getLocation().getDirection().normalize();
+        Location loc = caster.getLocation().add(0, 1.5, 0);
 
         for (int i = 0; i < 18; i++) {
             if (loc.getBlock().getType().isSolid())
@@ -53,6 +56,8 @@ public class BlackHole extends Ability {
         Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(0, 0, 0), 2f);
         Random random = new Random();
 
+        int[] npcCounter = {20 * 25};
+
         new BukkitRunnable() {
             ArrayList<Block> blocks = Util.getNearbyBlocksInSphere(loc.getBlock().getLocation(), 32, false, true, true);
 
@@ -60,9 +65,18 @@ public class BlackHole extends Ability {
 
             @Override
             public void run() {
-                if (!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
+
+                if (!npc && !pathway.getSequence().getUsesAbilities()[identifier - 1]) {
                     cancel();
                     return;
+                }
+
+                if(npc) {
+                    npcCounter[0]--;
+                    if(npcCounter[0] <= 0) {
+                        cancel();
+                        return;
+                    }
                 }
 
                 Util.drawSphere(loc, 1, 20, dust, null, 0);
@@ -118,7 +132,7 @@ public class BlackHole extends Ability {
                             Vector direction = loc.clone().toVector().subtract(fallingBlock.getLocation().toVector()).normalize().multiply(.55);
                             fallingBlock.setVelocity(direction);
 
-                            if (!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
+                            if (!npc && !pathway.getSequence().getUsesAbilities()[identifier - 1]) {
                                 fallingBlock.remove();
                             }
                         }
@@ -130,16 +144,24 @@ public class BlackHole extends Ability {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
+                if (!npc && !pathway.getSequence().getUsesAbilities()[identifier - 1]) {
                     cancel();
                     return;
+                }
+
+                if(npc) {
+                    npcCounter[0]--;
+                    if(npcCounter[0] <= 0) {
+                        cancel();
+                        return;
+                    }
                 }
 
                 if (loc.getWorld() == null)
                     return;
 
                 for (Entity entity : loc.getWorld().getNearbyEntities(loc, 30, 30, 30)) {
-                    if (entity == p)
+                    if (entity == caster)
                         continue;
 
                     Vector dir = loc.clone().toVector().subtract(entity.getLocation().toVector()).normalize().multiply(.5);
@@ -154,10 +176,19 @@ public class BlackHole extends Ability {
                     }
 
 
-                    livingEntity.damage(8, p);
+                    livingEntity.damage(8 * multiplier, caster);
                 }
             }
         }.runTaskTimer(Plugin.instance, 0, 0);
+    }
+
+    @Override
+    public void useAbility() {
+        p = pathway.getBeyonder().getPlayer();
+
+        pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
+
+        useNPCAbility(p.getEyeLocation(), p, getMultiplier() );
     }
 
     @Override
