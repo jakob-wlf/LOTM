@@ -109,7 +109,7 @@ public class DemonessItems extends Items {
         addAbility(new MirrorWorldTraversal(9, pathway, 5, this));
         addAbility(new Pestilence(10, pathway, 4, this, false));
         addAbility(new Petrification(11, pathway, 3, this, false));
-        addAbility(new CalamityManipulation(12, pathway, 2, this));
+        addAbility(new CalamityManipulation(12, pathway, 2, this, false));
         addAbility(new MeteorShower(13, pathway, 1, this));
         addAbility(new IceAge(14, pathway, 1, this));
     }

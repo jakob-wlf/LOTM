@@ -69,13 +69,16 @@ public class Pestilence extends NPCAbility {
 
                     if (!(entity instanceof LivingEntity livingEntity))
                         continue;
-
+                    
                     infected.add(entity);
                     new BukkitRunnable() {
                         long counter = 80;
 
                         @Override
                         public void run() {
+
+                            if(npc && npcCounter <= 0)
+                                cancel();
 
                             if (counter % 80 == 0) {
                                 if (counter < 8 * 20)

@@ -7,16 +7,11 @@ import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.NPCAbility;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.door.DoorItems;
-import org.bukkit.Color;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
+import org.bukkit.*;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -58,10 +53,8 @@ public class Exile extends NPCAbility {
             locations[i].setPitch(random.nextInt(45));
             locations[i].setYaw(random.nextInt(360));
         }
-
         new BukkitRunnable() {
             int counter = 0;
-
             int npcCounter = 20 * 5;
 
             @Override
@@ -83,6 +76,9 @@ public class Exile extends NPCAbility {
 
                 for (Entity entity : loc.getWorld().getNearbyEntities(loc, 5, 5, 5)) {
                     if (entity == caster)
+                        continue;
+
+                    if(!(entity instanceof Mob) && !(entity instanceof Player))
                         continue;
 
                     if (entity instanceof Player player && Plugin.beyonders.containsKey(player.getUniqueId()) && !npc) {
@@ -111,7 +107,6 @@ public class Exile extends NPCAbility {
                     }
 
                     if (random.nextInt(15) == 0) {
-
                         if(!npc) {
                             Location startLoc = entity.getLocation();
                             Location teleportLoc = new Location(startLoc.getWorld(), random.nextInt(1000, 2000), 10000, random.nextInt(1000, 2000));
@@ -132,18 +127,28 @@ public class Exile extends NPCAbility {
                             }.runTaskTimer(Plugin.instance, 0, 0);
                         }
                         else {
-                            if(entity instanceof LivingEntity livingEntity) {
-                                livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 60, 10));
-                                livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.DARKNESS, 60, 10));
-                                livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 60, 100));
+                            Location startLoc = entity.getLocation();
+                            Location teleportLoc = new Location(Bukkit.getWorld("world_the_end"), random.nextInt(1000, 2000), 10000, random.nextInt(1000, 2000));
+                            entity.teleport(teleportLoc);
+                            new BukkitRunnable() {
+                                int c = 0;
 
-                                if(entity instanceof Player pTarget) {
-                                    Particle.DustOptions dust1 = new Particle.DustOptions(Color.fromBGR(150, 12, 171), .6f);
-                                    Particle.DustOptions dust2 = new Particle.DustOptions(Color.fromBGR(255, 251, 0), .5f);
-                                    pTarget.spawnParticle(Particle.REDSTONE, pTarget.getLocation(), 25, 2, 2, 2, dust1);
-                                    pTarget.spawnParticle(Particle.REDSTONE, pTarget.getLocation(), 25, 2, 2, 2, dust2);
+                                @Override
+                                public void run() {
+                                    if (c >= 20 * 30) {
+                                        entity.teleport(startLoc);
+                                        cancel();
+                                        return;
+                                    }
+                                    c++;
+                                    if(entity instanceof Player pTarget) {
+                                        Particle.DustOptions dust1 = new Particle.DustOptions(Color.fromBGR(150, 12, 171), .6f);
+                                        Particle.DustOptions dust2 = new Particle.DustOptions(Color.fromBGR(255, 251, 0), .5f);
+                                        pTarget.spawnParticle(Particle.REDSTONE, pTarget.getLocation(), 25, 2, 2, 2, dust1);
+                                        pTarget.spawnParticle(Particle.REDSTONE, pTarget.getLocation(), 25, 2, 2, 2, dust2);
+                                    }
                                 }
-                            }
+                            }.runTaskTimer(Plugin.instance, 0, 0);
                         }
                     }
                 }

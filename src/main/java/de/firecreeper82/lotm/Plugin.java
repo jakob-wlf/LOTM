@@ -41,6 +41,7 @@ public final class Plugin extends JavaPlugin {
     private Characteristic characteristic;
     private Recipe recipe;
     private BeyonderMobsHandler beyonderMobsHandler;
+    private RogueBeyonders rogueBeyonders;
 
     public static HashMap<UUID, Beyonder> beyonders;
     public static HashMap<UUID, ServerPlayer> fakePlayers = new HashMap<>();
@@ -85,7 +86,7 @@ public final class Plugin extends JavaPlugin {
 
         new SpiritHandler();
         new SpiritWorld();
-        new RogueBeyonders();
+        rogueBeyonders = new RogueBeyonders();
 
         Bukkit.getConsoleSender().sendMessage(prefix + "§aEnabled Plugin");
 
@@ -374,5 +375,7 @@ public final class Plugin extends JavaPlugin {
         return concealedEntities;
     }
 
-
+    public RogueBeyonders getRogueBeyonders() {
+        return rogueBeyonders;
+    }
 }

@@ -33,6 +33,13 @@ public class TestCmd implements CommandExecutor {
         if (args[0].equalsIgnoreCase("instances")) {
             Bukkit.broadcastMessage(Plugin.beyonders.size() + "");
         }
+        if(args[0].equalsIgnoreCase("npc")) {
+            boolean aggressive = Boolean.parseBoolean(args[1]);
+            int sequence = Integer.parseInt(args[2]);
+            int pathway = Integer.parseInt(args[3]);
+
+            Plugin.instance.getRogueBeyonders().spawnNPC(aggressive, sequence, pathway, p.getLocation());
+        }
 
         return true;
     }

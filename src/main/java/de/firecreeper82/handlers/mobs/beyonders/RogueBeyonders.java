@@ -4,11 +4,9 @@ import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.Util;
 import de.firecreeper82.pathways.NPCAbility;
 import de.firecreeper82.pathways.impl.demoness.abilities.*;
-import de.firecreeper82.pathways.impl.door.abilities.BlackHole;
-import de.firecreeper82.pathways.impl.door.abilities.Conceptualize;
-import de.firecreeper82.pathways.impl.door.abilities.ElectricShock;
-import de.firecreeper82.pathways.impl.door.abilities.Exile;
+import de.firecreeper82.pathways.impl.door.abilities.*;
 import de.firecreeper82.pathways.impl.sun.abilities.*;
+import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -32,17 +30,21 @@ public class RogueBeyonders implements Listener {
         spawnProbabilityTable = new HashMap<>();
 
         spawnProbabilityTable.put(EntityType.IRON_GOLEM, 50);
-        spawnProbabilityTable.put(EntityType.COW, 25);
-        spawnProbabilityTable.put(EntityType.SHEEP, 25);
-        spawnProbabilityTable.put(EntityType.CHICKEN, 25);
+        spawnProbabilityTable.put(EntityType.COW, 15);
+        spawnProbabilityTable.put(EntityType.SHEEP, 15);
+        spawnProbabilityTable.put(EntityType.SKELETON, 35);
+        spawnProbabilityTable.put(EntityType.ZOMBIE_VILLAGER, 15);
+        spawnProbabilityTable.put(EntityType.SPIDER, 15);
+        spawnProbabilityTable.put(EntityType.HUSK, 35);
+        spawnProbabilityTable.put(EntityType.CHICKEN, 15);
         spawnProbabilityTable.put(EntityType.WOLF, 5);
-        spawnProbabilityTable.put(EntityType.ZOMBIE, 5);
+        spawnProbabilityTable.put(EntityType.ZOMBIE, 35);
         spawnProbabilityTable.put(EntityType.CREEPER, 5);
         spawnProbabilityTable.put(EntityType.MAGMA_CUBE, 5);
         spawnProbabilityTable.put(EntityType.PIGLIN, 5);
         spawnProbabilityTable.put(EntityType.ZOMBIFIED_PIGLIN, 5);
         spawnProbabilityTable.put(EntityType.ENDERMAN, 5);
-        spawnProbabilityTable.put(EntityType.HORSE, 25);
+        spawnProbabilityTable.put(EntityType.HORSE, 15);
         spawnProbabilityTable.put(EntityType.FOX, 5);
 
 
@@ -67,9 +69,13 @@ public class RogueBeyonders implements Listener {
         int sequence = Util.biasedRandomNumber(PROBABILITY_DISTRIBUTION, MIN_VALUE);
         int pathway = random.nextInt(colorPrefix.size());
 
+        spawnNPC(aggressive, sequence, pathway, e.getLocation());
+    }
+
+    public void spawnNPC(boolean aggressive, int sequence, int pathway, Location location) {
         RogueBeyonder rogueBeyonder = new RogueBeyonder(aggressive, sequence, pathway, this);
         Plugin.instance.getServer().getPluginManager().registerEvents(rogueBeyonder, Plugin.instance);
-        rogueBeyonder.spawn(e.getLocation());
+        rogueBeyonder.spawn(location);
     }
 
     private void initColorPrefix() {
@@ -96,7 +102,10 @@ public class RogueBeyonders implements Listener {
                 new BlackHole(0, null, 2, null, true),
                 new Conceptualize(0, null, 3, null, true),
                 new ElectricShock(0, null, 8, null, true),
-                new Exile(0, null, 4, null, true)
+                new Exile(0, null, 4, null, true),
+                new Freezing(0, null, 8, null, true),
+                new SpaceConcealment(0, null, 4, null, true),
+                new Wind(0, null, 8, null, true)
         ));
 
         abilities.put(3, Arrays.asList(

@@ -3,6 +3,7 @@ package de.firecreeper82.pathways.impl.door.abilities;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
+import de.firecreeper82.pathways.NPCAbility;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.door.DoorItems;
 import org.bukkit.Location;
@@ -10,24 +11,31 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Mob;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-public class Freezing extends Ability {
-    public Freezing(int identifier, Pathway pathway, int sequence, Items items) {
+public class Freezing extends NPCAbility {
+
+    private final boolean npc;
+
+    public Freezing(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
-        items.addToSequenceItems(identifier - 1, sequence);
+
+        this.npc = npc;
+
+        if(!npc)
+            items.addToSequenceItems(identifier - 1, sequence);
     }
 
     @Override
-    public void useAbility() {
-        p = pathway.getBeyonder().getPlayer();
-
-        Vector dir = p.getEyeLocation().getDirection().normalize();
-        Location loc = p.getEyeLocation();
+    public void useNPCAbility(Location targetLoc, Entity caster, double multiplier) {
+        Vector dir = caster.getLocation().add(0, 1.5, 0).getDirection().normalize();
+        Location loc = caster.getLocation().add(0, 1.5, 0);
         if (loc.getWorld() == null)
             return;
 
@@ -36,9 +44,9 @@ public class Freezing extends Ability {
         outerloop:
         for (int i = 0; i < 25; i++) {
             for (Entity entity : loc.getWorld().getNearbyEntities(loc, 1, 1, 1)) {
-                if (!(entity instanceof LivingEntity e) || entity == p)
+                if ((!(entity instanceof Mob) && !(entity instanceof Player)) || entity == caster)
                     continue;
-                target = e;
+                target = (LivingEntity) entity;
                 break outerloop;
             }
 
@@ -46,7 +54,8 @@ public class Freezing extends Ability {
         }
 
         if (target == null) {
-            p.sendMessage("§cCouldn't find the target!");
+            if(!npc)
+                p.sendMessage("§cCouldn't find the target!");
             return;
         }
 
@@ -67,7 +76,13 @@ public class Freezing extends Ability {
                 }
             }
         }.runTaskTimer(Plugin.instance, 0, 0);
+    }
 
+    @Override
+    public void useAbility() {
+        p = pathway.getBeyonder().getPlayer();
+
+        useNPCAbility(p.getLocation(), p, getMultiplier());
     }
 
     @Override

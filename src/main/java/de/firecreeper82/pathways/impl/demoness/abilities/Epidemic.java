@@ -78,6 +78,8 @@ public class Epidemic extends NPCAbility {
 
                         @Override
                         public void run() {
+                            if(npc && npcCounter <= 0)
+                                cancel();
 
                             if (counter % 80 == 0) {
                                 if (counter < 8 * 20)

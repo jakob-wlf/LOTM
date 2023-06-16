@@ -7,11 +7,13 @@ import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.ai.goals.WanderGoal;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.trait.SkinTrait;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -110,12 +112,8 @@ public class RogueBeyonder implements Listener {
 
             else if(target.getLocation().distance(beyonder.getEntity().getLocation()) > 30)
                 target = null;
-        }
-
-
-
-        if(target != null) {
-            state = STATE.ATTACK;
+            else
+                state = STATE.ATTACK;
         }
         else {
             if(aggressive) {
@@ -167,6 +165,23 @@ public class RogueBeyonder implements Listener {
         attackTimer = (60 * 20f) / ((float) currentAbility.getSequence() * 5);
 
         currentAbility.useNPCAbility(target.getLocation(), beyonder.getEntity(), 1);
+    }
+
+    @EventHandler
+    public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
+        if(!beyonder.isSpawned())
+            return;
+
+        if(!(e.getDamager() instanceof LivingEntity))
+            return;
+
+        if(target != null)
+            return;
+
+        if(e.getEntity() != entity)
+            return;
+
+        target = e.getDamager();
     }
 
     private void wanderState() {

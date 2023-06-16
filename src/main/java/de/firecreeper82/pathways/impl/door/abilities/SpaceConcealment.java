@@ -4,6 +4,7 @@ import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.VectorUtils;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
+import de.firecreeper82.pathways.NPCAbility;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.door.DoorItems;
 import org.bukkit.*;
@@ -17,17 +18,45 @@ import org.bukkit.util.Vector;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class SpaceConcealment extends Ability {
+public class SpaceConcealment extends NPCAbility {
 
     ArrayList<Entity> concealedEntities;
     private int radiusAdjust;
 
-    public SpaceConcealment(int identifier, Pathway pathway, int sequence, Items items) {
+    public SpaceConcealment(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
-        items.addToSequenceItems(identifier - 1, sequence);
+
+        if(!npc)
+            items.addToSequenceItems(identifier - 1, sequence);
 
         radiusAdjust = 10;
     }
+
+    @Override
+    public void useNPCAbility(Location loc, Entity caster, double multiplier) {
+        Location target = (new Random()).nextBoolean() ? loc : caster.getLocation();
+        int radius = (new Random()).nextInt(4, 12);
+        World world = loc.getWorld();
+
+        if(world == null)
+            return;
+
+        new BukkitRunnable() {
+            int counter = 20 * 20;
+            @Override
+            public void run() {
+                counter--;
+                if(counter <= 0) {
+                    drawSquare(target, Material.AIR, radius, null, true);
+                    cancel();
+                    return;
+                }
+                drawSquare(target, Material.BARRIER, radius, null, true);
+            }
+        }.runTaskTimer(Plugin.instance, 0, 0);
+
+    }
+
 
     @Override
     public void useAbility() {
@@ -87,7 +116,7 @@ public class SpaceConcealment extends Ability {
                     }
                 }
 
-                drawSquare(loc, Material.BARRIER, radius, p);
+                drawSquare(loc, Material.BARRIER, radius, p, false);
 
                 if (!doorInit) {
                     for (int i = 0; i < 200; i++) {
@@ -151,7 +180,7 @@ public class SpaceConcealment extends Ability {
                 }
 
                 if (!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
-                    drawSquare(loc, Material.AIR, radius, p);
+                    drawSquare(loc, Material.AIR, radius, p, false);
                     cancel();
                 }
             }
@@ -245,7 +274,7 @@ public class SpaceConcealment extends Ability {
     }
 
     @SuppressWarnings("all")
-    private void drawSquare(Location location, Material material, int radius, Player player) {
+    private void drawSquare(Location location, Material material, int radius, Player player, boolean npc) {
         for (int y = -radius; y < radius; y++) {
             for (int x = -radius; x < radius; x++) {
                 for (int z = -radius; z < radius; z++) {
@@ -253,8 +282,10 @@ public class SpaceConcealment extends Ability {
                         Block block = location.clone().add(x, y, z).getBlock();
                         if (!block.getType().isSolid() || block.getType() == Material.BARRIER) {
                             block.setType(material);
-                            if (p.getInventory().getItemInMainHand().isSimilar(getItem()))
+                            if (!npc && p.getInventory().getItemInMainHand().isSimilar(getItem()))
                                 p.spawnParticle(Particle.SPELL_WITCH, block.getLocation(), 2, 0, 0, 0, 0);
+                            else if((new Random().nextBoolean()))
+                                block.getLocation().getWorld().spawnParticle(Particle.SPELL_WITCH, block.getLocation(), 1, 0, 0, 0, 0);
                         }
                     }
                 }
