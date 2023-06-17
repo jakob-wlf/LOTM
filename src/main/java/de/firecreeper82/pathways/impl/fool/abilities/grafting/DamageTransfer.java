@@ -16,12 +16,14 @@ public class DamageTransfer implements Listener {
     private final LivingEntity target;
 
     private int timesReceived;
+    private final int maxTimesReceived;
 
-    public DamageTransfer(LivingEntity receive, LivingEntity target, ArrayList<DamageTransfer> damageTransfers) {
+    public DamageTransfer(LivingEntity receive, LivingEntity target, ArrayList<DamageTransfer> damageTransfers, boolean npc) {
         this.receive = receive;
         this.target = target;
 
         timesReceived = 0;
+        maxTimesReceived = npc ? 3 : 10;
 
         Plugin.instance.getServer().getPluginManager().registerEvents(this, Plugin.instance);
 
@@ -30,7 +32,7 @@ public class DamageTransfer implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (timesReceived >= 10 || !target.isValid() || !receive.isValid()) {
+                if (timesReceived >= maxTimesReceived || !target.isValid() || !receive.isValid()) {
                     damageTransfers.remove(instance);
                     cancel();
                 }
@@ -40,7 +42,7 @@ public class DamageTransfer implements Listener {
 
     @EventHandler
     public void onDamageByEntity(EntityDamageEvent e) {
-        if (timesReceived >= 10 || e.getEntity() != receive || !target.isValid() || !receive.isValid())
+        if (timesReceived >= maxTimesReceived || e.getEntity() != receive || !target.isValid() || !receive.isValid())
             return;
 
         timesReceived++;

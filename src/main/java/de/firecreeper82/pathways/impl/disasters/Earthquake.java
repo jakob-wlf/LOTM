@@ -20,14 +20,14 @@ import java.util.Random;
 public class Earthquake extends Disaster implements Listener {
     private final ArrayList<FallingBlock> fallingBlocks;
 
-    public Earthquake(Player p) {
+    public Earthquake(LivingEntity p) {
         super(p);
         fallingBlocks = new ArrayList<>();
         Plugin.instance.getServer().getPluginManager().registerEvents(this, Plugin.instance);
     }
 
     @Override
-    public void spawnDisaster(Player p, Location loc) {
+    public void spawnDisaster(LivingEntity p, Location loc) {
 
         final Location startLoc = loc.clone();
         final World world = startLoc.getWorld();
@@ -81,7 +81,7 @@ public class Earthquake extends Disaster implements Listener {
                 }
 
                 if (counter % 20 == 0)
-                    world.spawnParticle(Particle.REDSTONE, startLoc, 400, 35, 0, 35, dust);
+                    world.spawnParticle(Particle.REDSTONE, startLoc, 200, 35, 0, 35, dust);
             }
         }.runTaskTimer(Plugin.instance, 0, 0);
     }

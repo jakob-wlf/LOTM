@@ -25,7 +25,7 @@ public class Tsunami extends Disaster {
     }
 
     @Override
-    public void spawnDisaster(Player p, Location loc) {
+    public void spawnDisaster(LivingEntity p, Location loc) {
         Location eyeLoc = p.getEyeLocation();
         eyeLoc.setPitch(0);
 

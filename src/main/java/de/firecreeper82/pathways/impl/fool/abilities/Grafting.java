@@ -3,6 +3,7 @@ package de.firecreeper82.pathways.impl.fool.abilities;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
+import de.firecreeper82.pathways.NPCAbility;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.fool.FoolItems;
 import de.firecreeper82.pathways.impl.fool.abilities.grafting.*;
@@ -11,7 +12,9 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,12 +23,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-public class Grafting extends Ability implements Listener {
+public class Grafting extends NPCAbility implements Listener {
 
     private final HashMap<Location[], Integer> graftedLocations;
     private final ArrayList<HealthSynchronization> healthSynchros;
@@ -35,11 +35,23 @@ public class Grafting extends Ability implements Listener {
 
     private int radius = 1;
 
-    public Grafting(int identifier, Pathway pathway, int sequence, Items items) {
+    private final Material[] npcGraftMaterial;
+
+    public Grafting(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
-        items.addToSequenceItems(identifier - 1, sequence);
+        if(!npc)
+            items.addToSequenceItems(identifier - 1, sequence);
 
         Plugin.instance.getServer().getPluginManager().registerEvents(this, Plugin.instance);
+
+        npcGraftMaterial = new Material[] {
+                Material.GRASS_BLOCK,
+                Material.DIRT,
+                Material.STONE,
+                Material.SAND,
+                Material.DEEPSLATE,
+                Material.GRAVEL
+        };
 
         graftedLocations = new HashMap<>();
         healthSynchros = new ArrayList<>();
@@ -61,6 +73,36 @@ public class Grafting extends Ability implements Listener {
                 }
             }
         }.runTaskTimer(Plugin.instance, 0, 0);
+    }
+
+    @Override
+    public void useNPCAbility(Location loc, Entity caster, double multiplier) {
+
+        World world = loc.getWorld();
+        if(world == null)
+            return;
+
+        LivingEntity target = null;
+
+        for(Entity entity : world.getNearbyEntities(loc, 1, 1,1)) {
+            if(entity == caster || entity.getType() == EntityType.ARMOR_STAND || !(entity instanceof LivingEntity))
+                continue;
+            target = (LivingEntity) entity;
+            break;
+        }
+
+        if(target == null)
+            return;
+
+        Random random = new Random();
+
+        switch(random.nextInt(2)) {
+            case 0 -> new BlockToEntity(target, npcGraftMaterial[(new Random()).nextInt(npcGraftMaterial.length)]);
+            case 1 -> {
+                Location graftLoc = target.getLocation().add(random.nextInt(-8, 8), random.nextInt(-3, 3), random.nextInt(-8, 8));
+                new EntityToLocation(target, graftLoc);
+            }
+        }
     }
 
     enum Category {
@@ -163,7 +205,7 @@ public class Grafting extends Ability implements Listener {
                     playerLook.add(0, .5, 0);
                     p.spawnParticle(Particle.SPELL_WITCH, playerLook, 80, .25, .25, .25, 0);
 
-                    new BlockToEntity(tempEnt, graftMaterial, p);
+                    new BlockToEntity(tempEnt, graftMaterial);
                     reset();
                 }
                 grafting = !grafting;
@@ -276,7 +318,7 @@ public class Grafting extends Ability implements Listener {
                             return;
                         }
                     }
-                    damageTransfers.add(new DamageTransfer(tempEnt, entity, damageTransfers));
+                    damageTransfers.add(new DamageTransfer(tempEnt, entity, damageTransfers, false));
                     reset();
                 }
 

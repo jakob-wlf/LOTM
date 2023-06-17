@@ -142,7 +142,7 @@ public class SpiritBodyThreads extends Ability implements Listener {
     }
 
     public void turnIntoMarionette(Entity e) {
-        if (!(e instanceof LivingEntity)) {
+        if (!(e instanceof LivingEntity) || (!(e instanceof Player) && e.getType() != EntityType.PLAYER)) {
             turning = false;
             return;
         }

@@ -20,9 +20,10 @@ import java.util.Random;
 
 public class BlockToEntity {
 
-    public BlockToEntity(Entity entity, Material material, Player player) {
+    public BlockToEntity(Entity entity, Material material) {
         Random random = new Random();
         new BukkitRunnable() {
+            int downCounter = 20 * 60 * 4;
             @Override
             public void run() {
                 Block block;
@@ -32,6 +33,12 @@ public class BlockToEntity {
                         continue;
 
                     validBlocks.add(b);
+                }
+
+                downCounter--;
+                if(downCounter <= 0) {
+                    cancel();
+                    return;
                 }
 
                 if (validBlocks.isEmpty())
@@ -60,17 +67,17 @@ public class BlockToEntity {
                     @Override
                     public void run() {
                         if (entity.getLocation().distance(fallingBlock.getLocation()) >= 3.5) {
-                            Vector dir = entity.getLocation().add(offsetX, entity.getHeight() + offsetY, offsetZ).toVector().subtract(fallingBlock.getLocation().toVector()).normalize().multiply(.75);
+                            Vector dir = entity.getLocation().add(offsetX, entity.getHeight() - .35 + offsetY, offsetZ).toVector().subtract(fallingBlock.getLocation().toVector()).normalize().multiply(.75);
                             fallingBlock.setVelocity(dir);
                         } else {
-                            Vector dir = entity.getLocation().add(offsetX, entity.getHeight() + offsetY, offsetZ).toVector().subtract(fallingBlock.getLocation().toVector()).normalize().multiply(.2);
+                            Vector dir = entity.getLocation().add(offsetX, entity.getHeight() - .35 + offsetY, offsetZ).toVector().subtract(fallingBlock.getLocation().toVector()).normalize().multiply(.2);
                             fallingBlock.setVelocity(dir);
 
                             if (counter % 8 == 0 && entity instanceof Damageable damageable)
                                 damageable.damage(4);
                         }
                         counter++;
-                        if (counter > 20 * 30 * 2 || !entity.isValid()) {
+                        if (counter > 20 * 45 || !entity.isValid()) {
                             fallingBlock.remove();
                             cancel();
                         }

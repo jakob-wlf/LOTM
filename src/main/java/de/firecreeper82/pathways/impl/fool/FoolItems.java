@@ -110,8 +110,8 @@ public class FoolItems extends Items {
     @Override
     public void createItems() {
         addAbility(new Divine(1, pathway, 9, this));
-        addAbility(new FlameControlling(2, pathway, 7, this));
-        addAbility(new AirBullet(3, pathway, 7, this));
+        addAbility(new FlameControlling(2, pathway, 7, this, false));
+        addAbility(new AirBullet(3, pathway, 7, this, false));
         addAbility(new AirPipe(4, pathway, 7, this));
         addAbility(new FlameJump(5, pathway, 7, this));
         addAbility(new PaperSubstitute(6, pathway, 7, this));
@@ -121,7 +121,7 @@ public class FoolItems extends Items {
         addAbility(new FogOfHistory(10, pathway, 3, this));
         addAbility(new Hiding(11, pathway, 3, this));
         addAbility(new Miracles(12, pathway, 2, this));
-        addAbility(new Grafting(13, pathway, 1, this));
+        addAbility(new Grafting(13, pathway, 1, this, false));
         addAbility(new RealmOfMysteries(14, pathway, 1, this));
     }
 

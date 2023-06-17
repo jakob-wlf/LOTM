@@ -1,19 +1,20 @@
 package de.firecreeper82.pathways.impl.disasters;
 
 import org.bukkit.Location;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 
 public abstract class Disaster {
 
-    protected Player p;
+    protected LivingEntity e;
 
-    public Disaster(Player p) {
-        this.p = p;
+    public Disaster(LivingEntity e) {
+        this.e = e;
     }
 
-    public abstract void spawnDisaster(Player p, Location loc);
+    public abstract void spawnDisaster(LivingEntity e, Location loc);
 
     public abstract ItemStack getItem();
 }

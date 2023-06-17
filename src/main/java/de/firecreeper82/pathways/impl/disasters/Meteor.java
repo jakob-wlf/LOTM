@@ -7,6 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.entity.FallingBlock;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -24,8 +25,8 @@ public class Meteor extends Disaster {
     }
 
     @Override
-    public void spawnDisaster(Player p, Location loc) {
-        this.p = p;
+    public void spawnDisaster(LivingEntity p, Location loc) {
+        this.e = p;
 
         float angle = p.getEyeLocation().getYaw() / 60;
 

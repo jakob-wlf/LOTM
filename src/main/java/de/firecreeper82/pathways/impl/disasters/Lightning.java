@@ -4,6 +4,7 @@ import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.UtilItems;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -16,7 +17,7 @@ public class Lightning extends Disaster {
     }
 
     @Override
-    public void spawnDisaster(Player p, Location loc) {
+    public void spawnDisaster(LivingEntity e, Location loc) {
         Location startLoc = loc.clone();
         World world = startLoc.getWorld();
 

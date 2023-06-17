@@ -7,10 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.FallingBlock;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -19,12 +16,12 @@ import java.util.Random;
 
 public class Tornado extends Disaster {
 
-    public Tornado(Player p) {
+    public Tornado(LivingEntity p) {
         super(p);
     }
 
     @Override
-    public void spawnDisaster(Player p, Location loc) {
+    public void spawnDisaster(LivingEntity p, Location loc) {
         Location location = loc.clone();
         World world = location.getWorld();
 
@@ -95,7 +92,7 @@ public class Tornado extends Disaster {
 
                 //Apply velocity to entities
                 for (Entity e : world.getNearbyEntities(location, 9.5, 20, 9.5)) {
-                    if (e == p)
+                    if (e == p || e.getType() == EntityType.ARMOR_STAND)
                         continue;
 
                     if (e instanceof LivingEntity livingEntity)

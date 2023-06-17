@@ -3,6 +3,7 @@ package de.firecreeper82.lotm;
 import de.firecreeper82.cmds.*;
 import de.firecreeper82.handlers.blocks.BlockHandler;
 import de.firecreeper82.handlers.mobs.BeyonderMobsHandler;
+import de.firecreeper82.handlers.mobs.beyonders.RogueBeyonder;
 import de.firecreeper82.handlers.mobs.beyonders.RogueBeyonders;
 import de.firecreeper82.handlers.spirits.SpiritHandler;
 import de.firecreeper82.handlers.spirits.SpiritWorld;
@@ -43,6 +44,8 @@ public final class Plugin extends JavaPlugin {
     private BeyonderMobsHandler beyonderMobsHandler;
     private RogueBeyonders rogueBeyonders;
 
+    private ArrayList<RogueBeyonder> currentRogueBeyonders;
+
     public static HashMap<UUID, Beyonder> beyonders;
     public static HashMap<UUID, ServerPlayer> fakePlayers = new HashMap<>();
     public static HashMap<UUID, FogOfHistory> fogOfHistories = new HashMap<>();
@@ -70,6 +73,7 @@ public final class Plugin extends JavaPlugin {
         beyonders = new HashMap<>();
         fakePlayers = new HashMap<>();
 
+        currentRogueBeyonders = new ArrayList<>();
 
         randomUUID = UUID.fromString("1af36f3a-d8a3-11ed-afa1-0242ac120002");
 
@@ -377,5 +381,17 @@ public final class Plugin extends JavaPlugin {
 
     public RogueBeyonders getRogueBeyonders() {
         return rogueBeyonders;
+    }
+
+    public void removeRogueBeyonder(RogueBeyonder rogueBeyonder) {
+        rogueBeyonder.remove();
+    }
+
+    public void addRogueBeyonder(RogueBeyonder rogueBeyonder) {
+        currentRogueBeyonders.add(rogueBeyonder);
+    }
+
+    public ArrayList<RogueBeyonder> getCurrentRogueBeyonders() {
+        return currentRogueBeyonders;
     }
 }

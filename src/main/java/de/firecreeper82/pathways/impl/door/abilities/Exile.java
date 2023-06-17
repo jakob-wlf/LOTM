@@ -147,6 +147,8 @@ public class Exile extends NPCAbility {
                                         pTarget.spawnParticle(Particle.REDSTONE, pTarget.getLocation(), 25, 2, 2, 2, dust1);
                                         pTarget.spawnParticle(Particle.REDSTONE, pTarget.getLocation(), 25, 2, 2, 2, dust2);
                                     }
+
+                                    entity.setFallDistance(0);
                                 }
                             }.runTaskTimer(Plugin.instance, 0, 0);
                         }
