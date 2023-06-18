@@ -72,7 +72,7 @@ public class RogueBeyonders implements Listener {
         int sequence = Util.biasedRandomNumber(PROBABILITY_DISTRIBUTION, MIN_VALUE);
         int pathway = random.nextInt(colorPrefix.size());
 
-        if(Plugin.instance.getCurrentRogueBeyonders().size() > 100) {
+        if(Plugin.instance.getCurrentRogueBeyonders().size() > 50) {
             Plugin.instance.removeRogueBeyonder(Plugin.instance.getCurrentRogueBeyonders().get((new Random()).nextInt(Plugin.instance.getCurrentRogueBeyonders().size())));
         }
 
