@@ -14,6 +14,7 @@ import de.firecreeper82.pathways.impl.door.DoorPotions;
 import de.firecreeper82.pathways.impl.fool.FoolPotions;
 import de.firecreeper82.pathways.impl.fool.abilities.FogOfHistory;
 import de.firecreeper82.pathways.impl.sun.SunPotions;
+import net.citizensnpcs.api.CitizensAPI;
 import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
@@ -26,6 +27,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.io.IOException;
@@ -109,6 +111,19 @@ public final class Plugin extends JavaPlugin {
         for (World world : Bukkit.getWorlds()) {
             world.setGameRule(GameRule.DO_IMMEDIATE_RESPAWN, true);
         }
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                for(World world : Bukkit.getWorlds()) {
+                    for(Entity entity : world.getEntities()) {
+                        if(entity.hasMetadata("Beyonder")) {
+                            CitizensAPI.getNPCRegistry().getByUniqueId(entity.getUniqueId()).destroy();
+                        }
+                    }
+                }
+            }
+        }.runTaskLater(Plugin.instance, 10);
     }
 
     //register all the Listeners and CommandExecutors
@@ -166,7 +181,7 @@ public final class Plugin extends JavaPlugin {
             saveResource("names.yml", true);
         }
 
-        Thread.sleep(1000);
+        Thread.sleep(500);
 
         try {
             configNames.load(namesFile);
@@ -179,11 +194,6 @@ public final class Plugin extends JavaPlugin {
     @Override
     //call the save function to save the beyonders.yml file and the fools.yml file
     public void onDisable() {
-
-        for(RogueBeyonder rogueBeyonder : currentRogueBeyonders) {
-            rogueBeyonder.remove();
-        }
-
         try {
             save();
         } catch (IOException e) {

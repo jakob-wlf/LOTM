@@ -9,11 +9,13 @@ import de.firecreeper82.pathways.impl.fool.abilities.AirBullet;
 import de.firecreeper82.pathways.impl.fool.abilities.FlameControlling;
 import de.firecreeper82.pathways.impl.fool.abilities.Grafting;
 import de.firecreeper82.pathways.impl.sun.abilities.*;
+import net.citizensnpcs.api.CitizensAPI;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntitySpawnEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 
 import java.util.*;
 
@@ -139,5 +141,11 @@ public class RogueBeyonders implements Listener {
 
     public HashMap<Integer, String> getColorPrefix() {
         return colorPrefix;
+    }
+
+    @EventHandler
+    public void onPlayerDeath(PlayerDeathEvent e) {
+        if(CitizensAPI.getNPCRegistry().getByUniqueId(e.getEntity().getUniqueId()) != null)
+            e.setDeathMessage("");
     }
 }

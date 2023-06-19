@@ -16,6 +16,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Objects;
@@ -112,7 +113,8 @@ public class RogueBeyonder implements Listener {
             initHealth = true;
 
             entity = beyonder.getEntity();
-            beyonder.getEntity().setCustomName(name);
+            entity.setMetadata("Beyonder", new FixedMetadataValue(Plugin.instance, true));
+            entity.setCustomName(name);
         }
 
         counter++;
@@ -233,16 +235,8 @@ public class RogueBeyonder implements Listener {
     public void onDeath(EntityDeathEvent e) {
         if (e.getEntity() == entity) {
             e.getEntity().getWorld().dropItem(e.getEntity().getLocation(), Plugin.instance.getCharacteristic().getCharacteristic(sequence, characteristicIndex[0][pathway], characteristicIndex[1][pathway]));
-            Plugin.instance.removeRogueBeyonder(this);
-            beyonder.destroy();
+            remove();
         }
-    }
-
-    @EventHandler
-    public void onPlayerDeath(PlayerDeathEvent e) {
-        if(e.getEntity() != entity)
-            return;
-        e.setDeathMessage("");
     }
 
     public void remove() {
@@ -251,8 +245,9 @@ public class RogueBeyonder implements Listener {
             @Override
             public void run() {
                 Plugin.instance.removeRogueBeyonder(removeItem);
+                beyonder.despawn();
+                beyonder.destroy();
             }
         }.runTaskLater(Plugin.instance, 1);
-        beyonder.destroy();
     }
 }

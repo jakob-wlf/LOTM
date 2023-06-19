@@ -105,6 +105,7 @@ public class FlameControlling extends NPCAbility {
     @Override
     public void useAbility() {
         double multiplier = getMultiplier();
+        p = pathway.getBeyonder().getPlayer();
 
         useNPCAbility(p.getEyeLocation(), p, multiplier);
     }

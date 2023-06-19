@@ -8,34 +8,46 @@ import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.fool.FoolItems;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.EntityType;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Random;
 
-public class PaperSubstitute extends Ability {
+public class PaperSubstitute extends Ability implements Listener {
+
+    private boolean switching;
 
     public PaperSubstitute(int identifier, Pathway pathway, int sequence, Items items) {
         super(identifier, pathway, sequence, items);
 
         items.addToSequenceItems(identifier - 1, sequence);
+
+        switching = false;
+        Plugin.instance.getServer().getPluginManager().registerEvents(this, Plugin.instance);
     }
 
     @Override
     public void useAbility() {
+        p = pathway.getBeyonder().getPlayer();
 
-        Location loc = p.getLocation();
-
-        if (loc.getWorld() == null)
+        if(switching) {
+            p.sendMessage("§cYou are already using this ability");
             return;
+        }
 
         //Check if Player has paper in inv
-        if (!p.getInventory().contains(Material.PAPER))
+        if (!p.getInventory().contains(Material.PAPER)) {
+            p.sendMessage("§cYou need paper!");
             return;
+        }
 
         ItemStack item;
         for (int i = 0; i < p.getInventory().getContents().length; i++) {
@@ -48,6 +60,24 @@ public class PaperSubstitute extends Ability {
                 break;
             }
         }
+
+        switching = true;
+    }
+
+    @EventHandler
+    public void onDamage(EntityDamageEvent e) {
+        p = pathway.getBeyonder().getPlayer();
+
+        if(e.getEntity() != p || !switching)
+            return;
+
+        Location loc = p.getLocation();
+
+        if (loc.getWorld() == null)
+            return;
+
+        e.setCancelled(true);
+        switching = false;
 
         NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, p.getName());
         npc.addTrait(new RemoveOnDamageTrait());

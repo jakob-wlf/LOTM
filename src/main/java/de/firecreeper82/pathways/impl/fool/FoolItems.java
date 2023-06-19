@@ -48,7 +48,7 @@ public class FoolItems extends Items {
                 "§5Air Bullet: §7Shoot a projectile made out of air",
                 "§5Air Pipe: §7Breathe underwater",
                 "§5Flaming Jump: §7Teleport to nearby flames or fireplaces",
-                "§5Paper Figurine Substitute: §7Substitute yourself with a Paper Figurine to avoid incoming attacks. (Uses up paper)"
+                "§5Paper Figurine Substitute: §7Substitute yourself with a Paper Figurine once you receive damage to avoid it. (Uses up paper)"
         );
         abilityInfo.put(7, s7);
 
