@@ -6,6 +6,7 @@ import de.firecreeper82.pathways.impl.demoness.DemonessPathway;
 import de.firecreeper82.pathways.impl.door.DoorPathway;
 import de.firecreeper82.pathways.impl.fool.FoolPathway;
 import de.firecreeper82.pathways.impl.sun.SunPathway;
+import de.firecreeper82.pathways.impl.tyrant.TyrantPathway;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -94,38 +95,21 @@ public abstract class Pathway {
         if (Plugin.beyonders.containsKey(uuid))
             return null;
         switch (pathway) {
-            case "sun" -> {
-                pathwayObject = new SunPathway(uuid, sequence);
-                Beyonder beyonder = new Beyonder(uuid, pathwayObject);
-                Plugin.beyonders.put(uuid, beyonder);
-                Plugin.instance.getServer().getPluginManager().registerEvents(beyonder, Plugin.instance);
-                return pathwayObject;
-            }
-            case "fool" -> {
-                pathwayObject = new FoolPathway(uuid, sequence);
-                Beyonder beyonder = new Beyonder(uuid, pathwayObject);
-                Plugin.beyonders.put(uuid, beyonder);
-                Plugin.instance.getServer().getPluginManager().registerEvents(beyonder, Plugin.instance);
-                return pathwayObject;
-            }
-            case "door" -> {
-                pathwayObject = new DoorPathway(uuid, sequence);
-                Beyonder beyonder = new Beyonder(uuid, pathwayObject);
-                Plugin.beyonders.put(uuid, beyonder);
-                Plugin.instance.getServer().getPluginManager().registerEvents(beyonder, Plugin.instance);
-                return pathwayObject;
-            }
-            case "demoness" -> {
-                pathwayObject = new DemonessPathway(uuid, sequence);
-                Beyonder beyonder = new Beyonder(uuid, pathwayObject);
-                Plugin.beyonders.put(uuid, beyonder);
-                Plugin.instance.getServer().getPluginManager().registerEvents(beyonder, Plugin.instance);
-                return pathwayObject;
-            }
+            case "sun" -> pathwayObject = new SunPathway(uuid, sequence);
+            case "fool" -> pathwayObject = new FoolPathway(uuid, sequence);
+            case "door" -> pathwayObject = new DoorPathway(uuid, sequence);
+            case "demoness" -> pathwayObject = new DemonessPathway(uuid, sequence);
+            case "tyrant" -> pathwayObject = new TyrantPathway(uuid, sequence);
             default -> {
                 return null;
             }
         }
+
+        Beyonder beyonder = new Beyonder(uuid, pathwayObject);
+        Plugin.beyonders.put(uuid, beyonder);
+        Plugin.instance.getServer().getPluginManager().registerEvents(beyonder, Plugin.instance);
+        return pathwayObject;
+
     }
 
     public abstract void initItems();
@@ -144,6 +128,9 @@ public abstract class Pathway {
             }
             case "demoness" -> {
                 return DemonessPathway.getNames();
+            }
+            case "tyrant" -> {
+                return TyrantPathway.getNames();
             }
             default -> {
                 return null;
