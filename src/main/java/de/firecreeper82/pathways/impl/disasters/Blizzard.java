@@ -61,6 +61,8 @@ public class Blizzard extends Disaster {
                 }
 
                 for(Player player : Bukkit.getOnlinePlayers()) {
+                    if(player.getWorld() != loc.getWorld())
+                        continue;
                     if(player.getLocation().distance(loc) <= 100)
                         player.spawnParticle(Particle.SNOWFLAKE, startLoc, 500, 25, 25, 25, 0);
                 }

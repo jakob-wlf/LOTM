@@ -77,9 +77,15 @@ public class Tornado extends Disaster {
 
                 Location tempLoc = location.clone();
                 tempLoc.subtract(0, 1, 0);
-                while (!tempLoc.getBlock().getType().isSolid()) {
+                int whileCounter = 250;
+                while (!tempLoc.getBlock().getType().isSolid() && whileCounter >= 0) {
                     tempLoc.subtract(0, 1, 0);
+                    whileCounter--;
                 }
+
+                if(whileCounter <= 1)
+                    return;
+
                 location.setY(tempLoc.getY() + 1);
 
                 if (random.nextInt(30) == 0)

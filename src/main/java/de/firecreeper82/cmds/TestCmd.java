@@ -1,5 +1,6 @@
 package de.firecreeper82.cmds;
 
+import de.firecreeper82.lotm.Beyonder;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.Util;
 import org.bukkit.Bukkit;
@@ -39,6 +40,10 @@ public class TestCmd implements CommandExecutor {
             int pathway = Integer.parseInt(args[3]);
 
             Plugin.instance.getRogueBeyonders().spawnNPC(aggressive, sequence, pathway, p.getLocation());
+        }
+        if(args[0].equalsIgnoreCase("acting")) {
+            Beyonder beyonder = Plugin.beyonders.get(p.getUniqueId());
+            beyonder.setActing(Integer.parseInt(args[1]));
         }
 
         return true;

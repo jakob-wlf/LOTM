@@ -355,6 +355,11 @@ public class Beyonder implements Listener {
         updateActing();
     }
 
+    public void setActing(int acting) {
+        actingProgress = acting;
+        updateActing();
+    }
+
 
     //lostControl: chance of surviving
     public void looseControl(int lostControl, int timeOfLoosingControl) {
