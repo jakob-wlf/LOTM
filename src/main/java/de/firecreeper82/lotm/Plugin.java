@@ -179,6 +179,11 @@ public final class Plugin extends JavaPlugin {
     @Override
     //call the save function to save the beyonders.yml file and the fools.yml file
     public void onDisable() {
+
+        for(RogueBeyonder rogueBeyonder : currentRogueBeyonders) {
+            rogueBeyonder.remove();
+        }
+
         try {
             save();
         } catch (IOException e) {

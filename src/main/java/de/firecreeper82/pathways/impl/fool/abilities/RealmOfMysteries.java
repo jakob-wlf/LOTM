@@ -55,18 +55,6 @@ public class RealmOfMysteries extends Ability implements Listener {
         Plugin.instance.addToConcealedEntities(concealedEntities);
 
         Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(0, 0, 0), 85f);
-        for (Entity entity : concealedEntities) {
-            if (!(entity instanceof Player player))
-                continue;
-
-            ClientboundPlayerInfoPacket playerInfoRemove = new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.REMOVE_PLAYER, ((CraftPlayer) player).getHandle());
-            for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-                if (concealedEntities.contains(onlinePlayer))
-                    continue;
-                ServerGamePacketListenerImpl connection = ((CraftPlayer) onlinePlayer).getHandle().connection;
-                connection.send(playerInfoRemove);
-            }
-        }
 
         new BukkitRunnable() {
             final int currentRadius = radius;
@@ -99,18 +87,6 @@ public class RealmOfMysteries extends Ability implements Listener {
 
                 if (!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
                     Util.drawSphere(loc, currentRadius, (int) max, dust, Material.AIR, .2);
-                    for (Entity entity : concealedEntities) {
-                        if (!(entity instanceof Player player))
-                            continue;
-
-                        ClientboundPlayerInfoPacket playerInfoAdd = new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.ADD_PLAYER, ((CraftPlayer) player).getHandle());
-                        for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-                            if (concealedEntities.contains(onlinePlayer))
-                                continue;
-                            ServerGamePacketListenerImpl connection = ((CraftPlayer) onlinePlayer).getHandle().connection;
-                            connection.send(playerInfoAdd);
-                        }
-                    }
                     Plugin.instance.removeFromConcealedEntities(concealedEntities);
                     concealedEntities.clear();
                     cancel();

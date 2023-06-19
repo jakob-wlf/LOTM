@@ -32,7 +32,6 @@ public class RogueBeyonders implements Listener {
         Plugin.instance.getServer().getPluginManager().registerEvents(this, Plugin.instance);
         spawnProbabilityTable = new HashMap<>();
 
-        spawnProbabilityTable.put(EntityType.IRON_GOLEM, 50);
         spawnProbabilityTable.put(EntityType.COW, 10);
         spawnProbabilityTable.put(EntityType.SHEEP, 10);
         spawnProbabilityTable.put(EntityType.SKELETON, 15);

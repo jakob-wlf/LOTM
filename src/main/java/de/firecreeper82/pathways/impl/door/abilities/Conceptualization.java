@@ -35,6 +35,8 @@ public class Conceptualization extends Ability {
         new BukkitRunnable() {
             int counter = 20;
 
+            int spiritCounter = 1;
+
             @Override
             public void run() {
                 p.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, p.getEyeLocation(), 300, 1.1, 1.1, 1.1, 0);
@@ -64,7 +66,8 @@ public class Conceptualization extends Ability {
 
                 if (counter <= 0) {
                     counter = 20;
-                    pathway.getSequence().removeSpirituality(420);
+                    pathway.getSequence().removeSpirituality(250 * spiritCounter);
+                    spiritCounter++;
                 }
             }
         }.runTaskTimer(Plugin.instance, 0, 0);

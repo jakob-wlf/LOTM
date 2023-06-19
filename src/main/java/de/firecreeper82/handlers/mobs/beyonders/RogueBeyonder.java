@@ -7,6 +7,7 @@ import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.ai.goals.WanderGoal;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.trait.SkinTrait;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
@@ -14,6 +15,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Objects;
@@ -127,6 +129,9 @@ public class RogueBeyonder implements Listener {
                 remove();
         }
 
+        if(beyonder.getEntity() == null)
+            return;
+
         if(target != null) {
             if(!target.isValid())
                 target = null;
@@ -138,10 +143,13 @@ public class RogueBeyonder implements Listener {
             else
                 state = STATE.ATTACK;
         }
+
         else {
             if(aggressive) {
                 for(Entity entity : beyonder.getEntity().getNearbyEntities(8, 8, 8)) {
                     if((!(entity instanceof Mob) && !(entity instanceof Player)) || entity.getType() == EntityType.ARMOR_STAND)
+                        continue;
+                    if(entity instanceof Player temp && (temp.getGameMode() == GameMode.CREATIVE || temp.getGameMode() == GameMode.SPECTATOR))
                         continue;
                     target = entity;
                     break;
@@ -223,12 +231,18 @@ public class RogueBeyonder implements Listener {
 
     @EventHandler
     public void onDeath(EntityDeathEvent e) {
-
         if (e.getEntity() == entity) {
             e.getEntity().getWorld().dropItem(e.getEntity().getLocation(), Plugin.instance.getCharacteristic().getCharacteristic(sequence, characteristicIndex[0][pathway], characteristicIndex[1][pathway]));
             Plugin.instance.removeRogueBeyonder(this);
             beyonder.destroy();
         }
+    }
+
+    @EventHandler
+    public void onPlayerDeath(PlayerDeathEvent e) {
+        if(e.getEntity() != entity)
+            return;
+        e.setDeathMessage("");
     }
 
     public void remove() {
