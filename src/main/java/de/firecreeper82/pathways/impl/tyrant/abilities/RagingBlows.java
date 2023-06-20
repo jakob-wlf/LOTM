@@ -66,6 +66,6 @@ public class RagingBlows extends NPCAbility {
 
     @Override
     public ItemStack getItem() {
-        return TyrantItems.createItem(Material.BONE_MEAL, "Raging Blows", "20", identifier, 8, p.getName());
+        return TyrantItems.createItem(Material.BONE_MEAL, "Raging Blows", "20", identifier, sequence, p.getName());
     }
 }

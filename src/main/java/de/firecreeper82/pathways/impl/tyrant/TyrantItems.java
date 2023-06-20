@@ -5,6 +5,7 @@ import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.tyrant.abilities.RagingBlows;
 import de.firecreeper82.pathways.impl.tyrant.abilities.WaterSpells;
+import de.firecreeper82.pathways.impl.tyrant.abilities.WindManipulation;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
@@ -92,6 +93,7 @@ public class TyrantItems extends Items {
     public void createItems() {
         addAbility(new RagingBlows(1, pathway, 8, this, false));
         addAbility(new WaterSpells(2, pathway, 7, this, false));
+        addAbility(new WindManipulation(3, pathway, 6, this, false));
     }
 
     public void addAbility(Ability ability) {
