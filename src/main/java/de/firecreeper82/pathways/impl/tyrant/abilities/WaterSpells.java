@@ -68,6 +68,8 @@ public class WaterSpells extends NPCAbility {
         if(world == null)
             return;
 
+        world.playSound(loc, Sound.ENTITY_BOAT_PADDLE_WATER, 8, 1);
+
         new BukkitRunnable() {
             int counter = 0;
             @Override
@@ -122,6 +124,8 @@ public class WaterSpells extends NPCAbility {
 
         if(world == null)
             return;
+
+        world.playSound(loc, Sound.ENTITY_BOAT_PADDLE_WATER, 8, 1);
 
         new BukkitRunnable() {
             int counter = 15;
