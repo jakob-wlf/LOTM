@@ -3,6 +3,7 @@ package de.firecreeper82.pathways.impl.tyrant;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
+import de.firecreeper82.pathways.impl.tyrant.abilities.Lightning;
 import de.firecreeper82.pathways.impl.tyrant.abilities.RagingBlows;
 import de.firecreeper82.pathways.impl.tyrant.abilities.WaterSpells;
 import de.firecreeper82.pathways.impl.tyrant.abilities.WindManipulation;
@@ -94,6 +95,7 @@ public class TyrantItems extends Items {
         addAbility(new RagingBlows(1, pathway, 8, this, false));
         addAbility(new WaterSpells(2, pathway, 7, this, false));
         addAbility(new WindManipulation(3, pathway, 6, this, false));
+        addAbility(new Lightning(4, pathway, 5, this, false));
     }
 
     public void addAbility(Ability ability) {

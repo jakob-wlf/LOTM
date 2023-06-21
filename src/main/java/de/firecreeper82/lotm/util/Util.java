@@ -147,6 +147,22 @@ public class Util {
         return blocks;
     }
 
+    public static void drawParticlesForNearbyPlayers(Particle particle, Location loc, int count, double offsetX, double offsetY, double offsetZ, double speed) {
+        for(Player p : Bukkit.getOnlinePlayers()) {
+            if(p.getWorld() != loc.getWorld() || p.getLocation().distance(loc) > 100)
+                continue;
+            p.spawnParticle(particle, loc, count, offsetX, offsetY, offsetZ, speed);
+        }
+    }
+
+    public static void drawDustsForNearbyPlayers(Location loc, int count, double offsetX, double offsetY, double offsetZ, Particle.DustOptions dust) {
+        for(Player p : Bukkit.getOnlinePlayers()) {
+            if(p.getWorld() != loc.getWorld() || p.getLocation().distance(loc) > 100)
+                continue;
+            p.spawnParticle(Particle.REDSTONE, loc, count, offsetX, offsetY, offsetZ, dust);
+        }
+    }
+
     public static ArrayList<Block> getBlocksInSquare(Block start, int radius, boolean ignoreAir) {
         if (radius < 0) {
             return new ArrayList<>(0);

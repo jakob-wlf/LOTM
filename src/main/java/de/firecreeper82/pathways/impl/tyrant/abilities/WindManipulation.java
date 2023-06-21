@@ -92,6 +92,9 @@ public class WindManipulation extends NPCAbility {
 
         Entity finalTarget = target;
 
+        if(pathway.getBeyonder().getSpirituality() <= 25)
+            return;
+
         pathway.getSequence().removeSpirituality(25);
 
         if(finalTarget instanceof LivingEntity livingEntity) {
@@ -147,6 +150,9 @@ public class WindManipulation extends NPCAbility {
             caster.sendMessage("§cYou have to be on ground to use this ability!");
             return;
         }
+
+        if(pathway.getBeyonder().getSpirituality() <= 20)
+            return;
 
         pathway.getSequence().removeSpirituality(20);
 
@@ -239,6 +245,8 @@ public class WindManipulation extends NPCAbility {
 
         loc.add(direction.clone().multiply(2));
 
+        if(pathway.getBeyonder().getSpirituality() <= 45)
+            return;
         pathway.getSequence().removeSpirituality(45);
 
         world.playSound(loc, Sound.ENTITY_ARROW_SHOOT, 1, 1);
@@ -302,6 +310,10 @@ public class WindManipulation extends NPCAbility {
 
     @Override
     public void useNPCAbility(Location loc, Entity caster, double multiplier) {
+        switch ((new Random()).nextInt(2)) {
+            case 0 -> bind(caster);
+            case 1 -> blade(caster, multiplier);
+        }
     }
 
     @Override
