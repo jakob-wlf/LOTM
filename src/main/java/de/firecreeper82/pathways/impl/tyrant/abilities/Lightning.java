@@ -107,6 +107,13 @@ public class Lightning extends NPCAbility {
             particleLoc.add(randoms1.get(i), 0, randoms2.get(i));
         }
 
+        int counter = 100;
+        while (!particleLoc.getBlock().getType().isSolid() && counter > 0) {
+            Util.drawDustsForNearbyPlayers(particleLoc.add(0, -1, 0), 20, 0, 0, 0, dust);
+            particleLoc.add(random.nextDouble(-.5, .5), 0, random.nextDouble(-.5, .5));
+            counter--;
+        }
+
         for(Entity entity : loc.getWorld().getNearbyEntities(particleLoc, 4, 2, 4)) {
             if(Util.testForValidEntity(entity, caster, true, true)) {
                 LivingEntity livingEntity = (LivingEntity) entity;
