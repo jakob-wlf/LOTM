@@ -6,6 +6,9 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -116,6 +119,16 @@ public class Util {
             }
         }
         return blocks;
+    }
+
+    public static boolean testForValidEntity(Entity entity, Entity caster, boolean noArmorStand, boolean noCaster) {
+        if(!(entity instanceof LivingEntity))
+            return false;
+
+        if(noArmorStand && entity.getType() == EntityType.ARMOR_STAND)
+            return false;
+
+        return !noCaster || entity != caster;
     }
 
     public static ArrayList<Block> getNearbyBlocksInSphere(Location location, int radius, boolean empty, boolean ignoreAir, boolean smoothEdges) {

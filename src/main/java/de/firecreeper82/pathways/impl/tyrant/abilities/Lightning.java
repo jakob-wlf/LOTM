@@ -5,10 +5,7 @@ import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.NPCAbility;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.tyrant.TyrantItems;
-import org.bukkit.Color;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -22,12 +19,16 @@ import java.util.Random;
 
 public class Lightning extends NPCAbility {
 
+    boolean destruction;
+
     public Lightning(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
         p = pathway.getBeyonder().getPlayer();
 
         if(!npc)
             items.addToSequenceItems(identifier - 1, sequence);
+
+        destruction = true;
     }
 
     @Override
@@ -107,8 +108,11 @@ public class Lightning extends NPCAbility {
         }
 
         for(Entity entity : loc.getWorld().getNearbyEntities(particleLoc, 4, 2, 4)) {
-            if(entity instanceof LivingEntity livingEntity)
+            if(Util.testForValidEntity(entity, caster, true, true)) {
+                LivingEntity livingEntity = (LivingEntity) entity;
                 livingEntity.damage(18 * multiplier, caster);
+                livingEntity.setFireTicks(20 * 5);
+            }
 
             Util.drawParticlesForNearbyPlayers(Particle.ELECTRIC_SPARK, entity.getLocation(), 100, 0.1, 0.1, 0.1, .75);
         }
@@ -131,18 +135,30 @@ public class Lightning extends NPCAbility {
 
         };
 
-        ArrayList<Block> blocks = Util.getBlocksInCircleRadius(particleLoc.getBlock(), 4, true);
-        for(Block block : blocks) {
-            if(random.nextInt(3) == 0) {
-                Block fire = block.getLocation().add(0, 1, 0).getBlock();
-                if(!fire.getType().isSolid())
-                    fire.setType(Material.FIRE);
-            }
+        loc.getWorld().playSound(particleLoc, Sound.ENTITY_LIGHTNING_BOLT_IMPACT, 2, 1);
 
-            if(Arrays.asList(burnMaterials).contains(block.getType())) {
-                if (random.nextInt(3) != 0)
-                    block.setType(Material.BASALT);
+        if(destruction) {
+            loc.getWorld().createExplosion(particleLoc, 5, true);
+
+            ArrayList<Block> blocks = Util.getBlocksInCircleRadius(particleLoc.getBlock(), 6, true);
+            for (Block block : blocks) {
+                if (random.nextInt(3) == 0) {
+                    Block fire = block.getLocation().add(0, 1, 0).getBlock();
+                    if (!fire.getType().isSolid())
+                        fire.setType(Material.FIRE);
+                }
+
+                if (Arrays.asList(burnMaterials).contains(block.getType())) {
+                    if (random.nextInt(3) != 0)
+                        block.setType(Material.BASALT);
+                }
             }
         }
+    }
+
+    @Override
+    public void leftClick() {
+        destruction = !destruction;
+        p.sendMessage("§aSet destruction to: §7" + destruction);
     }
 }
