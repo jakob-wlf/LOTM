@@ -68,6 +68,7 @@ public class WaterSpells extends NPCAbility {
             case BEAM -> beam(p, getMultiplier());
             case BALL -> waterBall(p, getMultiplier());
             case RAIN -> rain(p, null);
+            case WHIRL -> vortex(p, getMultiplier());
             case SPHERE -> sphere(p, getMultiplier());
         }
     }
@@ -168,6 +169,75 @@ public class WaterSpells extends NPCAbility {
         }.runTaskTimer(Plugin.instance, 0, 1);
     }
 
+    private void vortex(Entity caster, double multiplier) {
+        if(!npc && caster.getLocation().getBlock().getType() != Material.WATER) {
+            caster.sendMessage("§cYou have to be in water to use this");
+            return;
+        }
+
+        Location loc = caster.getLocation();
+        World world = loc.getWorld();
+
+        loc.add(0, -0.75, 0);
+
+        if(world == null)
+            return;
+
+        for(int i = 0; i < 15; i++) {
+            int j = i;
+            new BukkitRunnable() {
+                double spiralRadius = .65;
+
+                double spiral = 0;
+                double height = 0;
+                double spiralX;
+                double spiralZ;
+
+                int counter = 20 * 45 - (j * 25);
+
+                @Override
+                public void run() {
+
+                    spiralX = spiralRadius * Math.cos(spiral);
+                    spiralZ = spiralRadius * Math.sin(spiral);
+                    spiral += 0.75;
+                    height += .025;
+                    spiralRadius += .025;
+                    if (height >= 3.5) {
+                        height = 0;
+                        spiralRadius = .65;
+                    }
+
+                    if (loc.getWorld() == null)
+                        return;
+
+
+                    counter--;
+                    if(counter <= 0) {
+                        cancel();
+                        return;
+                    }
+
+                    if(j == 0) {
+                        if (counter % 10 == 0)
+                            Util.damageNearbyEntities(caster, loc, 6, 6, 6, 8 * multiplier);
+
+                        for (Entity entity : loc.getWorld().getNearbyEntities(loc, 10, 10, 10)) {
+                            if (entity.getType() == EntityType.ARMOR_STAND || entity == caster)
+                                continue;
+
+                            Vector direction = loc.toVector().subtract(entity.getLocation().toVector()).normalize().multiply(.25);
+                            entity.setVelocity(direction);
+                        }
+                    }
+
+                    Util.drawParticlesForNearbyPlayers(Particle.WATER_WAKE, new Location(loc.getWorld(), spiralX + loc.getX(), height + loc.getY(), spiralZ + loc.getZ()), 15, 0.1, 0, 0.1, 0);
+                    Util.drawParticlesForNearbyPlayers(Particle.WATER_BUBBLE, new Location(loc.getWorld(), spiralX + loc.getX(), height + loc.getY(), spiralZ + loc.getZ()), 15, 0.1, 0, 0.1, 0);
+                }
+            }.runTaskTimer(Plugin.instance, i * 25, 2);
+        }
+    }
+
     private void light(LivingEntity caster) {
         //get block player is looking at
         BlockIterator iter = new BlockIterator(caster, 9);
@@ -229,7 +299,7 @@ public class WaterSpells extends NPCAbility {
             if (loc.getWorld() == null)
                 return;
 
-            outerloop: for (int i = 0; i < 50; i++) {
+            outerloop: for (int i = 0; i < 100; i++) {
                 for (Entity entity : loc.getWorld().getNearbyEntities(loc, 1, 1, 1)) {
                     if (Util.testForValidEntity(entity, caster, true, true))
                         break outerloop;
@@ -340,10 +410,11 @@ public class WaterSpells extends NPCAbility {
             }
         }
         else {
-            switch ((new Random()).nextInt(2)) {
+            switch ((new Random()).nextInt(4)) {
                 case 0 -> beam(caster, multiplier);
                 case 1 -> waterBall(caster, multiplier);
-                case 3 -> rain(caster, loc);
+                case 2 -> rain(caster, loc);
+                case 3 -> sphere(caster, multiplier);
             }
         }
     }

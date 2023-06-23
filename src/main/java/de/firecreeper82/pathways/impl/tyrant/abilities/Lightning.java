@@ -40,7 +40,7 @@ public class Lightning extends NPCAbility {
             return;
 
         outerloop:
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 80; i++) {
             for (Entity entity : loc.getWorld().getNearbyEntities(loc, 1, 1, 1)) {
                 if (entity.getType() == EntityType.ARMOR_STAND || entity == p)
                     continue;

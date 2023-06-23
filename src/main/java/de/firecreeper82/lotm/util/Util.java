@@ -122,6 +122,16 @@ public class Util {
         return blocks;
     }
 
+    public static void damageNearbyEntities(@Nullable Entity damager, Location loc, int radiusX, int radiusY, int radiusZ, double amount) {
+        if(loc.getWorld() == null)
+            return;
+
+        for(Entity entity : loc.getWorld().getNearbyEntities(loc, radiusX, radiusY, radiusZ)) {
+            if(testForValidEntity(entity, damager, true, true))
+                ((LivingEntity) entity).damage(amount, damager);
+        }
+    }
+
     public static void effectForNearbyEntities(Entity caster, Location loc, int radiusX, int radiusY, int radiusZ, PotionEffect potionEffect) {
         if(loc.getWorld() == null)
             return;
