@@ -331,9 +331,12 @@ public class WaterSpells extends NPCAbility {
                 Util.effectForNearbyEntities(caster, finalLoc.clone(), 12, 12, 12, new PotionEffect(PotionEffectType.POISON, 20 * 5, 4, false, false));
                 Util.effectForNearbyEntities(caster, finalLoc.clone(), 12, 12, 12, new PotionEffect(PotionEffectType.WITHER, 20 * 2, 1, false, false));
 
-                Block block = blocks.get(random.nextInt(blocks.size()));
-                if(block.getType().getHardness() > 0)
-                    block.setType(Material.AIR);
+
+                if(blocks.size() > 0) {
+                    Block block = blocks.get(random.nextInt(blocks.size()));
+                    if (block.getType().getHardness() > 0)
+                        block.setType(Material.AIR);
+                }
 
                 counter--;
                 if(counter <= 0)

@@ -13,7 +13,6 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -48,10 +47,25 @@ public class SirenSong extends NPCAbility {
     public void useAbility() {
         switch (selectedCategory) {
             case CHAOTIC -> chaotic(p, getMultiplier());
+            case BOOST -> boost(p);
         }
     }
 
     private void chaotic(Entity caster, double multiplier) {
+
+        new BukkitRunnable() {
+            int counter = 30 * 2;
+            @Override
+            public void run(){
+
+                counter--;
+                if(counter <= 0)
+                    cancel();
+
+                Util.drawParticlesForNearbyPlayers(Particle.NOTE, caster.getLocation(), 100, 10, 10, 10, 0);
+            }
+        }.runTaskTimer(Plugin.instance, 0, 10);
+
         new BukkitRunnable() {
             int counter = 30 / 2;
             @Override
@@ -61,11 +75,43 @@ public class SirenSong extends NPCAbility {
                 if(counter <= 0)
                     cancel();
 
-                Util.drawParticlesForNearbyPlayers(Particle.NOTE, caster.getLocation(), 100, 10, 10, 10, 0);
-                Util.damageNearbyEntities(caster, caster.getLocation(), 10, 10, 10, 3 * multiplier);
+                Util.damageNearbyEntities(caster, caster.getLocation(), 10, 10, 10, 1.5 * multiplier);
                 if(counter % 2 == 0) {
-                    Util.effectForNearbyEntities(caster, caster.getLocation(), 10, 10, 10, new PotionEffect(PotionEffectType.CONFUSION, 20 * 10, 1));
-                    Util.effectForNearbyEntities(caster, caster.getLocation(), 10, 10, 10, new PotionEffect(PotionEffectType.WEAKNESS, 20 * 10, 1));
+                    Util.effectForNearbyEntities(caster, caster.getLocation(), 20, 20, 20, new PotionEffect(PotionEffectType.CONFUSION, 20 * 10, 1));
+                    Util.effectForNearbyEntities(caster, caster.getLocation(), 20, 20, 20, new PotionEffect(PotionEffectType.WEAKNESS, 20 * 10, 1));
+                }
+            }
+        }.runTaskTimer(Plugin.instance, 0, 40);
+    }
+
+    private void boost(Entity caster) {
+
+        new BukkitRunnable() {
+            int counter = 30 * 2;
+            @Override
+            public void run(){
+
+                counter--;
+                if(counter <= 0)
+                    cancel();
+
+                Util.drawParticlesForNearbyPlayers(Particle.NOTE, caster.getLocation(), 100, 10, 10, 10, 0);
+            }
+        }.runTaskTimer(Plugin.instance, 0, 10);
+
+        new BukkitRunnable() {
+            int counter = 30 / 2;
+            @Override
+            public void run(){
+
+                counter--;
+                if(counter <= 0)
+                    cancel();
+
+                if(caster instanceof LivingEntity livingEntity) {
+                    livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 20 * 8, 2, false, false));
+                    livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 20 * 8, 2, false, false));
+                    livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20 * 8, 2, false, false));
                 }
             }
         }.runTaskTimer(Plugin.instance, 0, 40);

@@ -71,7 +71,7 @@ public class Lightning extends NPCAbility {
 
         Random random = new Random();
 
-        final Particle.DustOptions dust = new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.8f);
+        final Particle.DustOptions dust = pathway.getSequence().getCurrentSequence() > 4 ? new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.8f) : new Particle.DustOptions(Color.fromRGB(143, 255, 244), 2.1f);
 
         ArrayList<Double> randoms1 = new ArrayList<>();
         for(int i = 0; i < 50; i++) {
@@ -84,7 +84,7 @@ public class Lightning extends NPCAbility {
         }
 
         for(int j = 0; j < 12; j++) {
-            final Particle.DustOptions dust1 = new Particle.DustOptions(Color.fromRGB(143, 255, 244), random.nextFloat(.7f, 1.8f));
+            final Particle.DustOptions dust1 = pathway.getSequence().getCurrentSequence() > 4 ? new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.8f) : new Particle.DustOptions(Color.fromRGB(143, 255, 244), 2.1f);
 
             int height = random.nextInt(8, 46);
 
@@ -114,7 +114,9 @@ public class Lightning extends NPCAbility {
             counter--;
         }
 
-        for(Entity entity : loc.getWorld().getNearbyEntities(particleLoc, 4, 2, 4)) {
+        int damageRadius = pathway.getSequence().getCurrentSequence() > 4 ? 4 : 10;
+
+        for(Entity entity : loc.getWorld().getNearbyEntities(particleLoc, damageRadius, damageRadius / 2f, damageRadius)) {
             if(Util.testForValidEntity(entity, caster, true, true)) {
                 LivingEntity livingEntity = (LivingEntity) entity;
                 livingEntity.damage(18 * multiplier, caster);
@@ -145,9 +147,13 @@ public class Lightning extends NPCAbility {
         loc.getWorld().playSound(particleLoc, Sound.ENTITY_LIGHTNING_BOLT_IMPACT, 2, 1);
 
         if(destruction) {
-            loc.getWorld().createExplosion(particleLoc, 5, true);
+            int radius = pathway.getSequence().getCurrentSequence() > 4 ? 6 : 12;
+            int power = pathway.getSequence().getCurrentSequence() > 4 ? 5 : 11;
 
-            ArrayList<Block> blocks = Util.getBlocksInCircleRadius(particleLoc.getBlock(), 6, true);
+            loc.getWorld().createExplosion(particleLoc, power, true);
+
+
+            ArrayList<Block> blocks = Util.getBlocksInCircleRadius(particleLoc.getBlock(), radius, true);
             for (Block block : blocks) {
                 if (random.nextInt(3) == 0) {
                     Block fire = block.getLocation().add(0, 1, 0).getBlock();
