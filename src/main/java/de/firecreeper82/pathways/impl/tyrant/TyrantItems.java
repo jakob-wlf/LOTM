@@ -94,6 +94,8 @@ public class TyrantItems extends Items {
         addAbility(new WindManipulation(3, pathway, 6, this, false));
         addAbility(new Lightning(4, pathway, 5, this, false));
         addAbility(new SirenSong(5, pathway, 5, this, false));
+        addAbility(new Roar(6, pathway, 4, this, false));
+        addAbility(new Tornado(7, pathway, 4, this, false));
     }
 
     public void addAbility(Ability ability) {

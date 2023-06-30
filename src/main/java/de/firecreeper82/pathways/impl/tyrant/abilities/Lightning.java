@@ -71,7 +71,7 @@ public class Lightning extends NPCAbility {
 
         Random random = new Random();
 
-        final Particle.DustOptions dust = pathway.getSequence().getCurrentSequence() > 4 ? new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.8f) : new Particle.DustOptions(Color.fromRGB(143, 255, 244), 2.1f);
+        final Particle.DustOptions dust = pathway.getSequence().getCurrentSequence() > 4 ? new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.8f) : new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.9f);
 
         ArrayList<Double> randoms1 = new ArrayList<>();
         for(int i = 0; i < 50; i++) {
@@ -84,7 +84,7 @@ public class Lightning extends NPCAbility {
         }
 
         for(int j = 0; j < 12; j++) {
-            final Particle.DustOptions dust1 = pathway.getSequence().getCurrentSequence() > 4 ? new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.8f) : new Particle.DustOptions(Color.fromRGB(143, 255, 244), 2.1f);
+            final Particle.DustOptions dust1 = pathway.getSequence().getCurrentSequence() > 4 ? new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.8f) : new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.9f);
 
             int height = random.nextInt(8, 46);
 

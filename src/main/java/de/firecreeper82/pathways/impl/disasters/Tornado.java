@@ -1,6 +1,7 @@
 package de.firecreeper82.pathways.impl.disasters;
 
 import de.firecreeper82.lotm.Plugin;
+import de.firecreeper82.lotm.util.Util;
 import de.firecreeper82.lotm.util.UtilItems;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -60,7 +61,7 @@ public class Tornado extends Disaster {
                     spiral += .25;
                     height += .15;
 
-                    world.spawnParticle(Particle.CLOUD, location.getX() + spiralX, location.getY() + height, location.getZ() + spiralZ, 2, 1.25, 1.75, 1.25, 0);
+                    Util.drawParticlesForNearbyPlayers(Particle.CLOUD, new Location(location.getWorld(), location.getX() + spiralX, location.getY() + height, location.getZ() + spiralZ), 2, 1.25, 1.75, 1.25, 0);
 
                     if (height >= 22) {
                         break;
