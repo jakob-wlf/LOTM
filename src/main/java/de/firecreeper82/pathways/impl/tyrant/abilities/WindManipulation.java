@@ -32,7 +32,8 @@ public class WindManipulation extends NPCAbility {
         this.npc = npc;
         if(!npc)
             items.addToSequenceItems(identifier - 1, sequence);
-        p = pathway.getBeyonder().getPlayer();
+        if(!npc)
+            p = pathway.getBeyonder().getPlayer();
         flying = false;
     }
 
@@ -92,10 +93,12 @@ public class WindManipulation extends NPCAbility {
 
         Entity finalTarget = target;
 
-        if(pathway.getBeyonder().getSpirituality() <= 25)
-            return;
+        if(!npc) {
+            if (pathway.getBeyonder().getSpirituality() <= 25)
+                return;
 
-        pathway.getSequence().removeSpirituality(25);
+            pathway.getSequence().removeSpirituality(25);
+        }
 
         if(finalTarget instanceof LivingEntity livingEntity) {
             livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * 25, 8, false, false));
@@ -245,9 +248,11 @@ public class WindManipulation extends NPCAbility {
 
         loc.add(direction.clone().multiply(2));
 
-        if(pathway.getBeyonder().getSpirituality() <= 45)
-            return;
-        pathway.getSequence().removeSpirituality(45);
+        if(!npc) {
+            if(pathway.getBeyonder().getSpirituality() <= 45)
+                return;
+            pathway.getSequence().removeSpirituality(45);
+        }
 
         world.playSound(loc, Sound.ENTITY_ARROW_SHOOT, 1, 1);
 

@@ -38,7 +38,8 @@ public class WaterSpells extends NPCAbility {
         this.npc = npc;
         if(!npc)
             items.addToSequenceItems(identifier - 1, sequence);
-        p = pathway.getBeyonder().getPlayer();
+        if(!npc)
+            p = pathway.getBeyonder().getPlayer();
     }
 
     enum Category {

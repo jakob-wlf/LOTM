@@ -22,7 +22,8 @@ public class RagingBlows extends NPCAbility {
         super(identifier, pathway, sequence, items);
         if(!npc)
             items.addToSequenceItems(identifier - 1, sequence);
-        p = pathway.getBeyonder().getPlayer();
+        if(!npc)
+            p = pathway.getBeyonder().getPlayer();
     }
 
     @Override

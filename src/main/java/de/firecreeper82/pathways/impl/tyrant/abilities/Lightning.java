@@ -20,14 +20,17 @@ import java.util.Random;
 public class Lightning extends NPCAbility {
 
     boolean destruction;
+    private final boolean npc;
 
     public Lightning(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
-        p = pathway.getBeyonder().getPlayer();
+        if(!npc)
+            p = pathway.getBeyonder().getPlayer();
 
         if(!npc)
             items.addToSequenceItems(identifier - 1, sequence);
 
+        this.npc = npc;
         destruction = true;
     }
 
@@ -71,7 +74,7 @@ public class Lightning extends NPCAbility {
 
         Random random = new Random();
 
-        final Particle.DustOptions dust = pathway.getSequence().getCurrentSequence() > 4 ? new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.8f) : new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.9f);
+        final Particle.DustOptions dust = (!npc) ? (pathway.getSequence().getCurrentSequence() > 4 ? new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.8f) : new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.9f)) : new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.9f);
 
         ArrayList<Double> randoms1 = new ArrayList<>();
         for(int i = 0; i < 50; i++) {
@@ -84,7 +87,7 @@ public class Lightning extends NPCAbility {
         }
 
         for(int j = 0; j < 12; j++) {
-            final Particle.DustOptions dust1 = pathway.getSequence().getCurrentSequence() > 4 ? new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.8f) : new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.9f);
+            final Particle.DustOptions dust1 = (!npc) ? (pathway.getSequence().getCurrentSequence() > 4 ? new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.8f) : new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.9f)) : new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.9f);
 
             int height = random.nextInt(8, 46);
 
@@ -114,7 +117,7 @@ public class Lightning extends NPCAbility {
             counter--;
         }
 
-        int damageRadius = pathway.getSequence().getCurrentSequence() > 4 ? 4 : 10;
+        int damageRadius = !npc ? (pathway.getSequence().getCurrentSequence() > 4 ? 4 : 10) : 7;
 
         for(Entity entity : loc.getWorld().getNearbyEntities(particleLoc, damageRadius, damageRadius / 2f, damageRadius)) {
             if(Util.testForValidEntity(entity, caster, true, true)) {
@@ -147,8 +150,8 @@ public class Lightning extends NPCAbility {
         loc.getWorld().playSound(particleLoc, Sound.ENTITY_LIGHTNING_BOLT_IMPACT, 2, 1);
 
         if(destruction) {
-            int radius = pathway.getSequence().getCurrentSequence() > 4 ? 6 : 12;
-            int power = pathway.getSequence().getCurrentSequence() > 4 ? 5 : 11;
+            int radius = !npc ? pathway.getSequence().getCurrentSequence() > 4 ? 6 : 12 : 10;
+            int power = !npc ? pathway.getSequence().getCurrentSequence() > 4 ? 5 : 11 : 8;
 
             loc.getWorld().createExplosion(particleLoc, power, true);
 

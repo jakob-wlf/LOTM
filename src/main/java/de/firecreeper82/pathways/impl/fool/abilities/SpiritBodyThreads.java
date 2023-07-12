@@ -9,10 +9,7 @@ import de.firecreeper82.pathways.impl.fool.marionettes.BeyonderMarionette;
 import de.firecreeper82.pathways.impl.fool.marionettes.Marionette;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Color;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
+import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -135,26 +132,33 @@ public class SpiritBodyThreads extends Ability implements Listener {
 
         if (!turning) {
             turnIntoMarionette(selectedEntity);
+            Bukkit.getConsoleSender().sendMessage("test0");
             return;
         }
+
+        Bukkit.getConsoleSender().sendMessage("test1");
 
         turning = false;
     }
 
     public void turnIntoMarionette(Entity e) {
-        if (!(e instanceof LivingEntity) || (!(e instanceof Player) && e.getType() != EntityType.PLAYER)) {
+        if (!(e instanceof LivingEntity) || (e.getType() == EntityType.PLAYER)) {
             turning = false;
+            Bukkit.getConsoleSender().sendMessage("test00");
             return;
         }
         Player p = pathway.getBeyonder().getPlayer();
+
+        Bukkit.getConsoleSender().sendMessage("test01");
 
         //Make hostile entities aware of Player
         ((Damageable) e).damage(0, p);
 
         turning = true;
 
-
         final int beyonderMultiplier = (Plugin.beyonders.containsKey(e.getUniqueId()) && Plugin.beyonders.get(e.getUniqueId()).getPathway() != null && Plugin.beyonders.get(e.getUniqueId()).getPathway().getSequence() != null) ? (9 / Plugin.beyonders.get(e.getUniqueId()).getPathway().getSequence().getCurrentSequence()) : 1;
+
+        Bukkit.getConsoleSender().sendMessage("test02");
 
         //Runs every 1/2 seconds and gives Entity effects
         //At the end of the time if entity is still being turned, removes entity

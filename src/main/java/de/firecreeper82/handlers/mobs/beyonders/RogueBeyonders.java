@@ -9,7 +9,9 @@ import de.firecreeper82.pathways.impl.fool.abilities.AirBullet;
 import de.firecreeper82.pathways.impl.fool.abilities.FlameControlling;
 import de.firecreeper82.pathways.impl.fool.abilities.Grafting;
 import de.firecreeper82.pathways.impl.sun.abilities.*;
+import de.firecreeper82.pathways.impl.tyrant.abilities.*;
 import net.citizensnpcs.api.CitizensAPI;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
@@ -71,7 +73,7 @@ public class RogueBeyonders implements Listener {
 
         boolean aggressive = (random.nextInt(4) == 0);
         int sequence = Util.biasedRandomNumber(PROBABILITY_DISTRIBUTION, MIN_VALUE);
-        int pathway = random.nextInt(colorPrefix.size());
+        int pathway = random.nextInt(5);
 
         if(Plugin.instance.getCurrentRogueBeyonders().size() > 50) {
             Plugin.instance.removeRogueBeyonder(Plugin.instance.getCurrentRogueBeyonders().get((new Random()).nextInt(Plugin.instance.getCurrentRogueBeyonders().size())));
@@ -91,6 +93,7 @@ public class RogueBeyonders implements Listener {
         colorPrefix.put(1, "§5");
         colorPrefix.put(2, "§b");
         colorPrefix.put(3, "§d");
+        colorPrefix.put(4, "§9");
     }
 
     private void initAbilities() {
@@ -132,6 +135,15 @@ public class RogueBeyonders implements Listener {
                 new Petrification(0, null, 3, null, true),
                 new Pestilence(0, null, 4, null, true),
                 new ThreadManipulation(0, null, 6, null, true)
+        ));
+
+        abilities.put(4, Arrays.asList(
+                new Lightning(0, null, 5, null, true),
+                new RagingBlows(0, null, 8, null, true),
+                new Roar(0, null, 4, null, true),
+                new Tornado(0, null, 4, null, true),
+                new WaterSpells(0, null, 7, null, true),
+                new WindManipulation(0, null, 6, null, true)
         ));
     }
 
