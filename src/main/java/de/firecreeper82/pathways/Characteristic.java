@@ -30,6 +30,7 @@ public class Characteristic {
         blocksForPathway.put("sun", new URL("http://textures.minecraft.net/texture/8a03a8a877de7a4d6b167633a96ae3983998fd9d9a4c5e3fa817d138e81e4499"));
         blocksForPathway.put("door", new URL("http://textures.minecraft.net/texture/5f1e18cd9f9d3822196f0ccf1a8e071d87bb32ab50df4d6cfed93a1a948835ca"));
         blocksForPathway.put("demoness", new URL("http://textures.minecraft.net/texture/b21f8f3e52fa21b45ff56f3f73dd21661ff257d97bd52ed958f2d757be89a961"));
+        blocksForPathway.put("tyrant", new URL("http://textures.minecraft.net/texture/de73a8675ec1be13b1932627533212b1ded2b1773e54b06ea489a35d9744d615"));
     }
 
 

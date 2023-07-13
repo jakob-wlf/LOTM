@@ -145,7 +145,7 @@ public class LightningStorm extends NPCAbility {
         for(Entity entity : loc.getWorld().getNearbyEntities(particleLoc, damageRadius, damageRadius / 2f, damageRadius)) {
             if(Util.testForValidEntity(entity, caster, true, true)) {
                 LivingEntity livingEntity = (LivingEntity) entity;
-                livingEntity.damage(18 * multiplier, caster);
+                livingEntity.damage(12 * multiplier, caster);
                 livingEntity.setFireTicks(20 * 5);
             }
 

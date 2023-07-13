@@ -15,7 +15,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -70,8 +69,8 @@ public class RogueBeyonder implements Listener {
         Plugin.instance.addRogueBeyonder(this);
 
         characteristicIndex = new String[][] {
-                {"sun", "fool", "door", "demoness"},
-                {"§6", "§5", "§b", "§d"}
+                {"sun", "fool", "door", "demoness", "tyrant"},
+                {"§6", "§5", "§b", "§d", "§9"}
         };
 
         Random random = new Random();
