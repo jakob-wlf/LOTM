@@ -1,5 +1,6 @@
 package de.firecreeper82.pathways.impl.tyrant.abilities;
 
+import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.Util;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.NPCAbility;
@@ -11,18 +12,19 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-public class Lightning extends NPCAbility {
+public class LightningStorm extends NPCAbility {
 
     boolean destruction;
     private final boolean npc;
 
-    public Lightning(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
+    public LightningStorm(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
         if(!npc)
             p = pathway.getBeyonder().getPlayer();
@@ -31,7 +33,7 @@ public class Lightning extends NPCAbility {
             items.addToSequenceItems(identifier - 1, sequence);
 
         this.npc = npc;
-        destruction = true;
+        destruction = false;
     }
 
     @Override
@@ -57,12 +59,16 @@ public class Lightning extends NPCAbility {
             }
         }
 
+        loc.getWorld().setClearWeatherDuration(0);
+        loc.getWorld().setStorm(true);
+        loc.getWorld().setThunderDuration(120 * 60 * 20);
+
         useNPCAbility(loc, p, getMultiplier());
     }
 
     @Override
     public ItemStack getItem() {
-        return TyrantItems.createItem(Material.LIGHT_BLUE_DYE, "Lightning", "200", identifier, sequence, p.getName());
+        return TyrantItems.createItem(Material.LIGHT_BLUE_DYE, "Lightning Storm", "750", identifier, sequence, p.getName());
     }
 
     @Override
@@ -70,11 +76,28 @@ public class Lightning extends NPCAbility {
         if(loc.getWorld() == null)
             return;
 
+        Random random = new Random();
+
+        new BukkitRunnable() {
+            int counter = 10 * 30;
+            @Override
+            public void run() {
+                spawnLighting(loc.clone().add(random.nextInt(-25, 25), 0, random.nextInt(-25, 25)), caster, multiplier);
+
+                counter--;
+                if(counter <= 0) {
+                    cancel();
+                }
+            }
+        }.runTaskTimer(Plugin.instance, 0, 2);
+    }
+
+    private void spawnLighting(Location loc, Entity caster, double multiplier) {
         Location particleLoc = loc.clone().add(0, 50, 0);
 
         Random random = new Random();
 
-        final Particle.DustOptions dust = (!npc) ? (pathway.getSequence().getCurrentSequence() > 4 ? new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.8f) : new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.9f)) : new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.9f);
+        final Particle.DustOptions dust = new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.8f);
 
         ArrayList<Double> randoms1 = new ArrayList<>();
         for(int i = 0; i < 50; i++) {
@@ -87,9 +110,9 @@ public class Lightning extends NPCAbility {
         }
 
         for(int j = 0; j < 12; j++) {
-            final Particle.DustOptions dust1 = (!npc) ? (pathway.getSequence().getCurrentSequence() > 4 ? new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.8f) : new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.9f)) : new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.9f);
+            final Particle.DustOptions dust1 = new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.8f);
 
-            int height = random.nextInt(8, 38);
+            int height = random.nextInt(8, 28);
 
             Location hitLoc = particleLoc.clone();
             for(int i = 0; i < height; i++) {
@@ -117,7 +140,7 @@ public class Lightning extends NPCAbility {
             counter--;
         }
 
-        int damageRadius = !npc ? (pathway.getSequence().getCurrentSequence() > 4 ? 4 : 10) : 7;
+        int damageRadius = 11;
 
         for(Entity entity : loc.getWorld().getNearbyEntities(particleLoc, damageRadius, damageRadius / 2f, damageRadius)) {
             if(Util.testForValidEntity(entity, caster, true, true)) {
@@ -158,7 +181,7 @@ public class Lightning extends NPCAbility {
 
             ArrayList<Block> blocks = Util.getBlocksInCircleRadius(particleLoc.getBlock(), radius, true);
             for (Block block : blocks) {
-                if (random.nextInt(15) == 0) {
+                if (random.nextInt(22) == 0) {
                     Block fire = block.getLocation().add(0, 1, 0).getBlock();
                     if (!fire.getType().isSolid())
                         fire.setType(Material.FIRE);
