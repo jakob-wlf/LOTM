@@ -93,6 +93,8 @@ public final class Plugin extends JavaPlugin {
 
         new SpiritHandler();
         new SpiritWorld();
+        new SealedArtifacts();
+        new AbilityUtilHandler();
         rogueBeyonders = new RogueBeyonders();
 
         Bukkit.getConsoleSender().sendMessage(prefix + "§aEnabled Plugin");
@@ -151,7 +153,6 @@ public final class Plugin extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("exclude-entities")).setExecutor(new ExcludeEntityCmd());
         Objects.requireNonNull(this.getCommand("thread-length")).setExecutor(new ThreadLengthCmd());
         Objects.requireNonNull(this.getCommand("items")).setExecutor(itemsCmd);
-        Objects.requireNonNull(this.getCommand("potions")).setExecutor(new PotionsCmd());
         Objects.requireNonNull(this.getCommand("test")).setExecutor(new TestCmd());
         Objects.requireNonNull(this.getCommand("spawn")).setExecutor(new SpawnCmd());
         Objects.requireNonNull(this.getCommand("ability-info")).setExecutor(new AbilityInfoCmd());

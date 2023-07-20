@@ -1,6 +1,7 @@
 package de.firecreeper82.handlers.mobs.beyonders;
 
 
+import de.firecreeper82.lotm.AbilityUtilHandler;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.pathways.NPCAbility;
 import net.citizensnpcs.api.CitizensAPI;
@@ -76,7 +77,7 @@ public class RogueBeyonder implements Listener {
         Random random = new Random();
 
         name = Plugin.instance.getNames().get(random.nextInt(Plugin.instance.getNames().size()));
-        name = rogueBeyonders.getColorPrefix().get(pathway) + name + " - " + sequence + " (" + aggressive + ")";
+        name = AbilityUtilHandler.getColorPrefix().get(pathway) + name + " - " + sequence + " (" + aggressive + ")";
 
         beyonder = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, name);
         beyonder.setProtected(false);
@@ -185,12 +186,12 @@ public class RogueBeyonder implements Listener {
         if(attackTimer > 0)
             return;
 
-        if(rogueBeyonders.getAbilities().get(pathway) == null)
+        if(AbilityUtilHandler.getAbilities().get(pathway) == null)
             return;
 
         Random random = new Random();
 
-        NPCAbility currentAbility = rogueBeyonders.getAbilities().get(pathway).get(random.nextInt(rogueBeyonders.getAbilities().get(pathway).size()));
+        NPCAbility currentAbility = AbilityUtilHandler.getAbilities().get(pathway).get(random.nextInt(AbilityUtilHandler.getAbilities().get(pathway).size()));
         if(currentAbility.getSequence() < sequence)
             return;
 

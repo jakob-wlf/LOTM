@@ -22,11 +22,6 @@ public abstract class Pathway {
     protected String stringColor;
     protected String nameNormalized;
 
-    public static final String[] validNames = new String[]{
-            "sun",
-            "fool"
-    };
-
     public Items items;
 
     public Pathway(UUID uuid, int optionalSequence) {
@@ -100,9 +95,7 @@ public abstract class Pathway {
             case "door" -> pathwayObject = new DoorPathway(uuid, sequence);
             case "demoness" -> pathwayObject = new DemonessPathway(uuid, sequence);
             case "tyrant" -> pathwayObject = new TyrantPathway(uuid, sequence);
-            default -> {
-                return null;
-            }
+            default -> { return null; }
         }
 
         Beyonder beyonder = new Beyonder(uuid, pathwayObject);
@@ -136,11 +129,6 @@ public abstract class Pathway {
                 return null;
             }
         }
-    }
-
-    @SuppressWarnings("unused")
-    public static boolean isValidPathway(String pathway) {
-        return Arrays.asList(validNames).contains(pathway);
     }
 }
 

@@ -24,9 +24,6 @@ commands:
   configure-threads:
     description: Configure the Spirit Body Threads you want to see
     usage: /<cmd>
-  potions:
-    description: Give yourself all the Potions of a Pathway
-    usage: /<cmd>
   test:
     description: Used for testing various things
     usage: /<cmd>
@@ -39,4 +36,7 @@ commands:
   spirit:
     description: Spawn a spirit
     usage: /<cm>
+  artifact:
+    description: Get a random Sealed Artifact (Testing only)
+    usage: /<cmd>
 
