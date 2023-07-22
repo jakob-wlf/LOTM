@@ -64,7 +64,7 @@ public class Util {
                 loc.add(x, y, z);
                 if (loc.getWorld() == null)
                     return;
-                loc.getWorld().spawnParticle(Particle.REDSTONE, loc, 1, offset, offset, offset, 0, dust);
+                drawDustsForNearbyPlayers(loc, 1, offset, offset, offset, dust);
                 if (material != null && (loc.getBlock().getType().getHardness() >= 0 || loc.getBlock().getType() == Material.BARRIER) && (!loc.getBlock().getType().isSolid() || loc.getBlock().getType() == Material.BARRIER)) {
                     loc.getBlock().setType(material);
                 }

@@ -1,4 +1,4 @@
-package de.firecreeper82.pathways;
+package de.firecreeper82.pathways.other;
 
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.Util;

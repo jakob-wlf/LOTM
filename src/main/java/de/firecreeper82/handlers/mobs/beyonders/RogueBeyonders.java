@@ -55,21 +55,21 @@ public class RogueBeyonders implements Listener {
     public void onSpawn(EntitySpawnEvent e) {
         Random random = new Random();
 
-        if (!spawnProbabilityTable.containsKey(e.getEntity().getType()))
-            return;
-
-        if (random.nextInt(100) > spawnProbabilityTable.get(e.getEntity().getType()))
-            return;
-
-        boolean aggressive = (random.nextInt(4) == 0);
-        int sequence = Util.biasedRandomNumber(PROBABILITY_DISTRIBUTION, MIN_VALUE);
-        int pathway = random.nextInt(5);
-
-        if(Plugin.instance.getCurrentRogueBeyonders().size() > 50) {
-            Plugin.instance.removeRogueBeyonder(Plugin.instance.getCurrentRogueBeyonders().get((new Random()).nextInt(Plugin.instance.getCurrentRogueBeyonders().size())));
-        }
-
-        spawnNPC(aggressive, sequence, pathway, e.getLocation());
+//        if (!spawnProbabilityTable.containsKey(e.getEntity().getType()))
+//            return;
+//
+//        if (random.nextInt(100) > spawnProbabilityTable.get(e.getEntity().getType()))
+//            return;
+//
+//        boolean aggressive = (random.nextInt(4) == 0);
+//        int sequence = Util.biasedRandomNumber(PROBABILITY_DISTRIBUTION, MIN_VALUE);
+//        int pathway = random.nextInt(5);
+//
+//        if(Plugin.instance.getCurrentRogueBeyonders().size() > 50) {
+//            Plugin.instance.removeRogueBeyonder(Plugin.instance.getCurrentRogueBeyonders().get((new Random()).nextInt(Plugin.instance.getCurrentRogueBeyonders().size())));
+//        }
+//
+//        spawnNPC(aggressive, sequence, pathway, e.getLocation());
     }
 
     public void spawnNPC(boolean aggressive, int sequence, int pathway, Location location) {

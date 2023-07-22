@@ -1,7 +1,9 @@
-package de.firecreeper82.pathways;
+package de.firecreeper82.pathways.sealedArtifacts;
 
 import de.firecreeper82.lotm.AbilityUtilHandler;
 import de.firecreeper82.lotm.Plugin;
+import de.firecreeper82.pathways.NPCAbility;
+import de.firecreeper82.pathways.sealedArtifacts.negativeEffects.NegativeEffects;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -16,6 +18,8 @@ public class SealedArtifacts implements CommandExecutor {
     private final HashMap<Material, String> artifactMaterials = new HashMap<>();
     private final HashMap<Integer, String[]> pathwayNames = new HashMap<>();
 
+    private NegativeEffects negativeEffects;
+
     public SealedArtifacts() {
         Objects.requireNonNull(Plugin.instance.getCommand("artifact")).setExecutor(this);
 
@@ -25,49 +29,86 @@ public class SealedArtifacts implements CommandExecutor {
                 {"DIAMOND_SWORD", "Blade"},
                 {"STONE_SWORD", "Rusty Blade"},
                 {"ENDER_EYE", "Eye"},
-                {"SNOWBALL", "Orb"}
+                {"SNOWBALL", "Orb"},
+                {"BOOK", "Tome"},
+                {"BAMBOO", "Cane"},
+                {"SPECTRAL_ARROW", "Spear"},
+                {"AMETHYST_SHARD", "Crystal"},
+                {"GLOWSTONE_DUST", "Dust"},
+                {"ECHO_SHARD", "Shard"},
+                {"NETHER_STAR", "Star"},
+                {"EXPERIENCE_BOTTLE", "Potion"},
+                {"BONE", "Remains"}
         };
-        for (String[] mapping : materials) { artifactMaterials.put(Material.getMaterial(mapping[0]), mapping[1]); }
+        for (String[] mapping : materials) {
+            artifactMaterials.put(Material.getMaterial(mapping[0]), mapping[1]);
+        }
 
         addToPathwayNames(0,
+                "",
                 "Gold",
-                "Sun",
                 "Light",
+                "Justice",
                 "Holiness",
-                "Purification"
+                "Purification",
+                "Notarization",
+                "Light",
+                "Bronze"
         );
 
         addToPathwayNames(1,
+                "",
                 "Mystery",
+                "Miracles",
                 "History",
-                "Spirit",
+                "Weirdness",
+                "the Nimblewright",
+                "the Shapeshifter",
                 "Magic",
-                "Weirdness"
+                "the Clown",
+                "Foresight"
         );
 
         addToPathwayNames(2,
-                "Space",
+                "",
                 "Stars",
-                "Door",
+                "Stars",
+                "Wandering",
                 "Secret",
-                "Wandering"
+                "Traveling",
+                "Recording",
+                "Astrology",
+                "Tricks",
+                "the Free"
         );
 
         addToPathwayNames(3,
+                "",
+                "Apocalypse",
+                "Catastrophe",
+                "Stone",
+                "Illness",
+                "Illness",
                 "Beauty",
-                "Magic",
-                "Destruction",
-                "Ice",
-                "Illness"
+                "the Sorceress",
+                "Instigation",
+                "the Knife"
         );
 
         addToPathwayNames(4,
+                "",
+                "the Thunder God",
+                "Calamity",
+                "the Sea",
                 "Storm",
-                "Tides",
-                "Waves",
+                "Thunder",
+                "Wind",
                 "Water",
-                "Thunder"
+                "Rage",
+                "the Pirate"
         );
+
+        negativeEffects = new NegativeEffects();
     }
 
     private Material getRandomMaterial() {
@@ -85,7 +126,7 @@ public class SealedArtifacts implements CommandExecutor {
 
         int pathway = random.nextInt(pathwayNames.size());
 
-        p.getInventory().addItem(generateArtifact(pathway, random.nextInt(AbilityUtilHandler.getAbilities().get(pathway).size()), true));
+        p.getInventory().addItem(generateArtifact(pathway, random.nextInt(1, 10), true));
         return true;
     }
 
@@ -93,7 +134,7 @@ public class SealedArtifacts implements CommandExecutor {
         List<NPCAbility> abilities = AbilityUtilHandler.getSequenceAbilities(pathway, sequence);
         Random random = new Random();
 
-        while(abilities.size() == 0 && isRandom) {
+        while(abilities.isEmpty() && isRandom) {
             sequence = random.nextInt(AbilityUtilHandler.getAbilities().get(pathway).size());
             abilities = AbilityUtilHandler.getSequenceAbilities(pathway, sequence);
         }
@@ -101,9 +142,9 @@ public class SealedArtifacts implements CommandExecutor {
         NPCAbility ability = abilities.get(random.nextInt(abilities.size()));
 
         Material material = getRandomMaterial();
-        String name = artifactMaterials.get(material) + " of " + pathwayNames.get(pathway)[random.nextInt(pathwayNames.get(pathway).length)];
+        String name = artifactMaterials.get(material) + " of " + pathwayNames.get(pathway)[sequence];
 
-        return new SealedArtifact(material, name, pathway, ability).getItem();
+        return new SealedArtifact(material, name, pathway, ability, negativeEffects, true).getItem();
     }
 
     private void addToPathwayNames(int pathway, String... names) {

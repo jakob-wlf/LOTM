@@ -15,6 +15,10 @@ import de.firecreeper82.pathways.impl.fool.FoolPotions;
 import de.firecreeper82.pathways.impl.fool.abilities.FogOfHistory;
 import de.firecreeper82.pathways.impl.sun.SunPotions;
 import de.firecreeper82.pathways.impl.tyrant.TyrantPotions;
+import de.firecreeper82.pathways.other.Characteristic;
+import de.firecreeper82.pathways.other.Divination;
+import de.firecreeper82.pathways.other.Recipe;
+import de.firecreeper82.pathways.sealedArtifacts.SealedArtifacts;
 import net.citizensnpcs.api.CitizensAPI;
 import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.Bukkit;
@@ -46,6 +50,7 @@ public final class Plugin extends JavaPlugin {
     private Recipe recipe;
     private BeyonderMobsHandler beyonderMobsHandler;
     private RogueBeyonders rogueBeyonders;
+    private SpiritHandler spiritHandler;
 
     private ArrayList<RogueBeyonder> currentRogueBeyonders;
 
@@ -91,11 +96,7 @@ public final class Plugin extends JavaPlugin {
 
         names = new ArrayList<>();
 
-        new SpiritHandler();
-        new SpiritWorld();
-        new SealedArtifacts();
-        new AbilityUtilHandler();
-        rogueBeyonders = new RogueBeyonders();
+        initHandlerClasses();
 
         Bukkit.getConsoleSender().sendMessage(prefix + "§aEnabled Plugin");
 
@@ -127,6 +128,14 @@ public final class Plugin extends JavaPlugin {
                 }
             }
         }.runTaskLater(Plugin.instance, 10);
+    }
+
+    private void initHandlerClasses() {
+        spiritHandler = new SpiritHandler();
+        new SpiritWorld();
+        new SealedArtifacts();
+        new AbilityUtilHandler();
+        rogueBeyonders = new RogueBeyonders();
     }
 
     //register all the Listeners and CommandExecutors
@@ -411,5 +420,9 @@ public final class Plugin extends JavaPlugin {
 
     public ArrayList<RogueBeyonder> getCurrentRogueBeyonders() {
         return currentRogueBeyonders;
+    }
+
+    public SpiritHandler getSpiritHandler() {
+        return spiritHandler;
     }
 }

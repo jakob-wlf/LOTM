@@ -204,8 +204,10 @@ public class FogOfHistory extends Ability implements Listener {
             return;
 
         e.setCancelled(true);
-        if (summonedItems.size() >= 3)
+        int maxSize = pathway.getSequence().getCurrentSequence() == 3 ? 3 : pathway.getSequence().getCurrentSequence() == 2 ? 9 : 12;
+        if (summonedItems.size() >= maxSize) {
             return;
+        }
         if (e.getCurrentItem() == null)
             return;
 

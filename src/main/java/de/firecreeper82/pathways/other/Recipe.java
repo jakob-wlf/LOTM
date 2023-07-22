@@ -1,6 +1,7 @@
-package de.firecreeper82.pathways;
+package de.firecreeper82.pathways.other;
 
 import de.firecreeper82.lotm.util.Util;
+import de.firecreeper82.pathways.Potion;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;

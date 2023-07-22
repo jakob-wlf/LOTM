@@ -1,13 +1,13 @@
-package de.firecreeper82.pathways;
+package de.firecreeper82.pathways.sealedArtifacts;
 
 import de.firecreeper82.lotm.AbilityUtilHandler;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.Util;
-import org.bukkit.Bukkit;
+import de.firecreeper82.pathways.NPCAbility;
+import de.firecreeper82.pathways.sealedArtifacts.negativeEffects.NegativeEffects;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -26,7 +26,7 @@ public class SealedArtifact implements Listener {
     private final int pathway;
     private final NPCAbility ability;
 
-    public SealedArtifact(Material material, String name, int pathway, NPCAbility ability) {
+    public SealedArtifact(Material material, String name, int pathway, NPCAbility ability, NegativeEffects negativeEffects, boolean negativeEffect) {
 
         this.pathway = pathway;
         this.ability = ability;
@@ -34,6 +34,9 @@ public class SealedArtifact implements Listener {
         Plugin.instance.getServer().getPluginManager().registerEvents(this, Plugin.instance);
 
         createItem(material, name);
+
+        if(negativeEffect)
+            negativeEffects.addEffectToArtifact(this, getSequence());
     }
 
     private void createItem(Material material, String name) {
@@ -90,6 +93,14 @@ public class SealedArtifact implements Listener {
             }
         }
 
-        ability.useNPCAbility(loc, e.getPlayer(), 1.5);
+        ability.useNPCAbility(loc, e.getPlayer(), 1.7);
+    }
+
+    public int getPathway() {
+        return pathway;
+    }
+
+    public int getSequence() {
+        return ability.getSequence();
     }
 }
