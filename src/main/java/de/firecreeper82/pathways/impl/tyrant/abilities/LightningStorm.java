@@ -142,14 +142,17 @@ public class LightningStorm extends NPCAbility {
 
         int damageRadius = 11;
 
+        if(loc.getWorld() == null)
+            return;
+
         for(Entity entity : loc.getWorld().getNearbyEntities(particleLoc, damageRadius, damageRadius / 2f, damageRadius)) {
             if(Util.testForValidEntity(entity, caster, true, true)) {
                 LivingEntity livingEntity = (LivingEntity) entity;
                 livingEntity.damage(12 * multiplier, caster);
                 livingEntity.setFireTicks(20 * 5);
+                Util.drawParticlesForNearbyPlayers(Particle.ELECTRIC_SPARK, entity.getLocation(), 100, 0.1, 0.1, 0.1, .75);
             }
 
-            Util.drawParticlesForNearbyPlayers(Particle.ELECTRIC_SPARK, entity.getLocation(), 100, 0.1, 0.1, 0.1, .75);
         }
 
         Material[] burnMaterials = {

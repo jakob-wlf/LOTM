@@ -124,9 +124,8 @@ public class Lightning extends NPCAbility {
                 LivingEntity livingEntity = (LivingEntity) entity;
                 livingEntity.damage(18 * multiplier, caster);
                 livingEntity.setFireTicks(20 * 5);
+                Util.drawParticlesForNearbyPlayers(Particle.ELECTRIC_SPARK, entity.getLocation(), 100, 0.1, 0.1, 0.1, .75);
             }
-
-            Util.drawParticlesForNearbyPlayers(Particle.ELECTRIC_SPARK, entity.getLocation(), 100, 0.1, 0.1, 0.1, .75);
         }
 
         Material[] burnMaterials = {

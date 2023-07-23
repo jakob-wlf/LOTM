@@ -213,4 +213,21 @@ public class Util {
         }
         return blocks;
     }
+
+    public static ArrayList<Block> getWaterBlocksInSquare(Block start, int radius) {
+        if (radius < 0) {
+            return new ArrayList<>(0);
+        }
+        int iterations = (radius * 2) + 1;
+        ArrayList<Block> blocks = new ArrayList<>(iterations * iterations * iterations);
+        for (int x = -radius; x <= radius; x++) {
+            for (int y = -radius; y <= radius; y++) {
+                for (int z = -radius; z <= radius; z++) {
+                    if ((start.getRelative(x, y, z).getType() == Material.WATER))
+                        blocks.add(start.getRelative(x, y, z));
+                }
+            }
+        }
+        return blocks;
+    }
 }
