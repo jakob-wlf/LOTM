@@ -10,6 +10,7 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -94,6 +95,15 @@ public class Tsunami extends NPCAbility implements Listener {
                         Location waterLoc = tempLoc.clone();
                         if(!waterLoc.getBlock().getType().isSolid()) {
                             waterLoc.getBlock().setType(Material.WATER);
+                        }
+
+                        if(j == 0) {
+                            for(Entity entity : loc.getWorld().getNearbyEntities(tempLoc, 1, 5, 1)) {
+                                if(!Util.testForValidEntity(entity, caster, true, true))
+                                    continue;
+                                LivingEntity livingEntity  = (LivingEntity) entity;
+                                livingEntity.damage(20 * multiplier, caster);
+                            }
                         }
                     }
                 }
