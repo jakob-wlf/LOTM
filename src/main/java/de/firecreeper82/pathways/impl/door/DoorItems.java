@@ -114,7 +114,7 @@ public class DoorItems extends Items {
         addAbility(new Freezing(5, pathway, 8, this, false));
         addAbility(new ElectricShock(6, pathway, 8, this, false));
         addAbility(new Divine(7, pathway, 7, this));
-        addAbility(new Record(8, pathway, 6, this));
+        addAbility(new Record(8, pathway, 6, this, false));
         addAbility(new Blink(9, pathway, 5, this));
         addAbility(new TravelersDoor(10, pathway, 5, this));
         addAbility(new Exile(11, pathway, 4, this, false));

@@ -1,6 +1,7 @@
 package de.firecreeper82.pathways.impl.door.abilities;
 
 import de.firecreeper82.lotm.Plugin;
+import de.firecreeper82.lotm.util.Util;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
@@ -39,7 +40,7 @@ public class Conceptualization extends Ability {
 
             @Override
             public void run() {
-                p.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, p.getEyeLocation(), 300, 1.1, 1.1, 1.1, 0);
+                Util.drawParticlesForNearbyPlayers(Particle.ENCHANTMENT_TABLE, p.getEyeLocation(), 50, 1.1, 1.1, 1.1, 0);
 
                 for (Player player : Bukkit.getOnlinePlayers()) {
                     player.hidePlayer(Plugin.instance, p);

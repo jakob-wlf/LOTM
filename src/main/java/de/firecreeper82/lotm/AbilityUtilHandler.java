@@ -3,6 +3,7 @@ package de.firecreeper82.lotm;
 import de.firecreeper82.pathways.NPCAbility;
 import de.firecreeper82.pathways.impl.demoness.abilities.*;
 import de.firecreeper82.pathways.impl.door.abilities.*;
+import de.firecreeper82.pathways.impl.door.abilities.Record;
 import de.firecreeper82.pathways.impl.fool.abilities.AirBullet;
 import de.firecreeper82.pathways.impl.fool.abilities.FlameControlling;
 import de.firecreeper82.pathways.impl.fool.abilities.Grafting;
@@ -67,6 +68,7 @@ public class AbilityUtilHandler {
                 new ElectricShock(0, null, 8, null, true),
                 new Exile(0, null, 4, null, true),
                 new Freezing(0, null, 8, null, true),
+                new Record(0, null, 6, null, true),
                 new SpaceConcealment(0, null, 4, null, true),
                 new Wind(0, null, 8, null, true)
         ));

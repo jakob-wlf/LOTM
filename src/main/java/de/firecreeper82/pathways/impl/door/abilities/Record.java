@@ -1,23 +1,90 @@
 package de.firecreeper82.pathways.impl.door.abilities;
 
 
-import de.firecreeper82.pathways.Ability;
+import de.firecreeper82.lotm.AbilityUtilHandler;
 import de.firecreeper82.pathways.Items;
+import de.firecreeper82.pathways.NPCAbility;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.door.DoorItems;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 
-public class Record extends Ability {
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
+
+public class Record extends NPCAbility {
 
 
-    public Record(int identifier, Pathway pathway, int sequence, Items items) {
+    private final HashMap<Entity, List<NPCAbility>> npcRecordedAbilities;
+
+    public Record(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
-        items.addToSequenceItems(identifier - 1, sequence);
+        if(!npc)
+            items.addToSequenceItems(identifier - 1, sequence);
+
+        npcRecordedAbilities = new HashMap<>();
+    }
+
+    @Override
+    public void useNPCAbility(Location loc, Entity caster, double multiplier) {
+        Random random = new Random();
+
+        if(!npcRecordedAbilities.containsKey(caster)) {
+
+            ArrayList<NPCAbility> abilities = new ArrayList<>();
+
+            for(int j = 0; j < 4; j++) {
+                NPCAbility ability = AbilityUtilHandler.getAbilities()
+                        .get(random.nextInt(AbilityUtilHandler.getAbilities().size()))
+                        .get(random.nextInt(AbilityUtilHandler.getAbilities().get(random.nextInt(AbilityUtilHandler.getAbilities().size())).size()));
+
+                int maxIterations = 500;
+
+                int sequence = 6;
+
+                double[] multiplierTable = new double[]{
+                        0, 3.5, 3, 2.5, 1.9, 1.7, 1.6, 1.4, 1.3, 1
+                };
+
+                for (int i = 1; i < 10; i++) {
+                    if (multiplier != multiplierTable[i])
+                        continue;
+                    sequence = i;
+                    break;
+                }
+
+
+                while (ability.getSequence() < sequence && maxIterations >= 0) {
+                    ability = AbilityUtilHandler.getAbilities()
+                            .get(random.nextInt(AbilityUtilHandler.getAbilities().size()))
+                            .get(random.nextInt(AbilityUtilHandler.getAbilities().get(random.nextInt(AbilityUtilHandler.getAbilities().size())).size()));
+
+                    maxIterations--;
+                }
+
+                abilities.add(ability);
+            }
+
+            npcRecordedAbilities.put(caster, abilities);
+        }
+
+        npcRecordedAbilities.get(caster).get(random.nextInt(npcRecordedAbilities.get(caster).size())).useNPCAbility(loc, caster, multiplier);
+
+        for(Entity temp : npcRecordedAbilities.keySet()) {
+            if(!temp.isValid())
+                npcRecordedAbilities.remove(temp);
+        }
     }
 
     @Override
     public void useAbility() {
+
+
+
     }
 
     @Override

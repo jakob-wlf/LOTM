@@ -1,6 +1,7 @@
 package de.firecreeper82.pathways.impl.door.abilities;
 
 import de.firecreeper82.lotm.Plugin;
+import de.firecreeper82.lotm.util.Util;
 import de.firecreeper82.lotm.util.VectorUtils;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
@@ -11,6 +12,9 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -18,10 +22,13 @@ import org.bukkit.util.Vector;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class SpaceConcealment extends NPCAbility {
+public class SpaceConcealment extends NPCAbility implements Listener {
 
     ArrayList<Entity> concealedEntities;
     private int radiusAdjust;
+
+    private boolean stopped;
+    private final boolean npc;
 
     public SpaceConcealment(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
@@ -30,6 +37,27 @@ public class SpaceConcealment extends NPCAbility {
             items.addToSequenceItems(identifier - 1, sequence);
 
         radiusAdjust = 10;
+        stopped = false;
+
+        this.npc = npc;
+
+        Plugin.instance.getServer().getPluginManager().registerEvents(this, Plugin.instance);
+    }
+
+    @EventHandler
+    public void onShift(PlayerToggleSneakEvent e) {
+        if(npc)
+            return;
+
+        p = pathway.getBeyonder().getPlayer();
+
+        if(e.getPlayer() != p)
+            return;
+
+        if(!e.isSneaking())
+            return;
+
+        stopped = true;
     }
 
     @Override
@@ -54,14 +82,14 @@ public class SpaceConcealment extends NPCAbility {
                 drawSquare(target, Material.BARRIER, radius, null, true);
             }
         }.runTaskTimer(Plugin.instance, 0, 0);
-
     }
 
 
     @Override
     public void useAbility() {
         p = pathway.getBeyonder().getPlayer();
-        pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
+
+        stopped = false;
 
         Location loc = p.getLocation().clone();
 
@@ -179,7 +207,7 @@ public class SpaceConcealment extends NPCAbility {
                     }
                 }
 
-                if (!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
+                if (stopped) {
                     drawSquare(loc, Material.AIR, radius, p, false);
                     cancel();
                 }
@@ -284,8 +312,8 @@ public class SpaceConcealment extends NPCAbility {
                             block.setType(material);
                             if (!npc && p.getInventory().getItemInMainHand().isSimilar(getItem()))
                                 p.spawnParticle(Particle.SPELL_WITCH, block.getLocation(), 2, 0, 0, 0, 0);
-                            else if((new Random().nextBoolean()))
-                                block.getLocation().getWorld().spawnParticle(Particle.SPELL_WITCH, block.getLocation(), 1, 0, 0, 0, 0);
+                            else if((new Random().nextInt(4) == 0) && npc)
+                                Util.drawParticlesForNearbyPlayers(Particle.SPELL_WITCH, block.getLocation(), 1, 0, 0, 0, 0);
                         }
                     }
                 }
