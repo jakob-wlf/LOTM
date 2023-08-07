@@ -9,7 +9,6 @@ import de.firecreeper82.pathways.impl.fool.abilities.Grafting;
 import de.firecreeper82.pathways.impl.sun.abilities.*;
 import de.firecreeper82.pathways.impl.tyrant.abilities.*;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;

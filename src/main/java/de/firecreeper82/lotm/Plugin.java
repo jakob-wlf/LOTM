@@ -51,6 +51,7 @@ public final class Plugin extends JavaPlugin {
     private BeyonderMobsHandler beyonderMobsHandler;
     private RogueBeyonders rogueBeyonders;
     private SpiritHandler spiritHandler;
+    private SealedArtifacts sealedArtifacts;
 
     private ArrayList<RogueBeyonder> currentRogueBeyonders;
 
@@ -133,7 +134,7 @@ public final class Plugin extends JavaPlugin {
     private void initHandlerClasses() {
         spiritHandler = new SpiritHandler();
         new SpiritWorld();
-        new SealedArtifacts();
+        sealedArtifacts = new SealedArtifacts();
         new AbilityUtilHandler();
         rogueBeyonders = new RogueBeyonders();
     }
@@ -153,7 +154,8 @@ public final class Plugin extends JavaPlugin {
                 divination,
                 beyonderMobsHandler,
                 new BlockHandler(),
-                new GenerationListener()
+                new GenerationListener(),
+                new ArtifactHandler()
         );
 
         Objects.requireNonNull(this.getCommand("beyonder")).setExecutor(new BeyonderCmd());
@@ -424,5 +426,9 @@ public final class Plugin extends JavaPlugin {
 
     public SpiritHandler getSpiritHandler() {
         return spiritHandler;
+    }
+
+    public SealedArtifacts getSealedArtifacts() {
+        return sealedArtifacts;
     }
 }

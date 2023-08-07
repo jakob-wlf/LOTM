@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 public class Tsunami extends NPCAbility implements Listener {
 
-
+    private final boolean npc;
 
     public Tsunami(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
@@ -31,6 +31,7 @@ public class Tsunami extends NPCAbility implements Listener {
         if(!npc)
             items.addToSequenceItems(identifier - 1, sequence);
 
+        this.npc = npc;
 
         Plugin.instance.getServer().getPluginManager().registerEvents(this, Plugin.instance);
     }
@@ -40,6 +41,9 @@ public class Tsunami extends NPCAbility implements Listener {
         p = pathway.getBeyonder().getPlayer();
         Vector dir = p.getLocation().getDirection().normalize();
         Location loc = p.getEyeLocation();
+
+        pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
+
         if (loc.getWorld() == null)
             return;
 
@@ -111,6 +115,8 @@ public class Tsunami extends NPCAbility implements Listener {
                 counter++;
 
                 if(counter > 65) {
+                    if(!npc)
+                        pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                     cancel();
                     new BukkitRunnable() {
                         @Override

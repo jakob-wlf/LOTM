@@ -130,13 +130,20 @@ public class SealedArtifacts implements CommandExecutor {
         return true;
     }
 
-    private ItemStack generateArtifact(int pathway, int sequence, boolean isRandom) {
+    public ItemStack generateArtifact(int pathway, int sequence, boolean isRandom) {
         List<NPCAbility> abilities = AbilityUtilHandler.getSequenceAbilities(pathway, sequence);
         Random random = new Random();
 
-        while(abilities.isEmpty() && isRandom) {
-            sequence = random.nextInt(AbilityUtilHandler.getAbilities().get(pathway).size());
-            abilities = AbilityUtilHandler.getSequenceAbilities(pathway, sequence);
+        while(abilities.isEmpty()) {
+            if (isRandom) {
+                sequence = random.nextInt(AbilityUtilHandler.getAbilities().get(pathway).size());
+                abilities = AbilityUtilHandler.getSequenceAbilities(pathway, sequence);
+            }
+            else {
+                sequence++;
+                if(sequence > 9)
+                    return null;
+            }
         }
 
         NPCAbility ability = abilities.get(random.nextInt(abilities.size()));

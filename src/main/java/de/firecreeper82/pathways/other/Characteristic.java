@@ -23,6 +23,8 @@ public class Characteristic {
     private final HashMap<String, URL> blocksForPathway;
     private final UUID uuid;
 
+    private final HashMap<ItemStack, int[]> allCharacteristics;
+
     public Characteristic() throws MalformedURLException {
         blocksForPathway = new HashMap<>();
         uuid = Plugin.randomUUID;
@@ -31,6 +33,16 @@ public class Characteristic {
         blocksForPathway.put("door", new URL("http://textures.minecraft.net/texture/5f1e18cd9f9d3822196f0ccf1a8e071d87bb32ab50df4d6cfed93a1a948835ca"));
         blocksForPathway.put("demoness", new URL("http://textures.minecraft.net/texture/b21f8f3e52fa21b45ff56f3f73dd21661ff257d97bd52ed958f2d757be89a961"));
         blocksForPathway.put("tyrant", new URL("http://textures.minecraft.net/texture/de73a8675ec1be13b1932627533212b1ded2b1773e54b06ea489a35d9744d615"));
+
+        allCharacteristics = new HashMap<>();
+        for(int i = 9; i > 0; i--) {
+            allCharacteristics.put(getCharacteristic(i, "sun", "§6"), new int[]{0, i});
+            allCharacteristics.put(getCharacteristic(i, "fool", "§5"), new int[]{1, i});
+            allCharacteristics.put(getCharacteristic(i, "door", "§b"), new int[]{2, i});
+            allCharacteristics.put(getCharacteristic(i, "demoness", "§d"), new int[]{3, i});
+            allCharacteristics.put(getCharacteristic(i, "tyrant", "9"), new int[]{4, i});
+        }
+
     }
 
 
@@ -55,5 +67,12 @@ public class Characteristic {
         playerHead.setItemMeta(playerMeta);
 
         return playerHead;
+    }
+
+    public int[] getCharacteristicInfo(ItemStack characteristic) {
+        if(allCharacteristics.containsKey(characteristic))
+            return allCharacteristics.get(characteristic);
+        else
+            return new int[]{-1, -1};
     }
 }
