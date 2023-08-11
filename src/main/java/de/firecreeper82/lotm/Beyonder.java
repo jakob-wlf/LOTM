@@ -274,6 +274,8 @@ public class Beyonder implements Listener {
                     looseControl(95, 10);
                 }
 
+                pathway.getSequence().run();
+
                 //spirituality handling
                 if (spirituality < maxSpirituality && counter >= 8) {
                     counter = 0;

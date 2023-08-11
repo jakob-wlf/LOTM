@@ -124,6 +124,10 @@ public abstract class Sequence {
         }
     }
 
+    public void run() {
+
+    }
+
     public int getCurrentSequence() {
         return currentSequence;
     }
