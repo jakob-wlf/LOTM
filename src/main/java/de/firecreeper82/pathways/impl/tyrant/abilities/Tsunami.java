@@ -82,7 +82,7 @@ public class Tsunami extends NPCAbility implements Listener {
         sideLoc.setYaw(sideLoc.getYaw() + 90);
         Vector side = sideLoc.getDirection().normalize();
 
-        Location startLoc = loc.clone().subtract(dir.clone().multiply(32.5)).subtract(side.clone().multiply(30));
+        Location startLoc = loc.clone().subtract(dir.clone().multiply(32.5)).subtract(side.clone().multiply(30)).subtract(0, 10, 0);
 
 
         final List<Block> waterBlocksBefore = Util.getWaterBlocksInSquare(loc.getBlock(), 45);
