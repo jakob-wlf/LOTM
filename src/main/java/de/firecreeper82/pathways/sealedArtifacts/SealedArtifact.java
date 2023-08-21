@@ -4,6 +4,7 @@ import de.firecreeper82.lotm.AbilityUtilHandler;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.Util;
 import de.firecreeper82.pathways.NPCAbility;
+import de.firecreeper82.pathways.impl.door.abilities.Record;
 import de.firecreeper82.pathways.sealedArtifacts.negativeEffects.NegativeEffects;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -94,6 +95,7 @@ public class SealedArtifact implements Listener {
         }
 
         ability.useNPCAbility(loc, e.getPlayer(), 1.7);
+
     }
 
     public int getPathway() {

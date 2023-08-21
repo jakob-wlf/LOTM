@@ -1,6 +1,7 @@
 package de.firecreeper82.pathways.impl.door.abilities;
 
 import de.firecreeper82.lotm.Plugin;
+import de.firecreeper82.lotm.util.Util;
 import de.firecreeper82.lotm.util.VectorUtils;
 import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
@@ -13,11 +14,13 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,9 +39,14 @@ public class TravelersDoor extends Ability implements Listener {
     private boolean isTeleporting;
     private GameMode prevGameMode;
 
+    private boolean isTeleportingToCoordinates;
+
     @Override
     public void useAbility() {
         p = pathway.getBeyonder().getPlayer();
+
+        if (isTeleportingToCoordinates)
+            isTeleportingToCoordinates = false;
 
         pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
@@ -57,76 +65,165 @@ public class TravelersDoor extends Ability implements Listener {
         if (loc.getWorld() == null)
             return;
 
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                drawDoor(loc);
+        boolean teleportToCoordinates = p.isSneaking();
+        if (!teleportToCoordinates) {
 
-                if (!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
-                    cancel();
-                    return;
-                }
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    drawDoor(loc);
 
-                for (Entity entity : loc.getWorld().getNearbyEntities(loc, .5, .5, .5)) {
-                    if (!(entity instanceof Player player))
-                        continue;
+                    if (!pathway.getSequence().getUsesAbilities()[identifier - 1]) {
+                        cancel();
+                        return;
+                    }
 
-                    if (player != p) {
-                        if (teleportedPlayers.containsKey(player))
+                    for (Entity entity : loc.getWorld().getNearbyEntities(loc, .5, .5, .5)) {
+                        if (!(entity instanceof Player player))
                             continue;
-                        GameMode prevGameModeTeleport = player.getGameMode();
-                        teleportedPlayers.put(player, prevGameModeTeleport);
-                        player.setGameMode(GameMode.SPECTATOR);
+
+                        if (player != p) {
+                            if (teleportedPlayers.containsKey(player))
+                                continue;
+                            GameMode prevGameModeTeleport = player.getGameMode();
+                            teleportedPlayers.put(player, prevGameModeTeleport);
+                            player.setGameMode(GameMode.SPECTATOR);
+
+                            new BukkitRunnable() {
+                                int counter = 0;
+
+                                @Override
+                                public void run() {
+                                    counter++;
+                                    if (counter >= 20 * 30 && !isTeleporting) {
+                                        cancel();
+                                        player.setGameMode(teleportedPlayers.get(player));
+                                        teleportedPlayers.remove(player);
+                                        return;
+                                    }
+
+                                    if (isTeleporting)
+                                        cancel();
+                                }
+                            }.runTaskTimer(Plugin.instance, 0, 0);
+                            continue;
+                        }
+
+                        prevGameMode = p.getGameMode();
+                        p.setGameMode(GameMode.SPECTATOR);
+                        isTeleporting = true;
+                        pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
 
                         new BukkitRunnable() {
                             int counter = 0;
 
                             @Override
                             public void run() {
-                                counter++;
-                                if (counter >= 20 * 30 && !isTeleporting) {
+                                if (!isTeleporting)
                                     cancel();
-                                    player.setGameMode(teleportedPlayers.get(player));
-                                    teleportedPlayers.remove(player);
+                                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§bLeft Click to travel here"));
+
+                                for (Player teleportedPlayer : teleportedPlayers.keySet()) {
+                                    teleportedPlayer.teleport(p.getLocation());
+                                }
+
+                                if (counter >= 20 * 60 * 2) {
+                                    stopTeleporting();
+                                    cancel();
                                     return;
                                 }
 
-                                if (isTeleporting)
-                                    cancel();
+                                counter++;
                             }
                         }.runTaskTimer(Plugin.instance, 0, 0);
-                        continue;
+
+                        cancel();
                     }
+                }
+            }.runTaskTimer(Plugin.instance, 0, 0);
+        } else {
+            p.sendMessage("§bType in the coordinates you want to travel to");
+            isTeleportingToCoordinates = true;
+        }
+    }
 
-                    prevGameMode = p.getGameMode();
-                    p.setGameMode(GameMode.SPECTATOR);
-                    isTeleporting = true;
+    @EventHandler
+    public void onAsyncChat(AsyncPlayerChatEvent e) {
+        p = pathway.getBeyonder().getPlayer();
+
+        if (p == null || !p.isValid())
+            return;
+
+        if (!isTeleportingToCoordinates)
+            return;
+
+
+        isTeleportingToCoordinates = false;
+        e.setCancelled(true);
+
+        Vector dir = p.getEyeLocation().getDirection().normalize();
+        Location loc = p.getEyeLocation();
+
+        for (int i = 0; i < 5; i++) {
+            if (loc.getBlock().getType().isSolid())
+                break;
+            loc.add(dir);
+        }
+
+        loc.subtract(dir);
+        loc.add(0, .4, 0);
+
+        if (loc.getWorld() == null)
+            return;
+
+        String[] args = e.getMessage().split(" ");
+        if (args.length < 3) {
+            pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
+            p.sendMessage("§cCoordinates are not valid");
+            return;
+        }
+
+        final boolean[] areValid = new boolean[1];
+        areValid[0] = true;
+        Arrays.stream(args).forEach(s -> {
+            if (!Util.isInteger(s))
+                areValid[0] = false;
+        });
+
+        if (!areValid[0]) {
+            pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
+            p.sendMessage("§cCoordinates are not valid");
+            return;
+        }
+
+        int x = Util.parseInt(args[0]);
+        int y = Util.parseInt(args[1]);
+        int z = Util.parseInt(args[2]);
+        Location teleportLoc = new Location(loc.getWorld(), x, y, z);
+
+        new BukkitRunnable() {
+            int counter = 20 * 60 * 2;
+
+            @Override
+            public void run() {
+                drawDoor(loc);
+
+                counter--;
+
+                if (!pathway.getSequence().getUsesAbilities()[identifier - 1] || counter <= 0) {
                     pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
-
-                    new BukkitRunnable() {
-                        int counter = 0;
-
-                        @Override
-                        public void run() {
-                            if (!isTeleporting)
-                                cancel();
-                            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§bLeft Click to travel here"));
-
-                            for (Player teleportedPlayer : teleportedPlayers.keySet()) {
-                                teleportedPlayer.teleport(p.getLocation());
-                            }
-
-                            if (counter >= 20 * 60 * 10) {
-                                stopTeleporting();
-                                cancel();
-                                return;
-                            }
-
-                            counter++;
-                        }
-                    }.runTaskTimer(Plugin.instance, 0, 0);
-
+                    isTeleportingToCoordinates = false;
                     cancel();
+                    return;
+                }
+
+                for (Entity entity : loc.getWorld().getNearbyEntities(loc, .5, .5, .5)) {
+                    entity.teleport(teleportLoc);
+
+                    if(entity == p) {
+                        pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
+                        cancel();
+                    }
                 }
             }
         }.runTaskTimer(Plugin.instance, 0, 0);

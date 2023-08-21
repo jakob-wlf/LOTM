@@ -6,7 +6,6 @@ import de.firecreeper82.pathways.Potion;
 import de.firecreeper82.pathways.impl.door.abilities.Record;
 import de.firecreeper82.pathways.impl.fool.FoolPathway;
 import de.firecreeper82.pathways.impl.fool.abilities.Hiding;
-import de.firecreeper82.pathways.impl.fool.marionettes.BeyonderMarionette;
 import de.firecreeper82.pathways.impl.fool.marionettes.Marionette;
 import fr.mrmicky.fastboard.FastBoard;
 import org.bukkit.Bukkit;
@@ -27,7 +26,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
-import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -56,8 +54,6 @@ public class Beyonder implements Listener {
     private Team team;
 
     private final ArrayList<Marionette> marionettes;
-    private final ArrayList<BeyonderMarionette> beyonderMarionettes;
-    private final ArrayList<Mob> beyonderMarionetteEntities;
     private final ArrayList<Mob> marionetteEntities;
 
     private int resurrections;
@@ -77,8 +73,6 @@ public class Beyonder implements Listener {
         initializedOnce = false;
 
         marionettes = new ArrayList<>();
-        beyonderMarionettes = new ArrayList<>();
-        beyonderMarionetteEntities = new ArrayList<>();
         marionetteEntities = new ArrayList<>();
         records = new ArrayList<>();
 
@@ -257,6 +251,7 @@ public class Beyonder implements Listener {
         //constant loop
         new BukkitRunnable() {
             int counter = 0;
+            int actingCounter = 0;
 
             @Override
             public void run() {
@@ -264,6 +259,12 @@ public class Beyonder implements Listener {
                 if (!beyonder || !online || getPlayer() == null || pathway.getSequence() == null) {
                     cancel();
                     return;
+                }
+
+                actingCounter++;
+                if(actingCounter >= 20 * 15) {
+                    actingCounter = 0;
+                    addActing(1);
                 }
 
                 //scoreboard
@@ -352,6 +353,13 @@ public class Beyonder implements Listener {
     public void acting(int sequence) {
         if (!digested) {
             actingProgress += 10f / sequence;
+        }
+
+        updateActing();
+    }
+    public void addActing(int actingAdd) {
+        if (!digested) {
+            actingProgress += actingAdd;
         }
 
         updateActing();
@@ -499,13 +507,6 @@ public class Beyonder implements Listener {
         return marionetteEntities;
     }
 
-    public ArrayList<BeyonderMarionette> getBeyonderMarionettes() {
-        return beyonderMarionettes;
-    }
-
-    public ArrayList<Mob> getBeyonderMarionetteEntities() {
-        return beyonderMarionetteEntities;
-    }
 }
 
 

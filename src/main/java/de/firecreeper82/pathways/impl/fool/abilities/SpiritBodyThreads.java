@@ -5,7 +5,6 @@ import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.fool.FoolItems;
-import de.firecreeper82.pathways.impl.fool.marionettes.BeyonderMarionette;
 import de.firecreeper82.pathways.impl.fool.marionettes.Marionette;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -130,6 +129,9 @@ public class SpiritBodyThreads extends Ability implements Listener {
         if (selectedEntity == null)
             return;
 
+        if(!selectedEntity.isValid())
+            return;
+
         if (!turning) {
             turnIntoMarionette(selectedEntity);
             Bukkit.getConsoleSender().sendMessage("test0");
@@ -144,12 +146,21 @@ public class SpiritBodyThreads extends Ability implements Listener {
     public void turnIntoMarionette(Entity e) {
         if (!(e instanceof LivingEntity) || (e.getType() == EntityType.PLAYER)) {
             turning = false;
-            Bukkit.getConsoleSender().sendMessage("test00");
             return;
         }
+
         Player p = pathway.getBeyonder().getPlayer();
 
-        Bukkit.getConsoleSender().sendMessage("test01");
+        if(p == null || !p.isValid() || !e.isValid()) {
+            turning = false;
+            return;
+        }
+
+        if(p.getWorld() != e.getWorld()) {
+            turning = false;
+            return;
+        }
+
 
         //Make hostile entities aware of Player
         ((Damageable) e).damage(0, p);
@@ -157,8 +168,6 @@ public class SpiritBodyThreads extends Ability implements Listener {
         turning = true;
 
         final int beyonderMultiplier = (Plugin.beyonders.containsKey(e.getUniqueId()) && Plugin.beyonders.get(e.getUniqueId()).getPathway() != null && Plugin.beyonders.get(e.getUniqueId()).getPathway().getSequence() != null) ? (9 / Plugin.beyonders.get(e.getUniqueId()).getPathway().getSequence().getCurrentSequence()) : 1;
-
-        Bukkit.getConsoleSender().sendMessage("test02");
 
         //Runs every 1/2 seconds and gives Entity effects
         //At the end of the time if entity is still being turned, removes entity
@@ -198,10 +207,8 @@ public class SpiritBodyThreads extends Ability implements Listener {
                         ((Player) e).setHealth(0);
                         return;
                     } else {
-                        if (selectedEntity.getMetadata("customEntityId").isEmpty())
-                            new Marionette(selectedEntity.getType(), selectedEntity.getLocation(), pathway);
-                        else
-                            new BeyonderMarionette((String) selectedEntity.getMetadata("customEntityId").get(0).value(), selectedEntity.getLocation(), pathway);
+                        new Marionette(selectedEntity.getType(), selectedEntity.getLocation(), pathway);
+
                         selectedEntity.remove();
                     }
 
@@ -300,9 +307,6 @@ public class SpiritBodyThreads extends Ability implements Listener {
             //Check if entity is already a Marionette
             if (e instanceof Mob m) {
                 if (pathway.getBeyonder().getMarionetteEntities().contains(m))
-                    continue;
-
-                if (pathway.getBeyonder().getBeyonderMarionetteEntities().contains(m))
                     continue;
             }
 

@@ -145,7 +145,7 @@ public class MarionetteControlling extends Ability implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (!controlling || !marionette.isAlive() || !marionette.isBeingControlled()) {
+                if (!controlling || !marionette.isAlive() || !marionette.isBeingControlled() || p == null || !p.isValid()) {
                     controlling = false;
                     cancel();
                     return;
@@ -459,24 +459,7 @@ public class MarionetteControlling extends Ability implements Listener {
         String entityName = pathway.getBeyonder().getMarionettes().get(currentIndex).getType().name().substring(0, 1).toUpperCase() + pathway.getBeyonder().getMarionettes().get(currentIndex).getType().name().substring(1).toLowerCase();
         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§5Selected: §7" + entityName + " §5-- §7Right-Click §5to control "));
 
-        for (Marionette m : pathway.getBeyonder().getMarionettes()) {
-            if (!m.isActive())
-                continue;
-
-            Location playerLoc = p.getEyeLocation().clone().subtract(0, .4, 0);
-            Location mobLoc = m.getEntity().getLocation().clone().add(0, .5, 0);
-            Vector vector = mobLoc.toVector().subtract(playerLoc.toVector()).normalize().multiply(.75);
-            World world = p.getWorld();
-
-            int[] colors = m == marionette ? new int[]{145, 0, 194} : new int[]{255, 255, 255};
-
-            Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(colors[0], colors[1], colors[2]), .75f);
-
-            while (playerLoc.distance(mobLoc) > 1.5) {
-                playerLoc.add(vector);
-                world.spawnParticle(Particle.REDSTONE, playerLoc, 2, .025, .025, .025, dust);
-            }
-        }
+        MarionetteManagement.drawMarionetteLines(marionette, pathway.getBeyonder(), p.getWorld(), p.getEyeLocation());
     }
 
     public boolean isControlling() {

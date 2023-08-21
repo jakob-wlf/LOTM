@@ -25,7 +25,7 @@ public class RogueBeyonders implements Listener {
 
     private final HashMap<EntityType, Integer> spawnProbabilityTable;
 
-    private static final double[] PROBABILITY_DISTRIBUTION = {0.05, 0.06, 0.07, 0.08, 0.09, 0.10, 0.11, 0.12, 0.28};
+    private static final double[] PROBABILITY_DISTRIBUTION = {0.02, 0.04, 0.05, 0.06, 0.11, 0.12, 0.13, 0.15, 0.28};
     private static final int MIN_VALUE = 1;
 
     public RogueBeyonders() {
@@ -55,21 +55,21 @@ public class RogueBeyonders implements Listener {
     public void onSpawn(EntitySpawnEvent e) {
         Random random = new Random();
 
-//        if (!spawnProbabilityTable.containsKey(e.getEntity().getType()))
-//            return;
-//
-//        if (random.nextInt(100) > spawnProbabilityTable.get(e.getEntity().getType()))
-//            return;
-//
-//        boolean aggressive = (random.nextInt(4) == 0);
-//        int sequence = Util.biasedRandomNumber(PROBABILITY_DISTRIBUTION, MIN_VALUE);
-//        int pathway = random.nextInt(5);
-//
-//        if(Plugin.instance.getCurrentRogueBeyonders().size() > 50) {
-//            Plugin.instance.removeRogueBeyonder(Plugin.instance.getCurrentRogueBeyonders().get((new Random()).nextInt(Plugin.instance.getCurrentRogueBeyonders().size())));
-//        }
-//
-//        spawnNPC(aggressive, sequence, pathway, e.getLocation());
+        if (!spawnProbabilityTable.containsKey(e.getEntity().getType()))
+            return;
+
+        if (random.nextInt(100) > spawnProbabilityTable.get(e.getEntity().getType()))
+            return;
+
+        boolean aggressive = (random.nextInt(4) == 0);
+        int sequence = Util.biasedRandomNumber(PROBABILITY_DISTRIBUTION, MIN_VALUE);
+        int pathway = random.nextInt(5);
+
+        if(Plugin.instance.getCurrentRogueBeyonders().size() > 50) {
+            Plugin.instance.removeRogueBeyonder(Plugin.instance.getCurrentRogueBeyonders().get((new Random()).nextInt(Plugin.instance.getCurrentRogueBeyonders().size())));
+        }
+
+        spawnNPC(aggressive, sequence, pathway, e.getLocation());
     }
 
     public void spawnNPC(boolean aggressive, int sequence, int pathway, Location location) {
