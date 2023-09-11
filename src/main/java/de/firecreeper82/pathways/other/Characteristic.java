@@ -40,7 +40,7 @@ public class Characteristic {
             allCharacteristics.put(getCharacteristic(i, "fool", "§5"), new int[]{1, i});
             allCharacteristics.put(getCharacteristic(i, "door", "§b"), new int[]{2, i});
             allCharacteristics.put(getCharacteristic(i, "demoness", "§d"), new int[]{3, i});
-            allCharacteristics.put(getCharacteristic(i, "tyrant", "9"), new int[]{4, i});
+            allCharacteristics.put(getCharacteristic(i, "tyrant", "§9"), new int[]{4, i});
         }
 
     }

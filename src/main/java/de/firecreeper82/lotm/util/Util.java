@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 
@@ -102,7 +103,7 @@ public class Util {
 
 
     @SuppressWarnings("unused")
-    public static ArrayList<Block> getBlocksInCircleRadius(Block start, int radius, boolean ignoreAir) {
+    public static ArrayList<Block> getBlocksInCircleRadius(Block start, int radius, boolean ignoreAir, Material... ignore) {
 
         Location loc = start.getLocation();
 
@@ -113,7 +114,7 @@ public class Util {
                 for (int z = -radius; z <= radius; z++) {
                     if ((x * x) + (z * z) <= Math.pow(radius, 2)) {
                         Block block = start.getWorld().getBlockAt((int) loc.getX() + x, (int) loc.getY() + i, (int) loc.getZ() + z);
-                        if (block.getType() != Material.AIR && block.getType() != Material.CAVE_AIR || !ignoreAir)
+                        if ((block.getType() != Material.AIR && block.getType() != Material.CAVE_AIR || !ignoreAir) && !Arrays.asList(ignore).contains(block.getType()))
                             blocks.add(block);
                     }
                 }

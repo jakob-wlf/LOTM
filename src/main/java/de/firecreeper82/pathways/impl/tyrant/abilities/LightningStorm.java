@@ -6,6 +6,7 @@ import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.NPCAbility;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.tyrant.TyrantItems;
+import de.firecreeper82.pathways.impl.tyrant.TyrantSequence;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -97,7 +98,7 @@ public class LightningStorm extends NPCAbility {
 
         Random random = new Random();
 
-        final Particle.DustOptions dust = new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.8f);
+        final Particle.DustOptions dust = (!npc) ? (((TyrantSequence) pathway.getSequence()).getLightningColor().get(pathway.getSequence().getCurrentSequence())) : new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.9f);
 
         ArrayList<Double> randoms1 = new ArrayList<>();
         for(int i = 0; i < 50; i++) {
@@ -110,7 +111,7 @@ public class LightningStorm extends NPCAbility {
         }
 
         for(int j = 0; j < 12; j++) {
-            final Particle.DustOptions dust1 = new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.8f);
+            final Particle.DustOptions dust1 = (!npc) ? (((TyrantSequence) pathway.getSequence()).getLightningColor().get(pathway.getSequence().getCurrentSequence())) : new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.9f);
 
             int height = random.nextInt(8, 28);
 

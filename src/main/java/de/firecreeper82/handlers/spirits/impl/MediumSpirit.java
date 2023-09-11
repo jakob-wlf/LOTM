@@ -26,7 +26,7 @@ public class MediumSpirit extends Spirit implements Listener {
         return new MediumSpirit(entity, health, particleOffset, spawnRate, entityType, visible, spawnCount, drop, undead, name);
     }
 
-    private Particle.DustOptions dust;
+    private Particle.DustOptions dust = new Particle.DustOptions(Color.fromRGB(0, 0, 0), 6);;
 
     @Override
     public void start() {

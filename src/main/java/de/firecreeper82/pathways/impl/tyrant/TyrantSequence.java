@@ -3,7 +3,9 @@ package de.firecreeper82.pathways.impl.tyrant;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.Sequence;
+import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -19,6 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class TyrantSequence extends Sequence implements Listener {
+
+    private HashMap<Integer, Particle.DustOptions> lightningColor;
 
     public TyrantSequence(Pathway pathway, int optionalSequence) {
         super(pathway, optionalSequence);
@@ -50,6 +54,16 @@ public class TyrantSequence extends Sequence implements Listener {
         sequenceMultiplier.put(3, 2.25);
         sequenceMultiplier.put(2, 3.5);
         sequenceMultiplier.put(1, 5.0);
+
+        lightningColor = new HashMap<>();
+        lightningColor.put(5, new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.75f));
+        lightningColor.put(4, new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.9f));
+        lightningColor.put(3, new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.95f));
+        lightningColor.put(2, new Particle.DustOptions(Color.fromRGB(237, 189, 78), 1.95f));
+    }
+
+    public HashMap<Integer, Particle.DustOptions> getLightningColor() {
+        return lightningColor;
     }
 
     //Passive effects
