@@ -1,38 +1,28 @@
 package de.firecreeper82.pathways.impl.tyrant.abilities;
 
-import de.firecreeper82.lotm.util.Util;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.NPCAbility;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.tyrant.TyrantItems;
-import de.firecreeper82.pathways.impl.tyrant.TyrantSequence;
-import org.bukkit.*;
-import org.bukkit.block.Block;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
+public class LightningTornado extends NPCAbility {
 
-public class Lightning extends NPCAbility {
-
-    boolean destruction;
     private final boolean npc;
-
-    public Lightning(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
+    public LightningTornado(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
+        if (!npc)
+            items.addToSequenceItems(identifier - 1, sequence);
         if(!npc)
             p = pathway.getBeyonder().getPlayer();
 
-        if(!npc)
-            items.addToSequenceItems(identifier - 1, sequence);
-
         this.npc = npc;
-        destruction = true;
     }
 
     @Override
@@ -62,22 +52,14 @@ public class Lightning extends NPCAbility {
     }
 
     @Override
-    public ItemStack getItem() {
-        return TyrantItems.createItem(Material.LIGHT_BLUE_DYE, "Lightning", "200", identifier, sequence, p.getName());
-    }
-
-    @Override
     public void useNPCAbility(Location loc, Entity caster, double multiplier) {
-        if(loc.getWorld() == null)
+        if(!(caster instanceof LivingEntity livingEntity))
             return;
-
-        Integer sequence = npc ? null : pathway.getSequence().getCurrentSequence();
-        TyrantSequence.spawnLighting(loc, caster, multiplier, npc, destruction, sequence);
+        new de.firecreeper82.pathways.impl.disasters.LightningTornado(livingEntity, npc).spawnDisaster(livingEntity, loc);
     }
 
     @Override
-    public void leftClick() {
-        destruction = !destruction;
-        p.sendMessage("§aSet destruction to: §7" + destruction);
+    public ItemStack getItem() {
+        return TyrantItems.createItem(Material.BLUE_CANDLE, "Lightning Tornado", "5000", identifier, sequence, pathway.getBeyonder().getPlayer().getName());
     }
 }

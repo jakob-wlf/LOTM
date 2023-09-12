@@ -1,12 +1,12 @@
 package de.firecreeper82.pathways.impl.tyrant;
 
 import de.firecreeper82.lotm.Plugin;
+import de.firecreeper82.lotm.util.Util;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.Sequence;
-import org.bukkit.Color;
-import org.bukkit.Material;
-import org.bukkit.Particle;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,15 +14,13 @@ import org.bukkit.event.entity.EntityAirChangeEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class TyrantSequence extends Sequence implements Listener {
 
-    private HashMap<Integer, Particle.DustOptions> lightningColor;
+    private static final HashMap<Integer, Particle.DustOptions> lightningColor = new HashMap<>();
 
     public TyrantSequence(Pathway pathway, int optionalSequence) {
         super(pathway, optionalSequence);
@@ -55,11 +53,12 @@ public class TyrantSequence extends Sequence implements Listener {
         sequenceMultiplier.put(2, 3.5);
         sequenceMultiplier.put(1, 5.0);
 
-        lightningColor = new HashMap<>();
         lightningColor.put(5, new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.75f));
         lightningColor.put(4, new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.9f));
         lightningColor.put(3, new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.95f));
         lightningColor.put(2, new Particle.DustOptions(Color.fromRGB(237, 189, 78), 1.95f));
+        lightningColor.put(1, new Particle.DustOptions(Color.fromRGB(100, 20, 204), 2f));
+        lightningColor.put(0, new Particle.DustOptions(Color.fromRGB(137, 20, 204), 2f));
     }
 
     public HashMap<Integer, Particle.DustOptions> getLightningColor() {
@@ -130,6 +129,112 @@ public class TyrantSequence extends Sequence implements Listener {
                 mob.attack(target);
             else
                 ((LivingEntity) target).damage(.5, mob);
+        }
+    }
+
+    public static void spawnLighting(Location loc, Entity caster, double multiplier, boolean npc, boolean destruction, Integer sequence) {
+        Location particleLoc = loc.clone().add(0, 50, 0);
+
+        Random random = new Random();
+
+        final Particle.DustOptions dust = (!npc) ? (lightningColor.get(sequence)) : new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.9f);
+
+        ArrayList<Double> randoms1 = new ArrayList<>();
+        for(int i = 0; i < 50; i++) {
+            randoms1.add(i, random.nextDouble(-.5, .5));
+        }
+
+        ArrayList<Double> randoms2 = new ArrayList<>();
+        for(int i = 0; i < 50; i++) {
+            randoms2.add(i, random.nextDouble(-.5, .5));
+        }
+
+        for(int j = 0; j < 12; j++) {
+            final Particle.DustOptions dust1 = (!npc) ? (lightningColor.get(sequence)) : new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.9f);
+
+            int height = random.nextInt(8, 28);
+
+            Location hitLoc = particleLoc.clone();
+            for(int i = 0; i < height; i++) {
+                hitLoc.add(randoms1.get(i), -1, randoms2.get(i));
+            }
+            Location loc1 = particleLoc.clone().add(random.nextInt(-15, 15), random.nextInt(8) * -1, random.nextInt(-15, 15));
+            double distance = loc.distance(hitLoc);
+            Vector vector1 = hitLoc.toVector().subtract(loc1.toVector()).normalize().multiply(distance);
+
+            for (int i = height; i > 0; i--) {
+                Util.drawDustsForNearbyPlayers(loc1, 5, 0.15, 0.15, 0.15, dust1);
+                loc1.add(vector1.clone().multiply((1.0 / distance)));
+            }
+        }
+
+        for(int i = 0; i < 50; i++) {
+            Util.drawDustsForNearbyPlayers(particleLoc.add(0, -1, 0), 20, 0, 0, 0, dust);
+            particleLoc.add(randoms1.get(i), 0, randoms2.get(i));
+        }
+
+        int counter = 100;
+        while (!particleLoc.getBlock().getType().isSolid() && counter > 0) {
+            Util.drawDustsForNearbyPlayers(particleLoc.add(0, -1, 0), 20, 0, 0, 0, dust);
+            particleLoc.add(random.nextDouble(-.5, .5), 0, random.nextDouble(-.5, .5));
+            counter--;
+        }
+
+        int damageRadius = 11;
+
+        if(loc.getWorld() == null)
+            return;
+
+        for(Entity entity : loc.getWorld().getNearbyEntities(particleLoc, damageRadius, damageRadius / 2f, damageRadius)) {
+            if(Util.testForValidEntity(entity, caster, true, true)) {
+                LivingEntity livingEntity = (LivingEntity) entity;
+                livingEntity.damage(12 * multiplier, caster);
+                livingEntity.setFireTicks(20 * 5);
+                Util.drawParticlesForNearbyPlayers(Particle.ELECTRIC_SPARK, entity.getLocation(), 100, 0.1, 0.1, 0.1, .75);
+            }
+
+        }
+
+        Material[] burnMaterials = {
+                Material.GRASS_BLOCK,
+                Material.SAND,
+                Material.GRAVEL,
+                Material.DIRT,
+                Material.DIRT_PATH,
+                Material.COARSE_DIRT,
+                Material.STONE,
+                Material.OAK_LOG,
+                Material.JUNGLE_LOG,
+                Material.ACACIA_LOG,
+                Material.DARK_OAK_LOG,
+                Material.BIRCH_LOG,
+                Material.SPRUCE_LOG,
+                Material.MANGROVE_LOG
+
+        };
+
+        loc.getWorld().playSound(particleLoc, Sound.ENTITY_LIGHTNING_BOLT_IMPACT, 2, 1);
+
+        if(destruction) {
+            int radius = !npc ? sequence > 4 ? 6 : 12 : 10;
+            int power = !npc ? (sequence > 4 ? 5 : sequence > 2 ? 11 : sequence > 1 ? 15 : 30) : 8;
+
+            loc.getWorld().createExplosion(particleLoc, power, true);
+
+
+            ArrayList<Block> blocks = Util.getBlocksInCircleRadius(particleLoc.getBlock(), radius, true);
+            for (Block block : blocks) {
+                if (random.nextInt(22) == 0) {
+                    Block fire = block.getLocation().add(0, 1, 0).getBlock();
+                    if (!fire.getType().isSolid())
+                        fire.setType(Material.FIRE);
+                }
+
+                if (Arrays.asList(burnMaterials).contains(block.getType())) {
+                    if (random.nextInt(3) != 0)
+                        block.setType(Material.BASALT);
+                }
+            }
         }
     }
 

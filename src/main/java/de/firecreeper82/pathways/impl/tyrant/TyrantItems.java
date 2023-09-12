@@ -99,6 +99,7 @@ public class TyrantItems extends Items {
         addAbility(new Tsunami(8, pathway, 4, this, false));
         addAbility(new LightningStorm(9, pathway, 3, this, false));
         addAbility(new ExtremeColdness(10, pathway, 2, this, false));
+        addAbility(new LightningTornado(11, pathway, 1, this, false));
     }
 
     public void addAbility(Ability ability) {
