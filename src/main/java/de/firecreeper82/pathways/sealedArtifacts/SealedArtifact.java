@@ -4,7 +4,6 @@ import de.firecreeper82.lotm.AbilityUtilHandler;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.Util;
 import de.firecreeper82.pathways.NPCAbility;
-import de.firecreeper82.pathways.impl.door.abilities.Record;
 import de.firecreeper82.pathways.sealedArtifacts.negativeEffects.NegativeEffects;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -36,7 +35,7 @@ public class SealedArtifact implements Listener {
 
         createItem(material, name);
 
-        if(negativeEffect)
+        if (negativeEffect)
             negativeEffects.addEffectToArtifact(this, getSequence());
     }
 
@@ -69,7 +68,7 @@ public class SealedArtifact implements Listener {
         if (e.getAction() == Action.PHYSICAL)
             return;
 
-        if(!item.isSimilar(e.getItem()))
+        if (!item.isSimilar(e.getItem()))
             return;
 
         e.setCancelled(true);

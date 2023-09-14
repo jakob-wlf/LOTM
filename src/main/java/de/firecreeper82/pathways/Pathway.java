@@ -8,7 +8,6 @@ import de.firecreeper82.pathways.impl.fool.FoolPathway;
 import de.firecreeper82.pathways.impl.sun.SunPathway;
 import de.firecreeper82.pathways.impl.tyrant.TyrantPathway;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -95,7 +94,9 @@ public abstract class Pathway {
             case "door" -> pathwayObject = new DoorPathway(uuid, sequence);
             case "demoness" -> pathwayObject = new DemonessPathway(uuid, sequence);
             case "tyrant" -> pathwayObject = new TyrantPathway(uuid, sequence);
-            default -> { return null; }
+            default -> {
+                return null;
+            }
         }
 
         Beyonder beyonder = new Beyonder(uuid, pathwayObject);

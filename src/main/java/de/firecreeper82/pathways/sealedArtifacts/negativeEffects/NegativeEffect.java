@@ -25,13 +25,14 @@ public abstract class NegativeEffect {
             int counter = 20;
             int delayCounter = delay;
             Player p;
+
             @Override
             public void run() {
-                if(counter <= 0) {
-                    if(p == null || (p.isValid() && !p.getInventory().contains(artifact.getItem())) || !p.isValid()) {
+                if (counter <= 0) {
+                    if (p == null || (p.isValid() && !p.getInventory().contains(artifact.getItem())) || !p.isValid()) {
                         p = null;
                         for (Player player : Bukkit.getOnlinePlayers()) {
-                            if(player.getInventory().contains(artifact.getItem()))
+                            if (player.getInventory().contains(artifact.getItem()))
                                 p = player;
                         }
                     }
@@ -40,19 +41,19 @@ public abstract class NegativeEffect {
                 counter--;
 
                 delayCounter--;
-                if(delayCounter != 0)
+                if (delayCounter != 0)
                     return;
 
                 delayCounter = delay;
 
-                if(p == null || !p.isValid()) {
+                if (p == null || !p.isValid()) {
                     p = null;
                     return;
                 }
 
-                if(instance.constant)
+                if (instance.constant)
                     instance.doEffect(artifact, p);
-                else if(p.getInventory().getItemInMainHand().isSimilar(artifact.getItem()))
+                else if (p.getInventory().getItemInMainHand().isSimilar(artifact.getItem()))
                     doEffect(artifact, p);
             }
         }.runTaskTimer(Plugin.instance, 0, 0);

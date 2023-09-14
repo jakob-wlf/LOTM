@@ -35,7 +35,7 @@ public class Characteristic {
         blocksForPathway.put("tyrant", new URL("http://textures.minecraft.net/texture/de73a8675ec1be13b1932627533212b1ded2b1773e54b06ea489a35d9744d615"));
 
         allCharacteristics = new HashMap<>();
-        for(int i = 9; i > 0; i--) {
+        for (int i = 9; i > 0; i--) {
             allCharacteristics.put(getCharacteristic(i, "sun", "§6"), new int[]{0, i});
             allCharacteristics.put(getCharacteristic(i, "fool", "§5"), new int[]{1, i});
             allCharacteristics.put(getCharacteristic(i, "door", "§b"), new int[]{2, i});
@@ -70,7 +70,7 @@ public class Characteristic {
     }
 
     public int[] getCharacteristicInfo(ItemStack characteristic) {
-        if(allCharacteristics.containsKey(characteristic))
+        if (allCharacteristics.containsKey(characteristic))
             return allCharacteristics.get(characteristic);
         else
             return new int[]{-1, -1};

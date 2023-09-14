@@ -65,7 +65,7 @@ public class LightningTornado extends Disaster {
                     spiral += .25;
                     height += .15;
 
-                    if(random.nextBoolean())
+                    if (random.nextBoolean())
                         Util.drawDustsForNearbyPlayers(new Location(location.getWorld(), location.getX() + spiralX, location.getY() + height, location.getZ() + spiralZ), 2, 1.25, 1.75, 1.25, new Particle.DustOptions(Color.fromRGB(143, 255, 244), 2f));
                     else {
                         Util.drawDustsForNearbyPlayers(new Location(location.getWorld(), location.getX() + spiralX, location.getY() + height, location.getZ() + spiralZ), 2, 1.25, 1.75, 1.25, new Particle.DustOptions(Color.fromRGB(87, 20, 204), 2f));
@@ -93,10 +93,10 @@ public class LightningTornado extends Disaster {
                     whileCounter--;
                 }
 
-                if(random.nextInt(35) == 0)
+                if (random.nextInt(35) == 0)
                     TyrantSequence.spawnLighting(location.clone(), p, 7, npc, false, 1);
 
-                if(whileCounter <= 1)
+                if (whileCounter <= 1)
                     return;
 
                 location.setY(tempLoc.getY() + 1);

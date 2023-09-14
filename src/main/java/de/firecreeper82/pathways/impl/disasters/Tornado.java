@@ -8,7 +8,10 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.FallingBlock;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -84,7 +87,7 @@ public class Tornado extends Disaster {
                     whileCounter--;
                 }
 
-                if(whileCounter <= 1)
+                if (whileCounter <= 1)
                     return;
 
                 location.setY(tempLoc.getY() + 1);

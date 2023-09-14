@@ -1,7 +1,10 @@
 package de.firecreeper82.pathways.sealedArtifacts.negativeEffects;
 
 import de.firecreeper82.pathways.sealedArtifacts.SealedArtifact;
-import de.firecreeper82.pathways.sealedArtifacts.negativeEffects.impl.*;
+import de.firecreeper82.pathways.sealedArtifacts.negativeEffects.impl.Blindness;
+import de.firecreeper82.pathways.sealedArtifacts.negativeEffects.impl.HealthLoss;
+import de.firecreeper82.pathways.sealedArtifacts.negativeEffects.impl.Nausea;
+import de.firecreeper82.pathways.sealedArtifacts.negativeEffects.impl.SpiritSummoning;
 
 import java.util.HashMap;
 import java.util.Random;
@@ -13,21 +16,21 @@ public class NegativeEffects {
     public NegativeEffects() {
         negativeEffects = new HashMap<>();
 
-        negativeEffects.put(9, new NegativeEffect[] {
+        negativeEffects.put(9, new NegativeEffect[]{
                 new HealthLoss(9, 40, false),
         });
-        negativeEffects.put(7, new NegativeEffect[] {
+        negativeEffects.put(7, new NegativeEffect[]{
                 new Nausea(7, 20 * 8, false)
         });
-        negativeEffects.put(6, new NegativeEffect[] {
+        negativeEffects.put(6, new NegativeEffect[]{
                 new HealthLoss(5, 15, false),
                 new Nausea(6, 20 * 10, true),
         });
-        negativeEffects.put(5, new NegativeEffect[] {
+        negativeEffects.put(5, new NegativeEffect[]{
                 new Blindness(7, 20 * 5, false),
                 new SpiritSummoning(5, 20 * 5, false)
         });
-        negativeEffects.put(4, new NegativeEffect[] {
+        negativeEffects.put(4, new NegativeEffect[]{
                 new Blindness(6, 20 * 5, true),
                 new HealthLoss(5, 15, true),
                 new SpiritSummoning(5, 20 * 5, true)
@@ -40,7 +43,7 @@ public class NegativeEffects {
             sequence++;
         }
 
-        if(negativeEffects.get(sequence) == null)
+        if (negativeEffects.get(sequence) == null)
             return;
 
         NegativeEffect effect = negativeEffects.get(sequence)[(new Random().nextInt(negativeEffects.get(sequence).length))];

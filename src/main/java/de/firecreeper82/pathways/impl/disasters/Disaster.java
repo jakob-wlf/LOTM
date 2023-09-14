@@ -2,7 +2,6 @@ package de.firecreeper82.pathways.impl.disasters;
 
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 

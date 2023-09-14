@@ -119,7 +119,7 @@ public class SealedArtifacts implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender s, Command cmd, String label, String[] args) {
-        if(!(s instanceof Player p))
+        if (!(s instanceof Player p))
             return true;
 
         Random random = new Random();
@@ -134,14 +134,13 @@ public class SealedArtifacts implements CommandExecutor {
         List<NPCAbility> abilities = AbilityUtilHandler.getSequenceAbilities(pathway, sequence);
         Random random = new Random();
 
-        while(abilities.isEmpty()) {
+        while (abilities.isEmpty()) {
             if (isRandom) {
                 sequence = random.nextInt(AbilityUtilHandler.getAbilities().get(pathway).size());
                 abilities = AbilityUtilHandler.getSequenceAbilities(pathway, sequence);
-            }
-            else {
+            } else {
                 sequence++;
-                if(sequence > 9)
+                if (sequence > 9)
                     return null;
             }
         }

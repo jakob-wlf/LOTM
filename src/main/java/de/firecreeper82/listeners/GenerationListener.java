@@ -32,7 +32,8 @@ public class GenerationListener implements Listener {
         switch (random.nextInt(3)) {
             case 1 -> item = Plugin.instance.getRecipe().getRecipeForSequence(potion, sequence);
 
-            case 2 -> item = Plugin.instance.getCharacteristic().getCharacteristic(sequence, potion.getName(), potion.getStringColor());
+            case 2 ->
+                    item = Plugin.instance.getCharacteristic().getCharacteristic(sequence, potion.getName(), potion.getStringColor());
 
             default -> item = potion.returnPotionForSequence(sequence);
         }
@@ -55,7 +56,8 @@ public class GenerationListener implements Listener {
         switch (random.nextInt(4)) {
             case 1 -> out = Plugin.instance.getRecipe().getRecipeForSequence(potion, sequence);
 
-            case 2 -> out = Plugin.instance.getCharacteristic().getCharacteristic(sequence, potion.getName(), potion.getStringColor());
+            case 2 ->
+                    out = Plugin.instance.getCharacteristic().getCharacteristic(sequence, potion.getName(), potion.getStringColor());
 
             case 3 -> {
                 out = UtilItems.getCauldron();
