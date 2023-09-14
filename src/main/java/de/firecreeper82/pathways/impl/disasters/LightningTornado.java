@@ -94,7 +94,7 @@ public class LightningTornado extends Disaster {
                 }
 
                 if(random.nextInt(35) == 0)
-                    TyrantSequence.spawnLighting(location.clone(), p, 7, npc, (random.nextInt(10) == 0), 1);
+                    TyrantSequence.spawnLighting(location.clone(), p, 7, npc, false, 1);
 
                 if(whileCounter <= 1)
                     return;

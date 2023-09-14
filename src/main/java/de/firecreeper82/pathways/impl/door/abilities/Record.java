@@ -40,9 +40,9 @@ public class Record extends NPCAbility {
             ArrayList<NPCAbility> abilities = new ArrayList<>();
 
             for(int j = 0; j < 4; j++) {
-                NPCAbility ability = AbilityUtilHandler.getAbilities()
-                        .get(random.nextInt(AbilityUtilHandler.getAbilities().size()))
-                        .get(random.nextInt(AbilityUtilHandler.getAbilities().get(random.nextInt(AbilityUtilHandler.getAbilities().size())).size()));
+                List<NPCAbility> abilityList = AbilityUtilHandler.getAbilities()
+                        .get(random.nextInt(AbilityUtilHandler.getAbilities().size()));
+                NPCAbility ability = abilityList.get(random.nextInt(abilityList.size()));
 
                 int maxIterations = 500;
 

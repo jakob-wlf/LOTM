@@ -88,6 +88,7 @@ public class AbilityUtilHandler {
         abilities.put(4, Arrays.asList(
                 new ExtremeColdness(0, null, 2, null, true),
                 new Lightning(0, null, 5, null, true),
+                new LightningBall(0, null, 1, null, true),
                 new LightningStorm(0, null, 3, null, true),
                 new LightningTornado(0, null, 1, null, true),
                 new RagingBlows(0, null, 8, null, true),

@@ -6,11 +6,9 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -99,6 +97,26 @@ public class Util {
                 loc.subtract(x, y, z);
             }
         }
+    }
+
+    public static Location getTargetLoc(int radius, Entity caster) {
+        Vector dir = caster.getLocation().getDirection().normalize();
+        Location loc = caster.getLocation().add(0, 1.5, 0);
+        if (loc.getWorld() == null)
+            return loc;
+
+        outerloop:
+        for (int i = 0; i < radius; i++) {
+            for (Entity entity : loc.getWorld().getNearbyEntities(loc, 1, 1, 1)) {
+                if ((!(entity instanceof Mob) && !(entity instanceof Player)) || entity == caster)
+                    continue;
+                break outerloop;
+            }
+
+            loc.add(dir);
+        }
+
+        return loc;
     }
 
 
