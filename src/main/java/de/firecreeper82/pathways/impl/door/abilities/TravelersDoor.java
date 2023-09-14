@@ -220,7 +220,7 @@ public class TravelersDoor extends Ability implements Listener {
                 for (Entity entity : loc.getWorld().getNearbyEntities(loc, .5, .5, .5)) {
                     entity.teleport(teleportLoc);
 
-                    if(entity == p) {
+                    if (entity == p) {
                         pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                         cancel();
                     }

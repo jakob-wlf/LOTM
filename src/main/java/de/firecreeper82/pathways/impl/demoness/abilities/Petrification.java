@@ -36,7 +36,7 @@ public class Petrification extends NPCAbility {
 
         this.npc = npc;
 
-        if(!npc)
+        if (!npc)
             items.addToSequenceItems(identifier - 1, sequence);
 
         cooldownEntities = new ArrayList<>();
@@ -74,7 +74,7 @@ public class Petrification extends NPCAbility {
 
         LivingEntity finalTarget = target;
 
-        if(!npc) {
+        if (!npc) {
             if (cooldownEntities.contains(finalTarget)) {
                 caster.sendMessage("§cYou can't petrify that entity again yet!");
                 return;
@@ -98,7 +98,7 @@ public class Petrification extends NPCAbility {
                 }
 
                 if (!finalTarget.isValid()) {
-                    if(!npc)
+                    if (!npc)
                         cooldownEntities.remove(finalTarget);
                     cancelled = true;
                 }
@@ -111,7 +111,7 @@ public class Petrification extends NPCAbility {
                     new BukkitRunnable() {
                         @Override
                         public void run() {
-                            if(!npc)
+                            if (!npc)
                                 cooldownEntities.remove(finalTarget);
                         }
                     }.runTaskLater(Plugin.instance, 20 * 20);

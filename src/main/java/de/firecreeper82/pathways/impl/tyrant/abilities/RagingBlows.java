@@ -20,9 +20,9 @@ public class RagingBlows extends NPCAbility {
 
     public RagingBlows(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
-        if(!npc)
+        if (!npc)
             items.addToSequenceItems(identifier - 1, sequence);
-        if(!npc)
+        if (!npc)
             p = pathway.getBeyonder().getPlayer();
     }
 
@@ -39,27 +39,28 @@ public class RagingBlows extends NPCAbility {
 
         new BukkitRunnable() {
             int counter = 8;
+
             @Override
             public void run() {
                 Random random = new Random();
                 Location startLoc = VectorUtils.getRelativeLocation(caster, random.nextDouble(1, 2), random.nextDouble(-1.5, 1.5), random.nextDouble(-.5, .5));
-                for(Entity entity : world.getNearbyEntities(startLoc, 50, 50, 50)) {
-                    if(!(entity instanceof Player p))
+                for (Entity entity : world.getNearbyEntities(startLoc, 50, 50, 50)) {
+                    if (!(entity instanceof Player p))
                         continue;
 
                     p.spawnParticle(Particle.EXPLOSION_NORMAL, startLoc, 10, 0, 0, 0, .25);
                     p.spawnParticle(Particle.CRIT, startLoc, 10, 0, 0, 0, .25);
                     p.playSound(startLoc, Sound.ENTITY_GENERIC_EXPLODE, .25f, 1f);
 
-                    for(Entity hit : world.getNearbyEntities(startLoc, 1.2, 1.2, 1.2)) {
-                        if(hit instanceof LivingEntity livingEntity && hit.getType() != EntityType.ARMOR_STAND && hit != caster)
+                    for (Entity hit : world.getNearbyEntities(startLoc, 1.2, 1.2, 1.2)) {
+                        if (hit instanceof LivingEntity livingEntity && hit.getType() != EntityType.ARMOR_STAND && hit != caster)
                             livingEntity.damage(6.5 * multiplier, caster);
                     }
                 }
 
                 counter--;
 
-                if(counter <= 0)
+                if (counter <= 0)
                     cancel();
             }
         }.runTaskTimer(Plugin.instance, 0, 6);

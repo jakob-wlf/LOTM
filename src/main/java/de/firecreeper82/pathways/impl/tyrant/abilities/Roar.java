@@ -19,7 +19,7 @@ public class Roar extends NPCAbility {
         super(identifier, pathway, sequence, items);
         if (!npc)
             items.addToSequenceItems(identifier - 1, sequence);
-        if(!npc)
+        if (!npc)
             p = pathway.getBeyonder().getPlayer();
     }
 
@@ -86,7 +86,7 @@ public class Roar extends NPCAbility {
                 if (!world.getNearbyEntities(loc, 5, 5, 5).isEmpty()) {
                     for (Entity entity : world.getNearbyEntities(loc, 5, 5, 5)) {
                         if (Util.testForValidEntity(entity, caster, true, true)) {
-                            world.createExplosion(loc,  (int) (radius * 1.75f));
+                            world.createExplosion(loc, (int) (radius * 1.75f));
                             ((LivingEntity) entity).damage(20 * multiplier, caster);
                             entity.setVelocity(dir.clone().normalize());
                             cancel();
@@ -99,7 +99,7 @@ public class Roar extends NPCAbility {
 
                 if (loc.getBlock().getType().isSolid() || counter >= 100) {
                     world.createExplosion(loc, (int) (radius * 1.75f));
-                    if(counter >= 100)
+                    if (counter >= 100)
                         cancel();
                 }
             }

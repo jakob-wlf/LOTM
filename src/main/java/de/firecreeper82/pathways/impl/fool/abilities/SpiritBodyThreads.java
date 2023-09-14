@@ -129,7 +129,7 @@ public class SpiritBodyThreads extends Ability implements Listener {
         if (selectedEntity == null)
             return;
 
-        if(!selectedEntity.isValid())
+        if (!selectedEntity.isValid())
             return;
 
         if (!turning) {
@@ -151,12 +151,12 @@ public class SpiritBodyThreads extends Ability implements Listener {
 
         Player p = pathway.getBeyonder().getPlayer();
 
-        if(p == null || !p.isValid() || !e.isValid()) {
+        if (p == null || !p.isValid() || !e.isValid()) {
             turning = false;
             return;
         }
 
-        if(p.getWorld() != e.getWorld()) {
+        if (p.getWorld() != e.getWorld()) {
             turning = false;
             return;
         }

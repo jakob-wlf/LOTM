@@ -22,7 +22,7 @@ public class ColdWind extends NPCAbility {
     public ColdWind(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
 
-        if(!npc)
+        if (!npc)
             items.addToSequenceItems(identifier - 1, sequence);
 
         this.npc = npc;
@@ -53,7 +53,7 @@ public class ColdWind extends NPCAbility {
                     caster.getWorld().spawnParticle(Particle.SNOWFLAKE, tempLoc, 0, dir.getX(), dir.getY(), dir.getZ(), .4);
                 }
 
-                if(!npc) {
+                if (!npc) {
                     if (!pathway.getSequence().getUsesAbilities()[identifier - 1] || pathway.getBeyonder().getSpirituality() <= 10) {
                         cancel();
                         return;
@@ -65,8 +65,7 @@ public class ColdWind extends NPCAbility {
                         counter = 0;
                         pathway.getSequence().removeSpirituality(10);
                     }
-                }
-                else if(npcTimer <= 0) {
+                } else if (npcTimer <= 0) {
                     cancel();
                 }
             }

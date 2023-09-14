@@ -25,7 +25,7 @@ public class Record extends NPCAbility {
 
     public Record(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
-        if(!npc)
+        if (!npc)
             items.addToSequenceItems(identifier - 1, sequence);
 
         npcRecordedAbilities = new HashMap<>();
@@ -35,11 +35,11 @@ public class Record extends NPCAbility {
     public void useNPCAbility(Location loc, Entity caster, double multiplier) {
         Random random = new Random();
 
-        if(!npcRecordedAbilities.containsKey(caster)) {
+        if (!npcRecordedAbilities.containsKey(caster)) {
 
             ArrayList<NPCAbility> abilities = new ArrayList<>();
 
-            for(int j = 0; j < 4; j++) {
+            for (int j = 0; j < 4; j++) {
                 List<NPCAbility> abilityList = AbilityUtilHandler.getAbilities()
                         .get(random.nextInt(AbilityUtilHandler.getAbilities().size()));
                 NPCAbility ability = abilityList.get(random.nextInt(abilityList.size()));
@@ -64,7 +64,7 @@ public class Record extends NPCAbility {
                 final int MIN_VALUE = 1;
 
                 sequence = Util.biasedRandomNumber(PROBABILITY_DISTRIBUTION, MIN_VALUE);
-                if(sequence > tempSequence)
+                if (sequence > tempSequence)
                     sequence = tempSequence;
 
 
@@ -82,21 +82,20 @@ public class Record extends NPCAbility {
             npcRecordedAbilities.put(caster, abilities);
         }
 
-        if(caster instanceof Player castPlayer && castPlayer.isSneaking()) {
+        if (caster instanceof Player castPlayer && castPlayer.isSneaking()) {
             npcRecordedAbilities.get(caster).forEach(npcAbility -> castPlayer.sendMessage(npcAbility.getClass().getSimpleName()));
         }
 
         npcRecordedAbilities.get(caster).get(random.nextInt(npcRecordedAbilities.get(caster).size())).useNPCAbility(loc, caster, multiplier);
 
-        for(Entity temp : npcRecordedAbilities.keySet()) {
-            if(!temp.isValid())
+        for (Entity temp : npcRecordedAbilities.keySet()) {
+            if (!temp.isValid())
                 npcRecordedAbilities.remove(temp);
         }
     }
 
     @Override
     public void useAbility() {
-
 
 
     }

@@ -71,6 +71,7 @@ public class Util {
             }
         }
     }
+
     public static void drawParticleSphere(Location loc, double sphereRadius, int detail, @Nullable Particle.DustOptions dust, @Nullable Material material, double offset, Particle particle) {
         //Spawn particles
         for (double i = 0; i <= Math.PI; i += Math.PI / detail) {
@@ -83,10 +84,10 @@ public class Util {
                 if (loc.getWorld() == null)
                     return;
 
-                for(Player player : Bukkit.getOnlinePlayers()) {
-                    if(player.getWorld() != loc.getWorld() || player.getLocation().distance(loc) > 80)
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    if (player.getWorld() != loc.getWorld() || player.getLocation().distance(loc) > 80)
                         continue;
-                    if(dust != null)
+                    if (dust != null)
                         player.spawnParticle(Particle.REDSTONE, loc, 1, offset, offset, offset, 0, dust);
                     else
                         player.spawnParticle(particle, loc, 1, offset, offset, offset, 0);
@@ -142,30 +143,30 @@ public class Util {
     }
 
     public static void damageNearbyEntities(@Nullable Entity damager, Location loc, int radiusX, int radiusY, int radiusZ, double amount) {
-        if(loc.getWorld() == null)
+        if (loc.getWorld() == null)
             return;
 
-        for(Entity entity : loc.getWorld().getNearbyEntities(loc, radiusX, radiusY, radiusZ)) {
-            if(testForValidEntity(entity, damager, true, true))
+        for (Entity entity : loc.getWorld().getNearbyEntities(loc, radiusX, radiusY, radiusZ)) {
+            if (testForValidEntity(entity, damager, true, true))
                 ((LivingEntity) entity).damage(amount, damager);
         }
     }
 
     public static void effectForNearbyEntities(Entity caster, Location loc, int radiusX, int radiusY, int radiusZ, PotionEffect potionEffect) {
-        if(loc.getWorld() == null)
+        if (loc.getWorld() == null)
             return;
 
-        for(Entity entity : loc.getWorld().getNearbyEntities(loc, radiusX, radiusY, radiusZ)) {
-            if(testForValidEntity(entity, caster, true, true))
+        for (Entity entity : loc.getWorld().getNearbyEntities(loc, radiusX, radiusY, radiusZ)) {
+            if (testForValidEntity(entity, caster, true, true))
                 ((LivingEntity) entity).addPotionEffect(potionEffect);
         }
     }
 
     public static boolean testForValidEntity(Entity entity, Entity caster, boolean noArmorStand, boolean noCaster) {
-        if(!(entity instanceof LivingEntity))
+        if (!(entity instanceof LivingEntity))
             return false;
 
-        if(noArmorStand && entity.getType() == EntityType.ARMOR_STAND)
+        if (noArmorStand && entity.getType() == EntityType.ARMOR_STAND)
             return false;
 
         return !noCaster || entity != caster;
@@ -201,16 +202,16 @@ public class Util {
     }
 
     public static void drawParticlesForNearbyPlayers(Particle particle, Location loc, int count, double offsetX, double offsetY, double offsetZ, double speed) {
-        for(Player p : Bukkit.getOnlinePlayers()) {
-            if(p.getWorld() != loc.getWorld() || p.getLocation().distance(loc) > 100)
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            if (p.getWorld() != loc.getWorld() || p.getLocation().distance(loc) > 100)
                 continue;
             p.spawnParticle(particle, loc, count, offsetX, offsetY, offsetZ, speed);
         }
     }
 
     public static void drawDustsForNearbyPlayers(Location loc, int count, double offsetX, double offsetY, double offsetZ, Particle.DustOptions dust) {
-        for(Player p : Bukkit.getOnlinePlayers()) {
-            if(p.getWorld() != loc.getWorld() || p.getLocation().distance(loc) > 100)
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            if (p.getWorld() != loc.getWorld() || p.getLocation().distance(loc) > 100)
                 continue;
             p.spawnParticle(Particle.REDSTONE, loc, count, offsetX, offsetY, offsetZ, dust);
         }

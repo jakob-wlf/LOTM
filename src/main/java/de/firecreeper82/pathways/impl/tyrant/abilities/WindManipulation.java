@@ -8,7 +8,10 @@ import de.firecreeper82.pathways.impl.tyrant.TyrantItems;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -30,9 +33,9 @@ public class WindManipulation extends NPCAbility {
     public WindManipulation(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
         this.npc = npc;
-        if(!npc)
+        if (!npc)
             items.addToSequenceItems(identifier - 1, sequence);
-        if(!npc)
+        if (!npc)
             p = pathway.getBeyonder().getPlayer();
         flying = false;
     }
@@ -54,8 +57,8 @@ public class WindManipulation extends NPCAbility {
     @Override
     public void useAbility() {
         p = pathway.getBeyonder().getPlayer();
-        
-        switch(selectedCategory) {
+
+        switch (selectedCategory) {
             case BLADE -> blade(p, getMultiplier());
             case BOOST -> boost(p);
             case FLIGHT -> flight(p);
@@ -93,18 +96,18 @@ public class WindManipulation extends NPCAbility {
 
         Entity finalTarget = target;
 
-        if(!npc) {
+        if (!npc) {
             if (pathway.getBeyonder().getSpirituality() <= 25)
                 return;
 
             pathway.getSequence().removeSpirituality(25);
         }
 
-        if(finalTarget instanceof LivingEntity livingEntity) {
+        if (finalTarget instanceof LivingEntity livingEntity) {
             livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * 25, 8, false, false));
         }
 
-        for(int i = 0; i < 10; i++) {
+        for (int i = 0; i < 10; i++) {
             new BukkitRunnable() {
                 final double spiralRadius = finalTarget.getWidth();
 
@@ -121,7 +124,7 @@ public class WindManipulation extends NPCAbility {
                     entityLoc.add(0, -0.75, 0);
 
                     counter--;
-                    if(counter <= 0) {
+                    if (counter <= 0) {
                         cancel();
                         return;
                     }
@@ -137,8 +140,8 @@ public class WindManipulation extends NPCAbility {
                     if (entityLoc.getWorld() == null)
                         return;
 
-                    for(Player player : Bukkit.getOnlinePlayers()) {
-                        if(player.getWorld() != entityLoc.getWorld() || player.getLocation().distance(entityLoc) > 100)
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        if (player.getWorld() != entityLoc.getWorld() || player.getLocation().distance(entityLoc) > 100)
                             continue;
                         player.spawnParticle(Particle.SPELL, spiralX + entityLoc.getX(), height + entityLoc.getY(), spiralZ + entityLoc.getZ(), 5, 0, 0, 0, 0);
                     }
@@ -149,19 +152,19 @@ public class WindManipulation extends NPCAbility {
     }
 
     private void boost(Entity caster) {
-        if(!caster.isOnGround() && !flying) {
+        if (!caster.isOnGround() && !flying) {
             caster.sendMessage("§cYou have to be on ground to use this ability!");
             return;
         }
 
-        if(pathway.getBeyonder().getSpirituality() <= 20)
+        if (pathway.getBeyonder().getSpirituality() <= 20)
             return;
 
         pathway.getSequence().removeSpirituality(20);
 
         caster.setVelocity(caster.getLocation().getDirection().normalize().multiply(5));
-        for(Player p : Bukkit.getOnlinePlayers()) {
-            if(p.getWorld() != caster.getWorld() || p.getLocation().distance(caster.getLocation()) > 100)
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            if (p.getWorld() != caster.getWorld() || p.getLocation().distance(caster.getLocation()) > 100)
                 continue;
 
             p.spawnParticle(Particle.CLOUD, caster.getLocation(), 100, .05, .05, .05, .65);
@@ -171,7 +174,7 @@ public class WindManipulation extends NPCAbility {
     private void flight(Player caster) {
         flying = !flying;
 
-        if(!flying)
+        if (!flying)
             return;
 
         boolean allowFlight = caster.getAllowFlight();
@@ -179,7 +182,7 @@ public class WindManipulation extends NPCAbility {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if(pathway.getBeyonder().getSpirituality() <= 6) {
+                if (pathway.getBeyonder().getSpirituality() <= 6) {
                     flying = false;
                     cancel();
                     return;
@@ -187,12 +190,12 @@ public class WindManipulation extends NPCAbility {
 
                 pathway.getSequence().removeSpirituality(6);
 
-                if(!flying)
+                if (!flying)
                     cancel();
             }
         }.runTaskTimer(Plugin.instance, 0, 20);
 
-        for(int i = 0; i < 12; i++) {
+        for (int i = 0; i < 12; i++) {
             new BukkitRunnable() {
                 double spiralRadius = .1;
 
@@ -219,8 +222,8 @@ public class WindManipulation extends NPCAbility {
                     if (entityLoc.getWorld() == null)
                         return;
 
-                    for(Player player : Bukkit.getOnlinePlayers()) {
-                        if(player.getWorld() != entityLoc.getWorld() || player.getLocation().distance(entityLoc) > 100)
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        if (player.getWorld() != entityLoc.getWorld() || player.getLocation().distance(entityLoc) > 100)
                             continue;
                         player.spawnParticle(Particle.SPELL, spiralX + entityLoc.getX(), height + entityLoc.getY(), spiralZ + entityLoc.getZ(), 5, 0, 0, 0, 0);
                     }
@@ -228,7 +231,7 @@ public class WindManipulation extends NPCAbility {
                     caster.setAllowFlight(true);
                     caster.setFlying(true);
 
-                    if(!flying) {
+                    if (!flying) {
                         caster.setAllowFlight(allowFlight);
                         cancel();
                     }
@@ -243,13 +246,13 @@ public class WindManipulation extends NPCAbility {
         Location loc = caster.getLocation().add(0, 1.5, 0);
         World world = loc.getWorld();
 
-        if(world == null)
+        if (world == null)
             return;
 
         loc.add(direction.clone().multiply(2));
 
-        if(!npc) {
-            if(pathway.getBeyonder().getSpirituality() <= 45)
+        if (!npc) {
+            if (pathway.getBeyonder().getSpirituality() <= 45)
                 return;
             pathway.getSequence().removeSpirituality(45);
         }
@@ -258,23 +261,24 @@ public class WindManipulation extends NPCAbility {
 
         new BukkitRunnable() {
             int counter = 20;
+
             @Override
             public void run() {
-                for(Player p : Bukkit.getOnlinePlayers()) {
-                    if(p.getWorld() != loc.getWorld() || p.getLocation().distance(loc) > 100)
+                for (Player p : Bukkit.getOnlinePlayers()) {
+                    if (p.getWorld() != loc.getWorld() || p.getLocation().distance(loc) > 100)
                         continue;
                     drawBlade(loc, p, direction);
                 }
 
-                if(loc.getBlock().getType().isSolid()) {
-                    if(loc.getBlock().getType().getHardness() < 0 || loc.getBlock().getType().getHardness() > .7)
+                if (loc.getBlock().getType().isSolid()) {
+                    if (loc.getBlock().getType().getHardness() < 0 || loc.getBlock().getType().getHardness() > .7)
                         counter = 0;
                     else
                         loc.getBlock().setType(Material.AIR);
                 }
 
-                for(Entity entity : world.getNearbyEntities(loc,  1, 3, 1)) {
-                    if(entity instanceof LivingEntity livingEntity && entity != caster && entity.getType() != EntityType.ARMOR_STAND) {
+                for (Entity entity : world.getNearbyEntities(loc, 1, 3, 1)) {
+                    if (entity instanceof LivingEntity livingEntity && entity != caster && entity.getType() != EntityType.ARMOR_STAND) {
                         livingEntity.damage(12 * multiplier);
                         counter = 0;
                     }
@@ -283,7 +287,7 @@ public class WindManipulation extends NPCAbility {
                 loc.add(direction);
 
                 counter--;
-                if(counter <= 0)
+                if (counter <= 0)
                     cancel();
             }
         }.runTaskTimer(Plugin.instance, 0, 1);
@@ -296,14 +300,14 @@ public class WindManipulation extends NPCAbility {
 
         Random random = new Random();
 
-        for(double d = 0; d < 1.75; d+=.15) {
+        for (double d = 0; d < 1.75; d += .15) {
             drawPlayer.spawnParticle(Particle.SPELL, loc.clone().add(0, d, 0).add(dir.clone().multiply(Math.pow(2.25, d))), 1, 0, 0, 0, 0);
-            if(random.nextInt(4) == 0)
+            if (random.nextInt(4) == 0)
                 drawPlayer.spawnParticle(Particle.CLOUD, loc.clone().add(0, d, 0).add(dir.clone().multiply(Math.pow(2.5, d))), 1, 0, 0, 0, 0);
         }
-        for(double d = 0; d > -1.75; d-=.15) {
+        for (double d = 0; d > -1.75; d -= .15) {
             drawPlayer.spawnParticle(Particle.SPELL, loc.clone().add(0, d, 0).add(dir.clone().multiply(Math.pow(2.25, d * -1))), 1, 0, 0, 0, 0);
-            if(random.nextInt(4) == 0)
+            if (random.nextInt(4) == 0)
                 drawPlayer.spawnParticle(Particle.CLOUD, loc.clone().add(0, d, 0).add(dir.clone().multiply(Math.pow(2.5, d))), 1, 0, 0, 0, 0);
         }
     }

@@ -2,16 +2,7 @@ package de.firecreeper82.handlers.mobs.beyonders;
 
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.Util;
-import de.firecreeper82.pathways.NPCAbility;
-import de.firecreeper82.pathways.impl.demoness.abilities.*;
-import de.firecreeper82.pathways.impl.door.abilities.*;
-import de.firecreeper82.pathways.impl.fool.abilities.AirBullet;
-import de.firecreeper82.pathways.impl.fool.abilities.FlameControlling;
-import de.firecreeper82.pathways.impl.fool.abilities.Grafting;
-import de.firecreeper82.pathways.impl.sun.abilities.*;
-import de.firecreeper82.pathways.impl.tyrant.abilities.*;
 import net.citizensnpcs.api.CitizensAPI;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
@@ -19,7 +10,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Random;
 
 public class RogueBeyonders implements Listener {
 
@@ -65,7 +57,7 @@ public class RogueBeyonders implements Listener {
         int sequence = Util.biasedRandomNumber(PROBABILITY_DISTRIBUTION, MIN_VALUE);
         int pathway = random.nextInt(5);
 
-        if(Plugin.instance.getCurrentRogueBeyonders().size() > 50) {
+        if (Plugin.instance.getCurrentRogueBeyonders().size() > 50) {
             Plugin.instance.removeRogueBeyonder(Plugin.instance.getCurrentRogueBeyonders().get((new Random()).nextInt(Plugin.instance.getCurrentRogueBeyonders().size())));
         }
 
@@ -80,7 +72,7 @@ public class RogueBeyonders implements Listener {
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent e) {
-        if(CitizensAPI.getNPCRegistry().getByUniqueId(e.getEntity().getUniqueId()) != null)
+        if (CitizensAPI.getNPCRegistry().getByUniqueId(e.getEntity().getUniqueId()) != null)
             e.setDeathMessage("");
     }
 }

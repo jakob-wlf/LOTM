@@ -6,7 +6,10 @@ import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.NPCAbility;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.tyrant.TyrantItems;
-import org.bukkit.*;
+import org.bukkit.Color;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
@@ -17,11 +20,12 @@ import java.util.HashMap;
 public class ExtremeColdness extends NPCAbility {
 
     private final HashMap<Entity, Boolean> inUse;
+
     public ExtremeColdness(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
         if (!npc)
             items.addToSequenceItems(identifier - 1, sequence);
-        if(!npc)
+        if (!npc)
             p = pathway.getBeyonder().getPlayer();
 
         inUse = new HashMap<>();
@@ -35,15 +39,14 @@ public class ExtremeColdness extends NPCAbility {
 
     @Override
     public void useNPCAbility(Location loc, Entity caster, double multiplier) {
-        if(inUse.get(caster) != null && inUse.get(caster)) {
+        if (inUse.get(caster) != null && inUse.get(caster)) {
             inUse.replace(caster, false);
             return;
         }
 
-        if(inUse.get(caster) == null) {
+        if (inUse.get(caster) == null) {
             inUse.put(caster, true);
-        }
-        else {
+        } else {
             inUse.replace(caster, true);
         }
 
@@ -51,9 +54,9 @@ public class ExtremeColdness extends NPCAbility {
             @Override
             public void run() {
                 Util.getBlocksInCircleRadius(caster.getLocation().getBlock(), 20, true, Material.ICE, Material.PACKED_ICE).forEach(block -> {
-                    if(block.getType() == Material.ICE || block.getType() == Material.PACKED_ICE)
+                    if (block.getType() == Material.ICE || block.getType() == Material.PACKED_ICE)
                         return;
-                    if(block.getType().getHardness() <= .4f || block.getType() == Material.WATER)
+                    if (block.getType().getHardness() <= .4f || block.getType() == Material.WATER)
                         block.setType(Material.ICE);
                     else
                         block.setType(Material.PACKED_ICE);
@@ -61,7 +64,7 @@ public class ExtremeColdness extends NPCAbility {
                 });
 
                 caster.getWorld().getNearbyEntities(caster.getLocation(), 60, 60, 60).forEach(entity -> {
-                    if(entity instanceof LivingEntity livingEntity && entity != caster) {
+                    if (entity instanceof LivingEntity livingEntity && entity != caster) {
                         livingEntity.damage(8 * multiplier);
                         for (double x = -livingEntity.getWidth() + .5; x < livingEntity.getWidth() + .5; x++) {
                             for (double z = -livingEntity.getWidth() + .5; z < livingEntity.getWidth() + .5; z++) {
@@ -74,7 +77,7 @@ public class ExtremeColdness extends NPCAbility {
 
                 });
 
-                if(!caster.isValid() || inUse.get(caster) == null || !inUse.get(caster)) {
+                if (!caster.isValid() || inUse.get(caster) == null || !inUse.get(caster)) {
                     cancel();
                 }
             }

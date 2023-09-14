@@ -33,7 +33,7 @@ public class FrostMagic extends NPCAbility {
 
     public FrostMagic(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
-        if(!npc)
+        if (!npc)
             items.addToSequenceItems(identifier - 1, sequence);
 
         convertMaterials = new Material[]{
@@ -54,7 +54,7 @@ public class FrostMagic extends NPCAbility {
 
     @Override
     public void useNPCAbility(Location loc, Entity caster, double multiplier) {
-        if((new Random()).nextBoolean())
+        if ((new Random()).nextBoolean())
             attack(true, loc, caster, multiplier);
         else
             freeze(true, caster, multiplier);
@@ -84,7 +84,7 @@ public class FrostMagic extends NPCAbility {
 
         Location loc = caster.getLocation().add(0, 1.5, 0).clone();
         Vector vector;
-        if(!npc)
+        if (!npc)
             vector = caster.getLocation().getDirection().normalize().multiply(.5);
         else
             vector = target.toVector().subtract(loc.toVector()).normalize().multiply(.5);

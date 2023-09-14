@@ -10,7 +10,10 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Damageable;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityCategory;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BlockIterator;
@@ -24,26 +27,26 @@ public class FireOfLight extends NPCAbility {
 
     public FireOfLight(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
-        if(!npc)
+        if (!npc)
             items.addToSequenceItems(identifier - 1, sequence);
         this.npc = npc;
     }
 
     @Override
     public void useNPCAbility(Location target, Entity caster, double multiplier) {
-        if(!target.getBlock().getType().isSolid())
+        if (!target.getBlock().getType().isSolid())
             target.getBlock().setType(Material.FIRE);
         target.add(1, 0, 0);
-        if(!target.getBlock().getType().isSolid())
+        if (!target.getBlock().getType().isSolid())
             target.getBlock().setType(Material.FIRE);
         target.add(-2, 0, 0);
-        if(!target.getBlock().getType().isSolid())
+        if (!target.getBlock().getType().isSolid())
             target.getBlock().setType(Material.FIRE);
         target.add(1, 0, -1);
-        if(!target.getBlock().getType().isSolid())
+        if (!target.getBlock().getType().isSolid())
             target.getBlock().setType(Material.FIRE);
         target.add(0, 0, 2);
-        if(!target.getBlock().getType().isSolid())
+        if (!target.getBlock().getType().isSolid())
             target.getBlock().setType(Material.FIRE);
         target.subtract(0, 0, 1);
 
@@ -54,6 +57,7 @@ public class FireOfLight extends NPCAbility {
 
         new BukkitRunnable() {
             int counter = 0;
+
             @Override
             public void run() {
                 counter++;
@@ -63,22 +67,22 @@ public class FireOfLight extends NPCAbility {
 
                 //damage nearby entities
                 ArrayList<Entity> nearbyEntities = (ArrayList<Entity>) target.getWorld().getNearbyEntities(target, 2, 2, 2);
-                for(Entity entity : nearbyEntities) {
-                    if(entity instanceof LivingEntity livingEntity) {
+                for (Entity entity : nearbyEntities) {
+                    if (entity instanceof LivingEntity livingEntity) {
                         if (livingEntity.getCategory() == EntityCategory.UNDEAD) {
                             ((Damageable) entity).damage(10 * multiplier, caster);
                             livingEntity.setFireTicks(10 * 20);
                         }
-                        if(entity != caster)
+                        if (entity != caster)
                             livingEntity.setFireTicks(10 * 20);
 
                     }
                 }
 
-                if(counter >= 5 * 20) {
+                if (counter >= 5 * 20) {
                     target.getBlock().setType(Material.AIR);
                     cancel();
-                    if(!npc)
+                    if (!npc)
                         pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                     target.getBlock().setType(lightBlock[0]);
                 }

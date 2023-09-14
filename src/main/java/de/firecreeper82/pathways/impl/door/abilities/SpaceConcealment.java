@@ -3,7 +3,6 @@ package de.firecreeper82.pathways.impl.door.abilities;
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.Util;
 import de.firecreeper82.lotm.util.VectorUtils;
-import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.NPCAbility;
 import de.firecreeper82.pathways.Pathway;
@@ -33,7 +32,7 @@ public class SpaceConcealment extends NPCAbility implements Listener {
     public SpaceConcealment(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
 
-        if(!npc)
+        if (!npc)
             items.addToSequenceItems(identifier - 1, sequence);
 
         radiusAdjust = 10;
@@ -46,15 +45,15 @@ public class SpaceConcealment extends NPCAbility implements Listener {
 
     @EventHandler
     public void onShift(PlayerToggleSneakEvent e) {
-        if(npc)
+        if (npc)
             return;
 
         p = pathway.getBeyonder().getPlayer();
 
-        if(e.getPlayer() != p)
+        if (e.getPlayer() != p)
             return;
 
-        if(!e.isSneaking())
+        if (!e.isSneaking())
             return;
 
         stopped = true;
@@ -66,15 +65,16 @@ public class SpaceConcealment extends NPCAbility implements Listener {
         int radius = (new Random()).nextInt(4, 12);
         World world = loc.getWorld();
 
-        if(world == null)
+        if (world == null)
             return;
 
         new BukkitRunnable() {
             int counter = 20 * 20;
+
             @Override
             public void run() {
                 counter--;
-                if(counter <= 0) {
+                if (counter <= 0) {
                     drawSquare(target, Material.AIR, radius, null, true);
                     cancel();
                     return;
@@ -312,7 +312,7 @@ public class SpaceConcealment extends NPCAbility implements Listener {
                             block.setType(material);
                             if (!npc && p.getInventory().getItemInMainHand().isSimilar(getItem()))
                                 p.spawnParticle(Particle.SPELL_WITCH, block.getLocation(), 2, 0, 0, 0, 0);
-                            else if((new Random().nextInt(4) == 0) && npc)
+                            else if ((new Random().nextInt(4) == 0) && npc)
                                 Util.drawParticlesForNearbyPlayers(Particle.SPELL_WITCH, block.getLocation(), 1, 0, 0, 0, 0);
                         }
                     }

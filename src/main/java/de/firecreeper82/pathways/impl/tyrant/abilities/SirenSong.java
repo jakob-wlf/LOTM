@@ -27,7 +27,7 @@ public class SirenSong extends NPCAbility {
     public SirenSong(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
 
-        if(!npc)
+        if (!npc)
             items.addToSequenceItems(identifier - 1, sequence);
         p = pathway.getBeyonder().getPlayer();
     }
@@ -55,11 +55,12 @@ public class SirenSong extends NPCAbility {
 
         new BukkitRunnable() {
             int counter = 30 * 2;
+
             @Override
-            public void run(){
+            public void run() {
 
                 counter--;
-                if(counter <= 0)
+                if (counter <= 0)
                     cancel();
 
                 Util.drawParticlesForNearbyPlayers(Particle.NOTE, caster.getLocation(), 100, 10, 10, 10, 0);
@@ -68,15 +69,16 @@ public class SirenSong extends NPCAbility {
 
         new BukkitRunnable() {
             int counter = 30 / 2;
+
             @Override
-            public void run(){
+            public void run() {
 
                 counter--;
-                if(counter <= 0)
+                if (counter <= 0)
                     cancel();
 
                 Util.damageNearbyEntities(caster, caster.getLocation(), 10, 10, 10, 1.5 * multiplier);
-                if(counter % 2 == 0) {
+                if (counter % 2 == 0) {
                     Util.effectForNearbyEntities(caster, caster.getLocation(), 20, 20, 20, new PotionEffect(PotionEffectType.CONFUSION, 20 * 10, 1));
                     Util.effectForNearbyEntities(caster, caster.getLocation(), 20, 20, 20, new PotionEffect(PotionEffectType.WEAKNESS, 20 * 10, 1));
                 }
@@ -88,11 +90,12 @@ public class SirenSong extends NPCAbility {
 
         new BukkitRunnable() {
             int counter = 30 * 2;
+
             @Override
-            public void run(){
+            public void run() {
 
                 counter--;
-                if(counter <= 0)
+                if (counter <= 0)
                     cancel();
 
                 Util.drawParticlesForNearbyPlayers(Particle.NOTE, caster.getLocation(), 100, 10, 10, 10, 0);
@@ -101,14 +104,15 @@ public class SirenSong extends NPCAbility {
 
         new BukkitRunnable() {
             int counter = 30 / 2;
+
             @Override
-            public void run(){
+            public void run() {
 
                 counter--;
-                if(counter <= 0)
+                if (counter <= 0)
                     cancel();
 
-                if(caster instanceof LivingEntity livingEntity) {
+                if (caster instanceof LivingEntity livingEntity) {
                     livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 20 * 8, 2, false, false));
                     livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 20 * 8, 2, false, false));
                     livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20 * 8, 2, false, false));

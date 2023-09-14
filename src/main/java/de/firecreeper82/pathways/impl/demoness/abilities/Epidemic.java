@@ -1,7 +1,6 @@
 package de.firecreeper82.pathways.impl.demoness.abilities;
 
 import de.firecreeper82.lotm.Plugin;
-import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.NPCAbility;
 import de.firecreeper82.pathways.Pathway;
@@ -27,7 +26,7 @@ public class Epidemic extends NPCAbility {
     public Epidemic(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
 
-        if(!npc)
+        if (!npc)
             items.addToSequenceItems(identifier - 1, sequence);
         infected = new ArrayList<>();
 
@@ -44,20 +43,20 @@ public class Epidemic extends NPCAbility {
             public void run() {
                 caster.getWorld().spawnParticle(Particle.SMOKE_NORMAL, caster.getLocation().add(0, 1.5, 0), 500, 40, 40, 40, 0);
 
-                if(npc)
+                if (npc)
                     npcCounter--;
 
-                if(npc && npcCounter <= 0)
+                if (npc && npcCounter <= 0)
                     cancel();
 
 
-                if(!npc)
+                if (!npc)
                     if (pathway.getBeyonder().getSpirituality() <= 10) {
                         cancel();
                         return;
                     }
 
-                if(!npc) {
+                if (!npc) {
                     drainer++;
                     if (drainer >= 20) {
                         drainer = 0;
@@ -78,7 +77,7 @@ public class Epidemic extends NPCAbility {
 
                         @Override
                         public void run() {
-                            if(npc && npcCounter <= 0)
+                            if (npc && npcCounter <= 0)
                                 cancel();
 
                             if (counter % 80 == 0) {
@@ -99,7 +98,7 @@ public class Epidemic extends NPCAbility {
                             if (counter >= 9223372036854775800L)
                                 infected.remove(entity);
 
-                            if(!npc)
+                            if (!npc)
                                 if (!pathway.getSequence().getUsesAbilities()[identifier - 1])
                                     infected.remove(entity);
 
@@ -119,7 +118,7 @@ public class Epidemic extends NPCAbility {
                     }.runTaskTimer(Plugin.instance, 0, 0);
                 }
 
-                if(!npc) {
+                if (!npc) {
                     if (!pathway.getSequence().getUsesAbilities()[identifier - 1])
                         cancel();
                 }

@@ -1,7 +1,6 @@
 package de.firecreeper82.pathways.impl.door.abilities;
 
 import de.firecreeper82.lotm.Plugin;
-import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.NPCAbility;
 import de.firecreeper82.pathways.Pathway;
@@ -24,7 +23,7 @@ public class Conceptualize extends NPCAbility {
     public Conceptualize(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
         this.npc = npc;
-        if(!npc)
+        if (!npc)
             items.addToSequenceItems(identifier - 1, sequence);
     }
 
@@ -50,7 +49,7 @@ public class Conceptualize extends NPCAbility {
         }
 
         if (target == null) {
-            if(!npc)
+            if (!npc)
                 p.sendMessage("§cCouldn't find the target!");
             return;
         }
@@ -65,18 +64,18 @@ public class Conceptualize extends NPCAbility {
             @Override
             public void run() {
                 if (!finalTarget.isValid() || (!npc && !pathway.getSequence().getUsesAbilities()[identifier - 1])) {
-                    if(!npc)
+                    if (!npc)
                         pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                     cancel();
                     return;
                 }
 
-                if(!npc)
+                if (!npc)
                     counter++;
 
                 npcTimer--;
 
-                if(npc && npcTimer <= 0) {
+                if (npc && npcTimer <= 0) {
                     cancel();
                 }
 
@@ -105,13 +104,13 @@ public class Conceptualize extends NPCAbility {
                         @Override
                         public void run() {
                             if (!finalTarget.isValid() || (!npc && !pathway.getSequence().getUsesAbilities()[identifier - 1])) {
-                                if(!npc)
+                                if (!npc)
                                     pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                                 cancel();
                                 return;
                             }
 
-                            if(npc && npcTimer <= 0) {
+                            if (npc && npcTimer <= 0) {
                                 cancel();
                                 return;
                             }

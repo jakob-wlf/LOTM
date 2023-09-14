@@ -4,7 +4,8 @@ import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.NPCAbility;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.tyrant.TyrantItems;
-import org.bukkit.*;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -16,7 +17,7 @@ public class Tornado extends NPCAbility {
         super(identifier, pathway, sequence, items);
         if (!npc)
             items.addToSequenceItems(identifier - 1, sequence);
-        if(!npc)
+        if (!npc)
             p = pathway.getBeyonder().getPlayer();
     }
 
@@ -48,7 +49,7 @@ public class Tornado extends NPCAbility {
 
     @Override
     public void useNPCAbility(Location loc, Entity caster, double multiplier) {
-        if(!(caster instanceof LivingEntity livingEntity))
+        if (!(caster instanceof LivingEntity livingEntity))
             return;
         new de.firecreeper82.pathways.impl.disasters.Tornado(livingEntity).spawnDisaster(livingEntity, loc);
     }

@@ -1,7 +1,6 @@
 package de.firecreeper82.pathways.impl.fool.abilities;
 
 import de.firecreeper82.lotm.Plugin;
-import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.NPCAbility;
 import de.firecreeper82.pathways.Pathway;
@@ -39,12 +38,12 @@ public class Grafting extends NPCAbility implements Listener {
 
     public Grafting(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
-        if(!npc)
+        if (!npc)
             items.addToSequenceItems(identifier - 1, sequence);
 
         Plugin.instance.getServer().getPluginManager().registerEvents(this, Plugin.instance);
 
-        npcGraftMaterial = new Material[] {
+        npcGraftMaterial = new Material[]{
                 Material.GRASS_BLOCK,
                 Material.DIRT,
                 Material.STONE,
@@ -79,24 +78,24 @@ public class Grafting extends NPCAbility implements Listener {
     public void useNPCAbility(Location loc, Entity caster, double multiplier) {
 
         World world = loc.getWorld();
-        if(world == null)
+        if (world == null)
             return;
 
         LivingEntity target = null;
 
-        for(Entity entity : world.getNearbyEntities(loc, 1, 1,1)) {
-            if(entity == caster || entity.getType() == EntityType.ARMOR_STAND || !(entity instanceof LivingEntity))
+        for (Entity entity : world.getNearbyEntities(loc, 1, 1, 1)) {
+            if (entity == caster || entity.getType() == EntityType.ARMOR_STAND || !(entity instanceof LivingEntity))
                 continue;
             target = (LivingEntity) entity;
             break;
         }
 
-        if(target == null)
+        if (target == null)
             return;
 
         Random random = new Random();
 
-        switch(random.nextInt(2)) {
+        switch (random.nextInt(2)) {
             case 0 -> new BlockToEntity(target, npcGraftMaterial[(new Random()).nextInt(npcGraftMaterial.length)]);
             case 1 -> {
                 Location graftLoc = target.getLocation().add(random.nextInt(-8, 8), random.nextInt(-3, 3), random.nextInt(-8, 8));

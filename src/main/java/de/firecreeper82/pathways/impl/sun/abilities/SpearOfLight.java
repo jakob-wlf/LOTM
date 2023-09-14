@@ -11,7 +11,10 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Damageable;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityCategory;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -29,7 +32,7 @@ public class SpearOfLight extends NPCAbility {
 
     public SpearOfLight(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
-        if(!npc)
+        if (!npc)
             items.addToSequenceItems(identifier - 1, sequence);
 
         this.npc = npc;
@@ -37,7 +40,7 @@ public class SpearOfLight extends NPCAbility {
 
     @Override
     public void useNPCAbility(Location loc, Entity caster, double multiplier) {
-        if(!(caster instanceof LivingEntity))
+        if (!(caster instanceof LivingEntity))
             return;
 
         //get block player is looking at
@@ -231,7 +234,7 @@ public class SpearOfLight extends NPCAbility {
 
         new BukkitRunnable() {
             public void run() {
-                if(!npc)
+                if (!npc)
                     pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
             }
         }.runTaskLater(Plugin.instance, 20 * 3);

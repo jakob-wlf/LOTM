@@ -2,8 +2,8 @@ package de.firecreeper82.lotm;
 
 import de.firecreeper82.pathways.NPCAbility;
 import de.firecreeper82.pathways.impl.demoness.abilities.*;
-import de.firecreeper82.pathways.impl.door.abilities.*;
 import de.firecreeper82.pathways.impl.door.abilities.Record;
+import de.firecreeper82.pathways.impl.door.abilities.*;
 import de.firecreeper82.pathways.impl.fool.abilities.AirBullet;
 import de.firecreeper82.pathways.impl.fool.abilities.FlameControlling;
 import de.firecreeper82.pathways.impl.fool.abilities.Grafting;
@@ -107,9 +107,11 @@ public class AbilityUtilHandler {
     public static HashMap<Integer, String> getColorPrefix() {
         return colorPrefix;
     }
+
     public static HashMap<Integer, List<NPCAbility>> getAbilities() {
         return abilities;
     }
+
     public static HashMap<Integer, String> getPathwayNames() {
         return pathwayNames;
     }

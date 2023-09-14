@@ -20,7 +20,7 @@ import java.util.Random;
 public class BeamOfLight extends NPCAbility {
     public BeamOfLight(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
-        if(!npc)
+        if (!npc)
             items.addToSequenceItems(identifier - 1, sequence);
     }
 
@@ -43,12 +43,12 @@ public class BeamOfLight extends NPCAbility {
 
                 Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(0, 215, 255), 1f);
 
-                for(int i = 0; i < 48; i++) {
+                for (int i = 0; i < 48; i++) {
                     tempLoc.add(direction);
                     world.spawnParticle(Particle.REDSTONE, tempLoc, 2, 0, 0, 0, dust);
                 }
 
-                if(counter > 25)
+                if (counter > 25)
                     cancel();
             }
 
@@ -72,7 +72,7 @@ public class BeamOfLight extends NPCAbility {
             public void run() {
                 Location tempLoc = loc.clone();
 
-                for(int i = 0; i < 48; i++) {
+                for (int i = 0; i < 48; i++) {
                     tempLoc.add(direction);
 
                     //Particle effects
@@ -89,8 +89,8 @@ public class BeamOfLight extends NPCAbility {
                         tempLoc.add(vec);
 
                         world.spawnParticle(Particle.END_ROD, tempLoc, 1, .05, .05, .05, 0);
-                        if(tempLoc.getBlock().getType().getHardness() >= 0) {
-                            if(random.nextInt(3) == 0)
+                        if (tempLoc.getBlock().getType().getHardness() >= 0) {
+                            if (random.nextInt(3) == 0)
                                 tempLoc.getBlock().setType(Material.FIRE);
                             else
                                 tempLoc.getBlock().setType(Material.AIR);
@@ -99,13 +99,13 @@ public class BeamOfLight extends NPCAbility {
                         tempLoc.subtract(vec);
                     }
 
-                    if(world.getNearbyEntities(tempLoc, 4, 4, 4).isEmpty())
+                    if (world.getNearbyEntities(tempLoc, 4, 4, 4).isEmpty())
                         continue;
 
-                    for(Entity e : world.getNearbyEntities(tempLoc, 4, 4, 4)) {
-                        if(!(e instanceof LivingEntity livingEntity) || e == caster)
+                    for (Entity e : world.getNearbyEntities(tempLoc, 4, 4, 4)) {
+                        if (!(e instanceof LivingEntity livingEntity) || e == caster)
                             continue;
-                        if(livingEntity.getCategory() == EntityCategory.UNDEAD)
+                        if (livingEntity.getCategory() == EntityCategory.UNDEAD)
                             livingEntity.damage(18 * multiplier, caster);
                         livingEntity.damage(10 * multiplier, caster);
                     }
@@ -114,7 +114,7 @@ public class BeamOfLight extends NPCAbility {
 
                 radius += .25;
 
-                if(radius > 1.75) {
+                if (radius > 1.75) {
                     cancel();
                 }
             }
@@ -194,12 +194,12 @@ public class BeamOfLight extends NPCAbility {
 
                 Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(0, 215, 255), 1f);
 
-                for(int i = 0; i < 48; i++) {
+                for (int i = 0; i < 48; i++) {
                     tempLoc.add(direction);
                     world.spawnParticle(Particle.REDSTONE, tempLoc, 2, 0, 0, 0, dust);
                 }
 
-                if(counter > 25)
+                if (counter > 25)
                     cancel();
             }
 
@@ -223,7 +223,7 @@ public class BeamOfLight extends NPCAbility {
             public void run() {
                 Location tempLoc = loc.clone();
 
-                for(int i = 0; i < 48; i++) {
+                for (int i = 0; i < 48; i++) {
                     tempLoc.add(direction);
 
                     //Particle effects
@@ -240,8 +240,8 @@ public class BeamOfLight extends NPCAbility {
                         tempLoc.add(vec);
 
                         world.spawnParticle(Particle.END_ROD, tempLoc, 1, .05, .05, .05, 0);
-                        if(tempLoc.getBlock().getType().getHardness() >= 0) {
-                            if(random.nextInt(3) == 0)
+                        if (tempLoc.getBlock().getType().getHardness() >= 0) {
+                            if (random.nextInt(3) == 0)
                                 tempLoc.getBlock().setType(Material.FIRE);
                             else
                                 tempLoc.getBlock().setType(Material.AIR);
@@ -250,13 +250,13 @@ public class BeamOfLight extends NPCAbility {
                         tempLoc.subtract(vec);
                     }
 
-                    if(world.getNearbyEntities(tempLoc, 4, 4, 4).isEmpty())
+                    if (world.getNearbyEntities(tempLoc, 4, 4, 4).isEmpty())
                         continue;
 
-                    for(Entity e : world.getNearbyEntities(tempLoc, 4, 4, 4)) {
-                        if(!(e instanceof LivingEntity livingEntity) || e == p)
+                    for (Entity e : world.getNearbyEntities(tempLoc, 4, 4, 4)) {
+                        if (!(e instanceof LivingEntity livingEntity) || e == p)
                             continue;
-                        if(livingEntity.getCategory() == EntityCategory.UNDEAD)
+                        if (livingEntity.getCategory() == EntityCategory.UNDEAD)
                             livingEntity.damage(18 * multiplier);
                         livingEntity.damage(10 * multiplier);
                     }
@@ -265,7 +265,7 @@ public class BeamOfLight extends NPCAbility {
 
                 radius += .25;
 
-                if(radius > 1.75) {
+                if (radius > 1.75) {
                     cancel();
                     pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                 }

@@ -100,32 +100,32 @@ public class TyrantSequence extends Sequence implements Listener {
     }
 
     private void aquaticLifeManipulation() {
-        if(currentSequence > 3)
+        if (currentSequence > 3)
             return;
 
-        if( target == null)
+        if (target == null)
             return;
 
-        if(!target.isValid() || target == pathway.getBeyonder().getPlayer() || !(target instanceof LivingEntity)) {
+        if (!target.isValid() || target == pathway.getBeyonder().getPlayer() || !(target instanceof LivingEntity)) {
             target = null;
             return;
         }
 
-        if(pathway.getBeyonder().getPlayer().getLocation().getBlock().getType() != Material.WATER)
+        if (pathway.getBeyonder().getPlayer().getLocation().getBlock().getType() != Material.WATER)
             return;
 
-        for(Entity entity : pathway.getBeyonder().getPlayer().getNearbyEntities(200, 50, 200)) {
-            if(!(entity instanceof Mob mob))
+        for (Entity entity : pathway.getBeyonder().getPlayer().getNearbyEntities(200, 50, 200)) {
+            if (!(entity instanceof Mob mob))
                 continue;
 
-            if(mob.getCategory() != EntityCategory.WATER && mob.getType() != EntityType.DROWNED)
+            if (mob.getCategory() != EntityCategory.WATER && mob.getType() != EntityType.DROWNED)
                 continue;
 
             mob.setTarget((LivingEntity) target);
 
-            if(entity.getLocation().distance(target.getLocation()) > 1.5)
+            if (entity.getLocation().distance(target.getLocation()) > 1.5)
                 entity.setVelocity(target.getLocation().toVector().subtract(entity.getLocation().toVector()).normalize().multiply(.5));
-            else if(mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE) != null)
+            else if (mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE) != null)
                 mob.attack(target);
             else
                 ((LivingEntity) target).damage(.5, mob);
@@ -140,22 +140,22 @@ public class TyrantSequence extends Sequence implements Listener {
         final Particle.DustOptions dust = (!npc) ? (lightningColor.get(sequence)) : new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.9f);
 
         ArrayList<Double> randoms1 = new ArrayList<>();
-        for(int i = 0; i < 50; i++) {
+        for (int i = 0; i < 50; i++) {
             randoms1.add(i, random.nextDouble(-.5, .5));
         }
 
         ArrayList<Double> randoms2 = new ArrayList<>();
-        for(int i = 0; i < 50; i++) {
+        for (int i = 0; i < 50; i++) {
             randoms2.add(i, random.nextDouble(-.5, .5));
         }
 
-        for(int j = 0; j < 12; j++) {
+        for (int j = 0; j < 12; j++) {
             final Particle.DustOptions dust1 = (!npc) ? (lightningColor.get(sequence)) : new Particle.DustOptions(Color.fromRGB(143, 255, 244), 1.9f);
 
             int height = random.nextInt(8, 28);
 
             Location hitLoc = particleLoc.clone();
-            for(int i = 0; i < height; i++) {
+            for (int i = 0; i < height; i++) {
                 hitLoc.add(randoms1.get(i), -1, randoms2.get(i));
             }
             Location loc1 = particleLoc.clone().add(random.nextInt(-15, 15), random.nextInt(8) * -1, random.nextInt(-15, 15));
@@ -168,7 +168,7 @@ public class TyrantSequence extends Sequence implements Listener {
             }
         }
 
-        for(int i = 0; i < 50; i++) {
+        for (int i = 0; i < 50; i++) {
             Util.drawDustsForNearbyPlayers(particleLoc.add(0, -1, 0), 20, 0, 0, 0, dust);
             particleLoc.add(randoms1.get(i), 0, randoms2.get(i));
         }
@@ -182,11 +182,11 @@ public class TyrantSequence extends Sequence implements Listener {
 
         int damageRadius = 11;
 
-        if(loc.getWorld() == null)
+        if (loc.getWorld() == null)
             return;
 
-        for(Entity entity : loc.getWorld().getNearbyEntities(particleLoc, damageRadius, damageRadius / 2f, damageRadius)) {
-            if(Util.testForValidEntity(entity, caster, true, true)) {
+        for (Entity entity : loc.getWorld().getNearbyEntities(particleLoc, damageRadius, damageRadius / 2f, damageRadius)) {
+            if (Util.testForValidEntity(entity, caster, true, true)) {
                 LivingEntity livingEntity = (LivingEntity) entity;
                 livingEntity.damage(12 * multiplier, caster);
                 livingEntity.setFireTicks(20 * 5);
@@ -215,7 +215,7 @@ public class TyrantSequence extends Sequence implements Listener {
 
         loc.getWorld().playSound(particleLoc, Sound.ENTITY_LIGHTNING_BOLT_IMPACT, 2, 1);
 
-        if(destruction) {
+        if (destruction) {
             int radius = !npc ? sequence > 4 ? 6 : 12 : 10;
             int power = !npc ? (sequence > 4 ? 5 : sequence > 2 ? 11 : sequence > 1 ? 15 : 30) : 8;
 
@@ -241,27 +241,28 @@ public class TyrantSequence extends Sequence implements Listener {
 
     @EventHandler
     public void onAirLoss(EntityAirChangeEvent e) {
-        if(e.getEntity() != pathway.getBeyonder().getPlayer())
+        if (e.getEntity() != pathway.getBeyonder().getPlayer())
             return;
 
-        if(currentSequence > 7)
+        if (currentSequence > 7)
             return;
 
-        if(currentSequence > 6)
+        if (currentSequence > 6)
             e.setCancelled(true);
 
         pathway.getBeyonder().getPlayer().setMaximumAir(20 * 60 * 30);
     }
 
     Entity target = null;
+
     @EventHandler
     public void onDamageByPlayerTaken(EntityDamageByEntityEvent e) {
-        if(currentSequence > 3)
+        if (currentSequence > 3)
             return;
-        if(e.getEntity() == getPathway().getBeyonder().getPlayer()) {
+        if (e.getEntity() == getPathway().getBeyonder().getPlayer()) {
             target = e.getDamager();
         }
-        if(e.getDamager() == getPathway().getBeyonder().getPlayer()) {
+        if (e.getDamager() == getPathway().getBeyonder().getPlayer()) {
             target = e.getEntity();
         }
     }

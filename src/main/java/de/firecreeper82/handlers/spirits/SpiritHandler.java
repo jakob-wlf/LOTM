@@ -21,7 +21,10 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.Random;
 
 public class SpiritHandler implements Listener, CommandExecutor {
 
@@ -126,7 +129,7 @@ public class SpiritHandler implements Listener, CommandExecutor {
 
         Spirit spawnSpirit = spirits.get(1);
 
-        if(isNatural) {
+        if (isNatural) {
             for (Spirit spirit : spirits) {
                 if (spirit.isUndead() && loc.getBlock().getBiome() != Biome.SOUL_SAND_VALLEY)
                     continue;
@@ -138,8 +141,7 @@ public class SpiritHandler implements Listener, CommandExecutor {
                     spawnSpirit = spirit;
                 }
             }
-        }
-        else {
+        } else {
             spawnSpirit = spirits.get(random.nextInt(spirits.size()));
             while ((spawnSpirit instanceof FriendlySpirit && !allowPeaceful) || (excludeGhast && spawnSpirit instanceof MediumSpirit)) {
                 spawnSpirit = spirits.get(random.nextInt(spirits.size()));

@@ -1,23 +1,19 @@
 package de.firecreeper82.pathways.impl.tyrant.abilities;
 
 import de.firecreeper82.lotm.Plugin;
-import de.firecreeper82.lotm.util.Util;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.NPCAbility;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.tyrant.TyrantItems;
 import de.firecreeper82.pathways.impl.tyrant.TyrantSequence;
-import org.bukkit.*;
-import org.bukkit.block.Block;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 public class LightningStorm extends NPCAbility {
@@ -27,10 +23,10 @@ public class LightningStorm extends NPCAbility {
 
     public LightningStorm(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
-        if(!npc)
+        if (!npc)
             p = pathway.getBeyonder().getPlayer();
 
-        if(!npc)
+        if (!npc)
             items.addToSequenceItems(identifier - 1, sequence);
 
         this.npc = npc;
@@ -74,19 +70,20 @@ public class LightningStorm extends NPCAbility {
 
     @Override
     public void useNPCAbility(Location loc, Entity caster, double multiplier) {
-        if(loc.getWorld() == null)
+        if (loc.getWorld() == null)
             return;
 
         Random random = new Random();
 
         new BukkitRunnable() {
             int counter = 10 * 30;
+
             @Override
             public void run() {
                 spawnLighting(loc.clone().add(random.nextInt(-25, 25), 0, random.nextInt(-25, 25)), caster, multiplier);
 
                 counter--;
-                if(counter <= 0) {
+                if (counter <= 0) {
                     cancel();
                 }
             }

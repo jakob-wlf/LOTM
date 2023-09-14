@@ -15,11 +15,12 @@ import org.bukkit.util.Vector;
 public class LightningTornado extends NPCAbility {
 
     private final boolean npc;
+
     public LightningTornado(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
         if (!npc)
             items.addToSequenceItems(identifier - 1, sequence);
-        if(!npc)
+        if (!npc)
             p = pathway.getBeyonder().getPlayer();
 
         this.npc = npc;
@@ -53,7 +54,7 @@ public class LightningTornado extends NPCAbility {
 
     @Override
     public void useNPCAbility(Location loc, Entity caster, double multiplier) {
-        if(!(caster instanceof LivingEntity livingEntity))
+        if (!(caster instanceof LivingEntity livingEntity))
             return;
         new de.firecreeper82.pathways.impl.disasters.LightningTornado(livingEntity, npc).spawnDisaster(livingEntity, loc);
     }

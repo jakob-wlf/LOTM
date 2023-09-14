@@ -31,7 +31,7 @@ public class BlackHole extends NPCAbility {
 
         this.npc = npc;
 
-        if(!npc)
+        if (!npc)
             items.addToSequenceItems(identifier - 1, sequence);
 
 
@@ -72,9 +72,9 @@ public class BlackHole extends NPCAbility {
                     return;
                 }
 
-                if(npc) {
+                if (npc) {
                     npcCounter[0]--;
-                    if(npcCounter[0] <= 0) {
+                    if (npcCounter[0] <= 0) {
                         cancel();
                         return;
                     }
@@ -150,9 +150,9 @@ public class BlackHole extends NPCAbility {
                     return;
                 }
 
-                if(npc) {
+                if (npc) {
                     npcCounter[0]--;
-                    if(npcCounter[0] <= 0) {
+                    if (npcCounter[0] <= 0) {
                         cancel();
                         return;
                     }
@@ -189,7 +189,7 @@ public class BlackHole extends NPCAbility {
 
         pathway.getSequence().getUsesAbilities()[identifier - 1] = true;
 
-        useNPCAbility(p.getEyeLocation(), p, getMultiplier() );
+        useNPCAbility(p.getEyeLocation(), p, getMultiplier());
     }
 
     @Override

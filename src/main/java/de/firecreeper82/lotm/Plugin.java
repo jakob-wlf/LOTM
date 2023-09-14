@@ -8,7 +8,8 @@ import de.firecreeper82.handlers.mobs.beyonders.RogueBeyonders;
 import de.firecreeper82.handlers.spirits.SpiritHandler;
 import de.firecreeper82.handlers.spirits.SpiritWorld;
 import de.firecreeper82.listeners.*;
-import de.firecreeper82.pathways.*;
+import de.firecreeper82.pathways.Pathway;
+import de.firecreeper82.pathways.Potion;
 import de.firecreeper82.pathways.impl.demoness.DemonessPotions;
 import de.firecreeper82.pathways.impl.door.DoorPotions;
 import de.firecreeper82.pathways.impl.fool.FoolPotions;
@@ -88,7 +89,7 @@ public final class Plugin extends JavaPlugin {
 
         try {
             characteristic = new Characteristic();
-            } catch (MalformedURLException ignored) {
+        } catch (MalformedURLException ignored) {
         }
 
         recipe = new Recipe();
@@ -120,9 +121,9 @@ public final class Plugin extends JavaPlugin {
         new BukkitRunnable() {
             @Override
             public void run() {
-                for(World world : Bukkit.getWorlds()) {
-                    for(Entity entity : world.getEntities()) {
-                        if(entity.hasMetadata("Beyonder")) {
+                for (World world : Bukkit.getWorlds()) {
+                    for (Entity entity : world.getEntities()) {
+                        if (entity.hasMetadata("Beyonder")) {
                             CitizensAPI.getNPCRegistry().getByUniqueId(entity.getUniqueId()).destroy();
                         }
                     }

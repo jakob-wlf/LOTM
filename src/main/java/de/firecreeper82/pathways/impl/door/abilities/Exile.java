@@ -24,7 +24,7 @@ public class Exile extends NPCAbility {
     public Exile(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
         this.npc = npc;
-        if(!npc)
+        if (!npc)
             items.addToSequenceItems(identifier - 1, sequence);
     }
 
@@ -66,7 +66,7 @@ public class Exile extends NPCAbility {
                 }
 
                 npcCounter--;
-                if(npc && npcCounter <= 0) {
+                if (npc && npcCounter <= 0) {
                     cancel();
                 }
 
@@ -78,7 +78,7 @@ public class Exile extends NPCAbility {
                     if (entity == caster)
                         continue;
 
-                    if(!(entity instanceof Mob) && !(entity instanceof Player))
+                    if (!(entity instanceof Mob) && !(entity instanceof Player))
                         continue;
 
                     if (entity instanceof Player player && Plugin.beyonders.containsKey(player.getUniqueId()) && !npc) {
@@ -107,7 +107,7 @@ public class Exile extends NPCAbility {
                     }
 
                     if (random.nextInt(15) == 0) {
-                        if(!npc) {
+                        if (!npc) {
                             Location startLoc = entity.getLocation();
                             Location teleportLoc = new Location(startLoc.getWorld(), random.nextInt(1000, 2000), 10000, random.nextInt(1000, 2000));
                             entity.teleport(teleportLoc);
@@ -125,8 +125,7 @@ public class Exile extends NPCAbility {
                                     entity.teleport(teleportLoc);
                                 }
                             }.runTaskTimer(Plugin.instance, 0, 0);
-                        }
-                        else {
+                        } else {
                             Location startLoc = entity.getLocation();
                             Location teleportLoc = new Location(Bukkit.getWorld("world_the_end"), random.nextInt(1000, 2000), 10000, random.nextInt(1000, 2000));
                             entity.teleport(teleportLoc);
@@ -141,7 +140,7 @@ public class Exile extends NPCAbility {
                                         return;
                                     }
                                     c++;
-                                    if(entity instanceof Player pTarget) {
+                                    if (entity instanceof Player pTarget) {
                                         Particle.DustOptions dust1 = new Particle.DustOptions(Color.fromBGR(150, 12, 171), .6f);
                                         Particle.DustOptions dust2 = new Particle.DustOptions(Color.fromBGR(255, 251, 0), .5f);
                                         pTarget.spawnParticle(Particle.REDSTONE, pTarget.getLocation(), 25, 2, 2, 2, dust1);

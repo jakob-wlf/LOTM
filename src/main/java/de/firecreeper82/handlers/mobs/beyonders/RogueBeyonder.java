@@ -63,13 +63,13 @@ public class RogueBeyonder implements Listener {
         initHealth = false;
         attackTimer = 0;
 
-        multiplier = new double[] {
-            0, 3.5, 3, 2.5, 1.9, 1.7, 1.6, 1.4, 1.3, 1
+        multiplier = new double[]{
+                0, 3.5, 3, 2.5, 1.9, 1.7, 1.6, 1.4, 1.3, 1
         };
 
         Plugin.instance.addRogueBeyonder(this);
 
-        characteristicIndex = new String[][] {
+        characteristicIndex = new String[][]{
                 {"sun", "fool", "door", "demoness", "tyrant"},
                 {"§6", "§5", "§b", "§d", "§9"}
         };
@@ -105,8 +105,8 @@ public class RogueBeyonder implements Listener {
         if (beyonder == null || !beyonder.isSpawned())
             return;
 
-        if(!initHealth) {
-            if(beyonder.getEntity() instanceof LivingEntity livingEntity && livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH) != null) {
+        if (!initHealth) {
+            if (beyonder.getEntity() instanceof LivingEntity livingEntity && livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH) != null) {
                 Objects.requireNonNull(livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(500f * (2 / (float) sequence));
                 livingEntity.setHealth(Objects.requireNonNull(livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue());
             }
@@ -119,57 +119,55 @@ public class RogueBeyonder implements Listener {
 
         counter++;
 
-        if(counter >= 20 * 10) {
+        if (counter >= 20 * 10) {
             boolean nearbyPlayer = false;
-            for(Entity nearby : entity.getNearbyEntities(150, 100, 150)) {
+            for (Entity nearby : entity.getNearbyEntities(150, 100, 150)) {
                 if (nearby instanceof Player) {
                     nearbyPlayer = true;
                     break;
                 }
             }
-            if(!nearbyPlayer)
+            if (!nearbyPlayer)
                 remove();
         }
 
-        if(beyonder.getEntity() == null)
+        if (beyonder.getEntity() == null)
             return;
 
-        if(target != null) {
-            if(!target.isValid())
+        if (target != null) {
+            if (!target.isValid())
                 target = null;
-            else if(target.getWorld() != beyonder.getEntity().getWorld())
+            else if (target.getWorld() != beyonder.getEntity().getWorld())
                 target = null;
 
-            else if(target.getLocation().distance(beyonder.getEntity().getLocation()) > 60)
+            else if (target.getLocation().distance(beyonder.getEntity().getLocation()) > 60)
                 target = null;
             else
                 state = STATE.ATTACK;
-        }
-
-        else {
-            if(aggressive) {
-                for(Entity entity : beyonder.getEntity().getNearbyEntities(8, 8, 8)) {
-                    if((!(entity instanceof Mob) && !(entity instanceof Player)) || entity.getType() == EntityType.ARMOR_STAND)
+        } else {
+            if (aggressive) {
+                for (Entity entity : beyonder.getEntity().getNearbyEntities(8, 8, 8)) {
+                    if ((!(entity instanceof Mob) && !(entity instanceof Player)) || entity.getType() == EntityType.ARMOR_STAND)
                         continue;
-                    if(entity instanceof Player temp && (temp.getGameMode() == GameMode.CREATIVE || temp.getGameMode() == GameMode.SPECTATOR))
+                    if (entity instanceof Player temp && (temp.getGameMode() == GameMode.CREATIVE || temp.getGameMode() == GameMode.SPECTATOR))
                         continue;
                     target = entity;
                     break;
                 }
             }
 
-            if(target == null)
+            if (target == null)
                 state = STATE.WANDER;
         }
 
         if (state == STATE.WANDER) {
             wanderState();
         }
-        if(state == STATE.ATTACK) {
+        if (state == STATE.ATTACK) {
             attackState();
         }
 
-        if(pathway == 0)
+        if (pathway == 0)
             beyonder.getEntity().setFireTicks(0);
     }
 
@@ -178,21 +176,21 @@ public class RogueBeyonder implements Listener {
 
         beyonder.getDefaultGoalController().clear();
 
-        if(target == null)
+        if (target == null)
             return;
 
         beyonder.getNavigator().setTarget(target, true);
 
-        if(attackTimer > 0)
+        if (attackTimer > 0)
             return;
 
-        if(AbilityUtilHandler.getAbilities().get(pathway) == null)
+        if (AbilityUtilHandler.getAbilities().get(pathway) == null)
             return;
 
         Random random = new Random();
 
         NPCAbility currentAbility = AbilityUtilHandler.getAbilities().get(pathway).get(random.nextInt(AbilityUtilHandler.getAbilities().get(pathway).size()));
-        if(currentAbility.getSequence() < sequence)
+        if (currentAbility.getSequence() < sequence)
             return;
 
         attackTimer = (60 * 20f) / ((float) currentAbility.getSequence() * 5);
@@ -202,16 +200,16 @@ public class RogueBeyonder implements Listener {
 
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
-        if(!beyonder.isSpawned())
+        if (!beyonder.isSpawned())
             return;
 
-        if(!(e.getDamager() instanceof LivingEntity))
+        if (!(e.getDamager() instanceof LivingEntity))
             return;
 
-        if(target != null)
+        if (target != null)
             return;
 
-        if(e.getEntity() != entity)
+        if (e.getEntity() != entity)
             return;
 
         target = e.getDamager();

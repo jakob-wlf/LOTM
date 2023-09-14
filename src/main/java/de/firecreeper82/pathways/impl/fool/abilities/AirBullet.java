@@ -2,7 +2,6 @@ package de.firecreeper82.pathways.impl.fool.abilities;
 
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.VectorUtils;
-import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.NPCAbility;
 import de.firecreeper82.pathways.Pathway;
@@ -20,9 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 public class AirBullet extends NPCAbility {
 
@@ -48,7 +45,7 @@ public class AirBullet extends NPCAbility {
         valuesForSequence.put(1, new double[]{1.25, 100, 13, 6});
 
 
-        if(!npc) {
+        if (!npc) {
             sequencePower = pathway.getSequence().getCurrentSequence();
             wasAdjustedOnce = false;
 
@@ -58,7 +55,7 @@ public class AirBullet extends NPCAbility {
 
     @Override
     public void useNPCAbility(Location loc, Entity caster, double multiplier) {
-        if(!npc) {
+        if (!npc) {
             if (pathway.getSequence().getCurrentSequence() > 3)
                 sequencePower = pathway.getSequence().getCurrentSequence();
             else if (!wasAdjustedOnce) {
@@ -141,7 +138,7 @@ public class AirBullet extends NPCAbility {
                         if (entity.getBoundingBox().overlaps(v1, v2) && entity instanceof Damageable && entity != caster && entity.getType() != EntityType.ARMOR_STAND) {
                             if (valuesForSequence.get(sequencePower) != null && valuesForSequence.get(sequencePower)[2] > 1 && !npc)
                                 world.createExplosion(entity.getLocation(), (int) (valuesForSequence.get(sequencePower)[2] - 1));
-                            if(npc)
+                            if (npc)
                                 world.createExplosion(entity.getLocation(), (int) (npcMultiplier.get(finalMultiplier)[2] - 1));
                             ((Damageable) entity).damage(7 * finalMultiplier, caster);
                             cancel();
@@ -155,7 +152,7 @@ public class AirBullet extends NPCAbility {
                 if (loc.getBlock().getType().isSolid() || counter >= 50) {
                     if (valuesForSequence.get(sequencePower) != null && valuesForSequence.get(sequencePower)[2] > 0 && !npc)
                         world.createExplosion(loc, (int) (valuesForSequence.get(sequencePower)[2]));
-                    if(npc)
+                    if (npc)
                         world.createExplosion(loc, (int) (npcMultiplier.get(finalMultiplier)[2]));
                     cancel();
                 }

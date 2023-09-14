@@ -36,9 +36,9 @@ public class WaterSpells extends NPCAbility {
     public WaterSpells(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
         this.npc = npc;
-        if(!npc)
+        if (!npc)
             items.addToSequenceItems(identifier - 1, sequence);
-        if(!npc)
+        if (!npc)
             p = pathway.getBeyonder().getPlayer();
     }
 
@@ -79,13 +79,14 @@ public class WaterSpells extends NPCAbility {
         Location loc = caster.getLocation().add(0, 1.5, 0);
         World world = loc.getWorld();
 
-        if(world == null)
+        if (world == null)
             return;
 
         world.playSound(loc, Sound.ENTITY_BOAT_PADDLE_WATER, 8, 1);
 
         new BukkitRunnable() {
             int counter = 20 * 30;
+
             @Override
             public void run() {
 
@@ -93,10 +94,10 @@ public class WaterSpells extends NPCAbility {
                 double z = Math.sin(counter);
                 double y = Math.sin(counter);
 
-                for(Player p : Bukkit.getOnlinePlayers()) {
-                    if(p.getWorld() != loc.getWorld() || p.getLocation().distance(loc) > 100)
+                for (Player p : Bukkit.getOnlinePlayers()) {
+                    if (p.getWorld() != loc.getWorld() || p.getLocation().distance(loc) > 100)
                         continue;
-                    if(loc.getWorld() == null)
+                    if (loc.getWorld() == null)
                         return;
 
                     loc.getWorld().spawnParticle(Particle.WATER_WAKE, loc.getX() + x, loc.getY(), loc.getZ() + z, 15, 0.05, 0.05, 0.05, 0);
@@ -106,11 +107,11 @@ public class WaterSpells extends NPCAbility {
                     loc.getWorld().spawnParticle(Particle.WATER_WAKE, loc.getX(), loc.getY() + y, loc.getZ() + z, 15, 0.05, 0.05, 0.05, 0);
                 }
 
-                if(loc.getBlock().getType().isSolid())
+                if (loc.getBlock().getType().isSolid())
                     counter = 0;
 
-                for(Entity entity : world.getNearbyEntities(loc,  1, 1, 1)) {
-                    if(entity instanceof LivingEntity livingEntity && entity != caster && entity.getType() != EntityType.ARMOR_STAND) {
+                for (Entity entity : world.getNearbyEntities(loc, 1, 1, 1)) {
+                    if (entity instanceof LivingEntity livingEntity && entity != caster && entity.getType() != EntityType.ARMOR_STAND) {
                         livingEntity.damage(8.5 * multiplier);
                         counter = 0;
                     }
@@ -119,7 +120,7 @@ public class WaterSpells extends NPCAbility {
                 loc.add(direction);
 
                 counter--;
-                if(counter <= 0) {
+                if (counter <= 0) {
                     cancel();
                 }
             }
@@ -127,7 +128,7 @@ public class WaterSpells extends NPCAbility {
     }
 
     private void beam(Entity caster, double multiplier) {
-        if(!npc && caster.getLocation().getBlock().getType() != Material.WATER) {
+        if (!npc && caster.getLocation().getBlock().getType() != Material.WATER) {
             caster.sendMessage("§cYou have to be in water to use this");
             return;
         }
@@ -136,26 +137,27 @@ public class WaterSpells extends NPCAbility {
         Location loc = caster.getLocation().add(0, 1.5, 0);
         World world = loc.getWorld();
 
-        if(world == null)
+        if (world == null)
             return;
 
         world.playSound(loc, Sound.ENTITY_BOAT_PADDLE_WATER, 8, 1);
 
         new BukkitRunnable() {
             int counter = 15;
+
             @Override
             public void run() {
-                for(Player p : Bukkit.getOnlinePlayers()) {
-                    if(p.getWorld() != loc.getWorld() || p.getLocation().distance(loc) > 100)
+                for (Player p : Bukkit.getOnlinePlayers()) {
+                    if (p.getWorld() != loc.getWorld() || p.getLocation().distance(loc) > 100)
                         continue;
                     p.spawnParticle(Particle.WATER_BUBBLE, loc, 15, .05, .05, .05, 0);
                 }
 
-                if(loc.getBlock().getType().isSolid())
+                if (loc.getBlock().getType().isSolid())
                     counter = 0;
 
-                for(Entity entity : world.getNearbyEntities(loc,  1, 1, 1)) {
-                    if(entity instanceof LivingEntity livingEntity && entity != caster && entity.getType() != EntityType.ARMOR_STAND) {
+                for (Entity entity : world.getNearbyEntities(loc, 1, 1, 1)) {
+                    if (entity instanceof LivingEntity livingEntity && entity != caster && entity.getType() != EntityType.ARMOR_STAND) {
                         livingEntity.damage(7.5 * multiplier);
                         counter = 0;
                     }
@@ -164,14 +166,14 @@ public class WaterSpells extends NPCAbility {
                 loc.add(direction);
 
                 counter--;
-                if(counter <= 0)
+                if (counter <= 0)
                     cancel();
             }
         }.runTaskTimer(Plugin.instance, 0, 1);
     }
 
     private void vortex(Entity caster, double multiplier) {
-        if(!npc && caster.getLocation().getBlock().getType() != Material.WATER) {
+        if (!npc && caster.getLocation().getBlock().getType() != Material.WATER) {
             caster.sendMessage("§cYou have to be in water to use this");
             return;
         }
@@ -181,10 +183,10 @@ public class WaterSpells extends NPCAbility {
 
         loc.add(0, -0.75, 0);
 
-        if(world == null)
+        if (world == null)
             return;
 
-        for(int i = 0; i < 15; i++) {
+        for (int i = 0; i < 15; i++) {
             int j = i;
             new BukkitRunnable() {
                 double spiralRadius = .65;
@@ -214,12 +216,12 @@ public class WaterSpells extends NPCAbility {
 
 
                     counter--;
-                    if(counter <= 0) {
+                    if (counter <= 0) {
                         cancel();
                         return;
                     }
 
-                    if(j == 0) {
+                    if (j == 0) {
                         if (counter % 10 == 0)
                             Util.damageNearbyEntities(caster, loc, 6, 6, 6, 8 * multiplier);
 
@@ -268,19 +270,19 @@ public class WaterSpells extends NPCAbility {
             @Override
             public void run() {
 
-                if(loc.getWorld() == null)
+                if (loc.getWorld() == null)
                     return;
 
                 counter++;
                 double x = Math.cos(counter);
                 double z = Math.sin(counter);
                 double y = Math.sin(counter);
-                if(random.nextBoolean())
+                if (random.nextBoolean())
                     loc.getWorld().spawnParticle(Particle.END_ROD, loc.getX() + x, loc.getY(), loc.getZ() + z, 1, 0, 0, 0, 0);
-                if(random.nextBoolean())
+                if (random.nextBoolean())
                     loc.getWorld().spawnParticle(Particle.END_ROD, loc.getX() + x, loc.getY() + y, loc.getZ(), 1, 0, 0, 0, 0);
                 y = Math.cos(counter);
-                if(random.nextBoolean())
+                if (random.nextBoolean())
                     loc.getWorld().spawnParticle(Particle.END_ROD, loc.getX(), loc.getY() + y, loc.getZ() + z, 1, 0, 0, 0, 0);
 
                 loc.getWorld().spawnParticle(Particle.REDSTONE, loc, 10, 0.25, 0.25, 0.25, dust);
@@ -294,13 +296,14 @@ public class WaterSpells extends NPCAbility {
     }
 
     private void rain(Entity caster, @Nullable Location loc) {
-        if(loc == null) {
+        if (loc == null) {
             Vector dir = caster.getLocation().getDirection().normalize();
             loc = caster.getLocation().add(0, 1.5, 0);
             if (loc.getWorld() == null)
                 return;
 
-            outerloop: for (int i = 0; i < 100; i++) {
+            outerloop:
+            for (int i = 0; i < 100; i++) {
                 for (Entity entity : loc.getWorld().getNearbyEntities(loc, 1, 1, 1)) {
                     if (Util.testForValidEntity(entity, caster, true, true))
                         break outerloop;
@@ -324,6 +327,7 @@ public class WaterSpells extends NPCAbility {
 
         new BukkitRunnable() {
             int counter = 20 * 30;
+
             @Override
             public void run() {
                 Util.drawParticlesForNearbyPlayers(Particle.WATER_DROP, finalLoc.clone().subtract(0, 2.5, 0), 500, 12, 5, 12, 1);
@@ -333,14 +337,14 @@ public class WaterSpells extends NPCAbility {
                 Util.effectForNearbyEntities(caster, finalLoc.clone(), 12, 12, 12, new PotionEffect(PotionEffectType.WITHER, 20 * 2, 1, false, false));
 
 
-                if(blocks.size() > 0) {
+                if (blocks.size() > 0) {
                     Block block = blocks.get(random.nextInt(blocks.size()));
                     if (block.getType().getHardness() > 0)
                         block.setType(Material.AIR);
                 }
 
                 counter--;
-                if(counter <= 0)
+                if (counter <= 0)
                     cancel();
             }
         }.runTaskTimer(Plugin.instance, 0, 0);
@@ -351,13 +355,14 @@ public class WaterSpells extends NPCAbility {
         Location loc = caster.getLocation().add(0, 1.5, 0);
         World world = loc.getWorld();
 
-        if(world == null)
+        if (world == null)
             return;
 
         world.playSound(loc, Sound.ENTITY_BOAT_PADDLE_WATER, 8, 1);
 
         new BukkitRunnable() {
             int counter = 20 * 45;
+
             @Override
             public void run() {
 
@@ -365,10 +370,10 @@ public class WaterSpells extends NPCAbility {
                 double z = 2 * Math.sin(counter);
                 double y = 2 * Math.sin(counter);
 
-                for(Player p : Bukkit.getOnlinePlayers()) {
-                    if(p.getWorld() != loc.getWorld() || p.getLocation().distance(loc) > 100)
+                for (Player p : Bukkit.getOnlinePlayers()) {
+                    if (p.getWorld() != loc.getWorld() || p.getLocation().distance(loc) > 100)
                         continue;
-                    if(loc.getWorld() == null)
+                    if (loc.getWorld() == null)
                         return;
 
                     loc.getWorld().spawnParticle(Particle.WATER_WAKE, loc.getX() + x, loc.getY(), loc.getZ() + z, 15, 0.05, 0.05, 0.05, 0);
@@ -378,18 +383,18 @@ public class WaterSpells extends NPCAbility {
                     loc.getWorld().spawnParticle(Particle.WATER_WAKE, loc.getX(), loc.getY() + y, loc.getZ() + z, 15, 0.05, 0.05, 0.05, 0);
                 }
 
-                if(loc.getBlock().getType().isSolid()) {
+                if (loc.getBlock().getType().isSolid()) {
                     counter = 0;
 
                     loc.getWorld().createExplosion(loc, 4);
-                    for(Block block : Util.getNearbyBlocksInSphere(loc, 3, false, false, true)) {
-                        if(!block.getType().isSolid())
+                    for (Block block : Util.getNearbyBlocksInSphere(loc, 3, false, false, true)) {
+                        if (!block.getType().isSolid())
                             block.setType(Material.WATER);
                     }
                 }
 
-                for(Entity entity : world.getNearbyEntities(loc,  2, 2, 2)) {
-                    if(entity instanceof LivingEntity livingEntity && entity != caster && entity.getType() != EntityType.ARMOR_STAND) {
+                for (Entity entity : world.getNearbyEntities(loc, 2, 2, 2)) {
+                    if (entity instanceof LivingEntity livingEntity && entity != caster && entity.getType() != EntityType.ARMOR_STAND) {
                         livingEntity.damage(15 * multiplier);
                         counter = 0;
                     }
@@ -398,7 +403,7 @@ public class WaterSpells extends NPCAbility {
                 loc.add(direction);
 
                 counter--;
-                if(counter <= 0) {
+                if (counter <= 0) {
                     cancel();
                 }
             }
@@ -407,13 +412,12 @@ public class WaterSpells extends NPCAbility {
 
     @Override
     public void useNPCAbility(Location loc, Entity caster, double multiplier) {
-        if(multiplier < 1.5) {
+        if (multiplier < 1.5) {
             switch ((new Random()).nextInt(2)) {
                 case 0 -> beam(caster, multiplier);
                 case 1 -> waterBall(caster, multiplier);
             }
-        }
-        else {
+        } else {
             switch ((new Random()).nextInt(4)) {
                 case 0 -> beam(caster, multiplier);
                 case 1 -> waterBall(caster, multiplier);

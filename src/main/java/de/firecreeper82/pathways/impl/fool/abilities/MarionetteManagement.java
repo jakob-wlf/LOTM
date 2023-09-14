@@ -56,9 +56,9 @@ public class MarionetteManagement extends Ability implements Listener {
 
     @Override
     public void leftClick() {
-        if(pathway.getBeyonder().getMarionettes().isEmpty())
+        if (pathway.getBeyonder().getMarionettes().isEmpty())
             return;
-        if(currentIndex == pathway.getBeyonder().getMarionettes().size() - 1)
+        if (currentIndex == pathway.getBeyonder().getMarionettes().size() - 1)
             currentIndex = 0;
         else
             currentIndex++;
@@ -92,7 +92,7 @@ public class MarionetteManagement extends Ability implements Listener {
             if (!m.isActive())
                 continue;
 
-            if(m.getEntity().getWorld() != world2)
+            if (m.getEntity().getWorld() != world2)
                 continue;
 
             Location playerLoc = eyeLocation.clone().subtract(0, .4, 0);

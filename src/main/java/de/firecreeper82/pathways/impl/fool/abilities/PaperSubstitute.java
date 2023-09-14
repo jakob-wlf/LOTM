@@ -37,7 +37,7 @@ public class PaperSubstitute extends Ability implements Listener {
     public void useAbility() {
         p = pathway.getBeyonder().getPlayer();
 
-        if(switching) {
+        if (switching) {
             p.sendMessage("§cYou are already using this ability");
             return;
         }
@@ -67,7 +67,7 @@ public class PaperSubstitute extends Ability implements Listener {
     public void onDamage(EntityDamageEvent e) {
         p = pathway.getBeyonder().getPlayer();
 
-        if(e.getEntity() != p || !switching)
+        if (e.getEntity() != p || !switching)
             return;
 
         Location loc = p.getLocation();

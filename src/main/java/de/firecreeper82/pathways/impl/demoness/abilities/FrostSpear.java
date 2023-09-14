@@ -14,11 +14,8 @@ import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityCategory;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
@@ -40,7 +37,7 @@ public class FrostSpear extends NPCAbility {
 
         this.npc = npc;
 
-        if(!npc)
+        if (!npc)
             items.addToSequenceItems(identifier - 1, sequence);
 
         dust = new Particle.DustOptions(Color.fromRGB(165, 231, 250), .5f);
@@ -62,7 +59,7 @@ public class FrostSpear extends NPCAbility {
 
     @Override
     public void useNPCAbility(Location loc, Entity caster, double multiplier) {
-        if(!(caster instanceof LivingEntity))
+        if (!(caster instanceof LivingEntity))
             return;
 
         //get block player is looking at
@@ -119,7 +116,7 @@ public class FrostSpear extends NPCAbility {
                                 ((Damageable) entity).damage(28 * multiplier, caster);
                                 entity.setFreezeTicks(20 * 10);
 
-                                if(!npc)
+                                if (!npc)
                                     pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                                 cancel();
                                 return;
@@ -133,7 +130,7 @@ public class FrostSpear extends NPCAbility {
                     Location freezeLoc = spearLocation.clone();
                     ArrayList<Block> blocks = Util.getBlocksInCircleRadius(freezeLoc.getBlock(), 13, true);
 
-                    if(!npc)
+                    if (!npc)
                         pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
 
                     Random random = new Random();
@@ -169,7 +166,7 @@ public class FrostSpear extends NPCAbility {
 
         new BukkitRunnable() {
             public void run() {
-                if(!npc)
+                if (!npc)
                     pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
             }
         }.runTaskLater(Plugin.instance, 20 * 3);

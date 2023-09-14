@@ -6,7 +6,9 @@ import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.NPCAbility;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.tyrant.TyrantItems;
-import org.bukkit.*;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -25,10 +27,10 @@ public class Tsunami extends NPCAbility implements Listener {
 
     public Tsunami(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
-        if(!npc)
+        if (!npc)
             p = pathway.getBeyonder().getPlayer();
 
-        if(!npc)
+        if (!npc)
             items.addToSequenceItems(identifier - 1, sequence);
 
         this.npc = npc;
@@ -72,7 +74,7 @@ public class Tsunami extends NPCAbility implements Listener {
 
     @Override
     public void useNPCAbility(Location loc, Entity caster, double multiplier) {
-        if(loc.getWorld() == null)
+        if (loc.getWorld() == null)
             return;
 
 
@@ -89,6 +91,7 @@ public class Tsunami extends NPCAbility implements Listener {
 
         new BukkitRunnable() {
             int counter = 0;
+
             @Override
             public void run() {
                 for (int j = -10; j < Math.min(Math.sqrt(counter) * 1.5, 30); j++) {
@@ -97,15 +100,15 @@ public class Tsunami extends NPCAbility implements Listener {
                         tempLoc.add(side);
                         Util.drawParticlesForNearbyPlayers(Particle.DRIP_WATER, tempLoc, 1, .5, .5, .5, 0);
                         Location waterLoc = tempLoc.clone();
-                        if(!waterLoc.getBlock().getType().isSolid()) {
+                        if (!waterLoc.getBlock().getType().isSolid()) {
                             waterLoc.getBlock().setType(Material.WATER);
                         }
 
-                        if(j == 0) {
-                            for(Entity entity : loc.getWorld().getNearbyEntities(tempLoc, 1, 5, 1)) {
-                                if(!Util.testForValidEntity(entity, caster, true, true))
+                        if (j == 0) {
+                            for (Entity entity : loc.getWorld().getNearbyEntities(tempLoc, 1, 5, 1)) {
+                                if (!Util.testForValidEntity(entity, caster, true, true))
                                     continue;
-                                LivingEntity livingEntity  = (LivingEntity) entity;
+                                LivingEntity livingEntity = (LivingEntity) entity;
                                 livingEntity.damage(20 * multiplier, caster);
                             }
                         }
@@ -114,15 +117,15 @@ public class Tsunami extends NPCAbility implements Listener {
                 startLoc.add(dir);
                 counter++;
 
-                if(counter > 65) {
-                    if(!npc)
+                if (counter > 65) {
+                    if (!npc)
                         pathway.getSequence().getUsesAbilities()[identifier - 1] = false;
                     cancel();
                     new BukkitRunnable() {
                         @Override
                         public void run() {
                             final List<Block> waterBlocksAfter = Util.getWaterBlocksInSquare(loc.getBlock(), 45).stream().filter(block -> !waterBlocksBefore.contains(block)).collect(Collectors.toList());
-                            for(Block b : waterBlocksAfter) {
+                            for (Block b : waterBlocksAfter) {
                                 b.setType(Material.AIR);
                             }
                         }
@@ -133,7 +136,7 @@ public class Tsunami extends NPCAbility implements Listener {
     }
 
     private void removeWater(Block b, int x, int y, int z) {
-        if(b.getLocation().add(x, y,z).getBlock().getType() == Material.WATER)
-            b.getLocation().add(x, y,z).getBlock().setType(Material.AIR);
+        if (b.getLocation().add(x, y, z).getBlock().getType() == Material.WATER)
+            b.getLocation().add(x, y, z).getBlock().setType(Material.AIR);
     }
 }

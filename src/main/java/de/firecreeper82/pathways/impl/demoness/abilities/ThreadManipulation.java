@@ -2,7 +2,6 @@ package de.firecreeper82.pathways.impl.demoness.abilities;
 
 import de.firecreeper82.lotm.Plugin;
 import de.firecreeper82.lotm.util.Util;
-import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.NPCAbility;
 import de.firecreeper82.pathways.Pathway;
@@ -24,7 +23,7 @@ public class ThreadManipulation extends NPCAbility {
 
     public ThreadManipulation(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
-        if(!npc)
+        if (!npc)
             items.addToSequenceItems(identifier - 1, sequence);
     }
 
@@ -44,7 +43,7 @@ public class ThreadManipulation extends NPCAbility {
 
         Location loc = npc ? target : p.getEyeLocation();
 
-        if(!npc) {
+        if (!npc) {
             Vector dir = p.getEyeLocation().getDirection().normalize();
             World world = loc.getWorld();
 

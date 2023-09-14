@@ -5,7 +5,10 @@ import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.NPCAbility;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.demoness.DemonessItems;
-import org.bukkit.*;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -18,7 +21,7 @@ public class DarkFlames extends NPCAbility {
     public DarkFlames(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
 
-        if(!npc)
+        if (!npc)
             items.addToSequenceItems(identifier - 1, sequence);
 
         this.npc = npc;
@@ -29,7 +32,7 @@ public class DarkFlames extends NPCAbility {
         Vector vector;
         Location loc = caster.getLocation().add(0, 1.5, 0).clone();
 
-        if(!npc)
+        if (!npc)
             vector = caster.getLocation().getDirection().normalize();
         else
             vector = target.toVector().subtract(loc.toVector()).normalize().multiply(.25);
@@ -53,7 +56,7 @@ public class DarkFlames extends NPCAbility {
                 loc.add(vector);
                 world.spawnParticle(Particle.SOUL_FIRE_FLAME, loc, 40, .25, .25, .25, 0);
 
-                if(!npc) {
+                if (!npc) {
                     if (loc.getBlock().getType().isSolid()) {
                         loc.clone().subtract(vector).getBlock().setType(Material.SOUL_FIRE);
                         cancel();

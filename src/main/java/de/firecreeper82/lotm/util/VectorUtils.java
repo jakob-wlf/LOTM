@@ -30,6 +30,7 @@ public class VectorUtils {
     }
 
     private static final double EPSILON = Math.ulp(1.0d) * 2d;
+
     private static boolean isSignificant(double value) {
         return Math.abs(value) >= EPSILON;
     }

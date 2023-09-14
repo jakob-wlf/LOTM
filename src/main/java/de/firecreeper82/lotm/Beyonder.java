@@ -80,7 +80,7 @@ public class Beyonder implements Listener {
 
         resurrections = 0;
 
-        healthIndex = new int[] {
+        healthIndex = new int[]{
                 0, 180, 120, 80, 70, 55, 40, 30, 25, 20
         };
 
@@ -262,7 +262,7 @@ public class Beyonder implements Listener {
                 }
 
                 actingCounter++;
-                if(actingCounter >= 20 * 15) {
+                if (actingCounter >= 20 * 15) {
                     actingCounter = 0;
                     addActing(1);
                 }
@@ -357,6 +357,7 @@ public class Beyonder implements Listener {
 
         updateActing();
     }
+
     public void addActing(int actingAdd) {
         if (!digested) {
             actingProgress += actingAdd;

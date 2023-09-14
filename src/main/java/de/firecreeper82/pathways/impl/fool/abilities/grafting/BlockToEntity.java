@@ -8,7 +8,6 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.FallingBlock;
-import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -24,6 +23,7 @@ public class BlockToEntity {
         Random random = new Random();
         new BukkitRunnable() {
             int downCounter = 20 * 60 * 4;
+
             @Override
             public void run() {
                 Block block;
@@ -36,7 +36,7 @@ public class BlockToEntity {
                 }
 
                 downCounter--;
-                if(downCounter <= 0) {
+                if (downCounter <= 0) {
                     cancel();
                     return;
                 }

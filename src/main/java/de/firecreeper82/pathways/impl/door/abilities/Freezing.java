@@ -1,7 +1,6 @@
 package de.firecreeper82.pathways.impl.door.abilities;
 
 import de.firecreeper82.lotm.Plugin;
-import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.NPCAbility;
 import de.firecreeper82.pathways.Pathway;
@@ -28,7 +27,7 @@ public class Freezing extends NPCAbility {
 
         this.npc = npc;
 
-        if(!npc)
+        if (!npc)
             items.addToSequenceItems(identifier - 1, sequence);
     }
 
@@ -54,7 +53,7 @@ public class Freezing extends NPCAbility {
         }
 
         if (target == null) {
-            if(!npc)
+            if (!npc)
                 p.sendMessage("§cCouldn't find the target!");
             return;
         }

@@ -25,7 +25,7 @@ public class ElectricShock extends NPCAbility {
 
         this.npc = npc;
 
-        if(!npc)
+        if (!npc)
             items.addToSequenceItems(identifier - 1, sequence);
     }
 
@@ -44,7 +44,7 @@ public class ElectricShock extends NPCAbility {
             for (Entity entity : loc.getWorld().getNearbyEntities(loc, 1, 1, 1)) {
                 if ((!(entity instanceof Mob) && !(entity instanceof Player)) || entity == caster)
                     continue;
-                ((LivingEntity)entity).damage(4 * multiplier, caster);
+                ((LivingEntity) entity).damage(4 * multiplier, caster);
                 break outerloop;
             }
 

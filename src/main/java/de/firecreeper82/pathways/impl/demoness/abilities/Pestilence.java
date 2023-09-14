@@ -1,7 +1,6 @@
 package de.firecreeper82.pathways.impl.demoness.abilities;
 
 import de.firecreeper82.lotm.Plugin;
-import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.NPCAbility;
 import de.firecreeper82.pathways.Pathway;
@@ -29,7 +28,7 @@ public class Pestilence extends NPCAbility {
 
         this.npc = npc;
 
-        if(!npc)
+        if (!npc)
             items.addToSequenceItems(identifier - 1, sequence);
         infected = new ArrayList<>();
     }
@@ -44,10 +43,10 @@ public class Pestilence extends NPCAbility {
             public void run() {
                 caster.getWorld().spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, caster.getLocation().add(0, 1.5, 0), 500, 250, 60, 250, 0);
 
-                if(npc)
+                if (npc)
                     npcCounter--;
 
-                if(npc && npcCounter <= 0)
+                if (npc && npcCounter <= 0)
                     cancel();
 
                 if (!npc && pathway.getBeyonder().getSpirituality() <= 50) {
@@ -55,7 +54,7 @@ public class Pestilence extends NPCAbility {
                     return;
                 }
 
-                if(!npc) {
+                if (!npc) {
                     drainer++;
                     if (drainer >= 20) {
                         drainer = 0;
@@ -69,7 +68,7 @@ public class Pestilence extends NPCAbility {
 
                     if (!(entity instanceof LivingEntity livingEntity))
                         continue;
-                    
+
                     infected.add(entity);
                     new BukkitRunnable() {
                         long counter = 80;
@@ -77,7 +76,7 @@ public class Pestilence extends NPCAbility {
                         @Override
                         public void run() {
 
-                            if(npc && npcCounter <= 0)
+                            if (npc && npcCounter <= 0)
                                 cancel();
 
                             if (counter % 80 == 0) {

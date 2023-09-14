@@ -19,16 +19,16 @@ public class EntityToLocation {
 
         int maxCounter = 20 * 60 * 5;
 
-        if(entity == null)
+        if (entity == null)
             return;
 
         int[] timeBySequence = new int[]{
-                0, 20 * 7, 20 * 20, 20 * 40, 20 * 60, 20 * 60 * 2, 20 * 60 *3, 20 * 60 * 4
+                0, 20 * 7, 20 * 20, 20 * 40, 20 * 60, 20 * 60 * 2, 20 * 60 * 3, 20 * 60 * 4
         };
 
-        if(Plugin.beyonders.containsKey(entity.getUniqueId())) {
+        if (Plugin.beyonders.containsKey(entity.getUniqueId())) {
             Beyonder beyonderTarget = Plugin.beyonders.get(entity.getUniqueId());
-            if(beyonderTarget.getPathway() != null && beyonderTarget.getPathway().getSequence() != null && beyonderTarget.getPathway().getSequence().getCurrentSequence() < 8)
+            if (beyonderTarget.getPathway() != null && beyonderTarget.getPathway().getSequence() != null && beyonderTarget.getPathway().getSequence().getCurrentSequence() < 8)
                 maxCounter = timeBySequence[beyonderTarget.getPathway().getSequence().getCurrentSequence()];
         }
 

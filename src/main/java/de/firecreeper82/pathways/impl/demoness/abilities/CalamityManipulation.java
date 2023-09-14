@@ -27,15 +27,15 @@ public class CalamityManipulation extends NPCAbility {
 
     public CalamityManipulation(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
-        if(!npc)
+        if (!npc)
             items.addToSequenceItems(identifier - 1, sequence);
     }
 
     @Override
     public void useNPCAbility(Location loc, Entity caster, double multiplier) {
-        if(!(caster instanceof LivingEntity livingEntity))
+        if (!(caster instanceof LivingEntity livingEntity))
             return;
-        switch((new Random().nextInt(3))) {
+        switch ((new Random().nextInt(3))) {
             case 0 -> (new Blizzard(livingEntity)).spawnDisaster(livingEntity, loc);
             case 1 -> (new Earthquake(livingEntity)).spawnDisaster(livingEntity, caster.getLocation());
             case 2 -> (new Tornado(livingEntity)).spawnDisaster(livingEntity, loc);
