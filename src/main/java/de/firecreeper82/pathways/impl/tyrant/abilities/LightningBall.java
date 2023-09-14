@@ -63,7 +63,7 @@ public class LightningBall extends NPCAbility {
 
                 if (startLoc.getBlock().getType().isSolid() || (!startLoc.getWorld().getNearbyEntities(startLoc, 1, 1, 1).isEmpty() && !startLoc.getWorld().getNearbyEntities(startLoc, 1, 1, 1).contains(caster))) {
                     new BukkitRunnable() {
-                        int counter = 6;
+                        int counter = 16;
 
                         @Override
                         public void run() {
@@ -73,7 +73,7 @@ public class LightningBall extends NPCAbility {
                             if (counter <= 0)
                                 cancel();
                         }
-                    }.runTaskTimer(Plugin.instance, 0, 2);
+                    }.runTaskTimer(Plugin.instance, 0, 4);
                     counter = 0;
                 }
 
