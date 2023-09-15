@@ -61,7 +61,7 @@ public class FoolItems extends Items {
                 "§5Spirit Body Threads: §7Convert Entities into marionettes",
                 "§5Use §7left-click §5to change the target",
                 "§5Marionette Controlling: §7Despawn/Respawn your marionettes",
-                "§5Marionette Controlling: §7Takje full control over a marionette",
+                "§5Marionette Controlling: §7Take full control over a marionette",
                 "§5Use §7left-click §5to change selected marionette",
                 "§5Marionettes will follow you around and fight for you",
                 "§5Use §7/configure-threads §5 to configure from what distance you can control entities and which entities you want to see the Spirit-Body-Threads of"

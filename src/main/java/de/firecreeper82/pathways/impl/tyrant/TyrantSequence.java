@@ -88,7 +88,7 @@ public class TyrantSequence extends Sequence implements Listener {
                 new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60, 1, false, false, false),
                 new PotionEffect(PotionEffectType.NIGHT_VISION, 500, 5, false, false, true),
                 new PotionEffect(PotionEffectType.DOLPHINS_GRACE, 80, 4, false, false, true),
-                new PotionEffect(PotionEffectType.SPEED, 60, 0, false, false, true),
+                new PotionEffect(PotionEffectType.SPEED, 60, 3, false, false, true),
                 new PotionEffect(PotionEffectType.SATURATION, 60, 10, false, false, true),
         };
         sequenceEffects.put(2, effects2);

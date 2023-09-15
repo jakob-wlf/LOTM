@@ -53,7 +53,7 @@ public class ExtremeColdness extends NPCAbility {
         new BukkitRunnable() {
             @Override
             public void run() {
-                Util.getBlocksInCircleRadius(caster.getLocation().getBlock(), 20, true, Material.ICE, Material.PACKED_ICE).forEach(block -> {
+                Util.getNearbyBlocksInSphere(caster.getLocation(), 20, false,true, false).forEach(block -> {
                     if (block.getType() == Material.ICE || block.getType() == Material.PACKED_ICE)
                         return;
                     if (block.getType().getHardness() <= .4f || block.getType() == Material.WATER)

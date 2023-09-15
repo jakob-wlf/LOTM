@@ -43,6 +43,7 @@ public class DemonessItems extends Items {
         abilityInfo.put(8, s8);
 
         String[] s7 = formatAbilityInfo(pathway.getStringColor(), "7: " + names.get(7),
+                "§dUse: §7/items §dto get the abilities for your Sequence",
                 "§dInvisibility: §7Hide yourself from entities and players",
                 "§dBlack Flames: §7Create black flames",
                 "§dFrost Magic: §7Freeze entities or blocks",

@@ -31,47 +31,57 @@ public class TyrantItems extends Items {
     public void initializeAbilityInfos() {
         HashMap<Integer, String> names = Objects.requireNonNull(Pathway.getNamesForPathway(pathway.getNameNormalized()));
         String[] s9 = formatAbilityInfo(pathway.getStringColor(), "9: " + names.get(9),
-                ""
+                "§9Physical Enhancements: §7Enhanced Strength and Resistance",
+                "§9Night vision"
         );
         abilityInfo.put(9, s9);
 
         String[] s8 = formatAbilityInfo(pathway.getStringColor(), "8: " + names.get(8),
-                ""
+                "§9Use: §7/items §9to get the abilities for your Sequence",
+                "§9Raging Blows: §7Unleash a barrage of blows"
         );
         abilityInfo.put(8, s8);
 
         String[] s7 = formatAbilityInfo(pathway.getStringColor(), "7: " + names.get(7),
-                ""
+                "§9Water Spells: §7Gain a multitude of small water related spells",
+                "§9Switch through spells using §7Left-Click§9."
         );
         abilityInfo.put(7, s7);
 
         String[] s6 = formatAbilityInfo(pathway.getStringColor(), "6: " + names.get(6),
-                ""
+                "§9Wind Manipulation: §7The ability to use wind in combat by creating wind blades, binding the opponent or flying",
+                "§9Switch through spells using §7Left-Click§9."
         );
         abilityInfo.put(6, s6);
 
         String[] s5 = formatAbilityInfo(pathway.getStringColor(), "5: " + names.get(5),
-                ""
+                "§9Lightning: §7Strike your enemies with powerful lightning bolts",
+                "§9Disable the destruction of the Lightning with §7Left-Click§9"
         );
         abilityInfo.put(5, s5);
 
         String[] s4 = formatAbilityInfo(pathway.getStringColor(), "4: " + names.get(4),
-                ""
+                "§9Roar: §7Unleash a roar that has enough power to cut through mountains",
+                "§9Tornado: §7Summon a Tornado",
+                "§9Tsunami: §7Summon a huge Tsunami"
         );
         abilityInfo.put(4, s4);
 
         String[] s3 = formatAbilityInfo(pathway.getStringColor(), "3: " + names.get(3),
-                ""
+                "§9Lightning Storm: §7Create a giant lightning storm that can span several hundreds of meters",
+                "§9Enable/Disable Destruction of the Lightning Bolts using §7Left-Click§9.",
+                "§9When in water, aquatic life will now try to help you fight your enemies"
         );
         abilityInfo.put(3, s3);
 
         String[] s2 = formatAbilityInfo(pathway.getStringColor(), "2: " + names.get(2),
-                ""
+                "§9Extreme Coldness: §7Create an area of extreme coldness that can freeze everything within seconds"
         );
         abilityInfo.put(2, s2);
 
         String[] s1 = formatAbilityInfo(pathway.getStringColor(), "1: " + names.get(1),
-                ""
+                "§9Lightning Tornado: §7Create a huge tornado made out of lightning",
+                "§9Lightning ball: §7Condense Lightning into a sphere and unleash it upon your enemy"
         );
         abilityInfo.put(1, s1);
     }

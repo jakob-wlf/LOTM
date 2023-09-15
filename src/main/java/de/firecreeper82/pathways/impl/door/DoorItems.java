@@ -54,7 +54,7 @@ public class DoorItems extends Items {
         String[] s6 = formatAbilityInfo(pathway.getStringColor(), "6: " + names.get(6),
                 "§bRecord: §7Record beyonder abilities from other players",
                 "§bRecorded abilities can only be used once",
-                "§bThe higher the abilities Sequence is to yours, the less likely it is for the Recording to succed"
+                "§bThe higher the abilities Sequence is to yours, the less likely it is for the Recording to succeed"
         );
         abilityInfo.put(6, s6);
 
