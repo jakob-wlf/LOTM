@@ -67,7 +67,7 @@ public class LightningBall extends NPCAbility {
 
                         @Override
                         public void run() {
-                            TyrantSequence.spawnLighting(startLoc.clone().add(random.nextInt(-1, 1), 0, random.nextInt(-1, 1)), caster, getMultiplier(), false, false, 1);
+                            TyrantSequence.spawnLighting(startLoc.clone().add(random.nextInt(-1, 1), 0, random.nextInt(-1, 1)), caster, 10, false, false, 1);
 
                             counter--;
                             if (counter <= 0)

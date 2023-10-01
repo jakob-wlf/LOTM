@@ -18,7 +18,7 @@ public class SealedArtifacts implements CommandExecutor {
     private final HashMap<Material, String> artifactMaterials = new HashMap<>();
     private final HashMap<Integer, String[]> pathwayNames = new HashMap<>();
 
-    private NegativeEffects negativeEffects;
+    private final NegativeEffects negativeEffects;
 
     public SealedArtifacts() {
         Objects.requireNonNull(Plugin.instance.getCommand("artifact")).setExecutor(this);

@@ -17,7 +17,7 @@ public class DisableThreadsCmd implements CommandExecutor {
     //Command for the Player to choose which Spirit Body Threads he can see
     //Only works for Beyonders of the Fool Pathway
     public boolean onCommand(@NonNull CommandSender s, @NonNull Command command, @NonNull String label, @NonNull String[] args) {
-        if (!(s instanceof Player)) {
+        if (!(s instanceof Player p)) {
             s.sendMessage("§cYou have to be a player to use this command!");
             return true;
         }
@@ -25,8 +25,6 @@ public class DisableThreadsCmd implements CommandExecutor {
             s.sendMessage("§cWrong usage: Use /disable-threads <Normal | Player | Undead | Arthropod | Illager>");
             return true;
         }
-
-        Player p = (Player) s;
 
         if (!Plugin.beyonders.containsKey(p.getUniqueId())) {
             s.sendMessage("§cYou have to be a Beyonder to use this command!");

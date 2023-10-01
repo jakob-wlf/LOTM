@@ -18,7 +18,7 @@ import java.util.Random;
 
 public class LightOfPurification extends NPCAbility {
 
-    private boolean npc;
+    private final boolean npc;
 
     public LightOfPurification(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);

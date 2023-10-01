@@ -60,7 +60,8 @@ public class DoorItems extends Items {
 
         String[] s5 = formatAbilityInfo(pathway.getStringColor(), "5: " + names.get(5),
                 "§bBlink: §7Short distance teleportation",
-                "§bTravelers Door: §7Teleport yourself and other entities"
+                "§bTravelers Door: §7Teleport yourself and other entities",
+                "§7Sneak §bwhile using to input coordinates"
         );
         abilityInfo.put(5, s5);
 

@@ -62,7 +62,7 @@ public class BlackHole extends NPCAbility {
             ArrayList<Block> blocks = Util.getNearbyBlocksInSphere(loc.getBlock().getLocation(), 32, false, true, true);
 
             int counter = 0;
-            int spiritCounter = 20;
+            final int spiritCounter = 20;
 
             @Override
             public void run() {

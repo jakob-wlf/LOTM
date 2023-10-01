@@ -20,7 +20,7 @@ import java.util.Objects;
 
 public class HolyLight extends NPCAbility {
 
-    private boolean npc;
+    private final boolean npc;
 
     public HolyLight(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);

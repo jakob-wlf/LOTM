@@ -101,10 +101,7 @@ public abstract class Sequence {
         ItemStack checkItem = item.clone();
         checkItem.setAmount(1);
 
-        if (pathway.getItems().returnItemsFromSequence(currentSequence).contains(checkItem))
-            return true;
-
-        return false;
+        return pathway.getItems().returnItemsFromSequence(currentSequence).contains(checkItem);
     }
 
     public void removeSpirituality(double remove) {

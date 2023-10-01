@@ -15,7 +15,7 @@ public class ThreadLengthCmd implements CommandExecutor {
     //Command for the Player to choose how far he can see Spirit Body Threads
     //Only works for Beyonders of the Fool Pathway
     public boolean onCommand(@NonNull CommandSender s, @NonNull Command command, @NonNull String label, @NonNull String[] args) {
-        if (!(s instanceof Player)) {
+        if (!(s instanceof Player p)) {
             s.sendMessage("§cYou have to be a player to use this command!");
             return true;
         }
@@ -23,8 +23,6 @@ public class ThreadLengthCmd implements CommandExecutor {
             s.sendMessage("§cWrong usage: Use /thread-length <length>");
             return true;
         }
-
-        Player p = (Player) s;
 
         if (!Plugin.beyonders.containsKey(p.getUniqueId())) {
             s.sendMessage("§cYou have to be a Beyonder to use this command!");

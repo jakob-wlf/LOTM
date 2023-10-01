@@ -56,7 +56,10 @@ public class TyrantItems extends Items {
 
         String[] s5 = formatAbilityInfo(pathway.getStringColor(), "5: " + names.get(5),
                 "§9Lightning: §7Strike your enemies with powerful lightning bolts",
-                "§9Disable the destruction of the Lightning with §7Left-Click§9"
+                "§9Disable the destruction of the Lightning with §7Left-Click§9",
+                "§9Siren Song: §7Create various effects by singing",
+                "§9Switch through the different songs using §7Left-Click§9.",
+                "§9You gain a few new water spells"
         );
         abilityInfo.put(5, s5);
 

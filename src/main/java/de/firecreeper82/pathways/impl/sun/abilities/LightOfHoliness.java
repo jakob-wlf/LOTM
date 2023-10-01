@@ -21,7 +21,7 @@ import java.util.Random;
 
 public class LightOfHoliness extends NPCAbility {
 
-    private boolean npc;
+    private final boolean npc;
 
     public LightOfHoliness(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);

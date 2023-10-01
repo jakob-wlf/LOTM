@@ -27,7 +27,6 @@ public class MediumSpirit extends Spirit implements Listener {
     }
 
     private Particle.DustOptions dust = new Particle.DustOptions(Color.fromRGB(0, 0, 0), 6);
-    ;
 
     @Override
     public void start() {
