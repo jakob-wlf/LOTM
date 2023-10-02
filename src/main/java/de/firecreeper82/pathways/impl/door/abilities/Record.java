@@ -88,10 +88,7 @@ public class Record extends NPCAbility {
 
         npcRecordedAbilities.get(caster).get(random.nextInt(npcRecordedAbilities.get(caster).size())).useNPCAbility(loc, caster, multiplier);
 
-        for (Entity temp : npcRecordedAbilities.keySet()) {
-            if (!temp.isValid())
-                npcRecordedAbilities.remove(temp);
-        }
+        npcRecordedAbilities.keySet().removeIf(entity -> !entity.isValid());
     }
 
     @Override

@@ -65,7 +65,7 @@ public class RogueBeyonders implements Listener {
     }
 
     public void spawnNPC(boolean aggressive, int sequence, int pathway, Location location) {
-        RogueBeyonder rogueBeyonder = new RogueBeyonder(aggressive, sequence, pathway, this);
+        RogueBeyonder rogueBeyonder = new RogueBeyonder(aggressive, sequence, pathway);
         Plugin.instance.getServer().getPluginManager().registerEvents(rogueBeyonder, Plugin.instance);
         rogueBeyonder.spawn(location);
     }

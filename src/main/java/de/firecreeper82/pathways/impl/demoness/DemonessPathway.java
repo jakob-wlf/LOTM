@@ -7,8 +7,8 @@ import java.util.UUID;
 
 public class DemonessPathway extends Pathway {
 
-    public DemonessPathway(UUID uuid, int optionalSequence) {
-        super(uuid, optionalSequence);
+    public DemonessPathway(UUID uuid, int optionalSequence, int pathwayInt) {
+        super(uuid, optionalSequence, pathwayInt);
     }
 
     @Override

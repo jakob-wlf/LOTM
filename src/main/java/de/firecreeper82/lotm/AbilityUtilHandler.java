@@ -104,6 +104,11 @@ public class AbilityUtilHandler {
         return pathwayAbilities.stream().filter(npcAbility -> npcAbility.getSequence() == sequence).collect(Collectors.toList());
     }
 
+    public static List<NPCAbility> getAllAbilitiesUpToSequence(int pathway, int sequence) {
+        List<NPCAbility> pathwayAbilities = abilities.get(pathway);
+        return pathwayAbilities.stream().filter(npcAbility -> npcAbility.getSequence() >= sequence).collect(Collectors.toList());
+    }
+
     public static HashMap<Integer, String> getColorPrefix() {
         return colorPrefix;
     }

@@ -20,12 +20,14 @@ public abstract class Pathway {
     protected int optionalSequence;
     protected String stringColor;
     protected String nameNormalized;
+    protected int pathwayInt;
 
     public Items items;
 
-    public Pathway(UUID uuid, int optionalSequence) {
+    public Pathway(UUID uuid, int optionalSequence, int pathwayInt) {
         this.uuid = uuid;
         this.optionalSequence = optionalSequence;
+        this.pathwayInt = pathwayInt;
     }
 
 
@@ -89,11 +91,11 @@ public abstract class Pathway {
         if (Plugin.beyonders.containsKey(uuid))
             return null;
         switch (pathway) {
-            case "sun" -> pathwayObject = new SunPathway(uuid, sequence);
-            case "fool" -> pathwayObject = new FoolPathway(uuid, sequence);
-            case "door" -> pathwayObject = new DoorPathway(uuid, sequence);
-            case "demoness" -> pathwayObject = new DemonessPathway(uuid, sequence);
-            case "tyrant" -> pathwayObject = new TyrantPathway(uuid, sequence);
+            case "sun" -> pathwayObject = new SunPathway(uuid, sequence, 0);
+            case "fool" -> pathwayObject = new FoolPathway(uuid, sequence, 1);
+            case "door" -> pathwayObject = new DoorPathway(uuid, sequence, 2);
+            case "demoness" -> pathwayObject = new DemonessPathway(uuid, sequence, 3);
+            case "tyrant" -> pathwayObject = new TyrantPathway(uuid, sequence, 4);
             default -> {
                 return null;
             }
@@ -130,6 +132,10 @@ public abstract class Pathway {
                 return null;
             }
         }
+    }
+
+    public int getPathwayInt() {
+        return pathwayInt;
     }
 }
 

@@ -54,7 +54,7 @@ public final class Plugin extends JavaPlugin {
     private SpiritHandler spiritHandler;
     private SealedArtifacts sealedArtifacts;
 
-    private ArrayList<RogueBeyonder> currentRogueBeyonders;
+    public static ArrayList<RogueBeyonder> currentRogueBeyonders;
 
     public static HashMap<UUID, Beyonder> beyonders;
     public static HashMap<UUID, ServerPlayer> fakePlayers = new HashMap<>();

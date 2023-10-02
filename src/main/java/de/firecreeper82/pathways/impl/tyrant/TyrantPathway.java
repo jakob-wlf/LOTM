@@ -7,8 +7,8 @@ import java.util.UUID;
 
 public class TyrantPathway extends Pathway {
 
-    public TyrantPathway(UUID uuid, int optionalSequence) {
-        super(uuid, optionalSequence);
+    public TyrantPathway(UUID uuid, int optionalSequence, int pathwayInt) {
+        super(uuid, optionalSequence, pathwayInt);
     }
 
     @Override

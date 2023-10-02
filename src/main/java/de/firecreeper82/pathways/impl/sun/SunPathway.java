@@ -7,8 +7,8 @@ import java.util.UUID;
 
 public class SunPathway extends Pathway {
 
-    public SunPathway(UUID uuid, int optionalSequence) {
-        super(uuid, optionalSequence);
+    public SunPathway(UUID uuid, int optionalSequence, int pathwayInt) {
+        super(uuid, optionalSequence, pathwayInt);
     }
 
     @Override
