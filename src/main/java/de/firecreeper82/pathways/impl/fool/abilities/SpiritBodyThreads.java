@@ -134,11 +134,8 @@ public class SpiritBodyThreads extends Ability implements Listener {
 
         if (!turning) {
             turnIntoMarionette(selectedEntity);
-            Bukkit.getConsoleSender().sendMessage("test0");
             return;
         }
-
-        Bukkit.getConsoleSender().sendMessage("test1");
 
         turning = false;
     }

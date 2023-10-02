@@ -11,10 +11,14 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -32,6 +36,8 @@ public class SpiritBodyThreads extends NPCAbility implements Listener {
 
     List<Entity> nearbyEntities;
 
+    private final Particle.DustOptions dustGray, dustWhite, dustPurple;
+
     public SpiritBodyThreads(int identifier, Pathway pathway, int sequence, Items items, boolean npc) {
         super(identifier, pathway, sequence, items);
 
@@ -43,6 +49,10 @@ public class SpiritBodyThreads extends NPCAbility implements Listener {
         controlling = false;
         currentEntity = null;
         index = 0;
+
+        dustGray = new Particle.DustOptions(Color.fromRGB(80, 80, 80), .75f);
+        dustWhite = new Particle.DustOptions(Color.fromRGB(255, 255, 255), .75f);
+        dustPurple = new Particle.DustOptions(Color.fromRGB(221, 0, 255), 1f);
 
         Plugin.instance.getServer().getPluginManager().registerEvents(this, Plugin.instance);
     }
@@ -59,10 +69,18 @@ public class SpiritBodyThreads extends NPCAbility implements Listener {
             return;
         }
 
-        controlling = true;
+        ((LivingEntity) currentEntity).damage(0, p);
 
+        controlling = true;
+        int convertTimeSeconds = 10;
+
+        startControlling(convertTimeSeconds);
+        drawSpiralAroundTarget(convertTimeSeconds);
+    }
+
+    private void startControlling(int convertTimeSeconds) {
         new BukkitRunnable() {
-            Particle.DustOptions dust = new Particle.DustOptions(Color.fromRGB(20, 20, 20), 1.25f);
+            int counter = 0;
             @Override
             public void run() {
                 if(currentEntity == null || !currentEntity.isValid() || !controlling || p == null || !p.isValid()) {
@@ -70,11 +88,59 @@ public class SpiritBodyThreads extends NPCAbility implements Listener {
                     cancel();
                     return;
                 }
-                drawLineToEntity(p.getEyeLocation(), currentEntity.getLocation().add(0, .5, 0), dust);
+
+                drawLineToEntity(p.getEyeLocation(), currentEntity.getLocation().add(0, .5, 0), dustPurple);
+                giveEffectsToTarget(counter);
+
+                counter++;
+
+                if(counter >= (convertTimeSeconds * 20)) {
+                    controlling = false;
+                    cancel();
+                }
             }
 
         }.runTaskTimer(Plugin.instance, 0, 0);
+    }
 
+    private void drawSpiralAroundTarget(int convertTimeSeconds) {
+        new BukkitRunnable() {
+            long counter = 10L * convertTimeSeconds;
+            double spiralRadius = 2;
+
+            double spiral = 0;
+            double height = 0;
+            double spiralX;
+            double spiralZ;
+
+            @Override
+            public void run() {
+                Location entityLoc = currentEntity.getLocation().clone();
+                entityLoc.add(0, 0.75, 0);
+
+                spiralX = spiralRadius * Math.cos(spiral);
+                spiralZ = spiralRadius * Math.sin(spiral);
+                spiral += 0.25;
+                height += .05;
+                if (height >= 2.5)
+                    height = 0;
+                if (entityLoc.getWorld() != null)
+                    entityLoc.getWorld().spawnParticle(Particle.REDSTONE, spiralX + entityLoc.getX(), height + entityLoc.getY(), spiralZ + entityLoc.getZ(), 5, dustPurple);
+
+                counter--;
+                spiralRadius -= (1.5 / (10L * convertTimeSeconds));
+
+                if (!controlling)
+                    cancel();
+                if (counter <= 0) {
+                    cancel();
+                }
+            }
+        }.runTaskTimer(Plugin.instance, 0, 2);
+    }
+
+    private void giveEffectsToTarget(int progress) {
+        ((LivingEntity) currentEntity).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 10, 2));
     }
 
     @Override
@@ -83,8 +149,11 @@ public class SpiritBodyThreads extends NPCAbility implements Listener {
             return;
 
         Location startLoc = p.getEyeLocation();
-        Particle.DustOptions dust = new Particle.DustOptions(Color.fromRGB(221, 0, 255), .75f);
-        Particle.DustOptions dustForSelected = new Particle.DustOptions(Color.fromRGB(255, 255, 255), .75f);
+
+        if(!currentEntity.isValid()) {
+            index = 0;
+            getNearbyEntities();
+        }
 
         if (currentEntity.getLocation().distance(startLoc) > maxDistance) {
             nearbyEntities.remove(currentEntity);
@@ -106,9 +175,9 @@ public class SpiritBodyThreads extends NPCAbility implements Listener {
                 continue;
 
             if (entity == currentEntity)
-                drawLineToEntity(startLoc, entity.getLocation().add(0, .5, 0), dustForSelected);
+                drawLineToEntity(startLoc, entity.getLocation().add(0, .5, 0), dustWhite);
             else
-                drawLineToEntity(startLoc, entity.getLocation().add(0, .5, 0), dust);
+                drawLineToEntity(startLoc, entity.getLocation().add(0, .5, 0), dustGray);
         }
     }
 
@@ -162,9 +231,17 @@ public class SpiritBodyThreads extends NPCAbility implements Listener {
         getNearbyEntities();
     }
 
+    @EventHandler
+    public void onDamage(EntityDamageEvent e) {
+        if(!controlling || e.getEntity() != currentEntity)
+            return;
+        controlling = false;
+    }
+
     private void getNearbyEntities() {
         nearbyEntities = p.getNearbyEntities(maxDistance, maxDistance, maxDistance)
                 .stream()
+                .filter(entity -> entity instanceof LivingEntity)
                 .sorted(Comparator.comparing(
                         entity -> entity.getLocation().distance(p.getEyeLocation())))
                 .collect(Collectors.toList());
