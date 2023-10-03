@@ -19,6 +19,9 @@ public class MarionetteControlling extends Ability {
 
     private Marionette selectedMarionette;
     private int index;
+    private boolean controlling;
+
+    private Location playerLoc;
 
 
     //TODO: Hiding in FOH enable controlling
@@ -40,10 +43,54 @@ public class MarionetteControlling extends Ability {
     @Override
     public void useAbility() {
         p = pathway.getBeyonder().getPlayer();
+
+        if(controlling) {
+            controlling = false;
+            if(playerLoc != null)
+                p.teleport(playerLoc);
+
+            stopControlling();
+            return;
+        }
+
+        if(selectedMarionette == null)
+            return;
+
+        if(p.isSneaking()) {
+            Location playerLoc = p.getLocation();
+            p.teleport(selectedMarionette.getEntity());
+            selectedMarionette.getEntity().teleport(playerLoc);
+            return;
+        }
+
+        playerLoc = p.getLocation();
+        controlling = true;
+
+        p.teleport(selectedMarionette.getEntity());
+
+        selectedMarionette.setBeingControlled(true);
+    }
+
+    private void stopControlling() {
+        p.setInvisible(true);
     }
 
     @Override
     public void leftClick() {
+        p = pathway.getBeyonder().getPlayer();
+
+        if(controlling)
+            return;
+
+        if(p.isSneaking()) {
+            if(selectedMarionette == null)
+                return;
+            selectedMarionette.setShouldFollow(!selectedMarionette.shouldFollow());
+
+            p.sendMessage("Set should follow to " + selectedMarionette.shouldFollow());
+            return;
+        }
+
         if(spiritBodyThreadsAbility.getMarionettes().isEmpty()) {
             index = 0;
             return;
@@ -59,19 +106,25 @@ public class MarionetteControlling extends Ability {
 
     @Override
     public void onHold() {
-        if(selectedMarionette == null) {
+        if(controlling)
+            return;
+
+        if(selectedMarionette == null || !selectedMarionette.isAlive()) {
+            selectedMarionette = null;
             index = 0;
             if(!spiritBodyThreadsAbility.getMarionettes().isEmpty())
                 selectedMarionette = spiritBodyThreadsAbility.getMarionettes().get(index);
             return;
         }
 
-        if(!selectedMarionette.isAlive()) {
-            selectedMarionette = null;
-            index = 0;
-        }
-
         for(Marionette marionette : spiritBodyThreadsAbility.getMarionettes()) {
+            if(marionette.getEntity() == null) {
+                marionette.destroyMarionette();
+                continue;
+            }
+            if(marionette.getEntity().getWorld() != p.getWorld())
+                continue;
+
             if(marionette == selectedMarionette)
                 drawLineToEntity(p.getEyeLocation(), marionette.getEntity().getLocation(), dustWhite);
             else

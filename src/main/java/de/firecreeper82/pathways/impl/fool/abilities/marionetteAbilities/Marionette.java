@@ -41,6 +41,10 @@ public class Marionette implements Listener {
     private LivingEntity currentTarget;
     private int cooldown = 10;
 
+    private boolean shouldFollow;
+    private boolean isBeingControlled;
+
+
     public Marionette(boolean isBeyonder, int sequence, int pathway, EntityType entityType, UUID ownerId, Location location, String name, SpiritBodyThreads ability, double health) {
         this.isBeyonder = isBeyonder;
         this.sequence = sequence;
@@ -49,6 +53,10 @@ public class Marionette implements Listener {
         this.ownerId = ownerId;
         this.name = name == null ? "" : name;
         this.ability = ability;
+
+        shouldFollow = true;
+
+        isBeingControlled = false;
 
         init();
         spawnMarionette(location, health);
@@ -84,6 +92,11 @@ public class Marionette implements Listener {
 
                 if (npc.getEntity() == null || !npc.getEntity().isValid()) {
                     cancel();
+                    return;
+                }
+
+                if(isBeingControlled) {
+                    playerControlled();
                     return;
                 }
 
@@ -148,17 +161,32 @@ public class Marionette implements Listener {
             return;
         NPCAbility usedAbility = abilities.get(new Random().nextInt(abilities.size()));
         usedAbility.useNPCAbility(currentTarget.getLocation(), getEntity(), 3);
-        cooldown = Math.round(100f / usedAbility.getSequence() * 5f);
+        cooldown = Math.round(60f / usedAbility.getSequence() * 5f);
     }
 
     private void followPlayer() {
         if(getEntity().getWorld() != getPlayer().getWorld())
             return;
 
+        if(!shouldFollow) {
+            npc.getNavigator().cancelNavigation();
+            return;
+        }
+
         if (getEntity().getLocation().distance(getPlayer().getLocation()) > 75)
             npc.getEntity().teleport(getPlayer());
 
         npc.getNavigator().setTarget(getPlayer(), false);
+    }
+
+    private void playerControlled() {
+        npc.getNavigator().cancelNavigation();
+
+        getEntity().teleport(getPlayer());
+
+        for(Player player : Bukkit.getOnlinePlayers()) {
+            player.hidePlayer(Plugin.instance, getPlayer());
+        }
     }
 
     private void spawnMarionette(Location location, double health) {
@@ -202,7 +230,7 @@ public class Marionette implements Listener {
         destroyMarionette();
     }
 
-    private void destroyMarionette() {
+    public void destroyMarionette() {
         alive = false;
 
         getPlayer().sendMessage("Your Marionette " + name + " §rhas been killed.");
@@ -226,6 +254,11 @@ public class Marionette implements Listener {
         if (e.getDamager() == e.getEntity())
             return;
 
+        if(isBeingControlled && e.getDamager() == getPlayer() && e.getEntity() == getEntity()) {
+            e.setCancelled(true);
+            return;
+        }
+
         if (e.getEntity() == getPlayer() && e.getDamager() == getEntity()) {
             e.setCancelled(true);
             return;
@@ -245,6 +278,7 @@ public class Marionette implements Listener {
     public void onMarionetteDamage(EntityDamageEvent e) {
         if(!alive)
             return;
+
         if(!e.getEntity().isValid())
             return;
 
@@ -265,7 +299,23 @@ public class Marionette implements Listener {
         e.setCancelled(true);
     }
 
+    public boolean isBeingControlled() {
+        return isBeingControlled;
+    }
+
+    public void setBeingControlled(boolean beingControlled) {
+        isBeingControlled = beingControlled;
+    }
+
     public boolean isAlive() {
         return alive;
+    }
+
+    public void setShouldFollow(boolean shouldFollow) {
+        this.shouldFollow = shouldFollow;
+    }
+
+    public boolean shouldFollow() {
+        return shouldFollow;
     }
 }
