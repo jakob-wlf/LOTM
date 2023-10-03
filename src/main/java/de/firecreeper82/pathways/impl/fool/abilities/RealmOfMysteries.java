@@ -35,7 +35,7 @@ public class RealmOfMysteries extends Ability implements Listener {
         super(identifier, pathway, sequence, items);
 
         items.addToSequenceItems(identifier - 1, sequence);
-        radius = 30;
+        radius = 12;
 
         Plugin.instance.getServer().getPluginManager().registerEvents(this, Plugin.instance);
         concealedEntities = new ArrayList<>();

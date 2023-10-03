@@ -160,10 +160,6 @@ public final class Plugin extends JavaPlugin {
         );
 
         Objects.requireNonNull(this.getCommand("beyonder")).setExecutor(new BeyonderCmd());
-        Objects.requireNonNull(this.getCommand("disable-threads")).setExecutor(new DisableThreadsCmd());
-        Objects.requireNonNull(this.getCommand("configure-threads")).setExecutor(new ConfigureThreadsCmd());
-        Objects.requireNonNull(this.getCommand("exclude-entities")).setExecutor(new ExcludeEntityCmd());
-        Objects.requireNonNull(this.getCommand("thread-length")).setExecutor(new ThreadLengthCmd());
         Objects.requireNonNull(this.getCommand("items")).setExecutor(itemsCmd);
         Objects.requireNonNull(this.getCommand("test")).setExecutor(new TestCmd());
         Objects.requireNonNull(this.getCommand("spawn")).setExecutor(new SpawnCmd());

@@ -26,17 +26,18 @@ import java.util.*;
 
 public class Marionette implements Listener {
 
-    private boolean isBeyonder;
-    private int sequence;
-    private int pathway;
-    private EntityType entityType;
-    private UUID ownerId;
-    private String name;
+    private final boolean isBeyonder;
+    private final int sequence;
+    private final int pathway;
+    private final EntityType entityType;
+    private final UUID ownerId;
+    private final String name;
     private Entity entity;
     private NPC npc;
-    private SpiritBodyThreads ability;
+    private final SpiritBodyThreads ability;
 
     private boolean isAngry;
+    private boolean alive;
     private LivingEntity currentTarget;
     private int cooldown = 10;
 
@@ -46,9 +47,8 @@ public class Marionette implements Listener {
         this.pathway = pathway;
         this.entityType = entityType;
         this.ownerId = ownerId;
-        this.name = name;
+        this.name = name == null ? "" : name;
         this.ability = ability;
-
 
         init();
         spawnMarionette(location, health);
@@ -71,8 +71,16 @@ public class Marionette implements Listener {
 
             @Override
             public void run() {
-                if (getPlayer() == null || !getPlayer().isValid())
+                if(!alive) {
+                    cancel();
                     return;
+                }
+
+                if (getPlayer() == null || !getPlayer().isValid()) {
+                    destroyMarionette();
+                    cancel();
+                    return;
+                }
 
                 if (npc.getEntity() == null || !npc.getEntity().isValid()) {
                     cancel();
@@ -129,15 +137,16 @@ public class Marionette implements Listener {
         if(!isBeyonder && ability.getPathway().getSequence().getCurrentSequence() >= 5)
             return;
 
-        NPCAbility usedAbility;
+        List<NPCAbility> abilities;
         if (!isBeyonder || new Random().nextBoolean()) {
-            List<NPCAbility> abilities = AbilityUtilHandler.getAllAbilitiesUpToSequence(1, ability.getPathway().getSequence().getCurrentSequence());
-            usedAbility = abilities.get(new Random().nextInt(abilities.size()));
+            abilities = AbilityUtilHandler.getAllAbilitiesUpToSequence(1, ability.getPathway().getSequence().getCurrentSequence());
         } else {
-            List<NPCAbility> abilities = AbilityUtilHandler.getAllAbilitiesUpToSequence(pathway, sequence);
-            usedAbility = abilities.get(new Random().nextInt(abilities.size()));
+            abilities = AbilityUtilHandler.getAllAbilitiesUpToSequence(pathway, sequence);
         }
 
+        if(abilities.isEmpty())
+            return;
+        NPCAbility usedAbility = abilities.get(new Random().nextInt(abilities.size()));
         usedAbility.useNPCAbility(currentTarget.getLocation(), getEntity(), 3);
         cooldown = Math.round(100f / usedAbility.getSequence() * 5f);
     }
@@ -167,6 +176,11 @@ public class Marionette implements Listener {
         entity = npc.getEntity();
         Objects.requireNonNull(((LivingEntity) entity).getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(health);
         ((LivingEntity) entity).setHealth(health);
+
+        alive = true;
+
+        if(!isBeyonder)
+            npc.getEntity().setCustomNameVisible(false);
     }
 
     public Entity getEntity() {
@@ -180,6 +194,8 @@ public class Marionette implements Listener {
 
     @EventHandler
     public void OnDeath(EntityDeathEvent e) {
+        if(!alive)
+            return;
         if (e.getEntity() != entity)
             return;
 
@@ -187,12 +203,20 @@ public class Marionette implements Listener {
     }
 
     private void destroyMarionette() {
+        alive = false;
+
+        getPlayer().sendMessage("Your Marionette " + name + " §rhas been killed.");
+
         ability.removeMarionette(this);
         npc.destroy();
+
+        alive = false;
     }
 
     @EventHandler
     public void onDamageToPlayer(EntityDamageByEntityEvent e) {
+        if(!alive)
+            return;
         if (!(e.getEntity() instanceof LivingEntity attacked) || !(e.getDamager() instanceof LivingEntity attacker))
             return;
 
@@ -219,6 +243,11 @@ public class Marionette implements Listener {
 
     @EventHandler
     public void onMarionetteDamage(EntityDamageEvent e) {
+        if(!alive)
+            return;
+        if(!e.getEntity().isValid())
+            return;
+
         if(e.getEntity() != getEntity())
             return;
 
@@ -234,5 +263,9 @@ public class Marionette implements Listener {
             return;
 
         e.setCancelled(true);
+    }
+
+    public boolean isAlive() {
+        return alive;
     }
 }

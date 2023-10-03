@@ -7,6 +7,8 @@ import de.firecreeper82.pathways.NPCAbility;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.fool.FoolItems;
 import net.citizensnpcs.api.CitizensAPI;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -24,10 +26,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class SpiritBodyThreads extends NPCAbility implements Listener {
@@ -69,10 +68,10 @@ public class SpiritBodyThreads extends NPCAbility implements Listener {
 
         convertTimePerLevel = new int[] {
                 0,
-                3,
+                2,
+                4,
                 5,
-                7,
-                8,
+                6,
                 12
         };
 
@@ -109,8 +108,59 @@ public class SpiritBodyThreads extends NPCAbility implements Listener {
         controlling = true;
         int convertTimeSeconds = convertTimePerLevel[pathway.getSequence().getCurrentSequence()];
 
+        if(targetIsBeyonder()) {
+            switch(getTargetSequence() - pathway.getSequence().getCurrentSequence()) {
+                case -4 -> {
+                    p.damage(100, currentEntity);
+                    p.getWorld().createExplosion(p.getLocation(), 6);
+                    controlling = false;
+                    return;
+                }
+                case -3 -> {
+                    p.damage(60, currentEntity);
+                    p.getWorld().createExplosion(p.getLocation(), 4);
+                    controlling = false;
+                    return;
+                }
+                case -2 -> {
+                    p.damage(20, currentEntity);
+                    p.getWorld().createExplosion(p.getLocation(), 2);
+                    controlling = false;
+                    return;
+                }
+                case -1 -> convertTimeSeconds *= 10;
+                case 0 -> convertTimeSeconds *= 5;
+                case 1 -> convertTimeSeconds *= 2;
+            }
+        }
+
         startControlling(convertTimeSeconds);
         drawSpiralAroundTarget(convertTimeSeconds);
+    }
+
+    private boolean targetIsBeyonder() {
+        return(
+                Plugin.beyonders.containsKey(currentEntity.getUniqueId()) ||
+                        Plugin.currentRogueBeyonders
+                                .stream()
+                                .anyMatch(rogueBeyonder -> rogueBeyonder.getEntity() == currentEntity)
+        );
+    }
+
+    private int getTargetSequence() {
+        if(Plugin.beyonders.containsKey(currentEntity.getUniqueId())) {
+            return Plugin.beyonders.get(currentEntity.getUniqueId()).getPathway().getSequence().getCurrentSequence();
+        }
+        else {
+            RogueBeyonder rogueBeyonder = Plugin.currentRogueBeyonders
+                    .stream()
+                    .filter(rb -> rb.getEntity() == currentEntity)
+                    .findFirst()
+                    .orElseThrow(() ->
+                            new RuntimeException("Rogue Beyonder not found"));
+
+            return rogueBeyonder.getSequence();
+        }
     }
 
     private void startControlling(int convertTimeSeconds) {
@@ -145,12 +195,7 @@ public class SpiritBodyThreads extends NPCAbility implements Listener {
         if(currentEntity == null || !currentEntity.isValid())
             return;
 
-        boolean isBeyonder = (
-                Plugin.beyonders.containsKey(currentEntity.getUniqueId()) ||
-                Plugin.currentRogueBeyonders
-                        .stream()
-                        .anyMatch(rogueBeyonder -> rogueBeyonder.getEntity() == currentEntity)
-        );
+        boolean isBeyonder = targetIsBeyonder();
 
         int pathway = -1;
         int sequence = -1;
@@ -278,6 +323,23 @@ public class SpiritBodyThreads extends NPCAbility implements Listener {
             else
                 drawLineToEntity(startLoc, entity.getLocation().add(0, .5, 0), dustGray);
         }
+
+        String name;
+        if(getRogueBeyonder() != null)
+            name = getRogueBeyonder().getName();
+        else
+            name = currentEntity.getName();
+
+        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§5Selected: §8" + name + " §r-- §5Distance: §8" + Math.round(currentEntity.getLocation().distance(p.getLocation()))));
+    }
+
+    private RogueBeyonder getRogueBeyonder() {
+        Optional<RogueBeyonder> rogueBeyonderOptional = Plugin.currentRogueBeyonders
+                .stream()
+                .filter(rb -> rb.getEntity() == currentEntity)
+                .findFirst();
+
+        return rogueBeyonderOptional.orElse(null);
     }
 
     @Override
@@ -356,7 +418,11 @@ public class SpiritBodyThreads extends NPCAbility implements Listener {
 
     private void getNearbyEntities() {
         int currentSequence = pathway.getSequence().getCurrentSequence();
-        nearbyEntities = p.getNearbyEntities(maxDistance[currentSequence], maxDistance[currentSequence], maxDistance[currentSequence])
+        int distance = maxDistance[currentSequence];
+        if(!onlyShowPlayers && distance > 75)
+            distance = 75;
+
+        nearbyEntities = p.getNearbyEntities(distance, distance, distance)
                 .stream()
                 .filter(entity -> entity instanceof LivingEntity && !(entity instanceof ArmorStand))
                 .sorted(Comparator.comparing(
@@ -373,5 +439,9 @@ public class SpiritBodyThreads extends NPCAbility implements Listener {
 
     public void removeMarionette(Marionette marionette) {
         marionettes.remove(marionette);
+    }
+
+    public List<Marionette> getMarionettes() {
+        return marionettes;
     }
 }

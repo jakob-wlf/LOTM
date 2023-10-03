@@ -94,13 +94,6 @@ public class Hiding extends Ability implements Listener {
         if (e.getPlayer() != p || !hiding)
             return;
 
-        for (Ability ability : pathway.getSequence().getAbilities()) {
-            if (!(ability instanceof MarionetteControlling controlling))
-                continue;
-            if (controlling.isControlling())
-                return;
-        }
-
         e.setCancelled(true);
     }
 

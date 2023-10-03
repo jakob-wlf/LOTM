@@ -24,22 +24,22 @@ public class RogueBeyonders implements Listener {
         Plugin.instance.getServer().getPluginManager().registerEvents(this, Plugin.instance);
         spawnProbabilityTable = new HashMap<>();
 
-        spawnProbabilityTable.put(EntityType.COW, 10);
-        spawnProbabilityTable.put(EntityType.SHEEP, 10);
-        spawnProbabilityTable.put(EntityType.SKELETON, 15);
-        spawnProbabilityTable.put(EntityType.ZOMBIE_VILLAGER, 5);
-        spawnProbabilityTable.put(EntityType.SPIDER, 10);
-        spawnProbabilityTable.put(EntityType.HUSK, 35);
-        spawnProbabilityTable.put(EntityType.CHICKEN, 10);
-        spawnProbabilityTable.put(EntityType.WOLF, 5);
-        spawnProbabilityTable.put(EntityType.ZOMBIE, 15);
-        spawnProbabilityTable.put(EntityType.CREEPER, 5);
-        spawnProbabilityTable.put(EntityType.MAGMA_CUBE, 5);
-        spawnProbabilityTable.put(EntityType.PIGLIN, 5);
-        spawnProbabilityTable.put(EntityType.ZOMBIFIED_PIGLIN, 5);
-        spawnProbabilityTable.put(EntityType.ENDERMAN, 5);
-        spawnProbabilityTable.put(EntityType.HORSE, 5);
-        spawnProbabilityTable.put(EntityType.FOX, 5);
+        spawnProbabilityTable.put(EntityType.COW, 1);
+        spawnProbabilityTable.put(EntityType.SHEEP, 1);
+        spawnProbabilityTable.put(EntityType.SKELETON, 1);
+        spawnProbabilityTable.put(EntityType.ZOMBIE_VILLAGER, 1);
+        spawnProbabilityTable.put(EntityType.SPIDER, 1);
+        spawnProbabilityTable.put(EntityType.HUSK, 1);
+        spawnProbabilityTable.put(EntityType.CHICKEN, 1);
+        spawnProbabilityTable.put(EntityType.WOLF, 1);
+        spawnProbabilityTable.put(EntityType.ZOMBIE, 1);
+        spawnProbabilityTable.put(EntityType.CREEPER, 1);
+        spawnProbabilityTable.put(EntityType.MAGMA_CUBE, 1);
+        spawnProbabilityTable.put(EntityType.PIGLIN, 1);
+        spawnProbabilityTable.put(EntityType.ZOMBIFIED_PIGLIN, 1);
+        spawnProbabilityTable.put(EntityType.ENDERMAN, 1);
+        spawnProbabilityTable.put(EntityType.HORSE, 1);
+        spawnProbabilityTable.put(EntityType.FOX, 1);
 
     }
 

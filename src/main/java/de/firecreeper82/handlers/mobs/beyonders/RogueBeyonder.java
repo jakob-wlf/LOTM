@@ -74,7 +74,7 @@ public class RogueBeyonder implements Listener {
         Random random = new Random();
 
         name = Plugin.instance.getNames().get(random.nextInt(Plugin.instance.getNames().size()));
-        name = AbilityUtilHandler.getColorPrefix().get(pathway) + name + " - " + sequence + " (" + aggressive + ")";
+        name = AbilityUtilHandler.getColorPrefix().get(pathway) + name + " (" + sequence + ")";
 
         beyonder = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, name);
         beyonder.setProtected(false);

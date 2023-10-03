@@ -4,6 +4,7 @@ import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.fool.abilities.*;
+import de.firecreeper82.pathways.impl.fool.abilities.marionetteAbilities.MarionetteControlling;
 import de.firecreeper82.pathways.impl.fool.abilities.marionetteAbilities.SpiritBodyThreads;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -110,21 +111,21 @@ public class FoolItems extends Items {
 
     @Override
     public void createItems() {
+        SpiritBodyThreads spiritBodyThreads = new SpiritBodyThreads(7, pathway, 5, this, false);
+
         addAbility(new Divine(1, pathway, 9, this));
         addAbility(new FlameControlling(2, pathway, 7, this, false));
         addAbility(new AirBullet(3, pathway, 7, this, false));
         addAbility(new AirPipe(4, pathway, 7, this));
         addAbility(new FlameJump(5, pathway, 7, this));
         addAbility(new PaperSubstitute(6, pathway, 7, this));
-        addAbility(new SpiritBodyThreads(7, pathway, 5, this, false));
-//        addAbility(new SpiritBodyThreads(7, pathway, 5, this));
-        addAbility(new MarionetteManagement(8, pathway, 5, this));
-        addAbility(new MarionetteControlling(9, pathway, 5, this));
-        addAbility(new FogOfHistory(10, pathway, 3, this));
-        addAbility(new Hiding(11, pathway, 3, this));
-        addAbility(new Miracles(12, pathway, 2, this));
-        addAbility(new Grafting(13, pathway, 1, this, false));
-        addAbility(new RealmOfMysteries(14, pathway, 1, this));
+        addAbility(spiritBodyThreads);
+        addAbility(new MarionetteControlling(8, pathway, 5, this, spiritBodyThreads));
+        addAbility(new FogOfHistory(9, pathway, 3, this));
+        addAbility(new Hiding(10, pathway, 3, this));
+        addAbility(new Miracles(11, pathway, 2, this));
+        addAbility(new Grafting(12, pathway, 1, this, false));
+        addAbility(new RealmOfMysteries(13, pathway, 1, this));
     }
 
     public void addAbility(Ability ability) {
