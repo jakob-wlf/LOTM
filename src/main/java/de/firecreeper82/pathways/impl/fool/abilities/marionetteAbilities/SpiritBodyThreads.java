@@ -2,7 +2,6 @@ package de.firecreeper82.pathways.impl.fool.abilities.marionetteAbilities;
 
 import de.firecreeper82.handlers.mobs.beyonders.RogueBeyonder;
 import de.firecreeper82.lotm.Plugin;
-import de.firecreeper82.lotm.util.Util;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.NPCAbility;
 import de.firecreeper82.pathways.Pathway;
@@ -13,15 +12,13 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -30,6 +27,7 @@ import org.bukkit.util.Vector;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class SpiritBodyThreads extends NPCAbility implements Listener {
@@ -39,6 +37,7 @@ public class SpiritBodyThreads extends NPCAbility implements Listener {
     private Entity currentEntity;
     private int index;
     private final int[] maxDistance;
+    private boolean onlyShowPlayers;
 
     private final int[] convertTimePerLevel;
 
@@ -59,6 +58,8 @@ public class SpiritBodyThreads extends NPCAbility implements Listener {
         currentEntity = null;
         index = 0;
 
+        onlyShowPlayers = false;
+
         marionettes = new ArrayList<>();
 
         dustGray = new Particle.DustOptions(Color.fromRGB(80, 80, 80), .75f);
@@ -77,8 +78,8 @@ public class SpiritBodyThreads extends NPCAbility implements Listener {
 
         maxDistance = new int[] {
                 100000000,
-                750,
-                500,
+                200,
+                150,
                 125,
                 75,
                 12
@@ -103,6 +104,7 @@ public class SpiritBodyThreads extends NPCAbility implements Listener {
             return;
 
         ((LivingEntity) currentEntity).damage(0, p);
+        currentEntity.setMetadata("isBeingControlled", new FixedMetadataValue(Plugin.instance, p.getUniqueId()));
 
         controlling = true;
         int convertTimeSeconds = convertTimePerLevel[pathway.getSequence().getCurrentSequence()];
@@ -118,6 +120,8 @@ public class SpiritBodyThreads extends NPCAbility implements Listener {
             public void run() {
                 if(currentEntity == null || !currentEntity.isValid() || !controlling || p == null || !p.isValid()) {
                     controlling = false;
+                    if(currentEntity != null && currentEntity.isValid())
+                        currentEntity.removeMetadata("isBeingControlled", Plugin.instance);
                     cancel();
                     return;
                 }
@@ -180,7 +184,7 @@ public class SpiritBodyThreads extends NPCAbility implements Listener {
                 currentEntity.getLocation(),
                 name,
                 this,
-                ((LivingEntity) currentEntity).getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue()
+                Objects.requireNonNull(((LivingEntity) currentEntity).getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue()
         );
 
         marionettes.add(marionette);
@@ -248,7 +252,7 @@ public class SpiritBodyThreads extends NPCAbility implements Listener {
             getNearbyEntities();
         }
 
-        if (currentEntity.getLocation().distance(startLoc) > maxDistance[currentSequence]) {
+        if (currentEntity.getWorld() != startLoc.getWorld() || currentEntity.getLocation().distance(startLoc) > maxDistance[currentSequence]) {
             nearbyEntities.remove(currentEntity);
             if (nearbyEntities.isEmpty())
                 currentEntity = null;
@@ -278,6 +282,13 @@ public class SpiritBodyThreads extends NPCAbility implements Listener {
 
     @Override
     public void leftClick() {
+        if(p.isSneaking()) {
+            onlyShowPlayers = !onlyShowPlayers;
+            getNearbyEntities();
+            index = 0;
+            return;
+        }
+
         index++;
 
         if (index >= nearbyEntities.size()) {
@@ -306,7 +317,8 @@ public class SpiritBodyThreads extends NPCAbility implements Listener {
                 .multiply(.75);
 
         for (int i = 0; i < target.distance(startLoc); i++) {
-            Util.drawDustsForNearbyPlayers(
+            p.spawnParticle(
+                    Particle.REDSTONE,
                     loc,
                     1,
                     0,
@@ -349,6 +361,7 @@ public class SpiritBodyThreads extends NPCAbility implements Listener {
                 .filter(entity -> entity instanceof LivingEntity && !(entity instanceof ArmorStand))
                 .sorted(Comparator.comparing(
                         entity -> entity.getLocation().distance(p.getEyeLocation())))
+                .filter(entity -> (!onlyShowPlayers || entity.getType() == EntityType.PLAYER))
                 .collect(Collectors.toList());
 
         if (nearbyEntities.isEmpty())
