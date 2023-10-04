@@ -138,22 +138,31 @@ public class Marionette implements Listener {
 
         npc.getNavigator().setTarget(currentTarget, true);
 
-        attackWithBeyonderPower();
-
+        attackWithBeyonderPower(currentTarget.getLocation());
     }
 
-    private void attackWithBeyonderPower() {
-        if ((pathway == -1 || sequence == -1 ) && isBeyonder)
+    public void attackMob(Entity entity, double damage) {
+        if(getEntity() instanceof LivingEntity livingEntity && livingEntity.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE) != null)
+            livingEntity.attack(entity);
+        else if (entity instanceof LivingEntity livingEntity)
+            livingEntity.damage(damage, getEntity());
+    }
+
+    public void attackWithBeyonderPower(Location location) {
+        if ((pathway == -1 || sequence == -1 ) && isBeyonder )
             return;
 
-        if (new Random().nextInt(cooldown) != 0)
+        if(!isBeyonder && isBeingControlled)
+            return;
+
+        if (new Random().nextInt(cooldown) != 0 && !isBeingControlled)
             return;
 
         if(!isBeyonder && ability.getPathway().getSequence().getCurrentSequence() >= 5)
             return;
 
         List<NPCAbility> abilities;
-        if (!isBeyonder || new Random().nextBoolean()) {
+        if ((!isBeyonder || new Random().nextBoolean()) && !isBeingControlled) {
             abilities = AbilityUtilHandler.getAllAbilitiesUpToSequence(1, ability.getPathway().getSequence().getCurrentSequence());
         } else {
             abilities = AbilityUtilHandler.getAllAbilitiesUpToSequence(pathway, sequence);
@@ -162,7 +171,7 @@ public class Marionette implements Listener {
         if(abilities.isEmpty())
             return;
         NPCAbility usedAbility = abilities.get(new Random().nextInt(abilities.size()));
-        usedAbility.useNPCAbility(currentTarget.getLocation(), getEntity(), 3);
+        usedAbility.useNPCAbility(location, getEntity(), 3);
         cooldown = Math.round(60f / usedAbility.getSequence() * 5f);
     }
 
@@ -183,6 +192,8 @@ public class Marionette implements Listener {
 
     private void playerControlled() {
         npc.getNavigator().cancelNavigation();
+
+        getPlayer().setFireTicks(0);
 
         getEntity().teleport(getPlayer());
 
@@ -261,6 +272,9 @@ public class Marionette implements Listener {
             return;
 
         if (e.getDamager() == e.getEntity())
+            return;
+
+        if(ability.getMarionettes().stream().anyMatch(marionette -> marionette.getEntity() == e.getEntity()))
             return;
 
         if(isBeingControlled && e.getDamager() == getPlayer() && e.getEntity() == getEntity()) {

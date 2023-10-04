@@ -17,6 +17,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemStack;
@@ -307,7 +308,7 @@ public class SpiritBodyThreads extends NPCAbility implements Listener {
             }
         }
 
-        nearbyEntities.removeIf(entity -> entity.getLocation().distance(startLoc) > maxDistance[currentSequence]);
+        nearbyEntities.removeIf(entity -> entity.getWorld() != startLoc.getWorld() || entity.getLocation().distance(startLoc) > maxDistance[currentSequence]);
 
         if (nearbyEntities.isEmpty())
             return;
