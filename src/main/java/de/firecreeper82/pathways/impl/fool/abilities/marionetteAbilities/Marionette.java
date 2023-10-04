@@ -35,6 +35,7 @@ public class Marionette implements Listener {
     private Entity entity;
     private NPC npc;
     private final SpiritBodyThreads ability;
+    private MarionetteControlling marionetteControllingAbility;
 
     private boolean isAngry;
     private boolean alive;
@@ -90,7 +91,8 @@ public class Marionette implements Listener {
                     return;
                 }
 
-                if (npc.getEntity() == null || !npc.getEntity().isValid()) {
+                if (getEntity()== null || !getEntity().isValid()) {
+                    destroyMarionette();
                     cancel();
                     return;
                 }
@@ -231,6 +233,9 @@ public class Marionette implements Listener {
     }
 
     public void destroyMarionette() {
+        if(isBeingControlled)
+            marionetteControllingAbility.stopControlling();
+
         alive = false;
 
         getPlayer().sendMessage("Your Marionette " + name + " §rhas been killed.");
@@ -239,6 +244,10 @@ public class Marionette implements Listener {
         npc.destroy();
 
         alive = false;
+    }
+
+    public void setMarionetteControllingAbility(MarionetteControlling marionetteControllingAbility) {
+        this.marionetteControllingAbility = marionetteControllingAbility;
     }
 
     @EventHandler
@@ -297,10 +306,6 @@ public class Marionette implements Listener {
             return;
 
         e.setCancelled(true);
-    }
-
-    public boolean isBeingControlled() {
-        return isBeingControlled;
     }
 
     public void setBeingControlled(boolean beingControlled) {

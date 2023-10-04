@@ -4,14 +4,21 @@ import de.firecreeper82.pathways.Ability;
 import de.firecreeper82.pathways.Items;
 import de.firecreeper82.pathways.Pathway;
 import de.firecreeper82.pathways.impl.fool.FoolItems;
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-public class MarionetteControlling extends Ability {
+public class MarionetteControlling extends Ability implements Listener {
 
     private final SpiritBodyThreads spiritBodyThreadsAbility;
 
@@ -22,6 +29,7 @@ public class MarionetteControlling extends Ability {
     private boolean controlling;
 
     private Location playerLoc;
+    private NPC fakePlayer;
 
 
     //TODO: Hiding in FOH enable controlling
@@ -45,10 +53,6 @@ public class MarionetteControlling extends Ability {
         p = pathway.getBeyonder().getPlayer();
 
         if(controlling) {
-            controlling = false;
-            if(playerLoc != null)
-                p.teleport(playerLoc);
-
             stopControlling();
             return;
         }
@@ -67,12 +71,49 @@ public class MarionetteControlling extends Ability {
         controlling = true;
 
         p.teleport(selectedMarionette.getEntity());
+        p.setInvisible(true);
+        p.setInvulnerable(true);
 
         selectedMarionette.setBeingControlled(true);
+        selectedMarionette.setMarionetteControllingAbility(this);
+
+        fakePlayer = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, p.getName());
+        fakePlayer.setProtected(false);
+        fakePlayer.spawn(playerLoc);
+
     }
 
-    private void stopControlling() {
-        p.setInvisible(true);
+    @EventHandler
+    public void onFakePlayerDamage(EntityDamageEvent e) {
+        if(!controlling)
+            return;
+
+        if(fakePlayer == null)
+            return;
+
+        if(!fakePlayer.isSpawned())
+            return;
+
+        if(e.getEntity() == fakePlayer.getEntity()) {
+            stopControlling();
+            e.setCancelled(true);
+        }
+    }
+
+    public void stopControlling() {
+        controlling = false;
+        if(playerLoc != null)
+            p.teleport(playerLoc);
+
+        if(selectedMarionette.isAlive()) {
+            selectedMarionette.setBeingControlled(false);
+            System.out.println("Test");
+        }
+
+        p.setInvisible(false);
+        p.setInvulnerable(false);
+
+        fakePlayer.destroy();
     }
 
     @Override
