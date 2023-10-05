@@ -194,6 +194,7 @@ public class Marionette implements Listener {
         npc.getNavigator().cancelNavigation();
 
         getPlayer().setFireTicks(0);
+        getPlayer().setFreezeTicks(0);
 
         getEntity().teleport(getPlayer());
 

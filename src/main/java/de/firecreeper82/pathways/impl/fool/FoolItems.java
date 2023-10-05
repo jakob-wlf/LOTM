@@ -62,16 +62,17 @@ public class FoolItems extends Items {
         String[] s5 = formatAbilityInfo(pathway.getStringColor(), "5: " + names.get(5),
                 "§5Spirit Body Threads: §7Convert Entities into marionettes",
                 "§5Use §7left-click §5to change the target",
-                "§5Marionette Controlling: §7Despawn/Respawn your marionettes",
+                "§5USe §7Shift + Left Click §5to only target players and player characters",
                 "§5Marionette Controlling: §7Take full control over a marionette",
                 "§5Use §7left-click §5to change selected marionette",
-                "§5Marionettes will follow you around and fight for you",
-                "§5Use §7/configure-threads §5 to configure from what distance you can control entities and which entities you want to see the Spirit-Body-Threads of"
+                "§5Use §7Shift + Left Click §5to stop your marionette from following you",
+                "§5Marionettes will follow you around and fight for you"
         );
         abilityInfo.put(5, s5);
 
         String[] s4 = formatAbilityInfo(pathway.getStringColor(), "4: " + names.get(4),
-                "§5All abilities enhanced massively"
+                "§5All abilities enhanced massively",
+                    "§5Marionette Controlling now allows you to switch place with the selected marionette by doing §7Shift + Right Click"
         );
         abilityInfo.put(4, s4);
 

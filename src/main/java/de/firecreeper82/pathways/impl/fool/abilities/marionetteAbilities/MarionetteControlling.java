@@ -15,7 +15,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -144,7 +143,6 @@ public class MarionetteControlling extends Ability implements Listener {
         }
 
         selectedMarionette.attackWithBeyonderPower(startLoc);
-
     }
 
     public void stopControlling() {

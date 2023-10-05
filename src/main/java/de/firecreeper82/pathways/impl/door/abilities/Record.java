@@ -69,9 +69,13 @@ public class Record extends NPCAbility {
 
 
                 while (ability.getSequence() < sequence && maxIterations >= 0) {
-                    ability = AbilityUtilHandler.getAbilities()
-                            .get(random.nextInt(AbilityUtilHandler.getAbilities().size()))
-                            .get(random.nextInt(AbilityUtilHandler.getAbilities().get(random.nextInt(AbilityUtilHandler.getAbilities().size())).size()));
+
+
+                    List<NPCAbility> npcAbilities = AbilityUtilHandler.getAbilities()
+                            .get(random.nextInt(AbilityUtilHandler.getAbilities().size()));
+
+                    ability = npcAbilities
+                            .get(new Random().nextInt(npcAbilities.size()));
 
                     maxIterations--;
                 }
