@@ -1,7 +1,7 @@
 package dev.ua.ikeepcalm.cmds;
 
-import dev.ua.ikeepcalm.Beyonder;
-import dev.ua.ikeepcalm.Plugin;
+import dev.ua.ikeepcalm.entities.beyonders.Beyonder;
+import dev.ua.ikeepcalm.LordOfTheMinecraft;
 import dev.ua.ikeepcalm.utils.GeneralPurposeUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -17,7 +17,7 @@ public class AbilityInfoCmd implements CommandExecutor {
             return true;
         }
 
-        if (!Plugin.beyonders.containsKey(p.getUniqueId())) {
+        if (!LordOfTheMinecraft.beyonders.containsKey(p.getUniqueId())) {
             s.sendMessage("§cYou have to be a Beyonder to use this command!");
             return true;
         }
@@ -32,7 +32,7 @@ public class AbilityInfoCmd implements CommandExecutor {
             return true;
         }
 
-        Beyonder beyonder = Plugin.beyonders.get(p.getUniqueId());
+        Beyonder beyonder = LordOfTheMinecraft.beyonders.get(p.getUniqueId());
         int sequence = GeneralPurposeUtil.parseInt(args[0]);
 
         if (beyonder.getPathway().getSequence().getCurrentSequence() > sequence) {

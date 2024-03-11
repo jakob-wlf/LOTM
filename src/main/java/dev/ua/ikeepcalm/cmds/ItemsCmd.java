@@ -1,7 +1,7 @@
 package dev.ua.ikeepcalm.cmds;
 
-import dev.ua.ikeepcalm.Plugin;
-import dev.ua.ikeepcalm.utils.UtilItems;
+import dev.ua.ikeepcalm.LordOfTheMinecraft;
+import dev.ua.ikeepcalm.utils.GeneralItemsUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -32,7 +32,7 @@ public class ItemsCmd implements CommandExecutor, Listener {
             return true;
         }
 
-        if (!Plugin.beyonders.containsKey(p.getUniqueId())) {
+        if (!LordOfTheMinecraft.beyonders.containsKey(p.getUniqueId())) {
             s.sendMessage("§cYou have to be a Beyonder to use this command!");
             return true;
         }
@@ -50,12 +50,12 @@ public class ItemsCmd implements CommandExecutor, Listener {
 
         //Create Inventory and loop through the for the player available items and add them to the inv
         //Put the Player in the openInventories HashMap
-        Inventory inv = Bukkit.createInventory(p, 27, Plugin.beyonders.get(p.getUniqueId()).getPathway().getStringColor() + p.getName() + " - Items");
-        for (int i = Plugin.beyonders.get(p.getUniqueId()).getPathway().getItems().returnItemsFromSequence(Plugin.beyonders.get(p.getUniqueId()).getPathway().getSequence().getCurrentSequence()).size(); i < inv.getSize(); i++) {
-            inv.setItem(i, UtilItems.getMagentaPane());
+        Inventory inv = Bukkit.createInventory(p, 27, LordOfTheMinecraft.beyonders.get(p.getUniqueId()).getPathway().getStringColor() + p.getName() + " - Items");
+        for (int i = LordOfTheMinecraft.beyonders.get(p.getUniqueId()).getPathway().getItems().returnItemsFromSequence(LordOfTheMinecraft.beyonders.get(p.getUniqueId()).getPathway().getSequence().getCurrentSequence()).size(); i < inv.getSize(); i++) {
+            inv.setItem(i, GeneralItemsUtil.getMagentaPane());
         }
 
-        for (ItemStack tempItem : Plugin.beyonders.get(p.getUniqueId()).getPathway().getItems().returnItemsFromSequence(Plugin.beyonders.get(p.getUniqueId()).getPathway().getSequence().getCurrentSequence())) {
+        for (ItemStack tempItem : LordOfTheMinecraft.beyonders.get(p.getUniqueId()).getPathway().getItems().returnItemsFromSequence(LordOfTheMinecraft.beyonders.get(p.getUniqueId()).getPathway().getSequence().getCurrentSequence())) {
             inv.addItem(tempItem);
         }
 
@@ -86,7 +86,7 @@ public class ItemsCmd implements CommandExecutor, Listener {
         if (e.getCurrentItem() == null)
             return;
 
-        if (UtilItems.getMagentaPane().isSimilar(e.getCurrentItem()))
+        if (GeneralItemsUtil.getMagentaPane().isSimilar(e.getCurrentItem()))
             return;
 
         p.getInventory().addItem(e.getCurrentItem());

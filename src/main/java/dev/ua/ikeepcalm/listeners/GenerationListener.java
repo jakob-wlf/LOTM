@@ -1,9 +1,9 @@
 package dev.ua.ikeepcalm.listeners;
 
-import dev.ua.ikeepcalm.Plugin;
+import dev.ua.ikeepcalm.LordOfTheMinecraft;
 import dev.ua.ikeepcalm.utils.GeneralPurposeUtil;
-import dev.ua.ikeepcalm.utils.UtilItems;
-import dev.ua.ikeepcalm.pathways.Potion;
+import dev.ua.ikeepcalm.utils.GeneralItemsUtil;
+import dev.ua.ikeepcalm.mystical.Potion;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -28,13 +28,11 @@ public class GenerationListener implements Listener {
             return;
 
         int sequence = GeneralPurposeUtil.biasedRandomNumber(PROBABILITY_DISTRIBUTION, MIN_VALUE);
-        Potion potion = Plugin.instance.getPotions().get(random.nextInt(Plugin.instance.getPotions().size()));
+        Potion potion = LordOfTheMinecraft.instance.getPotions().get(random.nextInt(LordOfTheMinecraft.instance.getPotions().size()));
         switch (random.nextInt(3)) {
-            case 1 -> item = Plugin.instance.getRecipe().getRecipeForSequence(potion, sequence);
-
+            case 1 -> item = LordOfTheMinecraft.instance.getRecipe().getRecipeForSequence(potion, sequence);
             case 2 ->
-                    item = Plugin.instance.getCharacteristic().getCharacteristic(sequence, potion.getName(), potion.getStringColor());
-
+                    item = LordOfTheMinecraft.instance.getCharacteristic().getCharacteristic(sequence, potion.getName(), potion.getStringColor());
             default -> item = potion.returnPotionForSequence(sequence);
         }
 
@@ -51,16 +49,16 @@ public class GenerationListener implements Listener {
         Random random = new Random();
 
         int sequence = GeneralPurposeUtil.biasedRandomNumber(PROBABILITY_DISTRIBUTION, MIN_VALUE);
-        Potion potion = Plugin.instance.getPotions().get(random.nextInt(Plugin.instance.getPotions().size()));
+        Potion potion = LordOfTheMinecraft.instance.getPotions().get(random.nextInt(LordOfTheMinecraft.instance.getPotions().size()));
 
         switch (random.nextInt(4)) {
-            case 1 -> out = Plugin.instance.getRecipe().getRecipeForSequence(potion, sequence);
+            case 1 -> out = LordOfTheMinecraft.instance.getRecipe().getRecipeForSequence(potion, sequence);
 
             case 2 ->
-                    out = Plugin.instance.getCharacteristic().getCharacteristic(sequence, potion.getName(), potion.getStringColor());
+                    out = LordOfTheMinecraft.instance.getCharacteristic().getCharacteristic(sequence, potion.getName(), potion.getStringColor());
 
             case 3 -> {
-                out = UtilItems.getCauldron();
+                out = GeneralItemsUtil.getCauldron();
                 ItemStack in = new ItemStack(Material.GOLD_INGOT);
                 in.setAmount(random.nextInt(20, 54));
                 ItemStack in2 = new ItemStack(Material.DIAMOND);

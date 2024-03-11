@@ -1,8 +1,8 @@
 package dev.ua.ikeepcalm.listeners;
 
-import dev.ua.ikeepcalm.Plugin;
-import dev.ua.ikeepcalm.utils.UtilItems;
-import dev.ua.ikeepcalm.pathways.Potion;
+import dev.ua.ikeepcalm.LordOfTheMinecraft;
+import dev.ua.ikeepcalm.utils.GeneralItemsUtil;
+import dev.ua.ikeepcalm.mystical.Potion;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -24,10 +24,10 @@ public class PotionHandler implements Listener {
     public PotionHandler() {
         openInvs = new HashMap<>();
         itemsInInv = new ItemStack[]{
-                UtilItems.getMagentaPane(),
-                UtilItems.getConfirmPotion(),
-                UtilItems.getPurplePane(),
-                UtilItems.getWhitePane()
+                GeneralItemsUtil.getMagentaPane(),
+                GeneralItemsUtil.getConfirmPotion(),
+                GeneralItemsUtil.getPurplePane(),
+                GeneralItemsUtil.getWhitePane()
         };
     }
 
@@ -77,7 +77,7 @@ public class PotionHandler implements Listener {
         if (!(e.getWhoClicked() instanceof Player p))
             return;
 
-        if (clickedItem.isSimilar(UtilItems.getConfirmPotion())) {
+        if (clickedItem.isSimilar(GeneralItemsUtil.getConfirmPotion())) {
             brewPotion(p);
         }
     }
@@ -109,7 +109,7 @@ public class PotionHandler implements Listener {
         ItemStack correctPotion = null;
 
         outerloop:
-        for (Potion potion : Plugin.instance.getPotions()) {
+        for (Potion potion : LordOfTheMinecraft.instance.getPotions()) {
             for (int i = 9; i > 0; i--) {
                 if (potion.getSupplIngredients(i) == null || potion.getMainIngredients(i) == null)
                     continue;
@@ -126,7 +126,7 @@ public class PotionHandler implements Listener {
                 }
 
                 if (!isCorrect) {
-                    if (!mainIngredients.isEmpty() && mainIngredients.get(0).isSimilar(Plugin.instance.getCharacteristic().getCharacteristic(i, potion.getName(), potion.getStringColor()))) {
+                    if (!mainIngredients.isEmpty() && mainIngredients.get(0).isSimilar(LordOfTheMinecraft.instance.getCharacteristic().getCharacteristic(i, potion.getName(), potion.getStringColor()))) {
                         isCorrect = true;
                     }
                 }
@@ -179,10 +179,10 @@ public class PotionHandler implements Listener {
 
         HashMap<Integer, ItemStack> itemMap = new HashMap<>();
         itemMap.put(0, new ItemStack(Material.AIR));
-        itemMap.put(1, UtilItems.getPurplePane());
-        itemMap.put(2, UtilItems.getMagentaPane());
-        itemMap.put(3, UtilItems.getWhitePane());
-        itemMap.put(4, UtilItems.getConfirmPotion());
+        itemMap.put(1, GeneralItemsUtil.getPurplePane());
+        itemMap.put(2, GeneralItemsUtil.getMagentaPane());
+        itemMap.put(3, GeneralItemsUtil.getWhitePane());
+        itemMap.put(4, GeneralItemsUtil.getConfirmPotion());
 
         Inventory inv = Bukkit.createInventory(p, 54, "§5Brew a Potion");
         for (int i = 0; i < 54; i++) {

@@ -1,7 +1,7 @@
 package dev.ua.ikeepcalm.cmds;
 
-import dev.ua.ikeepcalm.Plugin;
-import dev.ua.ikeepcalm.pathways.Pathway;
+import dev.ua.ikeepcalm.LordOfTheMinecraft;
+import dev.ua.ikeepcalm.mystical.Pathway;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -43,8 +43,8 @@ public class BeyonderCmd implements CommandExecutor {
         //Check if Player is already a Beyonder.
         // If he is, then remove him from the pathway and initialize a new one for the player
         //If he isn't then just initialize a pathway for him
-        if (Plugin.beyonders.containsKey(p.getUniqueId())) {
-            Plugin.beyonders.get(p.getUniqueId()).removeBeyonder();
+        if (LordOfTheMinecraft.beyonders.containsKey(p.getUniqueId())) {
+            LordOfTheMinecraft.beyonders.get(p.getUniqueId()).removeBeyonder();
             Pathway pathway = Pathway.initializeNew(args[0].toLowerCase(), p.getUniqueId(), sequence);
             if (pathway == null) {
                 p.sendMessage("§c" + args[0].toLowerCase() + " is not a valid Pathway! Removing your status as a beyonder");

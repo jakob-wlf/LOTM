@@ -1,9 +1,9 @@
 package dev.ua.ikeepcalm.listeners;
 
-import dev.ua.ikeepcalm.Beyonder;
-import dev.ua.ikeepcalm.Plugin;
-import dev.ua.ikeepcalm.pathways.Pathway;
-import dev.ua.ikeepcalm.pathways.Potion;
+import dev.ua.ikeepcalm.entities.beyonders.Beyonder;
+import dev.ua.ikeepcalm.LordOfTheMinecraft;
+import dev.ua.ikeepcalm.mystical.Pathway;
+import dev.ua.ikeepcalm.mystical.Potion;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -18,7 +18,7 @@ public class PotionListener implements Listener {
         int sequence = 0;
         Potion potion = null;
         outerloop:
-        for (Potion p : Plugin.instance.getPotions()) {
+        for (Potion p : LordOfTheMinecraft.instance.getPotions()) {
             for (int i = 1; i < 10; i++) {
                 if (p.returnPotionForSequence(i).equals(e.getItem())) {
                     sequence = i;
@@ -33,7 +33,7 @@ public class PotionListener implements Listener {
         e.getPlayer().getInventory().remove(e.getItem());
 
         //Not a beyonder already
-        if (!Plugin.beyonders.containsKey(e.getPlayer().getUniqueId())) {
+        if (!LordOfTheMinecraft.beyonders.containsKey(e.getPlayer().getUniqueId())) {
             //initializing new Pathway
             Pathway pathway = Pathway.initializeNew(potion.getName(), e.getPlayer().getUniqueId(), sequence);
             if (pathway == null) {
@@ -54,7 +54,7 @@ public class PotionListener implements Listener {
         }
         //Is a beyonder
         else {
-            Beyonder beyonder = Plugin.beyonders.get(e.getPlayer().getUniqueId());
+            Beyonder beyonder = LordOfTheMinecraft.beyonders.get(e.getPlayer().getUniqueId());
             beyonder.consumePotion(sequence, potion);
         }
     }

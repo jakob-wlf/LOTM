@@ -1,6 +1,6 @@
 package dev.ua.ikeepcalm.listeners;
 
-import dev.ua.ikeepcalm.Plugin;
+import dev.ua.ikeepcalm.LordOfTheMinecraft;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,12 +14,12 @@ public class InteractListener implements Listener {
     //Call the useAbility function from the Beyonder
     public void onInteract(PlayerInteractEvent e) {
         Player p = e.getPlayer();
-        if (!Plugin.beyonders.containsKey(p.getUniqueId()))
+        if (!LordOfTheMinecraft.beyonders.containsKey(p.getUniqueId()))
             return;
         if (e.getMaterial() == Material.AIR)
             return;
 
-        Plugin.beyonders.get(p.getUniqueId()).getPathway().getSequence().useAbility(e.getItem(), e);
+        LordOfTheMinecraft.beyonders.get(p.getUniqueId()).getPathway().getSequence().useAbility(e.getItem(), e);
     }
 
 
@@ -28,8 +28,8 @@ public class InteractListener implements Listener {
     //Call the destroyItem function from the Beyonder
     public void onDrop(PlayerDropItemEvent e) {
         Player p = e.getPlayer();
-        if (!Plugin.beyonders.containsKey(p.getUniqueId()))
+        if (!LordOfTheMinecraft.beyonders.containsKey(p.getUniqueId()))
             return;
-        Plugin.beyonders.get(p.getUniqueId()).getPathway().getSequence().destroyItem(e.getItemDrop().getItemStack(), e);
+        LordOfTheMinecraft.beyonders.get(p.getUniqueId()).getPathway().getSequence().destroyItem(e.getItemDrop().getItemStack(), e);
     }
 }

@@ -1,6 +1,6 @@
 package dev.ua.ikeepcalm.cmds;
 
-import dev.ua.ikeepcalm.Plugin;
+import dev.ua.ikeepcalm.LordOfTheMinecraft;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -23,7 +23,7 @@ public class SpawnCmd implements CommandExecutor {
             return true;
         }
 
-        if (!Plugin.instance.getBeyonderMobsHandler().spawnEntity(args[0], p.getLocation(), p.getWorld()))
+        if (!LordOfTheMinecraft.instance.getBeyonderMobsHandler().spawnEntity(args[0], p.getLocation(), p.getWorld()))
             p.sendMessage("§cThere is no mob with the id: " + args[0]);
 
         return true;
