@@ -1,6 +1,6 @@
 name: LOTM
 version: '${project.version}'
-main: de.firecreeper82.lotm.Plugin
+main: dev.ua.ikeepcalm.Plugin
 api-version: 1.19
 authors: [ FireCreeper82 ]
 description: A Fan made Lord of the Mysteries plugin

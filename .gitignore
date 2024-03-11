@@ -6,7 +6,11 @@
 *.iws
 
 # IntelliJ
-out/
+.idea
+gradle
+.gradle
+gradlew
+gradlew.bat
 
 # Compiled class file
 *.class
