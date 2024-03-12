@@ -1,4 +1,4 @@
-package dev.ua.ikeepcalm.mystical;
+package dev.ua.ikeepcalm.mystical.parents;
 
 import org.bukkit.Color;
 import org.bukkit.Material;

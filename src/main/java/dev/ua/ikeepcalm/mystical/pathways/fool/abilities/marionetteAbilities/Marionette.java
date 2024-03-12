@@ -2,7 +2,7 @@ package dev.ua.ikeepcalm.mystical.pathways.fool.abilities.marionetteAbilities;
 
 import dev.ua.ikeepcalm.utils.AbilityInitHandUtil;
 import dev.ua.ikeepcalm.LordOfTheMinecraft;
-import dev.ua.ikeepcalm.mystical.NpcAbility;
+import dev.ua.ikeepcalm.mystical.parents.abilitiies.NpcAbility;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.trait.SkinTrait;

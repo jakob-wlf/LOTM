@@ -1,10 +1,10 @@
-package dev.ua.ikeepcalm.mystical.sealedArtifacts;
+package dev.ua.ikeepcalm.mystical.artifacts;
 
 import dev.ua.ikeepcalm.utils.AbilityInitHandUtil;
 import dev.ua.ikeepcalm.LordOfTheMinecraft;
 import dev.ua.ikeepcalm.utils.GeneralPurposeUtil;
-import dev.ua.ikeepcalm.mystical.NpcAbility;
-import dev.ua.ikeepcalm.mystical.sealedArtifacts.negativeEffects.NegativeEffects;
+import dev.ua.ikeepcalm.mystical.parents.abilitiies.NpcAbility;
+import dev.ua.ikeepcalm.mystical.artifacts.negativeEffects.NegativeEffects;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;

@@ -2,8 +2,8 @@ package dev.ua.ikeepcalm.mystical.pathways.tyrant;
 
 import dev.ua.ikeepcalm.LordOfTheMinecraft;
 import dev.ua.ikeepcalm.utils.GeneralPurposeUtil;
-import dev.ua.ikeepcalm.mystical.Pathway;
-import dev.ua.ikeepcalm.mystical.Sequence;
+import dev.ua.ikeepcalm.mystical.parents.Pathway;
+import dev.ua.ikeepcalm.mystical.parents.Sequence;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;

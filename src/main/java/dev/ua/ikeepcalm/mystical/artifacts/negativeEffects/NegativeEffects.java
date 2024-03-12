@@ -1,10 +1,10 @@
-package dev.ua.ikeepcalm.mystical.sealedArtifacts.negativeEffects;
+package dev.ua.ikeepcalm.mystical.artifacts.negativeEffects;
 
-import dev.ua.ikeepcalm.mystical.sealedArtifacts.SealedArtifact;
-import dev.ua.ikeepcalm.mystical.sealedArtifacts.negativeEffects.impl.Blindness;
-import dev.ua.ikeepcalm.mystical.sealedArtifacts.negativeEffects.impl.HealthLoss;
-import dev.ua.ikeepcalm.mystical.sealedArtifacts.negativeEffects.impl.Nausea;
-import dev.ua.ikeepcalm.mystical.sealedArtifacts.negativeEffects.impl.SpiritSummoning;
+import dev.ua.ikeepcalm.mystical.artifacts.SealedArtifact;
+import dev.ua.ikeepcalm.mystical.artifacts.negativeEffects.impl.Blindness;
+import dev.ua.ikeepcalm.mystical.artifacts.negativeEffects.impl.HealthLoss;
+import dev.ua.ikeepcalm.mystical.artifacts.negativeEffects.impl.Nausea;
+import dev.ua.ikeepcalm.mystical.artifacts.negativeEffects.impl.SpiritSummoning;
 
 import java.util.HashMap;
 import java.util.Random;

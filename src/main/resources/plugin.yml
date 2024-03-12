@@ -1,8 +1,8 @@
-name: LOTM
+name: LordOfTheMinecraft
 version: '${project.version}'
 main: dev.ua.ikeepcalm.Plugin
-api-version: 1.19
-authors: [ FireCreeper82 ]
+api-version: '1.20'
+authors: [ FireCreeper82, ikeepcalm ]
 description: A Fan made Lord of the Mysteries plugin
 depend: [ Citizens ]
 commands:
@@ -39,4 +39,3 @@ commands:
   artifact:
     description: Get a random Sealed Artifact (Testing only)
     usage: /<cmd>
-

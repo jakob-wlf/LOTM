@@ -1,6 +1,6 @@
 package dev.ua.ikeepcalm.utils;
 
-import dev.ua.ikeepcalm.mystical.NpcAbility;
+import dev.ua.ikeepcalm.mystical.parents.abilitiies.NpcAbility;
 import dev.ua.ikeepcalm.mystical.pathways.demoness.abilities.*;
 import dev.ua.ikeepcalm.mystical.pathways.door.abilities.Record;
 import dev.ua.ikeepcalm.mystical.pathways.door.abilities.*;

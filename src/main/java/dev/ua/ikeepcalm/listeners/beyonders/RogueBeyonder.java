@@ -3,7 +3,7 @@ package dev.ua.ikeepcalm.listeners.beyonders;
 
 import dev.ua.ikeepcalm.utils.AbilityInitHandUtil;
 import dev.ua.ikeepcalm.LordOfTheMinecraft;
-import dev.ua.ikeepcalm.mystical.NpcAbility;
+import dev.ua.ikeepcalm.mystical.parents.abilitiies.NpcAbility;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.ai.goals.WanderGoal;
 import net.citizensnpcs.api.npc.NPC;

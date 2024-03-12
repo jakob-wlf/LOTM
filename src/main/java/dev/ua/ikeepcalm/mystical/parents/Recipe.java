@@ -1,6 +1,5 @@
-package dev.ua.ikeepcalm.mystical.other;
+package dev.ua.ikeepcalm.mystical.parents;
 
-import dev.ua.ikeepcalm.mystical.Potion;
 import dev.ua.ikeepcalm.utils.GeneralPurposeUtil;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;

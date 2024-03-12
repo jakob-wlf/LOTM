@@ -1,8 +1,8 @@
 package dev.ua.ikeepcalm.entities.abilities.sun;
 
-import dev.ua.ikeepcalm.mystical.Items;
-import dev.ua.ikeepcalm.mystical.MobAbility;
-import dev.ua.ikeepcalm.mystical.Pathway;
+import dev.ua.ikeepcalm.mystical.parents.Items;
+import dev.ua.ikeepcalm.mystical.parents.abilitiies.MobAbility;
+import dev.ua.ikeepcalm.mystical.parents.Pathway;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;

@@ -17,7 +17,7 @@ public class RogueBeyonders implements Listener {
 
     private final HashMap<EntityType, Integer> spawnProbabilityTable;
 
-    private static final double[] PROBABILITY_DISTRIBUTION = {0.02, 0.04, 0.05, 0.06, 0.11, 0.12, 0.13, 0.15, 0.28};
+    private static final double[] PROBABILITY_DISTRIBUTION = {0.001, 0.002, 0.009, 0.01, 0.02, 0.025, 0.03, 0.035, 0.04};
     private static final int MIN_VALUE = 1;
 
     public RogueBeyonders() {
@@ -57,7 +57,7 @@ public class RogueBeyonders implements Listener {
         int sequence = GeneralPurposeUtil.biasedRandomNumber(PROBABILITY_DISTRIBUTION, MIN_VALUE);
         int pathway = random.nextInt(5);
 
-        if (LordOfTheMinecraft.instance.getCurrentRogueBeyonders().size() > 50) {
+        if (LordOfTheMinecraft.instance.getCurrentRogueBeyonders().size() > 20) {
             LordOfTheMinecraft.instance.removeRogueBeyonder(LordOfTheMinecraft.instance.getCurrentRogueBeyonders().get((new Random()).nextInt(LordOfTheMinecraft.instance.getCurrentRogueBeyonders().size())));
         }
 

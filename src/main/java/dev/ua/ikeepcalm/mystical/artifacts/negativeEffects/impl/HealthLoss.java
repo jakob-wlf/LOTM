@@ -1,7 +1,7 @@
-package dev.ua.ikeepcalm.mystical.sealedArtifacts.negativeEffects.impl;
+package dev.ua.ikeepcalm.mystical.artifacts.negativeEffects.impl;
 
-import dev.ua.ikeepcalm.mystical.sealedArtifacts.SealedArtifact;
-import dev.ua.ikeepcalm.mystical.sealedArtifacts.negativeEffects.NegativeEffect;
+import dev.ua.ikeepcalm.mystical.artifacts.SealedArtifact;
+import dev.ua.ikeepcalm.mystical.artifacts.negativeEffects.NegativeEffect;
 import org.bukkit.entity.Player;
 
 public class HealthLoss extends NegativeEffect {

@@ -1,7 +1,7 @@
 package dev.ua.ikeepcalm.mystical.pathways.demoness;
 
-import dev.ua.ikeepcalm.mystical.Pathway;
-import dev.ua.ikeepcalm.mystical.Sequence;
+import dev.ua.ikeepcalm.mystical.parents.Pathway;
+import dev.ua.ikeepcalm.mystical.parents.Sequence;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;

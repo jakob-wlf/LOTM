@@ -1,5 +1,7 @@
-package dev.ua.ikeepcalm.mystical;
+package dev.ua.ikeepcalm.mystical.parents.abilitiies;
 
+import dev.ua.ikeepcalm.mystical.parents.Items;
+import dev.ua.ikeepcalm.mystical.parents.Pathway;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -64,7 +66,7 @@ public abstract class Ability {
         if (pathway.getSequence().getSequenceMultiplier().containsKey(pathway.getSequence().getCurrentSequence())) {
             multiplier = pathway.getSequence().getSequenceMultiplier().get(pathway.getSequence().getCurrentSequence());
         } else {
-            for (int i = pathway.getSequence().currentSequence; i < 9; i++) {
+            for (int i = pathway.getSequence().getCurrentSequence(); i < 9; i++) {
                 if (pathway.getSequence().getSequenceMultiplier().containsKey(i)) {
                     multiplier = pathway.getSequence().getSequenceMultiplier().get(i);
                 }
@@ -78,7 +80,7 @@ public abstract class Ability {
         if (pathway.getSequence().getSequenceMultiplier().containsKey(pathway.getSequence().getCurrentSequence())) {
             multiplier = pathway.getSequence().getSequenceMultiplier().get(pathway.getSequence().getCurrentSequence());
         } else {
-            for (int i = pathway.getSequence().currentSequence; i < 9; i++) {
+            for (int i = pathway.getSequence().getCurrentSequence(); i < 9; i++) {
                 if (pathway.getSequence().getSequenceMultiplier().containsKey(i)) {
                     multiplier = pathway.getSequence().getSequenceMultiplier().get(i);
                 }

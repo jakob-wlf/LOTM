@@ -2,9 +2,9 @@ package dev.ua.ikeepcalm.mystical.pathways.door.abilities;
 
 import dev.ua.ikeepcalm.LordOfTheMinecraft;
 import dev.ua.ikeepcalm.utils.GeneralPurposeUtil;
-import dev.ua.ikeepcalm.mystical.Items;
-import dev.ua.ikeepcalm.mystical.NpcAbility;
-import dev.ua.ikeepcalm.mystical.Pathway;
+import dev.ua.ikeepcalm.mystical.parents.Items;
+import dev.ua.ikeepcalm.mystical.parents.abilitiies.NpcAbility;
+import dev.ua.ikeepcalm.mystical.parents.Pathway;
 import dev.ua.ikeepcalm.mystical.pathways.door.DoorItems;
 import org.bukkit.Color;
 import org.bukkit.Location;

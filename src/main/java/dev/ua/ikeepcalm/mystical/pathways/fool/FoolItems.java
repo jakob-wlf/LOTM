@@ -1,8 +1,8 @@
 package dev.ua.ikeepcalm.mystical.pathways.fool;
 
-import dev.ua.ikeepcalm.mystical.Ability;
-import dev.ua.ikeepcalm.mystical.Items;
-import dev.ua.ikeepcalm.mystical.Pathway;
+import dev.ua.ikeepcalm.mystical.parents.abilitiies.Ability;
+import dev.ua.ikeepcalm.mystical.parents.Items;
+import dev.ua.ikeepcalm.mystical.parents.Pathway;
 import dev.ua.ikeepcalm.mystical.pathways.fool.abilities.*;
 import dev.ua.ikeepcalm.mystical.pathways.fool.abilities.marionetteAbilities.MarionetteControlling;
 import dev.ua.ikeepcalm.mystical.pathways.fool.abilities.marionetteAbilities.SpiritBodyThreads;

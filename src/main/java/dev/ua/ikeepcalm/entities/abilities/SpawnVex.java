@@ -1,6 +1,6 @@
 package dev.ua.ikeepcalm.entities.abilities;
 
-import dev.ua.ikeepcalm.mystical.MobAbility;
+import dev.ua.ikeepcalm.mystical.parents.abilitiies.MobAbility;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;

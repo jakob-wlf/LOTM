@@ -1,9 +1,9 @@
 package dev.ua.ikeepcalm.mystical.pathways.fool;
 
 import dev.ua.ikeepcalm.LordOfTheMinecraft;
-import dev.ua.ikeepcalm.mystical.Ability;
-import dev.ua.ikeepcalm.mystical.Pathway;
-import dev.ua.ikeepcalm.mystical.Sequence;
+import dev.ua.ikeepcalm.mystical.parents.abilitiies.Ability;
+import dev.ua.ikeepcalm.mystical.parents.Pathway;
+import dev.ua.ikeepcalm.mystical.parents.Sequence;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;

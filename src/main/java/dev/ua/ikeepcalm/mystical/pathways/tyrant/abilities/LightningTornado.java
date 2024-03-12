@@ -1,8 +1,8 @@
 package dev.ua.ikeepcalm.mystical.pathways.tyrant.abilities;
 
-import dev.ua.ikeepcalm.mystical.Items;
-import dev.ua.ikeepcalm.mystical.NpcAbility;
-import dev.ua.ikeepcalm.mystical.Pathway;
+import dev.ua.ikeepcalm.mystical.parents.Items;
+import dev.ua.ikeepcalm.mystical.parents.abilitiies.NpcAbility;
+import dev.ua.ikeepcalm.mystical.parents.Pathway;
 import dev.ua.ikeepcalm.mystical.pathways.tyrant.TyrantItems;
 import org.bukkit.Location;
 import org.bukkit.Material;

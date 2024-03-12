@@ -1,7 +1,7 @@
 package dev.ua.ikeepcalm.entities.custom;
 
 import dev.ua.ikeepcalm.entities.beyonders.BeyonderMobs;
-import dev.ua.ikeepcalm.mystical.MobAbility;
+import dev.ua.ikeepcalm.mystical.parents.abilitiies.MobAbility;
 import jline.internal.Nullable;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;

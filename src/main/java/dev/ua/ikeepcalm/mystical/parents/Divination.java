@@ -1,4 +1,4 @@
-package dev.ua.ikeepcalm.mystical.other;
+package dev.ua.ikeepcalm.mystical.parents;
 
 import dev.ua.ikeepcalm.entities.beyonders.Beyonder;
 import dev.ua.ikeepcalm.LordOfTheMinecraft;

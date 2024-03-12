@@ -4,7 +4,7 @@ import dev.ua.ikeepcalm.LordOfTheMinecraft;
 import dev.ua.ikeepcalm.entities.abilities.PassiveAbilities;
 import dev.ua.ikeepcalm.entities.custom.CustomEntity;
 import dev.ua.ikeepcalm.utils.MobEffectsUtil;
-import dev.ua.ikeepcalm.mystical.MobAbility;
+import dev.ua.ikeepcalm.mystical.parents.abilitiies.MobAbility;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;

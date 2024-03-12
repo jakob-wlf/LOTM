@@ -1,5 +1,6 @@
-package dev.ua.ikeepcalm.mystical;
+package dev.ua.ikeepcalm.mystical.parents;
 
+import dev.ua.ikeepcalm.mystical.parents.abilitiies.Ability;
 import dev.ua.ikeepcalm.utils.GeneralItemsUtil;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.block.Action;

@@ -1,6 +1,6 @@
 package dev.ua.ikeepcalm.mystical.pathways.sun;
 
-import dev.ua.ikeepcalm.mystical.Pathway;
+import dev.ua.ikeepcalm.mystical.parents.Pathway;
 
 import java.util.HashMap;
 import java.util.UUID;

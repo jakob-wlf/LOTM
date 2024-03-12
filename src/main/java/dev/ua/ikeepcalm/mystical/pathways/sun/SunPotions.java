@@ -2,8 +2,8 @@ package dev.ua.ikeepcalm.mystical.pathways.sun;
 
 import dev.ua.ikeepcalm.LordOfTheMinecraft;
 import dev.ua.ikeepcalm.utils.BeyonderItemsUtil;
-import dev.ua.ikeepcalm.mystical.Pathway;
-import dev.ua.ikeepcalm.mystical.Potion;
+import dev.ua.ikeepcalm.mystical.parents.Pathway;
+import dev.ua.ikeepcalm.mystical.parents.Potion;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

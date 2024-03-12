@@ -1,5 +1,6 @@
-package dev.ua.ikeepcalm.mystical;
+package dev.ua.ikeepcalm.mystical.parents;
 
+import dev.ua.ikeepcalm.mystical.parents.abilitiies.Ability;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;

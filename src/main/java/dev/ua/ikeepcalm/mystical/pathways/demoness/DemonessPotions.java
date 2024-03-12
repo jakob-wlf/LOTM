@@ -1,8 +1,8 @@
 package dev.ua.ikeepcalm.mystical.pathways.demoness;
 
 import dev.ua.ikeepcalm.LordOfTheMinecraft;
-import dev.ua.ikeepcalm.mystical.Pathway;
-import dev.ua.ikeepcalm.mystical.Potion;
+import dev.ua.ikeepcalm.mystical.parents.Pathway;
+import dev.ua.ikeepcalm.mystical.parents.Potion;
 import org.bukkit.Color;
 import org.bukkit.inventory.ItemStack;
 

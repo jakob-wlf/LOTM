@@ -10,7 +10,7 @@ import dev.ua.ikeepcalm.entities.abilities.sun.FlaringSun;
 import dev.ua.ikeepcalm.entities.abilities.sun.HolyLightSummoning;
 import dev.ua.ikeepcalm.LordOfTheMinecraft;
 import dev.ua.ikeepcalm.utils.BeyonderItemsUtil;
-import dev.ua.ikeepcalm.mystical.MobAbility;
+import dev.ua.ikeepcalm.mystical.parents.abilitiies.MobAbility;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;

@@ -2,7 +2,7 @@ package dev.ua.ikeepcalm.listeners;
 
 import dev.ua.ikeepcalm.LordOfTheMinecraft;
 import dev.ua.ikeepcalm.utils.GeneralItemsUtil;
-import dev.ua.ikeepcalm.mystical.Potion;
+import dev.ua.ikeepcalm.mystical.parents.Potion;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

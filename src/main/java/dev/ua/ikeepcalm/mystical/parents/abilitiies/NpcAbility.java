@@ -1,5 +1,7 @@
-package dev.ua.ikeepcalm.mystical;
+package dev.ua.ikeepcalm.mystical.parents.abilitiies;
 
+import dev.ua.ikeepcalm.mystical.parents.Items;
+import dev.ua.ikeepcalm.mystical.parents.Pathway;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 

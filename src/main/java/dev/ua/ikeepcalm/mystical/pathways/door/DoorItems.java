@@ -1,8 +1,8 @@
 package dev.ua.ikeepcalm.mystical.pathways.door;
 
-import dev.ua.ikeepcalm.mystical.Ability;
-import dev.ua.ikeepcalm.mystical.Items;
-import dev.ua.ikeepcalm.mystical.Pathway;
+import dev.ua.ikeepcalm.mystical.parents.abilitiies.Ability;
+import dev.ua.ikeepcalm.mystical.parents.Items;
+import dev.ua.ikeepcalm.mystical.parents.Pathway;
 import dev.ua.ikeepcalm.mystical.pathways.door.abilities.Record;
 import dev.ua.ikeepcalm.mystical.pathways.door.abilities.*;
 import org.bukkit.Material;
@@ -58,7 +58,7 @@ public class DoorItems extends Items {
 
         String[] s5 = formatAbilityInfo(pathway.getStringColor(), "5: " + names.get(5),
                 "§bBlink: §7Short distance teleportation",
-                "§bTravelers Door: §7Teleport yourself and other entities",
+                "§bTravelers Door: §7Teleport yourself and parents entities",
                 "§7Sneak §bwhile using to input coordinates"
         );
         abilityInfo.put(5, s5);

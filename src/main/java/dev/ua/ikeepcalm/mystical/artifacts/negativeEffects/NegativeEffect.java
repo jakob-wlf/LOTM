@@ -1,7 +1,7 @@
-package dev.ua.ikeepcalm.mystical.sealedArtifacts.negativeEffects;
+package dev.ua.ikeepcalm.mystical.artifacts.negativeEffects;
 
 import dev.ua.ikeepcalm.LordOfTheMinecraft;
-import dev.ua.ikeepcalm.mystical.sealedArtifacts.SealedArtifact;
+import dev.ua.ikeepcalm.mystical.artifacts.SealedArtifact;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
