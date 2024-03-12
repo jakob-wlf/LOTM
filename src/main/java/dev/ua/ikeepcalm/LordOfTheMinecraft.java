@@ -5,23 +5,19 @@ import dev.ua.ikeepcalm.entities.beyonders.Beyonder;
 import dev.ua.ikeepcalm.handlers.ArtifactHandler;
 import dev.ua.ikeepcalm.handlers.BlockHandler;
 import dev.ua.ikeepcalm.handlers.MobsHandler;
-import dev.ua.ikeepcalm.listeners.beyonders.RogueBeyonder;
-import dev.ua.ikeepcalm.listeners.beyonders.RogueBeyonders;
 import dev.ua.ikeepcalm.handlers.SpiritHandler;
 import dev.ua.ikeepcalm.listeners.*;
-import dev.ua.ikeepcalm.utils.AbilityInitHandUtil;
-import dev.ua.ikeepcalm.mystical.parents.Pathway;
-import dev.ua.ikeepcalm.mystical.parents.Potion;
+import dev.ua.ikeepcalm.listeners.beyonders.RogueBeyonder;
+import dev.ua.ikeepcalm.listeners.beyonders.RogueBeyonders;
+import dev.ua.ikeepcalm.mystical.artifacts.SealedArtifacts;
+import dev.ua.ikeepcalm.mystical.parents.*;
 import dev.ua.ikeepcalm.mystical.pathways.demoness.DemonessPotions;
 import dev.ua.ikeepcalm.mystical.pathways.door.DoorPotions;
 import dev.ua.ikeepcalm.mystical.pathways.fool.FoolPotions;
 import dev.ua.ikeepcalm.mystical.pathways.fool.abilities.FogOfHistory;
 import dev.ua.ikeepcalm.mystical.pathways.sun.SunPotions;
 import dev.ua.ikeepcalm.mystical.pathways.tyrant.TyrantPotions;
-import dev.ua.ikeepcalm.mystical.parents.Characteristic;
-import dev.ua.ikeepcalm.mystical.parents.Divination;
-import dev.ua.ikeepcalm.mystical.parents.Recipe;
-import dev.ua.ikeepcalm.mystical.artifacts.SealedArtifacts;
+import dev.ua.ikeepcalm.utils.AbilityInitHandUtil;
 import net.citizensnpcs.api.CitizensAPI;
 import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.Bukkit;
@@ -76,31 +72,27 @@ public final class LordOfTheMinecraft extends JavaPlugin {
     private ArrayList<String> names;
 
     @Override
-    public void onEnable() {
+    public void onLoad() {
+        createSaveLangConfig();
+        prefix = "§8[§5Lord of the Minecraft§8] ";
+        randomUUID = UUID.fromString("1af36f3a-d8a3-11ed-afa1-0242ac120002");
         instance = this;
-        prefix = "§8§l[§5Lord of the Mysteries§8] ";
-
         beyonders = new HashMap<>();
         fakePlayers = new HashMap<>();
-
         currentRogueBeyonders = new ArrayList<>();
+        recipe = new Recipe();
+        concealedEntities = new ArrayList<>();
+        names = new ArrayList<>();
+    }
 
-        randomUUID = UUID.fromString("1af36f3a-d8a3-11ed-afa1-0242ac120002");
+    @Override
+    public void onEnable() {
 
         try {
             characteristic = new Characteristic();
-        } catch (MalformedURLException ignored) {
-        }
-
-        recipe = new Recipe();
-
-        concealedEntities = new ArrayList<>();
-
-        names = new ArrayList<>();
+        } catch (MalformedURLException ignored) {}
 
         initHandlerClasses();
-
-        Bukkit.getConsoleSender().sendMessage(prefix + "§aEnabled Plugin");
 
         try {
             createSaveConfig();
@@ -109,9 +101,10 @@ public final class LordOfTheMinecraft extends JavaPlugin {
             e.printStackTrace();
         }
 
+        Bukkit.getConsoleSender().sendMessage(prefix + "§aEnabled Plugin");
+
         register();
         initPotions();
-
         createSaveConfigFoH();
 
         for (World world : Bukkit.getWorlds()) {
