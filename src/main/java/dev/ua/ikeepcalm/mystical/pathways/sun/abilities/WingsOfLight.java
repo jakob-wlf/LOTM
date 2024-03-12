@@ -23,8 +23,8 @@ public class WingsOfLight extends Ability {
         items.addToSequenceItems(identifier - 1, sequence);
     }
 
-    boolean x = true;
-    boolean o = false;
+    final boolean x = true;
+    final boolean o = false;
 
     private final boolean[][] shape = {
             {o, o, o, x, o, o, o, o, o, o, o, o, x, o, o, o},

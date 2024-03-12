@@ -53,7 +53,7 @@ public class SpaceSwapping extends Ability implements Listener {
         MOVE("Move space to a new location"),
         COPY("Copy Space two a new location");
 
-        public String name;
+        public final String name;
 
         usages(String name) {
             this.name = name;

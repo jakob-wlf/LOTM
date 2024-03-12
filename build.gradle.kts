@@ -32,7 +32,6 @@ repositories {
 }
 
 dependencies {
-    implementation("fr.mrmicky:fastboard:2.1.0")
     implementation("com.github.ForestTechMC:ForestColorAPI:1.4")
     compileOnly("org.spigotmc:spigot:1.20.4-R0.1-SNAPSHOT:remapped-mojang")
     compileOnly("net.citizensnpcs:citizens-main:2.0.33-SNAPSHOT")
@@ -52,8 +51,8 @@ publishing {
 
 tasks.withType<ShadowJar> {
     archiveFileName.set("LordOfTheMinecraft-SNAPSHOT.jar")
-    relocate("fr.mrmicky.fastboard", "dev.ua.ikeepcalm.lordoftheminecraft.fastboard")
-    relocate("net.byteflux.libby", "dev.ua.ikeepcalm.lordoftheminecraft.libby")
+    relocate("net.byteflux.libby", "dev.ua.ikeepcalm.libby")
+    relocate("cz.foresttech.api", "dev.ua.ikeepcalm.colorapi")
 }
 tasks.withType(JavaCompile::class) {
     options.encoding = "UTF-8"

@@ -60,7 +60,7 @@ public final class LordOfTheMinecraft extends JavaPlugin {
 
     public static HashMap<UUID, Beyonder> beyonders;
     public static HashMap<UUID, ServerPlayer> fakePlayers = new HashMap<>();
-    public static HashMap<UUID, FogOfHistory> fogOfHistories = new HashMap<>();
+    public static final HashMap<UUID, FogOfHistory> fogOfHistories = new HashMap<>();
 
     private ArrayList<ArrayList<Entity>> concealedEntities;
 

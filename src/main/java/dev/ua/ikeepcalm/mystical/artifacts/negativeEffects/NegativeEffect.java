@@ -8,9 +8,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public abstract class NegativeEffect {
 
-    protected int sequence;
-    protected int delay;
-    protected boolean constant;
+    protected final int sequence;
+    protected final int delay;
+    protected final boolean constant;
 
     public NegativeEffect(int sequence, int delay, boolean constant) {
         this.sequence = sequence;

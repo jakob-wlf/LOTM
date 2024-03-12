@@ -174,9 +174,9 @@ public class Exile extends NpcAbility {
         return DoorItems.createItem(Material.CRIMSON_DOOR, "Exile", "450", identifier, 4, pathway.getBeyonder().getPlayer().getName());
     }
 
-    int o = 0;
-    int x = 1;
-    int y = 2;
+    final int o = 0;
+    final int x = 1;
+    final int y = 2;
 
     private final int[][] shape = {
             {o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o},

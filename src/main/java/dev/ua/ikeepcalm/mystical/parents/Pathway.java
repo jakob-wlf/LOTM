@@ -13,14 +13,14 @@ import java.util.UUID;
 
 public abstract class Pathway {
 
-    protected UUID uuid;
+    protected final UUID uuid;
     protected Sequence sequence;
     protected String name;
     protected Beyonder beyonder;
-    protected int optionalSequence;
+    protected final int optionalSequence;
     protected String stringColor;
     protected String nameNormalized;
-    protected int pathwayInt;
+    protected final int pathwayInt;
 
     public Items items;
 

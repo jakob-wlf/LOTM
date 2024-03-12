@@ -234,9 +234,9 @@ public class TravelersDoor extends Ability implements Listener {
         return DoorItems.createItem(Material.WARPED_DOOR, "Travelers Door", "75", identifier, 8, pathway.getBeyonder().getPlayer().getName());
     }
 
-    int o = 0;
-    int x = 1;
-    int y = 2;
+    final int o = 0;
+    final int x = 1;
+    final int y = 2;
 
     private final int[][] shape = {
             {o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o},

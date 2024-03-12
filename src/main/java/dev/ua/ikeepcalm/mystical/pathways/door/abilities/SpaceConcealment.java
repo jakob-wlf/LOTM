@@ -232,9 +232,9 @@ public class SpaceConcealment extends NpcAbility implements Listener {
         p.sendMessage("§5Set the radius to " + radiusAdjust);
     }
 
-    int o = 0;
-    int x = 1;
-    int y = 2;
+    final int o = 0;
+    final int x = 1;
+    final int y = 2;
 
     private final int[][] shape = {
             {o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o},

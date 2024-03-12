@@ -7,17 +7,17 @@ import org.bukkit.inventory.ItemStack;
 
 public abstract class Spirit {
 
-    protected int spawnRate;
-    protected EntityType entityType;
-    protected boolean visible;
-    protected int spawnCount;
-    protected ItemStack drop;
-    protected boolean undead;
-    protected String name;
+    protected final int spawnRate;
+    protected final EntityType entityType;
+    protected final boolean visible;
+    protected final int spawnCount;
+    protected final ItemStack drop;
+    protected final boolean undead;
+    protected final String name;
 
-    protected double health;
-    protected float particleOffset;
-    protected LivingEntity entity;
+    protected final double health;
+    protected final float particleOffset;
+    protected final LivingEntity entity;
 
     public Spirit(LivingEntity entity, double health, float particleOffset, int spawnRate, EntityType entityType, boolean visible, int spawnCount, @Nullable ItemStack drop, boolean undead, String name) {
         this.entity = entity;

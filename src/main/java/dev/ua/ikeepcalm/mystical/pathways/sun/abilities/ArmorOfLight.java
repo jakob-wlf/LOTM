@@ -21,12 +21,16 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class ArmorOfLight extends Ability implements Listener {
-    public String playerName;
+    public final String playerName;
     public boolean removeOnRejoin;
 
-    ItemStack[] lastItems;
+    final ItemStack[] lastItems;
 
-    ItemStack helmet, chest, leggings, boots, sword;
+    final ItemStack helmet;
+    final ItemStack chest;
+    final ItemStack leggings;
+    final ItemStack boots;
+    final ItemStack sword;
 
     boolean dead;
 

@@ -1,18 +1,25 @@
 package dev.ua.ikeepcalm.entities.beyonders;
 
 import dev.ua.ikeepcalm.LordOfTheMinecraft;
-import dev.ua.ikeepcalm.mystical.parents.abilitiies.Ability;
 import dev.ua.ikeepcalm.mystical.parents.Pathway;
 import dev.ua.ikeepcalm.mystical.parents.Potion;
+import dev.ua.ikeepcalm.mystical.parents.abilitiies.Ability;
 import dev.ua.ikeepcalm.mystical.pathways.door.abilities.Record;
 import dev.ua.ikeepcalm.mystical.pathways.fool.FoolPathway;
 import dev.ua.ikeepcalm.mystical.pathways.fool.abilities.Hiding;
-import fr.mrmicky.fastboard.FastBoard;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.*;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarFlag;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
+import org.bukkit.craftbukkit.v1_20_R3.boss.CraftBossBar;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -35,17 +42,14 @@ import java.util.UUID;
 public class Beyonder implements Listener {
 
     private Pathway pathway;
-    protected UUID uuid;
-
+    protected final UUID uuid;
     private double spirituality;
     private double maxSpirituality;
 
     private double actingProgress;
     private double actingNeeded;
     private boolean digested;
-
-    private FastBoard board;
-
+    private BossBar bossBar;
     private boolean beyonder;
     private boolean loosingControl;
     public boolean online;
@@ -90,6 +94,9 @@ public class Beyonder implements Listener {
         digested = false;
         actingNeeded = Math.pow((float) (100 / pathway.getSequence().getCurrentSequence()), 2);
         actingProgress = 0;
+
+        bossBar = new CraftBossBar("§6Spirituality", BarColor.BLUE, BarStyle.SEGMENTED_20, BarFlag.CREATE_FOG);
+        bossBar.addPlayer(getPlayer());
 
         pathway.initItems();
         start();
@@ -187,11 +194,6 @@ public class Beyonder implements Listener {
         }.runTaskLater(LordOfTheMinecraft.instance, 2);
     }
 
-    private void updateBoard() {
-        board.updateTitle(pathway.getStringColor() + getPlayer().getName());
-        board.updateLines("", "§5Pathway", "- " + pathway.getStringColor() + pathway.getName(), "", "§5Sequence", "- " + pathway.getStringColor() + pathway.getSequence().getCurrentSequence() + ": " + Objects.requireNonNull(Pathway.getNamesForPathway(pathway.getNameNormalized())).get(pathway.getSequence().getCurrentSequence()), "", "§5Spirituality", "- " + pathway.getStringColor() + Math.round(spirituality) + "/" + Math.round(maxSpirituality), "", "§5Acting", "- " + pathway.getStringColor() + Math.round(actingProgress) + "/" + Math.round(actingNeeded));
-    }
-
     //Gets called everytime the Player rejoins or the Beyonder is newly initialised
     public void start() {
         //Team
@@ -214,9 +216,6 @@ public class Beyonder implements Listener {
         }
 
         updateSpirituality();
-        board = new FastBoard(getPlayer());
-        board.updateTitle(pathway.getStringColor() + getPlayer().getName());
-        board.updateLines("", "§5Pathway", "- " + pathway.getStringColor() + pathway.getName(), "", "§5Sequence", "- " + pathway.getStringColor() + pathway.getSequence().getCurrentSequence() + ": " + Objects.requireNonNull(Pathway.getNamesForPathway(pathway.getNameNormalized())).get(pathway.getSequence().getCurrentSequence()), "", "§5Spirituality", "- " + pathway.getStringColor() + Math.round(spirituality) + "/" + Math.round(maxSpirituality), "", "§5Acting", "- " + pathway.getStringColor() + Math.round(actingProgress) + "/" + Math.round(actingNeeded));
 
         online = true;
         initializedOnce = true;
@@ -264,9 +263,8 @@ public class Beyonder implements Listener {
 
                 //scoreboard
                 counter++;
-                updateBoard();
 
-                if (spirituality <= maxSpirituality / 100 && !loosingControl) {
+                if (spirituality <= maxSpirituality / 80 && !loosingControl) {
                     looseControl(95, 10);
                 }
 
@@ -278,6 +276,15 @@ public class Beyonder implements Listener {
                     spirituality += (maxSpirituality / 200);
                     if (spirituality > maxSpirituality)
                         spirituality = maxSpirituality;
+                }
+
+                if (spirituality < maxSpirituality){
+                    bossBar.setProgress(spirituality / maxSpirituality);
+                    if (!bossBar.isVisible()){
+                        bossBar.setVisible(true);
+                    }
+                } else {
+                    bossBar.setVisible(false);
                 }
 
                 if (loosingControl)
@@ -480,8 +487,6 @@ public class Beyonder implements Listener {
         }
         LordOfTheMinecraft.instance.removeBeyonder(getUuid());
         HandlerList.unregisterAll(this);
-        if (board != null)
-            board.delete();
         beyonder = false;
         pathway.setSequence(null);
         pathway = null;
