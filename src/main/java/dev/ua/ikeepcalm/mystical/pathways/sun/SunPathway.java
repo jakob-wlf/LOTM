@@ -1,6 +1,7 @@
 package dev.ua.ikeepcalm.mystical.pathways.sun;
 
 import dev.ua.ikeepcalm.mystical.parents.Pathway;
+import dev.ua.ikeepcalm.utils.LocalizationUtil;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -14,9 +15,9 @@ public class SunPathway extends Pathway {
     @Override
     public void init() {
         sequence = new SunSequence(this, optionalSequence);
-        name = "§6Sun";
+        name = LocalizationUtil.getLocalizedString("sun", "color") + LocalizationUtil.getLocalizedString("sun", "name");
+        stringColor = LocalizationUtil.getLocalizedString("sun", "color");
         nameNormalized = "sun";
-        stringColor = "§6";
     }
 
     @Override
@@ -27,7 +28,7 @@ public class SunPathway extends Pathway {
     public static HashMap<Integer, String> getNames() {
         HashMap<Integer, String> names;
         names = new HashMap<>();
-        names.put(9, "Bard");
+        names.put(9, LocalizationUtil.getLocalizedString("sun", "sequences","9"));
         names.put(8, "Light Supplicant");
         names.put(7, "Solar High Priest");
         names.put(6, "Notary");

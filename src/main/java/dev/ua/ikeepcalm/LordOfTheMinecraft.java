@@ -48,7 +48,6 @@ public final class LordOfTheMinecraft extends JavaPlugin {
 
     public static LordOfTheMinecraft instance;
     public static String prefix;
-
     private Characteristic characteristic;
     private Recipe recipe;
     private MobsHandler mobsHandler;
@@ -62,17 +61,16 @@ public final class LordOfTheMinecraft extends JavaPlugin {
     public static HashMap<UUID, ServerPlayer> fakePlayers = new HashMap<>();
     public static final HashMap<UUID, FogOfHistory> fogOfHistories = new HashMap<>();
 
+    public FileConfiguration langConfig;
+
     private ArrayList<ArrayList<Entity>> concealedEntities;
 
     private File configSaveFile;
     private FileConfiguration configSave;
-
     private File configSaveFileFoh;
     private FileConfiguration configSaveFoh;
-
     private ArrayList<Potion> potions;
     private Divination divination;
-
     public static UUID randomUUID;
 
     private ArrayList<String> names;
@@ -279,6 +277,21 @@ public final class LordOfTheMinecraft extends JavaPlugin {
         loadFoh();
     }
 
+    private void createSaveLangConfig() {
+        File langConfigFile = new File(getDataFolder(), "lang.yml");
+        if (!langConfigFile.exists()) {
+            saveResource("lang.yml", true);
+        }
+
+        langConfig = new YamlConfiguration();
+
+        try {
+            langConfig.load(langConfigFile);
+        } catch (InvalidConfigurationException | IOException exc) {
+            Bukkit.getConsoleSender().sendMessage(exc.getLocalizedMessage());
+        }
+    }
+
     //remove beyonder from list and yml file
     public void removeBeyonder(UUID uuid) {
         beyonders.remove(uuid);
@@ -429,4 +442,9 @@ public final class LordOfTheMinecraft extends JavaPlugin {
     public SealedArtifacts getSealedArtifacts() {
         return sealedArtifacts;
     }
+
+    public FileConfiguration getLangConfig() {
+        return langConfig;
+    }
+
 }

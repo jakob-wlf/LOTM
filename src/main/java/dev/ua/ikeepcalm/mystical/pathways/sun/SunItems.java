@@ -1,10 +1,10 @@
 package dev.ua.ikeepcalm.mystical.pathways.sun;
 
-import cz.foresttech.api.ColorAPI;
-import dev.ua.ikeepcalm.mystical.parents.abilitiies.Ability;
 import dev.ua.ikeepcalm.mystical.parents.Items;
 import dev.ua.ikeepcalm.mystical.parents.Pathway;
+import dev.ua.ikeepcalm.mystical.parents.abilitiies.Ability;
 import dev.ua.ikeepcalm.mystical.pathways.sun.abilities.*;
+import dev.ua.ikeepcalm.utils.LocalizationUtil;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
@@ -21,7 +21,6 @@ public class SunItems extends Items {
     public SunItems(Pathway pathway) {
         super(pathway);
         items = new ArrayList<>();
-
         abilityInfo = new HashMap<>();
         sequenceItems = new HashMap<>();
         initializeAbilityInfos();
@@ -32,9 +31,8 @@ public class SunItems extends Items {
     public void initializeAbilityInfos() {
         HashMap<Integer, String> names = Objects.requireNonNull(Pathway.getNamesForPathway(pathway.getNameNormalized()));
         String[] s9 = formatAbilityInfo(pathway.getStringColor(), "9: " + names.get(9),
-                "§6Use: §7/items §6to get the abilities for your Sequence",
-                ColorAPI.colorize("{#fffa6e}Використовуйте {#fccc47}/items {#fffa6e}щоб отримати здібності для вашої послідовності"),
-                "§6Holy Song: §7Imbue strength and agility through singing a song"
+                LocalizationUtil.getLocalizedString("items-info"),
+                LocalizationUtil.getLocalizedString("sun", "abilities", "holy-song")
         );
         abilityInfo.put(9, s9);
 
@@ -117,7 +115,7 @@ public class SunItems extends Items {
         addAbility(new UnshadowedSpear(10, pathway, 4, this));
         addAbility(new FlaringSun(11, pathway, 4, this, false));
         addAbility(new UnshadowedDomain(12, pathway, 4, this));
-        addAbility(new ArmorOfLight(13, pathway, 4, this));
+        addAbility(new ArmorOfLight(13, pathway, 3, this));
         addAbility(new BeamOfLight(14, pathway, 3, this, false));
         addAbility(new SpearOfLight(15, pathway, 2, this, false));
         addAbility(new OceanOfLight(16, pathway, 2, this));

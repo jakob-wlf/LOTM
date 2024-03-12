@@ -1,5 +1,6 @@
 package dev.ua.ikeepcalm.mystical.parents;
 
+import cz.foresttech.api.ColorAPI;
 import dev.ua.ikeepcalm.mystical.parents.abilitiies.Ability;
 import org.bukkit.inventory.ItemStack;
 
@@ -59,9 +60,12 @@ public abstract class Items {
 
     protected String[] formatAbilityInfo(String pathwayColor, String sequenceName, String... s) {
         String[] formatted = new String[3 + s.length];
-        formatted[0] = pathwayColor + sequenceName + " -- New Ablities";
-        formatted[1] = "§6-----------------------------";
-        formatted[2 + s.length] = "§6-----------------------------";
+        formatted[0] = ColorAPI.colorize(pathwayColor + sequenceName + " -- Вміння");
+        formatted[1] = ColorAPI.colorize("§6-----------------------------");
+        for (int i = 0; i < s.length; i++) {
+            s[i] = ColorAPI.colorize(s[i]);
+        }
+        formatted[2 + s.length] = ColorAPI.colorize("§6-----------------------------");
 
         System.arraycopy(s, 0, formatted, 2, s.length);
 
