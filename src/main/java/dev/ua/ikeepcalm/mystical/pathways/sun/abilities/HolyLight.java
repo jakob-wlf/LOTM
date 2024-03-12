@@ -106,6 +106,6 @@ public class HolyLight extends NpcAbility {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.GLOWSTONE_DUST, "Holy Light", "45", identifier, 8, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
+        return SunItems.createItem(Material.GLOWSTONE_DUST, "Світло", "45", identifier, 8, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
     }
 }

@@ -77,6 +77,6 @@ public class Illuminate extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.GOLD_NUGGET, "Illuminate", "20", identifier, 8, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
+        return SunItems.createItem(Material.GOLD_NUGGET, "Ліхтарик", "20", identifier, 8, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
     }
 }

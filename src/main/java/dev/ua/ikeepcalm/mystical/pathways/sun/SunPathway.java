@@ -1,5 +1,6 @@
 package dev.ua.ikeepcalm.mystical.pathways.sun;
 
+import cz.foresttech.api.ColorAPI;
 import dev.ua.ikeepcalm.mystical.parents.Pathway;
 import dev.ua.ikeepcalm.utils.LocalizationUtil;
 
@@ -15,7 +16,7 @@ public class SunPathway extends Pathway {
     @Override
     public void init() {
         sequence = new SunSequence(this, optionalSequence);
-        name = LocalizationUtil.getLocalizedString("sun", "color") + LocalizationUtil.getLocalizedString("sun", "name");
+        name = ColorAPI.colorize(LocalizationUtil.getLocalizedString("sun", "color") + LocalizationUtil.getLocalizedString("sun", "name"));
         stringColor = LocalizationUtil.getLocalizedString("sun", "color");
         nameNormalized = "sun";
     }
@@ -29,14 +30,14 @@ public class SunPathway extends Pathway {
         HashMap<Integer, String> names;
         names = new HashMap<>();
         names.put(9, LocalizationUtil.getLocalizedString("sun", "sequences","9"));
-        names.put(8, "Light Supplicant");
-        names.put(7, "Solar High Priest");
-        names.put(6, "Notary");
-        names.put(5, "Priest of Light");
-        names.put(4, "Unshadowed");
-        names.put(3, "Justice Mentor");
-        names.put(2, "Light Seeker");
-        names.put(1, "White Angel");
+        names.put(8, LocalizationUtil.getLocalizedString("sun", "sequences","8"));
+        names.put(7, LocalizationUtil.getLocalizedString("sun", "sequences","7"));
+        names.put(6, LocalizationUtil.getLocalizedString("sun", "sequences","6"));
+        names.put(5, LocalizationUtil.getLocalizedString("sun", "sequences","5"));
+        names.put(4, LocalizationUtil.getLocalizedString("sun", "sequences","4"));
+        names.put(3, LocalizationUtil.getLocalizedString("sun", "sequences","3"));
+        names.put(2, LocalizationUtil.getLocalizedString("sun", "sequences","2"));
+        names.put(1, LocalizationUtil.getLocalizedString("sun", "sequences","1"));
         return names;
     }
 

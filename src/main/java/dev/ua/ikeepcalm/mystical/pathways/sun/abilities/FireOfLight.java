@@ -116,6 +116,6 @@ public class FireOfLight extends NpcAbility {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.BLAZE_POWDER, "Fire of Light", "20", identifier, 7, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
+        return SunItems.createItem(Material.BLAZE_POWDER, "Вогонь", "20", identifier, 7, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
     }
 }

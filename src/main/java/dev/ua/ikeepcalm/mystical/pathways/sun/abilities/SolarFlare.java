@@ -86,7 +86,7 @@ public class SolarFlare extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.SOUL_TORCH, "Solar Flare", "varying", identifier, 1, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
+        return SunItems.createItem(Material.SOUL_TORCH, "Спалах", "різниться", identifier, 1, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
     }
 
     @Override
@@ -95,6 +95,6 @@ public class SolarFlare extends Ability {
         power++;
         if (power > 7)
             power = 1;
-        p.sendMessage("§6Set power to " + power);
+        p.sendMessage("§6Потужність спалаху: " + power);
     }
 }

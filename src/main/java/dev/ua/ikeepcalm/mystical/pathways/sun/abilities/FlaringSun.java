@@ -145,6 +145,6 @@ public class FlaringSun extends NpcAbility {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.SUNFLOWER, "Flaring Sun", "200", identifier, 4, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
+        return SunItems.createItem(Material.SUNFLOWER, "Спалахуюче Сонце", "200", identifier, 4, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
     }
 }

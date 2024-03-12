@@ -111,6 +111,6 @@ public class HolyOath extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.PAPER, "Holy Oath", "45/s", identifier, 7, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
+        return SunItems.createItem(Material.PAPER, "Пакт", "45/сек", identifier, 7, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
     }
 }

@@ -80,6 +80,6 @@ public class LightOfPurification extends NpcAbility {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.GLOWSTONE, "Light of Purification", "120", identifier, 5, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
+        return SunItems.createItem(Material.GLOWSTONE, "Кремація", "120", identifier, 5, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
     }
 }

@@ -317,6 +317,6 @@ public class SpearOfLight extends NpcAbility {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.SPECTRAL_ARROW, "Spear of Light", "7500", identifier, 2, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
+        return SunItems.createItem(Material.SPECTRAL_ARROW, "Світловий Спис", "7500", identifier, 2, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
     }
 }

@@ -85,6 +85,6 @@ public class OceanOfLight extends Ability {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.GOLD_BLOCK, "Ocean of Light", "2000", identifier, 2, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
+        return SunItems.createItem(Material.GOLD_BLOCK, "Океан Світла", "2000", identifier, 2, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
     }
 }

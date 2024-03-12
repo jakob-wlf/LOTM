@@ -188,6 +188,6 @@ public class HolyLightSummoning extends NpcAbility {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.BLAZE_ROD, "Holy Light Summoning", "30", identifier, 7, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
+        return SunItems.createItem(Material.BLAZE_ROD, "Проміння", "30", identifier, 7, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
     }
 }

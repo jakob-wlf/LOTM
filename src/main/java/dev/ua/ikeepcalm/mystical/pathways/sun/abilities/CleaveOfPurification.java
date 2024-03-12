@@ -107,6 +107,6 @@ public class CleaveOfPurification extends NpcAbility {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.HONEYCOMB, "Cleave of Purification", "50", identifier, 7, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
+        return SunItems.createItem(Material.HONEYCOMB, "Екзорцизм", "50", identifier, 7, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
     }
 }

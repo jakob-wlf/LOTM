@@ -324,6 +324,6 @@ public class BeamOfLight extends NpcAbility {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.GOLDEN_HOE, "Beam of Light", "2000", identifier, 3, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
+        return SunItems.createItem(Material.GOLDEN_HOE, "Світловий Промінь", "2000", identifier, 3, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
     }
 }

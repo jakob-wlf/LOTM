@@ -120,14 +120,14 @@ public class ArmorOfLight extends Ability implements Listener {
 
     @Override
     public ItemStack getItem() {
-        return SunItems.createItem(Material.TOTEM_OF_UNDYING, "Armor of Light", "100/s", identifier, 4, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
+        return SunItems.createItem(Material.TOTEM_OF_UNDYING, "Світлова Броня", "100/сек", identifier, 4, Objects.requireNonNull(Bukkit.getPlayer(pathway.getUuid())).getName());
     }
 
     public ItemStack createSword() {
         ItemStack item = new ItemStack(Material.GOLDEN_SWORD);
         ItemMeta itemMeta = item.getItemMeta();
         assert itemMeta != null;
-        itemMeta.setDisplayName("§6Sword of Light");
+        itemMeta.setDisplayName("§6Світловий меч");
         itemMeta.addEnchant(Enchantment.DAMAGE_ALL, 20, true);
         itemMeta.addEnchant(Enchantment.FIRE_ASPECT, 5, true);
         itemMeta.addEnchant(Enchantment.SWEEPING_EDGE, 5, true);
@@ -135,8 +135,8 @@ public class ArmorOfLight extends Ability implements Listener {
         itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         itemMeta.addItemFlags(ItemFlag.values());
         ArrayList<String> lore = new ArrayList<>();
-        lore.add("§5A flaming sword made out of");
-        lore.add("§5blazing light");
+        lore.add("§5Полум'яний меч, зроблений з");
+        lore.add("§5сяючого світла");
         lore.add("§8" + playerName);
         itemMeta.setLore(lore);
         item.setItemMeta(itemMeta);
@@ -147,13 +147,13 @@ public class ArmorOfLight extends Ability implements Listener {
         ItemStack item = new ItemStack(Material.GOLDEN_HELMET);
         ItemMeta itemMeta = item.getItemMeta();
         assert itemMeta != null;
-        itemMeta.setDisplayName("§6Helmet of Light");
+        itemMeta.setDisplayName("§6Світловий шолом");
         itemMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 15, true);
         itemMeta.setUnbreakable(true);
         itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         itemMeta.addItemFlags(ItemFlag.values());
         ArrayList<String> lore = new ArrayList<>();
-        lore.add("§3A godly helmet made from shining light");
+        lore.add("§3божественний шолом, зроблений з сяючого світла");
         lore.add("§8" + playerName);
         itemMeta.setLore(lore);
         item.setItemMeta(itemMeta);
@@ -164,13 +164,13 @@ public class ArmorOfLight extends Ability implements Listener {
         ItemStack item = new ItemStack(Material.GOLDEN_CHESTPLATE);
         ItemMeta itemMeta = item.getItemMeta();
         assert itemMeta != null;
-        itemMeta.setDisplayName("§6Chestplate of Light");
+        itemMeta.setDisplayName("§6Світловий нагрудник");
         itemMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 15, true);
         itemMeta.setUnbreakable(true);
         itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         itemMeta.addItemFlags(ItemFlag.values());
         ArrayList<String> lore = new ArrayList<>();
-        lore.add("§3A godly chestplate made from shining light");
+        lore.add("§3божественний нагрудник, зроблений з сяючого світла");
         lore.add("§8" + playerName);
         itemMeta.setLore(lore);
         item.setItemMeta(itemMeta);
@@ -181,13 +181,13 @@ public class ArmorOfLight extends Ability implements Listener {
         ItemStack item = new ItemStack(Material.GOLDEN_LEGGINGS);
         ItemMeta itemMeta = item.getItemMeta();
         assert itemMeta != null;
-        itemMeta.setDisplayName("§6Leggings of Light");
+        itemMeta.setDisplayName("§6Світлові штани");
         itemMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 15, true);
         itemMeta.setUnbreakable(true);
         itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         itemMeta.addItemFlags(ItemFlag.values());
         ArrayList<String> lore = new ArrayList<>();
-        lore.add("§3Godly leggings made from shining light");
+        lore.add("§3Божественні штани, зроблені з сяючого світла");
         lore.add("§8" + playerName);
         itemMeta.setLore(lore);
         item.setItemMeta(itemMeta);
@@ -198,13 +198,13 @@ public class ArmorOfLight extends Ability implements Listener {
         ItemStack item = new ItemStack(Material.GOLDEN_BOOTS);
         ItemMeta itemMeta = item.getItemMeta();
         assert itemMeta != null;
-        itemMeta.setDisplayName("§6Boots of Light");
+        itemMeta.setDisplayName("§6Світлові чоботи");
         itemMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 15, true);
         itemMeta.setUnbreakable(true);
         itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         itemMeta.addItemFlags(ItemFlag.values());
         ArrayList<String> lore = new ArrayList<>();
-        lore.add("§3A godly pair of boots made from shining light");
+        lore.add("§3Божественна пара чобіт, зроблена з сяючого світла");
         lore.add("§8" + playerName);
         itemMeta.setLore(lore);
         item.setItemMeta(itemMeta);
